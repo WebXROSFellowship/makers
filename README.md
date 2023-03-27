@@ -1,2 +1,2 @@
-# makers
-pilot repository for teh XROS Fellowship
+# Makers
+A Pilot Repository for the XROS Fellowship x Powersimple Project
