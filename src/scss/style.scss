@@ -1,0 +1,21 @@
+
+/*
+Theme Name: Makers
+
+Author: Ben Erwin, Powersimple, LLC
+Author URI: https://Powersimple/
+Description: 
+Text Domain: makers
+DO NOT EDIT IN STYLE.CSS
+*/
+/*
+    PUT YOUR COLOR PALETTE HERE:
+*/ 
+@import 'partials/colors';
+
+body{
+    background: #000;
+    color:$red;
+    line-height: 150%;  
+    border-color:#a46; 
+}

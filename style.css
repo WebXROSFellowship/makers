@@ -1,0 +1,21 @@
+/*!**************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/scss/style.scss ***!
+  \**************************************************************************************************************/
+/*
+Theme Name: Makers
+
+Author: Ben Erwin, Powersimple, LLC
+Author URI: https://Powersimple/
+Description: 
+Text Domain: makers
+DO NOT EDIT IN STYLE.CSS
+*/
+/*
+    PUT YOUR COLOR PALETTE HERE:
+*/
+body {
+  background: #000;
+  color: #a00;
+  line-height: 150%;
+  border-color: #a46;
+}
