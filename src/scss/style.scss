@@ -16,14 +16,11 @@ DO NOT EDIT IN STYLE.CSS
 @import 'Navbar.scss';
 
 
-body{
-    background: #000;
+body {
+  background: #000;
     color:$red;
     line-height: 150%;  
-    border-color:#a46; 
-}
-
-body {
+    border-color:#a46;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
