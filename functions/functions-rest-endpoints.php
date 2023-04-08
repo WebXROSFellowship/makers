@@ -91,7 +91,7 @@ $GLOBALS['REST_CONFIG'] =array(//An array of url arguments
         );
 
 // for WPML Comment this out if you aren't using it.
-//require_once("functions-wpml-languages.php");
+require_once("functions-wpml-languages.php");
 
         
     function getEndpoints(){ // BUILDS URLS FOR REST API ENDPOINTS
@@ -122,7 +122,8 @@ $GLOBALS['REST_CONFIG'] =array(//An array of url arguments
             if(function_exists('icl_object_id')){// if WPML is here. 
                 if($value == 'language'){ //language = $key, will not work with arguments
                     //see path registrations in WPML Languages
-                    $url = $url_path.$key;// this is the REST API url with the language last
+                  print   $url = $url_path.$key;// this is the REST API url with the language last
+                  die();
                 }
 
             }
