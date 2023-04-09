@@ -189,7 +189,6 @@
         "fs-minipass": "^2.1.0",
         "fs-monkey": "^1.0.3",
         "fs.realpath": "^1.0.0",
-        "fsevents": "^2.3.2",
         "function-bind": "^1.1.1",
         "gauge": "^4.0.4",
         "get-caller-file": "^2.0.5",
@@ -578,8 +577,10 @@
         "yargs-parser": "^20.2.4"
     },
     "devDependencies": {
-        "@babel/core": "^7.21.3",
-        "@babel/preset-env": "^7.20.2",
+        "@babel/cli": "^7.21.0",
+        "@babel/core": "^7.21.4",
+        "@babel/preset-env": "^7.21.4",
+        "@babel/preset-react": "^7.18.6",
         "babel-loader": "^9.1.2",
         "browser-sync": "^2.28.3",
         "browser-sync-webpack-plugin": "^2.3.0",
