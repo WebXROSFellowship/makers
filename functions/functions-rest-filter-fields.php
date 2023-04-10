@@ -20,7 +20,7 @@ function makers_filter_rest_fields($response, $post, $context) {
 }
 
 function makers_register_rest_field_filters() {
-    $post_types = array('post', 'page', 'profile', 'event', 'resource', 'sponsor');
+    $post_types = array('post', 'page', 'profile', 'event', 'resource', 'sponsor', 'team');
 
     foreach ($post_types as $post_type) {
         add_filter("rest_prepare_{$post_type}", 'makers_filter_rest_fields', 10, 3);
