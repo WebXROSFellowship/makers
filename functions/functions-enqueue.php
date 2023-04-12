@@ -9,6 +9,11 @@
         wp_register_style('bootstrap', '//cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css', null,'1.1', true); 
         wp_enqueue_style('bootstrap');
 
+        wp_register_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css', null,'1.1', true); 
+        wp_enqueue_style('fontawesome');
+
+       
+
     }
 
     add_action( 'wp_enqueue_scripts', 'enqueue_style' );
