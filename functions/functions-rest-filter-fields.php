@@ -1,4 +1,29 @@
 <?php
+
+function makers_custom_post_type($type, $singular, $plural, $hierarchical = false) {
+    register_post_type($type, array(
+        'labels' => array(
+            'name' => $plural,
+            'singular_name' => $singular,
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'hierarchical' => $hierarchical,
+        'show_in_rest' => true,
+        'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'categories', 'tags'),
+    ));
+}
+
+function makers_custom_post_types() {
+    makers_custom_post_type('profile', 'Profile', 'Profiles');
+    makers_custom_post_type('event', 'Event', 'Events',true);
+    makers_custom_post_type('resource', 'Resource', 'Resources');
+    makers_custom_post_type('sponsor', 'Sponsor', 'Sponsors');
+}
+
+add_action('init', 'makers_custom_post_types');
+
+
 function makers_filter_rest_fields($response, $post, $context) {
     $fields = isset($_GET['fields']) ? $_GET['fields'] : '';
     if (!$fields) {
