@@ -6,8 +6,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-const proxyUrl = 'https://makers';
-
+// const proxyUrl = 'https://makers/';
+const proxyUrl = 'https://localhost/wordpress/';
 
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);
