@@ -1,0 +1,2 @@
+Inspector: <ctrl> + <alt> + i or <ctrl> + <option> + i
+Documentation: https://aframe.io/docs/1.4.0/introduction/html-and-primitives.html
