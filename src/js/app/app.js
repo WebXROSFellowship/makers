@@ -1,2 +1,13 @@
-let appz3 = {}
-console.log(appZ3)
+import React from 'react'
+
+import Navbar from './Components/Navbar';
+
+const App = () => {
+  return (
+    <>
+    <Navbar/>
+    </>
+  )
+}
+
+export default App;
