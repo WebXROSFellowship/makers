@@ -79,7 +79,7 @@ DO NOT EDIT IN STYLE.CSS
 .dropbtn {
   background-color: #333;
   color: #fff;
-  font-size: 0.85rem;
+  font-size: 1.4rem;
   border: none;
   cursor: pointer;
 }
@@ -160,7 +160,6 @@ DO NOT EDIT IN STYLE.CSS
 .sideMenu {
   position: absolute;
   background: lightgray;
-  height: 100px;
   top: 0;
   right: 0;
   width: 60%;
