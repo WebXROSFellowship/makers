@@ -17,7 +17,7 @@ console.log(app3)
   !*** ./src/js/app/app.js ***!
   \***************************/
 let appz3 = {}
-console.log(appz3)
+console.log(appZ3)
 })();
 
 /******/ })()

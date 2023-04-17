@@ -13,6 +13,11 @@ DO NOT EDIT IN STYLE.CSS
 /*
     PUT YOUR COLOR PALETTE HERE:
 */
+#menu {
+  background: #333;
+  color: #fff;
+}
+
 body {
   background: #000;
   color: #a00;
