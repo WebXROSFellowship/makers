@@ -65,6 +65,9 @@ const common = {
   watchOptions: {
     ignored: /node_modules/,
   },
+  experiments: {
+    topLevelAwait: true
+  }
 };
 
 const developmentConfig = {
