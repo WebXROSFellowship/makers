@@ -12,11 +12,27 @@ DO NOT EDIT IN STYLE.CSS
     PUT YOUR COLOR PALETTE HERE:
 */ 
 @import 'partials/colors';
-@import 'partials/menu';
+@import 'App.scss';
+@import 'Navbar.scss';
+
 
 body{
     background: #000;
     color:$red;
     line-height: 150%;  
     border-color:#a46; 
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
