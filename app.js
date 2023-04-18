@@ -58,12 +58,19 @@ var Navbar = function Navbar() {
     _useState4 = _slicedToArray(_useState3, 2),
     navbarMenus = _useState4[0],
     setNavbarMenus = _useState4[1];
+
+  // The useEffect hook is used to call the getData function once when the component is mounted.
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     getData();
   }, []);
+
+  // This function fetches data from an API endpoint and sets the navbarMenus state variable to the retrieved data.
   function getData() {
     return _getData.apply(this, arguments);
   }
+  /**
+   * This is a functional React component that returns a Navbar.
+   */
   function _getData() {
     _getData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
       var stagingData, jsonData, items, head, data;
@@ -79,7 +86,11 @@ var Navbar = function Navbar() {
           case 5:
             jsonData = _context.sent;
             setNavbarMenus(jsonData);
+            console.log("Getting Data");
+            console.log(jsonData);
             items = jsonData[0].items;
+            console.log("Getting Items");
+            console.log(items);
             head = items[0];
             items = items.slice(1);
             data = [{
@@ -87,7 +98,7 @@ var Navbar = function Navbar() {
               items: items
             }];
             setNavbarMenus(data);
-          case 12:
+          case 16:
           case "end":
             return _context.stop();
         }

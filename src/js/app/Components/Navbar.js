@@ -5,17 +5,23 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [navbarMenus, setNavbarMenus] = useState();
 
+  // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
     getData();
   }, []);
 
+  // This function fetches data from an API endpoint and sets the navbarMenus state variable to the retrieved data.
   async function getData() {
     let stagingData = await fetch(
       "https://staging.webxr.link/wp-json/wp/v2/menus?menus"
     );
     let jsonData = await stagingData.json();
     setNavbarMenus(jsonData);
+    console.log("Getting Data");
+    console.log(jsonData);
     let items = jsonData[0].items;
+    console.log("Getting Items");
+    console.log(items);
     let head = items[0];
     items = items.slice(1);
     let data = [
@@ -27,13 +33,19 @@ const Navbar = () => {
     setNavbarMenus(data);
   }
 
+  /**
+   * This is a functional React component that returns a Navbar.
+   */
+
   return (
     <>
       <nav className="navbar">
+        {/* The brand section of the Navbar */}
         <div className="navbar-brand">
           The Polys WebXR Awards and Summit Series
         </div>
         <div className="navbar-right">
+          {/* The main dropdown menu items of the Navbar */}
           {navbarMenus ? (
             navbarMenus.map((currEle, i) => (
               <div className="dropdown" key={i}>
@@ -48,9 +60,10 @@ const Navbar = () => {
               </div>
             ))
           ) : (
-            <>
-            </>
+            <></>
           )}
+
+          {/* The social media logo section of the Navbar */}
           <div className="dropdown dropdown--logos dropdown__socials">
             <a
               href="https://twitter.com/webxrawards"
@@ -109,7 +122,7 @@ const Navbar = () => {
               <i className="fa-solid fa-bars fa-xl"></i>
             </span>
           </div>
-
+          {/* The side menu that appears when the hamburger icon is clicked */}
           {showMenu === true ? (
             <div className="sideMenu">
               {navbarMenus ? (
@@ -126,8 +139,7 @@ const Navbar = () => {
                   </div>
                 ))
               ) : (
-                <>
-                </>
+                <></>
               )}
             </div>
           ) : (
