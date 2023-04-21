@@ -1,55 +1,3 @@
-/*!**************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/scss/style.scss ***!
-  \**************************************************************************************************************/
-/*
-Theme Name: Makers
-
-Author: Ben Erwin, Powersimple, LLC
-Author URI: https://Powersimple/
-Description: 
-Text Domain: makers
-DO NOT EDIT IN STYLE.CSS
-*/
-/*
-    PUT YOUR COLOR PALETTE HERE:
-*/
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -99,7 +47,6 @@ DO NOT EDIT IN STYLE.CSS
   text-decoration: none;
   display: block;
 }
-
 .dropdown__items {
   color: #333;
   padding: 12px 16px;
@@ -107,7 +54,6 @@ DO NOT EDIT IN STYLE.CSS
   display: block;
   cursor: pointer;
 }
-
 .dropdown__items:hover {
   background-color: #d3d3d3;
 }
@@ -165,12 +111,10 @@ DO NOT EDIT IN STYLE.CSS
   width: 60%;
   margin-top: 50px;
 }
-
 .dropdown2 {
   width: 100%;
   height: 50px;
 }
-
 .dropdown2 button {
   width: 100%;
   height: 100%;
@@ -198,27 +142,12 @@ DO NOT EDIT IN STYLE.CSS
   .dropdown__socials {
     display: none;
   }
+
   .navbar-right .dropdown {
     display: none;
   }
+
   .navbar-right .dropdown-responsive {
     display: block;
   }
-}
-body {
-  background: #000;
-  color: #a00;
-  line-height: 150%;
-  border-color: #a46;
-}
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

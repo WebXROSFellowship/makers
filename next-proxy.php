@@ -14,7 +14,7 @@ use Kevinrob\GuzzleCache\Storage\WordPressCacheStorage;
 use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
 use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
 
-$base_uri = 'https://makers/';
+$base_uri = 'https://obi-wan-v:3000/';
 
 $client = new GuzzleAdapter(new HttpClient());
 $message_factory = new GuzzleMessageFactory();
