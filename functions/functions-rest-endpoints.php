@@ -92,7 +92,7 @@ $GLOBALS['REST_CONFIG'] =array(//An array of url arguments
         );
 
 // for WPML Comment this out if you aren't using it.
-require_once("functions-wpml-languages.php");
+// require_once("functions-wpml-languages.php");
 
         
     function getEndpoints(){ // BUILDS URLS FOR REST API ENDPOINTS

@@ -6,8 +6,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-// const proxyUrl = 'https://makers';
-const proxyUrl = 'https://webxr.local';
+const proxyUrl = 'https://makers';
+// const proxyUrl = 'https://webxr.local';
 
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);
@@ -42,6 +42,16 @@ const common = {
           'sass-loader',
         ],
       },
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      }
     ],
   },
   plugins: [
@@ -55,6 +65,9 @@ const common = {
   watchOptions: {
     ignored: /node_modules/,
   },
+  experiments: {
+    topLevelAwait: true
+  }
 };
 
 const developmentConfig = {
