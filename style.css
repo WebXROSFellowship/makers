@@ -229,9 +229,6 @@ body {
   color: #a00;
   line-height: 150%;
   border-color: #a46;
-}
-
-body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
