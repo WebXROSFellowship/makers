@@ -1,4 +1,4 @@
 Inspector: <ctrl> + <alt> + i or <ctrl> + <option> + i
 Documentation: https://aframe.io/docs/1.4.0/introduction/html-and-primitives.html
-useful React + iFrame: https://www.newline.co/fullstack-react/articles/react-and-webvr-using-aframe/
+useful React + aFrame: https://www.newline.co/fullstack-react/articles/react-and-webvr-using-aframe/
 Get arguments: https://webtips.dev/solutions/get-query-params-in-react
