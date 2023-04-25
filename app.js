@@ -33655,6 +33655,7 @@ if (false) {} else {
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
 (() => {
+<<<<<<< Updated upstream
 var __webpack_exports__ = {};
 /*!*****************************!*\
   !*** ./src/js/app/index.js ***!
@@ -33681,6 +33682,15 @@ root.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createEle
 // const menus =await response.json();
 // console.log("Expecting menu")
 // console.log(menus);
+=======
+/*!****************************!*\
+  !*** ./src/js/app/app2.js ***!
+  \****************************/
+var app3 = {
+  "a": 3
+};
+console.log(app3);
+>>>>>>> Stashed changes
 })();
 
 // This entry need to be wrapped in an IIFE because it need to be isolated against other entry modules.
@@ -33688,6 +33698,7 @@ root.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createEle
 /*!***************************!*\
   !*** ./src/js/app/app.js ***!
   \***************************/
+<<<<<<< Updated upstream
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -33701,6 +33712,10 @@ var App = function App() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Navbar__WEBPACK_IMPORTED_MODULE_1__["default"], null));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
+=======
+var appz3 = {};
+console.log(appZ3);
+>>>>>>> Stashed changes
 })();
 
 /******/ })()
