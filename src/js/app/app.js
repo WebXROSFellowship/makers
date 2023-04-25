@@ -1,23 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
 import Navbar from './Components/Navbar';
-import './../../scss/style.scss';
+
 const App = () => {
   return (
-    <>
+    <BrowserRouter>
     <Navbar/>
-    </>
+    </BrowserRouter>
   )
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-
-
-
-
+export default App;

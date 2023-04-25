@@ -54,7 +54,7 @@ DO NOT EDIT IN STYLE.CSS
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 50px;
+  height: 3.125rem;
   background-color: #333;
   color: #fff;
 }
@@ -74,12 +74,14 @@ DO NOT EDIT IN STYLE.CSS
   position: relative;
   display: inline-block;
   margin-right: 1rem;
+  margin-top: 0.6rem;
+  height: 2rem;
 }
 
 .dropbtn {
   background-color: #333;
   color: #fff;
-  font-size: 0.85rem;
+  font-size: 1.4rem;
   border: none;
   cursor: pointer;
 }
@@ -88,28 +90,29 @@ DO NOT EDIT IN STYLE.CSS
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  min-width: 250px;
+  min-width: 15.625rem;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
+  margin-top: 0.3rem;
 }
 
 .dropdown__content a {
   color: #333;
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   text-decoration: none;
   display: block;
 }
 
 .dropdown__items {
   color: #333;
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   text-decoration: none;
   display: block;
   cursor: pointer;
 }
 
 .dropdown__items:hover {
-  background-color: #d3d3d3;
+  background-color: #D3D3D3;
 }
 
 .dropdown:hover .dropdown__content {
@@ -159,17 +162,16 @@ DO NOT EDIT IN STYLE.CSS
 
 .sideMenu {
   position: absolute;
-  background: lightgray;
-  height: 100px;
+  background: #D3D3D3;
   top: 0;
   right: 0;
   width: 60%;
-  margin-top: 50px;
+  margin-top: 3.125rem;
 }
 
 .dropdown2 {
   width: 100%;
-  height: 50px;
+  height: 3.125rem;
 }
 
 .dropdown2 button {
@@ -181,8 +183,24 @@ DO NOT EDIT IN STYLE.CSS
   display: block;
 }
 
-.dropdown-responsive {
-  display: none;
+.n2 {
+  position: relative;
+}
+
+.n2-drop {
+  position: absolute;
+  right: 0;
+  margin-right: 1rem;
+}
+
+.d2 {
+  margin-top: 1rem;
+  margin-left: 1rem;
+  background: darkgrey;
+}
+
+.d2:hover {
+  background: darkgrey;
 }
 
 @media only screen and (max-width: 720px) {
@@ -211,9 +229,6 @@ body {
   color: #a00;
   line-height: 150%;
   border-color: #a46;
-}
-
-body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
