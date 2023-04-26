@@ -5,6 +5,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+//image loader plugin will come here
 
 // const proxyUrl = 'https://makers/';
 const proxyUrl = 'https://localhost/wordpress/';
@@ -51,6 +52,23 @@ const common = {
             presets: ['@babel/preset-env']
           }
         }
+      },
+      {
+         // npm install first
+         // uppar load
+        // ADD LIKE THIS HERE
+          // test: /\.md$/,
+          // use: [
+          //   {
+          //     loader: "remark-loader",
+          //     options: {
+          //       remarkOptions: {
+          //         plugins: [RemarkFrontmatter],
+          //       },
+          //     },
+          //   },
+          // ],
+      
       }
     ],
   },
