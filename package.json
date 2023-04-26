@@ -178,6 +178,7 @@
         "fastq": "^1.15.0",
         "faye-websocket": "^0.11.4",
         "figures": "^3.2.0",
+        "file-loader": "^6.2.0",
         "filelist": "^1.0.4",
         "fill-range": "^7.0.1",
         "finalhandler": "^1.1.0",
