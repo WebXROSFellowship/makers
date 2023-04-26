@@ -234,5 +234,34 @@ function getWPMLData(){ // callback used by initRestLanguages register_rest_rout
        // tests to make sure we're actually using WPML first
         initRESTLanguages(); //initializes languages in the REST API as a separate route for each language
         add_action( 'rest_api_init', 'register_languages' );// This registers the language object within each post_type
+
     }
+
+    add_action( 'rest_api_init', function () {
+        register_rest_route( 'wpml/v1', '/active_languages', array(
+            'methods' => 'GET',
+            'callback' => 'get_active_languages',
+        ) );
+    } );
+
+
+    
+    function get_active_languages() {
+        $languages = apply_filters( 'wpml_active_languages', null, array( 'skip_missing' => 0 ) );
+        
+        $result = array();
+        foreach ( $languages as $language ) {
+            $result[] = array(
+                'code' => $language['code'],
+                // 'name' => $language['name'],
+                'native_name' => $language['native_name'],
+                'is_default' => $language['default_locale'] === get_locale(),
+            );
+        }
+        
+        return $result;
+    }
+    
+    
+
 ?>

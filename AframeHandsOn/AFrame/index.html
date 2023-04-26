@@ -1,0 +1,24 @@
+<!DOCTYPE >
+<html>
+  <head>
+    <title>My First A-Frame Scene</title>
+    <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+    <script src="component.js"></script>
+</head>
+  <body>
+    <a-scene>
+      <a-camera position="-5 3 -7" rotation="0 -45 0">
+        <a-cursor id="cursor" color="#FF0000"></a-cursor>
+      </a-camera>
+      <!-- <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity> -->
+      <a-sky color="#FFF"></a-sky>
+      <a-box
+        position="5 0 -15"
+        scale="10 10 10"
+        rotation="-90 0 -360"
+        change-color-on-hover="color: #FFF00F"
+      >
+      </a-box>
+    </a-scene>
+  </body>
+</html>
