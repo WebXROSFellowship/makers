@@ -11,9 +11,12 @@
 
         wp_register_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css', null,'1.1', true); 
         wp_enqueue_style('fontawesome');
-
-       
-
+        wp_register_style('react', 'https://unpkg.com/react@18/umd/react.development.js', null, '1.1', true);
+        wp_enqueue_style('react');
+        wp_register_style('react-dom', 'https://unpkg.com/react-dom@18/umd/react-dom.development.js', null, '1.1', true);
+        wp_enqueue_style('react-dom');
+        wp_register_style('react-router-dom', 'https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/6.10.0/react-router-dom.production.min.js', null, '1.1', true);
+        wp_enqueue_style('react-router-dom');
     }
 
     add_action( 'wp_enqueue_scripts', 'enqueue_style' );

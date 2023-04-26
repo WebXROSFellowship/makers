@@ -3,11 +3,6 @@
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js" defer></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" defer></script>
-  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/6.10.0/react-router-dom.production.min.js" defer></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
   <?php 
   
   wp_head(); ?>

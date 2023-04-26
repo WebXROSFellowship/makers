@@ -1,5 +1,13 @@
 // import React, { useState, useEffect } from "react";
+const React = lazy(() => import('react'));
+import {lazy, useState, useEffect} from "react";
+
 // import { Link } from "react-router-dom";
+const Link = lazy(() =>
+  import("react-router-dom").then((module) => ({
+    default: module.Link,
+  }))
+);
 import "./../../../scss/style.scss";
 
 const Navbar = () => {
