@@ -3,10 +3,17 @@
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js" defer></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" defer></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/6.10.0/react-router-dom.production.min.js" defer></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
   <?php 
+  
   wp_head(); ?>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <script>
   <?php
       // post specific hacks
@@ -25,5 +32,6 @@
 
 </head>
 <body <?php body_class(); ?>>
+
 
 <!-- application2 -->

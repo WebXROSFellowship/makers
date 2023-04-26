@@ -6,12 +6,13 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-const proxyUrl = 'https://makers';
+const proxyUrl = 'http://webxr.local';
 
 
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);
   const entries = {};
+  console.log(files);
 
   if (files.length > 0) {
     entries[outputName] = files.reduce((acc, file) => {
@@ -19,6 +20,7 @@ function getEntries(pattern, outputName) {
       return acc;
     }, []);
   }
+  console.log(entries);
 
   return entries;
 }
@@ -33,6 +35,7 @@ const common = {
     rules: [
       {
         test: /\.scss$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
