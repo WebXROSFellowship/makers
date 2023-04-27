@@ -12,7 +12,7 @@ const App = () => {
     <Navbar/>
     <Sidebar/>
     {/* TODO : Add Pagination for AFRAME page */}
-    {/* <AFrame/> */}
+    <AFrame/>
     </BrowserRouter>
   )
 }
