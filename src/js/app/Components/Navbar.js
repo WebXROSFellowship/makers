@@ -1,56 +1,130 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./../../../scss/style.scss";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const [navbarMenus, setNavbarMenus] = useState();
+  const [navbarMenus, setNavbarMenus] = useState([]);
+  const [c2IDs, setC2IDs] = useState([]);
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
 
+  // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
-    getData();
+    fetchMenuData();
   }, []);
 
-  async function getData() {
-    let stagingData = await fetch(
-      "https://staging.webxr.link/wp-json/wp/v2/menus?menus"
+  // This function fetches data from an API endpoint and sets the navbarMenus state variable to the retrieved data.
+  async function fetchMenuData() {
+    try {
+      let stagingData = await fetch(
+        "https://staging.webxr.link/wp-json/wp/v2/menus?menus"
+      );
+      let jsonData = await stagingData.json();
+      let items = jsonData[0].items;
+      console.log(items);
+      setMenuData(items);
+    } catch (error) {
+      console.log("Error fetching staging data: ", error);
+    }
+  }
+
+  function setMenuData(items) {
+    let head = items.filter((e) => e.menu_item_parent === "0")[0];
+    let childItems = items.filter(
+      (e) => parseInt(e.menu_item_parent) === head.ID
     );
-    let jsonData = await stagingData.json();
-    setNavbarMenus(jsonData);
-    let items = jsonData[0].items;
-    let head = items[0];
-    items = items.slice(1);
+    let nestedItems = [];
+    let currIDs = [];
+    for (let i = 0; i < childItems.length; i++) {
+      let currChild = childItems[i];
+      let allNestedChild = items.filter((e) => parseInt(e.menu_item_parent) === currChild.ID);
+      if (allNestedChild.length > 0) {
+        currIDs.push(currChild.ID);
+        allNestedChild.map(ele => nestedItems.push(ele));
+      }
+    }
+    setC2IDs(currIDs);
     let data = [
       {
-        name: head,
-        items: items,
+        head,
+        childItems,
+        nestedItems,
       },
     ];
     setNavbarMenus(data);
   }
 
+  function printElem(element, indent, data) {
+    console.log("  ".repeat(indent) + element.title);
+    let children = data.filter(e=>e.menu_item_parent == element.ID);
+    console.log("Children: " + children);
+    children.forEach(child => {
+      printElem(child, indent+1, data);
+    })
+  }
+
+  /**
+   * This is a functional React component that returns a Navbar.
+   */
+
   return (
     <>
       <nav className="navbar">
+        {/* The brand section of the Navbar */}
         <div className="navbar-brand">
           The Polys WebXR Awards and Summit Series
         </div>
         <div className="navbar-right">
+          {/* The main dropdown menu items of the Navbar */}
           {navbarMenus ? (
-            navbarMenus.map((currEle, i) => (
-              <div className="dropdown" key={i}>
-                <button className="dropbtn">{currEle.name.title}</button>
+            navbarMenus.map((currEle, i) => {
+
+              let {head, childItems, nestedItems} = currEle;
+
+              return (
+                <div className="dropdown" key={i}>
+                <button className="dropbtn">{head.title}</button>
                 <div className="dropdown__content">
-                  {currEle.items.map((item, i) => (
-                    <span className="dropdown__items" key={i}>
-                      {item.title}
-                    </span>
-                  ))}
+                  {childItems.map((menu, i) => {
+                    const c = c2IDs.includes(menu.ID);
+                    return (
+                      <Link
+                        className="dropdown__items"
+                        key={i}
+                        onMouseEnter={() => setHoveredIndex(i)}
+                        onMouseLeave={() => setHoveredIndex(-1)}
+                        to={menu.url}
+                      >
+                        {menu.title}
+                        {c && (
+                          <span className="n2-drop">
+                            <i className="fa-solid fa-circle-chevron-down"></i>
+                          </span>
+                        )}
+                        {c && hoveredIndex === i && (
+                          <div className="n2">
+                            {nestedItems.map((cur, i) => (
+                              <Link
+                                to={cur.url}
+                                className="dropdown__items d2"
+                                key={i}
+                              >
+                                {cur.title}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
-            ))
+              );
+            })
           ) : (
-            <>
-            </>
+            <></>
           )}
+          {/* The social media logo section of the Navbar */}
           <div className="dropdown dropdown--logos dropdown__socials">
             <a
               href="https://twitter.com/webxrawards"
@@ -109,26 +183,58 @@ const Navbar = () => {
               <i className="fa-solid fa-bars fa-xl"></i>
             </span>
           </div>
-
+          {/* The side menu that appears when the hamburger icon is clicked */}
           {showMenu === true ? (
             <div className="sideMenu">
-              {navbarMenus ? (
-                navbarMenus.map((currEle, i) => (
-                  <div className="dropdown2" key={i}>
-                    <button className="dropbtn">{currEle.name.title}</button>
-                    <div className="dropdown__content">
-                      {currEle.items.map((item, i) => (
-                        <span className="dropdown__items" key={i}>
-                          {item.title}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <>
-                </>
-              )}
+              {
+          navbarMenus ? (
+            navbarMenus.map((currEle, i) => {
+
+              let {head, childItems, nestedItems} = currEle;
+
+              return (
+                <div className="dropdown2" key={i}>
+                <button className="dropbtn">{head.title}</button>
+                <div className="dropdown__content">
+                  {childItems.map((menu, i) => {
+                    const c = c2IDs.includes(menu.ID);
+                    return (
+                      <Link
+                        className="dropdown__items"
+                        key={i}
+                        onMouseEnter={() => setHoveredIndex(i)}
+                        onMouseLeave={() => setHoveredIndex(-1)}
+                        to={menu.url}
+                      >
+                        {menu.title}
+                        {c && (
+                          <span className="n2-drop">
+                            <i className="fa-solid fa-circle-chevron-down"></i>
+                          </span>
+                        )}
+                        {c && hoveredIndex === i && (
+                          <div className="n2">
+                            {nestedItems.map((cur, i) => (
+                              <Link
+                                to={cur.url}
+                                className="dropdown__items d2"
+                                key={i}
+                              >
+                                {cur.title}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+              );
+            })
+          ) : (
+            <></>
+          )}
             </div>
           ) : (
             <></>

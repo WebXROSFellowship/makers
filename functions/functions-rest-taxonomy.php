@@ -31,7 +31,7 @@ function register_posts_by_tag() {
 function get_posts_by_tag( $object ) {
 
 	$args = array(
-    'post_type'      => array('profile','post','page','resource','hardware'), 
+    'post_type'      => array('profile','post','page','resource','hardware', 'team'), 
     'posts_per_page' => -1,
     'post_status'    => 'publish',
     'fields' => 'ids',
@@ -76,7 +76,7 @@ function getPostsByTag(){
 function get_posts_by_category( $object ) {
 
 	$args = array(
-    'post_type'      => array('post','page','profile','resource','hardware'), // where post types are represented
+    'post_type'      => array('post','page','profile','resource','hardware', 'team'), // where post types are represented
     'posts_per_page' => -1,
     'post_status'    => 'publish',
     'fields' => 'ids',
