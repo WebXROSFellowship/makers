@@ -43,12 +43,12 @@ const common = {
         ],
       },
       {
-        test: /\.m?js$/,
+        test: /\.(js|jsx|tsx|ts)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env']
+            presets: ['@babel/preset-env', '@babel/preset-react']
           }
         }
       }
@@ -62,6 +62,9 @@ const common = {
     }),
     new IgnoreEmitPlugin(['style.js', 'style.min.js']),
   ],
+  resolve: {
+    extensions: ['*', '.js', '.jsx', '.tsx', '.ts', '.jpg', '.jpeg', '.png'],
+  },
   watchOptions: {
     ignored: /node_modules/,
   },
