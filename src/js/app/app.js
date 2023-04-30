@@ -1,32 +1,63 @@
-import { lazy } from "react";
-// import { BrowserRouter } from 'react-router-dom';
-// const BrowserRouterLazy = lazy(() => import('react-router-dom/BrowserRouter'));
-// import Navbar from './Components/Navbar';
-const BrowserRouterLazy = lazy(() =>
-  import("react-router-dom").then((module) => ({
-    default: module.BrowserRouter,
-  }))
-);
+import React, {useState} from 'react';
+import Navbar from "./Components/Navbar";
+import Home from "./Components/Home";
+import Body from "./Components/Body";
+import Profile from "./Components/Profile";
+import NavSites from "./Components/NavSites";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import DataContext from './Utils/DataContext';
 
-const Navbar = lazy(() => import("./Components/Navbar"));
+// console.log(window);
+// console.log(window.ReactRouterDOM);
+// const { BrowserRouter } = window.ReactRouterDOM;
+// const { createBrowserHistory } = window.HistoryLibrary;
+// // console.log(BrowserRouter);
+// console.log(createBrowserHistory); 
 
-const App = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <BrowserRouterLazy>
-        <Navbar />
-      </BrowserRouterLazy>
-    </Suspense>
-  );
-};
-// window.onload = function() {
-// App = () => {
+// const history = createBrowserHistory();
+// console.log(history);
+
+// const App = () => {
 //   return (
 //     <BrowserRouter>
-//     <Navbar/>
+//       <Navbar />
 //     </BrowserRouter>
-//   )
-// }
+//   );
+// };
 
-// }
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <>
+        <Navbar />
+        <Home />
+      </>
+    ),
+    children: [
+      {
+        path: "/",
+        element: <Body />,
+      },
+      {
+        path: "profile/:username",
+        element: <Profile />,
+      },
+      {
+        path: "/:sitename",
+        element: <NavSites/>
+      }
+    ],
+  },
+]);
+
+const App = () => {
+  const [data, setData] = useState([]);
+  return (
+    <DataContext.Provider value={{ data: data, setData: setData }}>
+      <RouterProvider router={appRouter} />
+    </DataContext.Provider>
+  );
+};
+
 export default App;

@@ -1,20 +1,14 @@
-// import React, { useState, useEffect } from "react";
-const React = lazy(() => import('react'));
-import {lazy, useState, useEffect} from "react";
-
-// import { Link } from "react-router-dom";
-const Link = lazy(() =>
-  import("react-router-dom").then((module) => ({
-    default: module.Link,
-  }))
-);
+import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import "./../../../scss/style.scss";
+import DataContext from "../Utils/DataContext";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [navbarMenus, setNavbarMenus] = useState([]);
   const [c2IDs, setC2IDs] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
+  const { data, setData } = useContext(DataContext);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
@@ -31,6 +25,7 @@ const Navbar = () => {
       let items = jsonData[0].items;
       console.log(items);
       setMenuData(items);
+      setData(items);
     } catch (error) {
       console.log("Error fetching staging data: ", error);
     }
@@ -52,23 +47,14 @@ const Navbar = () => {
       }
     }
     setC2IDs(currIDs);
-    let data = [
+    let cData = [
       {
         head,
         childItems,
         nestedItems,
       },
     ];
-    setNavbarMenus(data);
-  }
-
-  function printElem(element, indent, data) {
-    console.log("  ".repeat(indent) + element.title);
-    let children = data.filter(e=>e.menu_item_parent == element.ID);
-    console.log("Children: " + children);
-    children.forEach(child => {
-      printElem(child, indent+1, data);
-    })
+    setNavbarMenus(cData);
   }
 
   /**
