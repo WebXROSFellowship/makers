@@ -9,6 +9,7 @@ require_once ("functions/functions-rest-menus.php");
 require_once ("functions/functions-enqueue.php");
 require_once ("functions/functions-rest-endpoints.php");
 require_once ("functions/functions-rest-register.php");
+require_once ("functions/functions-theme-admin.php");
 require_once ("functions/functions-wpml-languages.php");
 
 ?>
