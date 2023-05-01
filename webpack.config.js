@@ -6,8 +6,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-const proxyUrl = 'https://makers';
-
+const proxyUrl = 'https://webxr.local/';
 
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);
@@ -43,7 +42,7 @@ const common = {
         ],
       },
       {
-        test: /\.(js|jsx|tsx|ts)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -51,7 +50,11 @@ const common = {
             presets: ['@babel/preset-env', '@babel/preset-react']
           }
         }
-      }
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|glb|gltf)$/i,
+        type: 'asset/resource'
+      },
     ],
   },
   plugins: [
@@ -63,14 +66,19 @@ const common = {
     new IgnoreEmitPlugin(['style.js', 'style.min.js']),
   ],
   resolve: {
-    extensions: ['*', '.js', '.jsx', '.tsx', '.ts', '.jpg', '.jpeg', '.png'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.jpg', '.jpeg', '.png', '.svg', '.gif', '.glb', '.gltf'],
   },
   watchOptions: {
     ignored: /node_modules/,
   },
   experiments: {
     topLevelAwait: true
-  }
+  },
+  performance: {
+    maxAssetSize: 99999999,
+    maxEntrypointSize: 99999999,
+  },
+
 };
 
 const developmentConfig = {
@@ -95,10 +103,12 @@ const developmentConfig = {
     }),
   ],
   optimization: {
+    minimize: true,
     minimizer: [
       new TerserPlugin({
         include: /\.js$/,
         terserOptions: {
+          compress: true,
           format: {
             comments: false,
           },
@@ -135,10 +145,12 @@ const productionConfig = {
     };
   },
   optimization: {
+    minimize: true,
     minimizer: [
       new TerserPlugin({
         include: /\.min\.js$/,
         terserOptions: {
+          compress: true,
           format: {
             comments: false,
           },

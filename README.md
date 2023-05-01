@@ -54,3 +54,4 @@ This hybrid uses AFrame with Wordpress. We are looking forward to building the A
 2. Responsive Mega Navigation Menu
 3. Multi-lingualism for accessibility.
 4. AFRAME integration.
+5. Added Accessibility.
