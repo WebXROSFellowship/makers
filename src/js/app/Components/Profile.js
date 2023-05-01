@@ -5,11 +5,9 @@ import DataContext from "../Utils/DataContext";
 const Profile = () => {
   const { username } = useParams();
   const { data } = useContext(DataContext);
-  console.log(data);
   const cd = data.filter((e) => e.slug === username);
   const content = cd[0].content || "";
   const userName = cd[0].title;
-  console.log(content);
 
   return (
     <>

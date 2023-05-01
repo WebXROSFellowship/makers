@@ -81,7 +81,7 @@ DO NOT EDIT IN STYLE.CSS
 .dropbtn {
   background-color: #333;
   color: #fff;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   border: none;
   cursor: pointer;
 }
@@ -222,6 +222,125 @@ DO NOT EDIT IN STYLE.CSS
   }
   .navbar-right .dropdown-responsive {
     display: block;
+  }
+}
+/* Accessibility button */
+.fa-accessible-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  color: red;
+}
+
+/* Accessibility panel styles */
+.accessibility-panel {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 0 1rem 1rem 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  height: 65vh;
+  left: -17rem;
+  overflow-y: auto;
+  padding: 1.5rem;
+  position: fixed;
+  top: 8rem;
+  transition: left 0.2s;
+  width: 12rem;
+  z-index: 10;
+}
+
+.accessibility-panel.active {
+  left: 0.15rem;
+}
+
+.accessibility-close-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 0.9rem;
+  top: 0;
+}
+
+.accessibility-close-icon {
+  background-color: #000000;
+  display: block;
+  height: 2px;
+  position: absolute;
+  transform: rotate(90deg);
+  width: 2px;
+}
+
+.accessibility-close-icon::before,
+.accessibility-close-icon::after {
+  background-color: #000000;
+  content: "";
+  display: block;
+  height: 2px;
+  position: absolute;
+  transform: rotate(90deg);
+  width: 2px;
+}
+
+.accessibility-close-icon::before {
+  top: 6px;
+}
+
+.accessibility-close-icon::after {
+  top: -6px;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 1rem;
+}
+
+button {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+/* Accessibility mode styles */
+.high-contrast {
+  filter: invert(1) hue-rotate(100deg);
+}
+
+.greyscale {
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+}
+
+.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dyslexia-mode {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.focus-mode img {
+  display: none;
+}
+
+/* Media queries */
+@media screen and (max-width: 768px) {
+  .accessibility-panel {
+    width: 15rem;
+  }
+}
+@media screen and (max-width: 576px) {
+  .accessibility-panel {
+    width: 12rem;
   }
 }
 body {

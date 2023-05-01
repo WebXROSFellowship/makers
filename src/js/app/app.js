@@ -4,8 +4,11 @@ import Home from "./Components/Home";
 import Body from "./Components/Body";
 import Profile from "./Components/Profile";
 import NavSites from "./Components/NavSites";
+import Sidebar from "./Components/Sidebar";
+import AFrame from "./Components/AFrame";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DataContext from './Utils/DataContext';
+import "aframe";
 
 // console.log(window);
 // console.log(window.ReactRouterDOM);
@@ -31,6 +34,9 @@ const appRouter = createBrowserRouter([
     element: (
       <>
         <Navbar />
+        <Sidebar/>
+        {/* TODO : Add Pagination for AFRAME page */}
+        {/* <AFrame/> */}
         <Home />
       </>
     ),

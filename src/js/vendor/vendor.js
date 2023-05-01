@@ -15,6 +15,3 @@ function mandelbrot(cX, cY, maxIter) {
     
     return n;
   }
-
-
-  

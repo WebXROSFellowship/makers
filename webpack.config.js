@@ -6,8 +6,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-const proxyUrl = 'http://webxr.local';
-
+const proxyUrl = 'https://makers/';
+// const proxyUrl = 'https://webxr.local';
 
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);
@@ -54,7 +54,15 @@ const common = {
             presets: ['@babel/preset-env']
           }
         }
-      }
+      },
+      {
+        test: /\.(png|jpe?g|gif|glb|gltf)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ],
   },
   plugins: [
