@@ -23,6 +23,7 @@ const Navbar = () => {
       );
       let jsonData = await stagingData.json();
       let items = jsonData[0].items;
+      console.log(items);
       setMenuData(items);
       setData(items);
     } catch (error) {

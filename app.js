@@ -50214,19 +50214,20 @@ var Navbar = function Navbar() {
           case 6:
             jsonData = _context.sent;
             items = jsonData[0].items;
+            console.log(items);
             setMenuData(items);
             setData(items);
-            _context.next = 15;
+            _context.next = 16;
             break;
-          case 12:
-            _context.prev = 12;
+          case 13:
+            _context.prev = 13;
             _context.t0 = _context["catch"](0);
             console.log("Error fetching staging data: ", _context.t0);
-          case 15:
+          case 16:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[0, 12]]);
+      }, _callee, null, [[0, 13]]);
     }));
     return _fetchMenuData.apply(this, arguments);
   }
