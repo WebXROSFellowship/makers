@@ -13,6 +13,8 @@ DO NOT EDIT IN STYLE.CSS
 /*
     PUT YOUR COLOR PALETTE HERE:
 */
+/*Light Mode*/
+/*Dark Mode*/
 .App {
   text-align: center;
 }
@@ -236,7 +238,8 @@ DO NOT EDIT IN STYLE.CSS
 
 /* Accessibility panel styles */
 .accessibility-panel {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: #F7F7F7;
+  color: #29262E;
   border-radius: 0 1rem 1rem 0;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   height: 65vh;
@@ -320,8 +323,29 @@ button {
 }
 
 .light-mode {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #F7F7F7;
+}
+.light-mode h1 {
+  color: #29262E;
+}
+.light-mode h2 {
+  color: #E9B4D4;
+}
+.light-mode p {
+  color: #070707;
+}
+
+.dark-mode {
+  background-color: #1A1820;
+}
+.dark-mode h1 {
+  color: #FF85A2;
+}
+.dark-mode h2 {
+  color: #E9B4D4;
+}
+.dark-mode p {
+  color: #D6D6D6;
 }
 
 .dyslexia-mode {
@@ -356,4 +380,19 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1A1820;
+  }
+  h1 {
+    color: #FF85A2;
+  }
+  h2 {
+    color: #E9B4D4;
+  }
+  p {
+    color: #D6D6D6;
+  }
 }
