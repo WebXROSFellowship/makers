@@ -8,30 +8,26 @@ const Navbar = () => {
   const [navbarMenus, setNavbarMenus] = useState([]);
   const [c2IDs, setC2IDs] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
-  const { data, setData } = useContext(DataContext);
+  const { data } = useContext(DataContext);
+  const { setLang } = useContext(DataContext);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
-    fetchMenuData();
+    setMenuData();
   }, []);
 
-  // This function fetches data from an API endpoint and sets the navbarMenus state variable to the retrieved data.
-  async function fetchMenuData() {
-    try {
-      let stagingData = await fetch(
-        "https://staging.webxr.link/wp-json/wp/v2/menus?menus"
-      );
-      let jsonData = await stagingData.json();
-      let items = jsonData[0].items;
-      console.log(items);
-      setMenuData(items);
-      setData(items);
-    } catch (error) {
-      console.log("Error fetching staging data: ", error);
+  function formatNames(name) {
+    let allWords = name.toLowerCase().split(" ");
+    for(let i=0; i<allWords.length; i++) {
+      allWords[i] = allWords[i][0].toUpperCase() + allWords[i].substr(1);
     }
+    let formattedName = allWords.join(' ');
+    return formattedName;
   }
 
-  function setMenuData(items) {
+  function setMenuData() {
+    //Setting Data as Items
+    let items = data;
     let head = items.filter((e) => e.menu_item_parent === "0")[0];
     let childItems = items.filter(
       (e) => parseInt(e.menu_item_parent) === head.ID
@@ -89,7 +85,7 @@ const Navbar = () => {
                         onMouseLeave={() => setHoveredIndex(-1)}
                         to={menu.url}
                       >
-                        {menu.title}
+                        {formatNames(menu.title)}
                         {c && (
                           <span className="n2-drop">
                             <i className="fa-solid fa-circle-chevron-down"></i>
@@ -118,6 +114,15 @@ const Navbar = () => {
           ) : (
             <></>
           )}
+          {/* The Language Section of Navbar*/}
+          <div className="dropdown">
+            <button className="dropbtn"> Languages </button>
+            <div className="dropdown__content">
+              <span onClick={() => setLang('')} className="dropdown__items">English</span>
+              <span onClick={() => setLang('hi')} className="dropdown__items">Hindi</span>
+              <span onClick={() => setLang('de')} className="dropdown__items">German</span>
+            </div>
+          </div>
           {/* The social media logo section of the Navbar */}
           <div className="dropdown dropdown--logos dropdown__socials">
             <a
@@ -180,8 +185,7 @@ const Navbar = () => {
           {/* The side menu that appears when the hamburger icon is clicked */}
           {showMenu === true ? (
             <div className="sideMenu">
-              {
-          navbarMenus ? (
+              {navbarMenus ? (
             navbarMenus.map((currEle, i) => {
 
               let {head, childItems, nestedItems} = currEle;
@@ -200,7 +204,7 @@ const Navbar = () => {
                         onMouseLeave={() => setHoveredIndex(-1)}
                         to={menu.url}
                       >
-                        {menu.title}
+                        {formatNames(menu.title)}
                         {c && (
                           <span className="n2-drop">
                             <i className="fa-solid fa-circle-chevron-down"></i>
@@ -229,6 +233,14 @@ const Navbar = () => {
           ) : (
             <></>
           )}
+          <div className="dropdown2">
+            <button className="dropbtn"> Languages </button>
+            <div className="dropdown__content">
+              <span onClick={() => setLang('')} className="dropdown__items">English</span>
+              <span onClick={() => setLang('hi')} className="dropdown__items">Hindi</span>
+              <span onClick={() => setLang('de')} className="dropdown__items">German</span>
+            </div>
+          </div>
             </div>
           ) : (
             <></>

@@ -1,18 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DataContext from "../Utils/DataContext";
 
 const NavSites = () => {
-  const { sitename } = useParams();
-  const { data } = useContext(DataContext);
-  const cd = data.filter((e) => e.slug === sitename);
-  const content = cd[0].content || "";
-  const userName = cd[0].title;
+  const { sitename, sn } = useParams();
+  const { lang } = useContext(DataContext);
+  let [mainText, setMainText] = useState();
+  
+  useEffect(() => {
+    fetchMenuData();
+  }, [sitename, sn, lang]);
+
+  async function fetchMenuData() {
+    try {
+      let fetchURL =
+         sn != undefined
+           ? `https://staging.webxr.link/${lang}/${sitename}/${sn}`
+           : `https://staging.webxr.link/${lang}/${sitename}`;
+      let stagingData = await fetch(fetchURL);
+      let rt = await stagingData.text();
+      setMainText(rt);
+    } catch (error) {
+      console.log("Error fetching staging data: ", error);
+    }
+  }
 
   return (
     <>
-      <h1>{userName}</h1>
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      <div dangerouslySetInnerHTML={{ __html: mainText }} />
     </>
   );
 };
