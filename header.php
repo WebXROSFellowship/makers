@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
+    <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php 
