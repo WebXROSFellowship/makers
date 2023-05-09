@@ -7,7 +7,6 @@ function AFrame() {
   const [loading, setLoading] = useState(true);
 
   const color = new URLSearchParams(document.location.search).get("color");
-  console.log(color);
 
   // Heavy models take time to load, hence wait for a while
   useEffect(() => {
