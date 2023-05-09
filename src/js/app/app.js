@@ -9,8 +9,8 @@ import AFrame from './Components/AFrame';
 const App = () => {
   return (
     <BrowserRouter>
-    <Navbar/>
-    <Sidebar/>
+    {/* <Navbar/>
+    <Sidebar/> */}
     {/* TODO : Add Pagination for AFRAME page */}
     <AFrame/>
     </BrowserRouter>
