@@ -4275,7 +4275,7 @@ var appRouter = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.createBrowserRo
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Navbar__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Home__WEBPACK_IMPORTED_MODULE_2__["default"], null)),
   children: [{
     path: "/",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_AFrame__WEBPACK_IMPORTED_MODULE_7__["default"], null)
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Body__WEBPACK_IMPORTED_MODULE_3__["default"], null)
   }, {
     path: "profile/:username",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Profile__WEBPACK_IMPORTED_MODULE_4__["default"], null)
@@ -4811,6 +4811,10 @@ function Sidebar() {
   var handleLightModeButtonClick = function handleLightModeButtonClick() {
     document.body.classList.toggle('light-mode');
   };
+  var handleDarkModeButtonClick = function handleDarkModeButtonClick() {
+    document.body.classList.toggle('dark-mode');
+  };
+  //Additional Dark Mode button for manually turing dark mode on
   var handleDyslexiaModeButtonClick = function handleDyslexiaModeButtonClick() {
     document.body.classList.toggle('dyslexia-mode');
   };
@@ -4831,7 +4835,7 @@ function Sidebar() {
     document.body.classList.remove('greyscale');
     document.body.classList.remove('light-mode');
     document.body.classList.remove('dyslexia-mode');
-    document.body.classList.remove('focus-mode');
+    document.body.classList.remove('dark-mode');
 
     // Reset font size and word spacing
     document.documentElement.style.fontSize = '';
@@ -4868,6 +4872,9 @@ function Sidebar() {
     className: "accessibility-light-mode-button",
     onClick: handleLightModeButtonClick
   }, "Light Mode")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    className: "accessibility-dark-mode-button",
+    onClick: handleDarkModeButtonClick
+  }, "Dark Mode")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     className: "accessibility-dyslexia-mode-button",
     onClick: handleDyslexiaModeButtonClick
   }, "Dyslexia Friendly Mode")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
@@ -4882,7 +4889,7 @@ function Sidebar() {
   }, "Focus Mode")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     className: "accessibility-reset-button",
     onClick: handleResetButtonClick
-  }, "Reset"))))));
+  }, "Reset"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Testing Text"));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sidebar);
 

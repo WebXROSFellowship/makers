@@ -14,7 +14,8 @@
   /* Accessibility panel styles */
 
   .accessibility-panel {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: $darkPanel-Bg;
+    color: $darkPanelText;
     border-radius: 0 1rem 1rem 0 ;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     height: 65vh;
@@ -99,10 +100,37 @@
   }
   
   .light-mode {
-    background-color: #ffffff;
-    color: #000000;
-  }
+    background-color: $light-Bg;
   
+    h1 {
+      color: $light-h1-color;
+    }
+  
+    h2 {
+      color: $light-h2-color;
+    }
+  
+    p {
+      color: $light-p-color;
+    } 
+  }
+
+  .dark-mode {
+    background-color: $dark-Bg;
+
+    h1 {
+      color: $dark-h1-color;
+    }
+
+    h2 {
+      color: $dark-h2-color;
+    }
+
+    p {
+      color: $dark-p-color;
+    }
+  }
+
   .dyslexia-mode {
     font-family: 'Comic Sans MS', cursive, sans-serif;
   }
