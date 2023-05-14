@@ -9,24 +9,6 @@ import AFrame from "./Components/AFrame";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DataContext from './Utils/DataContext';
 
-// console.log(window);
-// console.log(window.ReactRouterDOM);
-// const { BrowserRouter } = window.ReactRouterDOM;
-// const { createBrowserHistory } = window.HistoryLibrary;
-// // console.log(BrowserRouter);
-// console.log(createBrowserHistory); 
-
-// const history = createBrowserHistory();
-// console.log(history);
-
-// const App = () => {
-//   return (
-//     <BrowserRouter>
-//       <Navbar />
-//     </BrowserRouter>
-//   );
-// };
-
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -34,8 +16,6 @@ const appRouter = createBrowserRouter([
       <>
         <Navbar />
         <Sidebar/>
-        {/* TODO : Add Pagination for AFRAME page */}
-        {/* <AFrame/> */}
         <Home />
       </>
     ),
@@ -64,5 +44,4 @@ const App = () => {
     </DataContext.Provider>
   );
 };
-
 export default App;

@@ -4269,31 +4269,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
-// console.log(window);
-// console.log(window.ReactRouterDOM);
-// const { BrowserRouter } = window.ReactRouterDOM;
-// const { createBrowserHistory } = window.HistoryLibrary;
-// // console.log(BrowserRouter);
-// console.log(createBrowserHistory); 
-
-// const history = createBrowserHistory();
-// console.log(history);
-
-// const App = () => {
-//   return (
-//     <BrowserRouter>
-//       <Navbar />
-//     </BrowserRouter>
-//   );
-// };
-
 var appRouter = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.createBrowserRouter)([{
   path: "/",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Navbar__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Home__WEBPACK_IMPORTED_MODULE_2__["default"], null)),
   children: [{
     path: "/",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Body__WEBPACK_IMPORTED_MODULE_3__["default"], null)
+  }, {
+    path: "/aframe",
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_AFrame__WEBPACK_IMPORTED_MODULE_7__["default"], null)
   }, {
     path: "profile/:username",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Profile__WEBPACK_IMPORTED_MODULE_4__["default"], null)
@@ -4357,7 +4341,11 @@ function AFrame() {
       return setLoading(false);
     }, 1000); // Wait for 1 second before setting loading to false
   }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-scene", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-camera", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      height: "80%"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-scene", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-camera", {
     position: "0 1.2 0",
     rotation: "0 -45 0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-cursor", {
@@ -4921,14 +4909,17 @@ DataContext.displayName = "DataContext";
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
-/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../scss/style.scss */ "./src/scss/style.scss");
-/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./src/js/app/App.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
+/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../scss/style.scss */ "./src/scss/style.scss");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./App */ "./src/js/app/App.js");
 
 
 
-var root = react_dom_client__WEBPACK_IMPORTED_MODULE_0__.createRoot(document.getElementById("root"));
-root.render( /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_App__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
+
+var root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById("root"));
+root.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_App__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
 
 /***/ }),
 

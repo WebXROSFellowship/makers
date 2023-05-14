@@ -6,7 +6,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-const proxyUrl = 'https://localhost/wordpress/';
+const proxyUrl = 'https://webxr.local/';
 
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);

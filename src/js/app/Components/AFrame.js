@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import model from "../assets/powersimple.glb";
 import image from "../assets/bg.jpg";
 
-
 function AFrame() {
   const [loading, setLoading] = useState(true);
 
