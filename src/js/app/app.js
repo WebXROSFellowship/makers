@@ -22,7 +22,7 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Body />,
+        element: <AFrame />,
       },
       {
         path: "profile/:username",
