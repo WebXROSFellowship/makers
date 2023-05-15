@@ -34,3 +34,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+// This will automatically work for devices with dark mode activated in OS or browser
+@media (prefers-color-scheme: dark) {
+    body {
+      background-color: $dark-Bg;
+    }
+
+    h1 {
+      color: $dark-h1-color;
+    }
+
+    h2 {
+      color: $dark-h2-color;
+    }
+
+    p {
+      color: $dark-p-color;
+    }
+}
+
+
