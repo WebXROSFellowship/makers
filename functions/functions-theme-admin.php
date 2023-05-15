@@ -104,8 +104,10 @@ class WebXROSTheme {
         ?>
         <div class="wrap">
             <h1>3D Frameworks Settings</h1>
-            <?php echo $this->get_admin_menu_tabs('frameworks'); ?>
-            <p>Here you can configure the settings for the 3D Frameworks section of your WebXROS theme.</p>
+            <?php echo $this->get_admin_menu_tabs('frameworks'); 
+                require_once "theme-admin/frameworks.php";
+            ?>
+           
         </div>
         <?php
     }
@@ -156,8 +158,6 @@ class WebXROSTheme {
 }
 
 new WebXROSTheme();
-<<<<<<< Updated upstream
-=======
 
 
 
@@ -198,7 +198,8 @@ class My_Plugin_Admin_Page {
     // Existing code
 }
 
->>>>>>> Stashed changes
+
+
 /*    
     add_action('admin_menu', 'webxros_admin_menu');
 
