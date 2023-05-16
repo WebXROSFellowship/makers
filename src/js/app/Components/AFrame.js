@@ -6,7 +6,17 @@ function AFrame() {
   const [loading, setLoading] = useState(true);
 
   const color = new URLSearchParams(document.location.search).get("color");
+  // Default Black color for the plane
+  var gcolor="#000000";
 
+  // Check if the color is passed as a query parameter, facilitate both hex and string
+  if (color) {
+    if (/^[a-zA-Z]+$/.test(color)) {
+      gcolor = color.toLowerCase()
+    } else {
+      gcolor="#"+color;
+    }
+  }
   // Heavy models take time to load, hence wait for a while
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
@@ -45,7 +55,7 @@ function AFrame() {
             position="0 -2 -10"
             width="10"
             height="10"
-            color={color}
+            color={gcolor}
             shadow
           ></a-plane>
         <a-sky src={image} />
