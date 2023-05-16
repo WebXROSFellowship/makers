@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import assets from "./../data/assets.json";
+import assets from "./../psudo_data/assets.json";
 
 function AFrame() {
   const [loading, setLoading] = useState(true);
@@ -42,12 +42,19 @@ function AFrame() {
         {loading ? (
           <p>Loading...</p>
         ) : (
+          <>
           <a-entity
-            gltf-model="#modelID"
+            gltf-model="#powersimple"
             position="0 0.75 -3"
             radius="0.5"
             height="1.5"
           ></a-entity>
+
+          <a-entity
+            gltf-model="#astra"
+            position="1 0.75 -3"
+          ></a-entity>
+          </>
         )}
         <a-sphere
           position="0 0.7 -7"

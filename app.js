@@ -4315,7 +4315,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _data_assets_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../data/assets.json */ "./src/js/app/data/assets.json");
+/* harmony import */ var _psudo_data_assets_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../psudo_data/assets.json */ "./src/js/app/psudo_data/assets.json");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -4353,7 +4353,7 @@ function AFrame() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-cursor", {
     id: "cursor",
     color: "#FF0000"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-assets", null, _data_assets_json__WEBPACK_IMPORTED_MODULE_1__.map(function (asset) {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-assets", null, _psudo_data_assets_json__WEBPACK_IMPORTED_MODULE_1__.map(function (asset) {
     if (asset.type === "model") {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-asset-item", {
         id: asset.id,
@@ -4366,12 +4366,15 @@ function AFrame() {
       src: asset.url,
       key: asset.id
     });
-  })), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-entity", {
-    "gltf-model": "#modelID",
+  })), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-entity", {
+    "gltf-model": "#powersimple",
     position: "0 0.75 -3",
     radius: "0.5",
     height: "1.5"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-sphere", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-entity", {
+    "gltf-model": "#astra",
+    position: "1 0.75 -3"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-sphere", {
     position: "0 0.7 -7",
     radius: "2.25",
     "change-color-on-hover": "color:#FFFFFF"
@@ -40984,14 +40987,14 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./src/js/app/data/assets.json":
-/*!*************************************!*\
-  !*** ./src/js/app/data/assets.json ***!
-  \*************************************/
+/***/ "./src/js/app/psudo_data/assets.json":
+/*!*******************************************!*\
+  !*** ./src/js/app/psudo_data/assets.json ***!
+  \*******************************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('[{"id":"modelID","type":"model","name":"astra","url":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb"},{"id":"bg","type":"image","name":"background","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/bg.jpg"}]');
+module.exports = JSON.parse('[{"id":"astra","type":"model","name":"astra","url":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb"},{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"bg","type":"image","name":"background","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/bg.jpg"}]');
 
 /***/ })
 
