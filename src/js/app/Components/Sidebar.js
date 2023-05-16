@@ -39,6 +39,10 @@ function Sidebar() {
     document.body.classList.toggle('light-mode');
   };
 
+  const handleDarkModeButtonClick = () => {
+    document.body.classList.toggle('dark-mode');
+  };
+//Additional Dark Mode button for manually turing dark mode on
   const handleDyslexiaModeButtonClick = () => {
     document.body.classList.toggle('dyslexia-mode');
   };
@@ -67,7 +71,7 @@ function Sidebar() {
     document.body.classList.remove('greyscale');
     document.body.classList.remove('light-mode');
     document.body.classList.remove('dyslexia-mode');
-    document.body.classList.remove('focus-mode');
+    document.body.classList.remove('dark-mode');
 
     // Reset font size and word spacing
     document.documentElement.style.fontSize = '';
@@ -134,6 +138,16 @@ function Sidebar() {
                   Light Mode
                 </button>
               </li>
+
+              <li>
+                <button
+                  className='accessibility-dark-mode-button'
+                  onClick={handleDarkModeButtonClick}
+                >
+                  Dark Mode
+                </button>
+              </li>
+
               <li>
                 <button
                   className='accessibility-dyslexia-mode-button'
@@ -176,6 +190,7 @@ function Sidebar() {
           </div>
         </div>
       )}
+      <p>Testing Text</p>
     </div>
   );
 }
