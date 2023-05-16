@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import model from "../assets/powersimple.glb";
-import image from "../assets/bg.jpg";
 import assets from "./../data/assets.json";
 
 function AFrame() {
@@ -33,9 +31,12 @@ function AFrame() {
         </a-camera>
 
         <a-assets>
-          {assets.map((asset) => (
-         <a-asset-item id={asset.id} src={asset.url} key= {asset.id} ></a-asset-item>
-      ))}
+          {assets.map((asset) => {
+            if (asset.type === "model") {
+                return<a-asset-item id={asset.id} src={asset.url} key= {asset.id} ></a-asset-item>;}
+            return( <img id={asset.id} src={asset.url} key= {asset.id} />);
+           
+          })}
         </a-assets>
 
         {loading ? (
@@ -61,7 +62,7 @@ function AFrame() {
             color={gcolor}
             shadow
           ></a-plane>
-        <a-sky src={image} />
+        <a-sky src="#bg" />
       </a-scene>
     </>
   );
