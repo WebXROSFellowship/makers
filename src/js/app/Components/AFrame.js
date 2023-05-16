@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import model from "../assets/powersimple.glb";
+// import model from "../assets/powersimple.glb";
 import image from "../assets/bg.jpg";
+import assets from "./../data/assets.json";
 
 function AFrame() {
   const [loading, setLoading] = useState(true);
@@ -32,7 +33,9 @@ function AFrame() {
         </a-camera>
 
         <a-assets>
-          <a-asset-item id="modelID" src={model} preload></a-asset-item>
+          {assets.map((asset) => (
+         <a-asset-item id={asset.id} src={asset.url} key= {asset.id} ></a-asset-item>
+      ))}
         </a-assets>
 
         {loading ? (

@@ -4315,13 +4315,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _data_assets_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data/assets.json */ "./src/js/app/data/assets.json");
+/* harmony import */ var _assets_bg_jpg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../assets/bg.jpg */ "./src/js/app/assets/bg.jpg");
+/* harmony import */ var _data_assets_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../data/assets.json */ "./src/js/app/data/assets.json");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+// import model from "../assets/powersimple.glb";
 
 
 function AFrame() {
@@ -4345,7 +4348,7 @@ function AFrame() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setTimeout(function () {
       return setLoading(false);
-    }, 10000); // Wait for 1 second before setting loading to false
+    }, 1000); // Wait for 1 second before setting loading to false
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-scene", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-camera", {
     position: "0 1.2 0",
@@ -4353,31 +4356,17 @@ function AFrame() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-cursor", {
     id: "cursor",
     color: "#FF0000"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-assets", null, _data_assets_json__WEBPACK_IMPORTED_MODULE_1__.map(function (asset) {
-    console.log(asset.url);
-    console.log(asset.type);
-    console.log(asset.modelId);
-    if (asset.type === 'jpg') {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-sky", {
-        src: asset.url
-      });
-    } else if (asset.type === 'glb') {
-      // console.log(modelId);
-      // Render a model 
-
-      /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-asset-item", {
-        id: asset.modelId,
-        src: asset.url,
-        preload: true
-      });
-    } else {
-      return null; // handle other asset types if needed
-    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-assets", null, _data_assets_json__WEBPACK_IMPORTED_MODULE_2__.map(function (asset) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-asset-item", {
+      id: asset.id,
+      src: asset.url,
+      key: asset.id
+    });
   })), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-entity", {
-    "gltf-model": "#model1",
-    position: "0 0.75 -3"
-    // radius="0.5"
-    // height="1.5"
+    "gltf-model": "#modelID",
+    position: "0 0.75 -3",
+    radius: "0.5",
+    height: "1.5"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-sphere", {
     position: "0 0.7 -7",
     radius: "2.25",
@@ -4389,6 +4378,8 @@ function AFrame() {
     height: "10",
     color: gcolor,
     shadow: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-sky", {
+    src: _assets_bg_jpg__WEBPACK_IMPORTED_MODULE_1__["default"]
   })));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AFrame);
@@ -4984,6 +4975,21 @@ __webpack_require__.r(__webpack_exports__);
 
 var root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById("root"));
 root.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_App__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+
+/***/ }),
+
+/***/ "./src/js/app/assets/bg.jpg":
+/*!**********************************!*\
+  !*** ./src/js/app/assets/bg.jpg ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "9185d406e4f23ab7605a682ffc67c1b4.jpg");
 
 /***/ }),
 
@@ -40996,7 +41002,7 @@ if (false) {} else {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('[{"id":1,"name":"Asset 1","type":"jpg","url":"../assets/bg.jpg"},{"id":2,"name":"Asset 2","type":"glb","url":"../assets/powersimple.glb","modelId":"#model1"}]');
+module.exports = JSON.parse('[{"id":"modelID","type":"model","name":"astra","url":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb"}]');
 
 /***/ })
 
@@ -41054,6 +41060,18 @@ module.exports = JSON.parse('[{"id":1,"name":"Asset 1","type":"jpg","url":"../as
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -41077,6 +41095,26 @@ module.exports = JSON.parse('[{"id":1,"name":"Asset 1","type":"jpg","url":"../as
 /******/ 			if (!module.children) module.children = [];
 /******/ 			return module;
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
 /******/ 	})();
 /******/ 	
 /************************************************************************/
