@@ -1,8 +1,16 @@
 import React from 'react'
 
+import ToggleVisibility from "./ToggleVisibility";
+import AFrame from "./AFrame";
+
 const Body = () => {
   return (
-    <div>Body</div>
+    <div>
+      Body
+      <ToggleVisibility>
+        <AFrame />
+      </ToggleVisibility>
+    </div>
   )
 }
 
