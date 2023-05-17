@@ -6,22 +6,41 @@ function AFrame() {
 
   const color = new URLSearchParams(document.location.search).get("color");
   // Default Black color for the plane
-  var gcolor="#000000";
+  var gcolor = "#000000";
 
   // Check if the color is passed as a query parameter, facilitate both hex and string
   if (color) {
     if (/^[a-zA-Z]+$/.test(color)) {
-      gcolor = color.toLowerCase()
+      gcolor = color.toLowerCase();
     } else {
-      gcolor="#"+color;
+      gcolor = "#" + color;
     }
   }
-  // Heavy models take time to load, hence wait for a while
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
-  }, []);
 
- 
+  useEffect(() => {
+    // Event listener for color change
+    function changeColor() {
+      AFRAME.registerComponent("change-color-on-hover", {
+        schema: {
+          color: { default: "red" },
+        },
+        init: function () {
+          var data = this.data;
+          var el = this.el;
+          el.addEventListener("mouseenter", function () {
+            el.setAttribute("material", "color", data.color);
+          });
+          el.addEventListener("mouseleave", function () {
+            el.setAttribute("material", "color", "pink");
+          });
+        },
+      });
+    }
+    // Heavy models take time to load, hence wait for a while
+    setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
+
+    changeColor();
+  }, []);
 
   return (
     <>
@@ -33,9 +52,15 @@ function AFrame() {
         <a-assets>
           {assets.map((asset) => {
             if (asset.type === "model") {
-                return<a-asset-item id={asset.id} src={asset.url} key= {asset.id} ></a-asset-item>;}
-            return( <img id={asset.id} src={asset.url} key= {asset.id} />);
-           
+              return (
+                <a-asset-item
+                  id={asset.id}
+                  src={asset.url}
+                  key={asset.id}
+                ></a-asset-item>
+              );
+            }
+            return <img id={asset.id} src={asset.url} key={asset.id} />;
           })}
         </a-assets>
 
@@ -43,17 +68,14 @@ function AFrame() {
           <p>Loading...</p>
         ) : (
           <>
-          <a-entity
-            gltf-model="#powersimple"
-            position="0 0.75 -3"
-            radius="0.5"
-            height="1.5"
-          ></a-entity>
+            <a-entity
+              gltf-model="#powersimple"
+              position="0 0.75 -3"
+              radius="0.5"
+              height="1.5"
+            ></a-entity>
 
-          <a-entity
-            gltf-model="#astra"
-            position="1 0.75 -3"
-          ></a-entity>
+            <a-entity gltf-model="#astra" position="1 0.75 -3"></a-entity>
           </>
         )}
         <a-sphere
@@ -61,14 +83,14 @@ function AFrame() {
           radius="2.25"
           change-color-on-hover="color:#FFFFFF"
         />
-             <a-plane
-            rotation="-90 0 0"
-            position="0 -2 -10"
-            width="10"
-            height="10"
-            color={gcolor}
-            shadow
-          ></a-plane>
+        <a-plane
+          rotation="-90 0 0"
+          position="0 -2 -10"
+          width="10"
+          height="10"
+          color={gcolor}
+          shadow
+        ></a-plane>
         <a-sky src="#bg" />
       </a-scene>
     </>
