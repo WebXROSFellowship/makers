@@ -2,11 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./../../../scss/style.scss";
 import DataContext from "../Utils/DataContext";
+import langArr from "../assets/langData";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [navbarMenus, setNavbarMenus] = useState([]);
   const [c2IDs, setC2IDs] = useState([]);
+  const [languageArr, setLanguageArr] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const { data } = useContext(DataContext);
   const { setLang } = useContext(DataContext);
@@ -14,6 +16,7 @@ const Navbar = () => {
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
     setMenuData();
+    setLanguages();
   }, []);
 
   function formatNames(name) {
@@ -53,6 +56,21 @@ const Navbar = () => {
     setNavbarMenus(cData);
   }
 
+  async function setLanguages() {
+    try {
+      let langFetchURL = "";
+      let langStagingData = await fetch(langFetchURL);
+      let langStagingDataJSON = await langStagingData.json();
+
+      // setLanguageArr(langStagingDataJSON);
+      setLanguageArr(langArr);
+    }
+    catch(err) {
+      console.log("Error");
+      console.log(err);
+    }
+  }
+
   /**
    * This is a functional React component that returns a Navbar.
    */
@@ -61,7 +79,7 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         {/* The brand section of the Navbar */}
-        <div className="navbar-brand">
+        <div className="navbar-brand text-danger">
           The Polys WebXR Awards and Summit Series
         </div>
         <div className="navbar-right">
@@ -118,9 +136,16 @@ const Navbar = () => {
           <div className="dropdown">
             <button className="dropbtn"> Languages </button>
             <div className="dropdown__content">
-              <span onClick={() => setLang('')} className="dropdown__items">English</span>
-              <span onClick={() => setLang('hi')} className="dropdown__items">Hindi</span>
-              <span onClick={() => setLang('de')} className="dropdown__items">German</span>
+              {languageArr.map((currLang) => {
+                let cLang = currLang.native_name;
+                let code = currLang.code;
+                if(code == 'en') {
+                  code = '';
+                }
+                return (
+                  <span onClick={() => setLang(`${code}`)} key={code} className="dropdown__items">{cLang}</span>
+                );
+              })}
             </div>
           </div>
           {/* The social media logo section of the Navbar */}
