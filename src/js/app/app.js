@@ -4,7 +4,8 @@ import Home from "./Components/Home";
 import Body from "./Components/Body";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DataContext from "./Utils/DataContext";
-const NavSites = lazy(() => import("./Components/NavSites"));
+import NavSites from "./Components/NavSites";
+// const NavSites = lazy(() => import("./Components/NavSites"));
 const AFrame = lazy(() => import("./Components/AFrame"));
 
 const appRouter = createBrowserRouter([
@@ -25,17 +26,13 @@ const appRouter = createBrowserRouter([
       {
         path: "/:sitename/:sn",
         element: (
-          <Suspense fallback={<h1>Loadinggg...</h1>}>
-            <NavSites />
-          </Suspense>
+          <NavSites/>
         ),
       },
       {
         path: "/:sitename",
         element: (
-          <Suspense fallback={<h1>Loadinggg...</h1>}>
-            <NavSites />
-          </Suspense>
+          <NavSites/>
         ),
       },
     ],

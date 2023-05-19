@@ -58,12 +58,14 @@ const Navbar = () => {
 
   async function setLanguages() {
     try {
-      let langFetchURL = "";
-      let langStagingData = await fetch(langFetchURL);
-      let langStagingDataJSON = await langStagingData.json();
+      console.log("Setting Languages");
+      // let langFetchURL = "";
+      // let langStagingData = await fetch(langFetchURL);
+      // let langStagingDataJSON = await langStagingData.json();
 
       // setLanguageArr(langStagingDataJSON);
       setLanguageArr(langArr);
+      console.log(languageArr);
     }
     catch(err) {
       console.log("Error");
@@ -136,6 +138,7 @@ const Navbar = () => {
           <div className="dropdown">
             <button className="dropbtn"> Languages </button>
             <div className="dropdown__content">
+              
               {languageArr.map((currLang) => {
                 let cLang = currLang.native_name;
                 let code = currLang.code;
