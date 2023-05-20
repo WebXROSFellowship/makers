@@ -4274,7 +4274,7 @@ var appRouter = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.createBrowserRo
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Navbar__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Home__WEBPACK_IMPORTED_MODULE_2__["default"], null)),
   children: [{
     path: "/",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Body__WEBPACK_IMPORTED_MODULE_3__["default"], null)
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_AFrame__WEBPACK_IMPORTED_MODULE_7__["default"], null)
   }, {
     path: "profile/:username",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Profile__WEBPACK_IMPORTED_MODULE_4__["default"], null)
@@ -4340,6 +4340,47 @@ function AFrame() {
     }
   }
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // loading inspector
+    function loadAndGet() {
+      var sceneEl = document.querySelector("a-scene");
+      sceneEl.addEventListener("loaded", function () {
+        sceneEl.components.inspector.openInspector();
+      });
+    }
+    // creating new button for getting all the data for the entity
+    function addMani() {
+      setTimeout(function () {
+        var ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
+        console.log(ele);
+        ele.click();
+        console.log("Clicked");
+        // Create the <a> element
+        var link = document.createElement("a");
+        link.href = "#";
+        link.title = "send data";
+        link.setAttribute("data-action", "copy-entity-to-clipboard");
+        link.classList.add("button", "fa", "fa-facebook");
+
+        // Append the <a> element to the specified location
+        var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
+        parentElement.appendChild(link);
+        dataToConsole();
+      }, 5000); // Adjust the delay as needed
+    }
+
+    // getting data from the clipboard to console
+    function dataToConsole() {
+      var element = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-facebook");
+
+      // Add the onclick function
+      element.onclick = function () {
+        // Access the data from the clipboard
+        navigator.clipboard.readText().then(function (clipboardData) {
+          // Print the clipboard data to the console
+          console.log(clipboardData);
+        });
+      };
+    }
     // Event listener for color change
     function changeColor() {
       AFRAME.registerComponent("change-color-on-hover", {
@@ -4366,6 +4407,8 @@ function AFrame() {
     }, 1000); // Wait for 1 second before setting loading to false
 
     changeColor();
+    loadAndGet();
+    addMani();
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-scene", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-camera", {
     position: "0 1.2 0",
@@ -4378,22 +4421,34 @@ function AFrame() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-asset-item", {
         id: asset.id,
         src: asset.url,
-        key: asset.id
+        key: asset.id,
+        crossorigin: "anonymous"
       });
     }
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
       id: asset.id,
       src: asset.url,
-      key: asset.id
+      key: asset.id,
+      crossOrigin: "anonymous"
     });
   })), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-entity", {
+    id: "#powersimple",
     "gltf-model": "#powersimple",
     position: "0 0.75 -3",
     radius: "0.5",
-    height: "1.5"
+    height: "1.5",
+    crossOrigin: "anonymous"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-entity", {
+    id: "#marvel",
+    "gltf-model": "#marvel",
+    position: "1 0.75 -3",
+    scale: "3 3 3",
+    crossOrigin: "anonymous"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-entity", {
+    id: "#astra",
     "gltf-model": "#astra",
-    position: "1 0.75 -3"
+    position: "-1 -0.75 -3",
+    crossOrigin: "anonymous"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-sphere", {
     position: "0 0.7 -7",
     radius: "2.25",
@@ -40969,7 +41024,7 @@ if (false) {} else {
   \*******************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"astra","type":"model","name":"astra","url":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb"},{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"bg","type":"image","name":"background","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/bg.jpg"}]');
+module.exports = JSON.parse('[{"id":"marvel","type":"model","name":"astra","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb"},{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"astra","type":"model","name":"marvel","url":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb"},{"id":"bg","type":"image","name":"background","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/bg.jpg"}]');
 
 /***/ })
 

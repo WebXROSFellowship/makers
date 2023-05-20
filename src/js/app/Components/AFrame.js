@@ -18,6 +18,53 @@ function AFrame() {
   }
 
   useEffect(() => {
+    // loading inspector
+    function loadAndGet() {
+      var sceneEl = document.querySelector("a-scene");
+      sceneEl.addEventListener("loaded", function () {
+        sceneEl.components.inspector.openInspector();
+      });
+    }
+    // creating new button for getting all the data for the entity
+    function addMani() {
+      setTimeout(function () {
+        var ele = document.querySelector(
+          "#scenegraph > div.outliner > div:nth-child(1)"
+        );
+        console.log(ele);
+        ele.click();
+        console.log("Clicked");
+        // Create the <a> element
+        var link = document.createElement("a");
+        link.href = "#";
+        link.title = "send data";
+        link.setAttribute("data-action", "copy-entity-to-clipboard");
+        link.classList.add("button", "fa", "fa-facebook");
+
+        // Append the <a> element to the specified location
+        var parentElement = document.querySelector(
+          "#componentEntityHeader > div.static > div.collapsible-header > div"
+        );
+        parentElement.appendChild(link);
+        dataToConsole();
+      }, 5000); // Adjust the delay as needed
+    }
+
+    // getting data from the clipboard to console
+    function dataToConsole() {
+      var element = document.querySelector(
+        "#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-facebook"
+      );
+
+      // Add the onclick function
+      element.onclick = function () {
+        // Access the data from the clipboard
+        navigator.clipboard.readText().then(function (clipboardData) {
+          // Print the clipboard data to the console
+          console.log(clipboardData);
+        });
+      };
+    }
     // Event listener for color change
     function changeColor() {
       AFRAME.registerComponent("change-color-on-hover", {
@@ -40,6 +87,8 @@ function AFrame() {
     setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
 
     changeColor();
+    loadAndGet();
+    addMani();
   }, []);
 
   return (
@@ -48,7 +97,6 @@ function AFrame() {
         <a-camera position="0 1.2 0" rotation="0 -45 0">
           <a-cursor id="cursor" color="#FF0000"></a-cursor>
         </a-camera>
-
         <a-assets>
           {assets.map((asset) => {
             if (asset.type === "model") {
@@ -57,10 +105,18 @@ function AFrame() {
                   id={asset.id}
                   src={asset.url}
                   key={asset.id}
+                  crossorigin="anonymous"
                 ></a-asset-item>
               );
             }
-            return <img id={asset.id} src={asset.url} key={asset.id} />;
+            return (
+              <img
+                id={asset.id}
+                src={asset.url}
+                key={asset.id}
+                crossOrigin="anonymous"
+              />
+            );
           })}
         </a-assets>
 
@@ -69,13 +125,27 @@ function AFrame() {
         ) : (
           <>
             <a-entity
+              id="#powersimple"
               gltf-model="#powersimple"
               position="0 0.75 -3"
               radius="0.5"
               height="1.5"
+              crossOrigin="anonymous"
             ></a-entity>
 
-            <a-entity gltf-model="#astra" position="1 0.75 -3"></a-entity>
+            <a-entity
+              id="#marvel"
+              gltf-model="#marvel"
+              position="1 0.75 -3"
+              scale="3 3 3"
+              crossOrigin="anonymous"
+            ></a-entity>
+            <a-entity
+              id="#astra"
+              gltf-model="#astra"
+              position="-1 -0.75 -3"
+              crossOrigin="anonymous"
+            ></a-entity>
           </>
         )}
         <a-sphere
