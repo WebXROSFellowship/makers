@@ -58,14 +58,12 @@ const Navbar = () => {
 
   async function setLanguages() {
     try {
-      console.log("Setting Languages");
       // let langFetchURL = "";
       // let langStagingData = await fetch(langFetchURL);
       // let langStagingDataJSON = await langStagingData.json();
 
       // setLanguageArr(langStagingDataJSON);
       setLanguageArr(langArr);
-      console.log(languageArr);
     }
     catch(err) {
       console.log("Error");
