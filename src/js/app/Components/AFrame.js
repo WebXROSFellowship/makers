@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import assets from "./../psudo_data/assets.json";
 import data from "./dynamicContent.json";
+// have used native file system till endpoints unavailable
+
 
 function AFrame() {
   const [loading, setLoading] = useState(true);
-
+  
   const color = new URLSearchParams(document.location.search).get("color");
   // Default Black color for the plane
   var gcolor = "#000000";
-
   // Check if the color is passed as a query parameter, facilitate both hex and string
   if (color) {
     if (/^[a-zA-Z]+$/.test(color)) {
@@ -17,7 +18,6 @@ function AFrame() {
       gcolor = "#" + color;
     }
   }
-
   useEffect(() => {
     // loading inspector
     function loadAndGet() {
@@ -87,6 +87,46 @@ function AFrame() {
       var jsonString = JSON.stringify(entityObject);
       console.log("!!!!!!!!!!!!!!!!!");
       console.log(jsonString);
+      updateDataFile(jsonString);
+    }
+
+    function updateDataFile(jsonString) {
+      const newData = JSON.parse(jsonString);
+  
+      const updatedData = data.map((item) => {
+        if (item.id === newData.id) {
+          console.log("Found the item to update");
+          return ;
+        } else {
+          console.log("Not the item to update");
+          return item;
+        }
+      });
+      updatedData.push(newData);
+      const updatedJsonString = JSON.stringify(updatedData, null, 2);
+      console.log('Updated data:', updatedData);
+      const fileName = 'dynamicContent.json';
+      saveJsonAsBlob(updatedJsonString, fileName);
+
+    }
+
+    function saveJsonAsBlob(updatedData, fileName)
+    {
+        const blob = new Blob([updatedData], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        // Create a temporary link element
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        
+        // Append the link to the document body and click it programmatically
+        document.body.appendChild(link);
+        link.click();
+        
+        // Clean up by removing the link and revoking the URL
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     }
 
     // Event listener for color change
@@ -129,7 +169,7 @@ function AFrame() {
                   id={asset.id}
                   src={asset.url}
                   key={asset.id}
-                  crossorigin="anonymous"
+                  crossOrigin="anonymous"
                 ></a-asset-item>
               );
             }

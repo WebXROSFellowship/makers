@@ -4325,6 +4325,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+// have used native file system till endpoints unavailable
+
 function AFrame() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
     _useState2 = _slicedToArray(_useState, 2),
@@ -4333,7 +4335,6 @@ function AFrame() {
   var color = new URLSearchParams(document.location.search).get("color");
   // Default Black color for the plane
   var gcolor = "#000000";
-
   // Check if the color is passed as a query parameter, facilitate both hex and string
   if (color) {
     if (/^[a-zA-Z]+$/.test(color)) {
@@ -4404,6 +4405,43 @@ function AFrame() {
       var jsonString = JSON.stringify(entityObject);
       console.log("!!!!!!!!!!!!!!!!!");
       console.log(jsonString);
+      updateDataFile(jsonString);
+    }
+    function updateDataFile(jsonString) {
+      var newData = JSON.parse(jsonString);
+      var updatedData = _dynamicContent_json__WEBPACK_IMPORTED_MODULE_2__.map(function (item) {
+        if (item.id === newData.id) {
+          console.log("Found the item to update");
+          return;
+        } else {
+          console.log("Not the item to update");
+          return item;
+        }
+      });
+      updatedData.push(newData);
+      var updatedJsonString = JSON.stringify(updatedData, null, 2);
+      console.log('Updated data:', updatedData);
+      var fileName = 'dynamicContent.json';
+      saveJsonAsBlob(updatedJsonString, fileName);
+    }
+    function saveJsonAsBlob(updatedData, fileName) {
+      var blob = new Blob([updatedData], {
+        type: 'application/json'
+      });
+      var url = URL.createObjectURL(blob);
+
+      // Create a temporary link element
+      var link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+
+      // Append the link to the document body and click it programmatically
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up by removing the link and revoking the URL
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     }
 
     // Event listener for color change
@@ -4447,7 +4485,7 @@ function AFrame() {
         id: asset.id,
         src: asset.url,
         key: asset.id,
-        crossorigin: "anonymous"
+        crossOrigin: "anonymous"
       });
     }
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
@@ -41048,7 +41086,7 @@ if (false) {} else {
   \***************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 -0.75 -3","crossOrigin":"anonymous"}]');
+module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 -0.75 -3","crossOrigin":"anonymous"},{"id":"#newone","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb"},{"id":"#BRAND"},{"id":"#NEW"},{"id":"#simple"}]');
 
 /***/ }),
 
