@@ -4314,12 +4314,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _psudo_data_assets_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../psudo_data/assets.json */ "./src/js/app/psudo_data/assets.json");
+/* harmony import */ var _dynamicContent_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dynamicContent.json */ "./src/js/app/Components/dynamicContent.json");
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 function AFrame() {
@@ -4378,9 +4381,31 @@ function AFrame() {
         navigator.clipboard.readText().then(function (clipboardData) {
           // Print the clipboard data to the console
           console.log(clipboardData);
+          storeData(clipboardData);
         });
       };
     }
+    function storeData(entityString) {
+      // Create a temporary element to parse the string
+      var tempElement = document.createElement("div");
+      tempElement.innerHTML = entityString;
+
+      // Get the attributes of the <a-entity> element
+      var entityAttributes = tempElement.firstChild.attributes;
+
+      // Convert the attributes into an object
+      var entityObject = {};
+      for (var i = 0; i < entityAttributes.length; i++) {
+        var attr = entityAttributes[i];
+        entityObject[attr.name] = attr.value;
+      }
+
+      // Convert the object to JSON string
+      var jsonString = JSON.stringify(entityObject);
+      console.log("!!!!!!!!!!!!!!!!!");
+      console.log(jsonString);
+    }
+
     // Event listener for color change
     function changeColor() {
       AFRAME.registerComponent("change-color-on-hover", {
@@ -4444,11 +4469,10 @@ function AFrame() {
     position: "1 0.75 -3",
     scale: "3 3 3",
     crossOrigin: "anonymous"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-entity", {
-    id: "#astra",
-    "gltf-model": "#astra",
-    position: "-1 -0.75 -3",
-    crossOrigin: "anonymous"
+  }), _dynamicContent_json__WEBPACK_IMPORTED_MODULE_2__.map(function (entity) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-entity", _extends({
+      key: entity.id
+    }, entity));
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a-sphere", {
     position: "0 0.7 -7",
     radius: "2.25",
@@ -41015,6 +41039,16 @@ if (false) {} else {
   module.exports = __webpack_require__(/*! ./cjs/scheduler.development.js */ "./node_modules/scheduler/cjs/scheduler.development.js");
 }
 
+
+/***/ }),
+
+/***/ "./src/js/app/Components/dynamicContent.json":
+/*!***************************************************!*\
+  !*** ./src/js/app/Components/dynamicContent.json ***!
+  \***************************************************/
+/***/ ((module) => {
+
+module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 -0.75 -3","crossOrigin":"anonymous"}]');
 
 /***/ }),
 

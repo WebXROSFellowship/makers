@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import assets from "./../psudo_data/assets.json";
+import data from "./dynamicContent.json";
 
 function AFrame() {
   const [loading, setLoading] = useState(true);
@@ -62,9 +63,32 @@ function AFrame() {
         navigator.clipboard.readText().then(function (clipboardData) {
           // Print the clipboard data to the console
           console.log(clipboardData);
+          storeData(clipboardData);
         });
       };
     }
+
+    function storeData(entityString) {
+      // Create a temporary element to parse the string
+      var tempElement = document.createElement("div");
+      tempElement.innerHTML = entityString;
+
+      // Get the attributes of the <a-entity> element
+      var entityAttributes = tempElement.firstChild.attributes;
+
+      // Convert the attributes into an object
+      var entityObject = {};
+      for (var i = 0; i < entityAttributes.length; i++) {
+        var attr = entityAttributes[i];
+        entityObject[attr.name] = attr.value;
+      }
+
+      // Convert the object to JSON string
+      var jsonString = JSON.stringify(entityObject);
+      console.log("!!!!!!!!!!!!!!!!!");
+      console.log(jsonString);
+    }
+
     // Event listener for color change
     function changeColor() {
       AFRAME.registerComponent("change-color-on-hover", {
@@ -140,14 +164,13 @@ function AFrame() {
               scale="3 3 3"
               crossOrigin="anonymous"
             ></a-entity>
-            <a-entity
-              id="#astra"
-              gltf-model="#astra"
-              position="-1 -0.75 -3"
-              crossOrigin="anonymous"
-            ></a-entity>
+
+            {data.map((entity) => (
+              <a-entity key={entity.id} {...entity}></a-entity>
+            ))}
           </>
         )}
+
         <a-sphere
           position="0 0.7 -7"
           radius="2.25"
