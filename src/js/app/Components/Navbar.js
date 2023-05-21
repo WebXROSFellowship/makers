@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./../../../scss/style.scss";
 import DataContext from "../Utils/DataContext";
+import MenuDataContext from "../Utils/MenuDataContext";
 import langArr from "../assets/langData";
 
 const Navbar = () => {
@@ -10,12 +11,12 @@ const Navbar = () => {
   const [c2IDs, setC2IDs] = useState([]);
   const [languageArr, setLanguageArr] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
-  const { data } = useContext(DataContext);
-  const { setLang } = useContext(DataContext);
+  const { lang, setLang } = useContext(DataContext);
+  const {menuData, setMenuData} = useContext(MenuDataContext);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
-    setMenuData();
+    settingMenuData();
     setLanguages();
   }, []);
 
@@ -28,9 +29,13 @@ const Navbar = () => {
     return formattedName;
   }
 
-  function setMenuData() {
+  function settingMenuData() {
     //Setting Data as Items
-    let items = data;
+    let items = menuData[lang];
+    setMenuData(prevData => ({
+      ...prevData,
+      [lang]: items
+    }));
     let head = items.filter((e) => e.menu_item_parent === "0")[0];
     let childItems = items.filter(
       (e) => parseInt(e.menu_item_parent) === head.ID
