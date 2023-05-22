@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const path = require("path");
 const glob = require("glob");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -33,12 +34,16 @@ const common = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/,
-        exclude: ["/node_modules/"],
+        test: /\.(?:js|mjs|cjs)$/,
+        exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
+            presets: [
+              ["@babel/preset-env", { targets: "defaults" }],
+              ["@babel/preset-react"],
+            ],
+            plugins: ['@babel/plugin-transform-runtime']
           },
         },
       },
@@ -98,13 +103,13 @@ const common = {
       ".gif",
       ".glb",
       ".gltf",
-      "ttf",
-      "woff",
-      "woff2",
+      ".ttf",
+      ".woff",
+      ".woff2",
     ],
   },
   watchOptions: {
-    ignored: ["/node_modules/"],
+    ignored: /node_modules/,
   },
   experiments: {
     topLevelAwait: true,
@@ -141,7 +146,7 @@ const developmentConfig = {
       new TerserPlugin({
         include: /\.js$/,
         terserOptions: {
-          compress: true,
+          compress: false,
           format: {
             comments: false,
           },
