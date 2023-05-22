@@ -40,7 +40,7 @@ function AFrame() {
         link.href = "#";
         link.title = "send data";
         link.setAttribute("data-action", "copy-entity-to-clipboard");
-        link.classList.add("button", "fa", "fa-facebook");
+        link.classList.add("button", "fa", "fa-bookmark");
 
         // Append the <a> element to the specified location
         var parentElement = document.querySelector(
@@ -54,7 +54,7 @@ function AFrame() {
     // getting data from the clipboard to console
     function dataToConsole() {
       var element = document.querySelector(
-        "#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-facebook"
+        "#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-bookmark"
       );
 
       // Add the onclick function

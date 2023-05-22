@@ -4363,7 +4363,7 @@ function AFrame() {
         link.href = "#";
         link.title = "send data";
         link.setAttribute("data-action", "copy-entity-to-clipboard");
-        link.classList.add("button", "fa", "fa-facebook");
+        link.classList.add("button", "fa", "fa-bookmark");
 
         // Append the <a> element to the specified location
         var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
@@ -4374,7 +4374,7 @@ function AFrame() {
 
     // getting data from the clipboard to console
     function dataToConsole() {
-      var element = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-facebook");
+      var element = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-bookmark");
 
       // Add the onclick function
       element.onclick = function () {
@@ -41088,7 +41088,7 @@ if (false) {} else {
   \***************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 -0.75 -3","crossOrigin":"anonymous"},{"id":"#newone","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb"},{"id":"#BRAND"},{"id":"#NEW"},{"id":"#simple"}]');
+module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 -0.75 -3","crossOrigin":"anonymous"}]');
 
 /***/ }),
 
