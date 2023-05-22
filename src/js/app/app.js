@@ -1,8 +1,10 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
 import Body from "./Components/Body";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Sidebar from "./Components/Body";
 import DataContext from "./Utils/DataContext";
 import MenuDataContext from "./Utils/MenuDataContext";
 const NavSites = lazy(() => import("./Components/NavSites"));
@@ -14,6 +16,7 @@ const appRouter = createBrowserRouter([
     element: (
       <>
         <Navbar />
+        <Sidebar/>
         <Home />
         {/* <AFrame/> */}
       </>
@@ -76,5 +79,4 @@ const App = () => {
     </DataContext.Provider>
   );
 };
-
 export default App;
