@@ -12,8 +12,20 @@
         wp_register_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css', null,'1.1', true); 
         wp_enqueue_style('fontawesome');
 
-        wp_register_script('aframe', 'https://aframe.io/releases/0.9.2/aframe.min.js', array(), '0.9.2', true);
-        wp_enqueue_script('aframe');
+        // wp_register_script('aframe', 'https://aframe.io/releases/0.9.2/aframe.min.js', array(), '0.9.2', true);
+        // wp_enqueue_script('aframe');
+         
+         // Enqueue A-Frame library
+function enqueue_aframe_library() {
+    wp_enqueue_script( 'aframe', 'https://aframe.io/releases/1.2.0/aframe.min.js', array(), '1.2.0', true );
+}
+add_action( 'wp_enqueue_scripts', 'enqueue_aframe_library' );
+
+// Enqueue A-Frame Inspector
+function enqueue_aframe_inspector() {
+    wp_enqueue_script( 'aframe-inspector', 'path/to/aframe-inspector.min.js', array( 'aframe' ), '1.0.0', true );
+}
+add_action( 'wp_enqueue_scripts', 'enqueue_aframe_inspector' );
 
 
     }
