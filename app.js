@@ -4409,16 +4409,18 @@ function AFrame() {
     }
     function updateDataFile(jsonString) {
       var newData = JSON.parse(jsonString);
+      var foundData = false;
       var updatedData = _dynamicContent_json__WEBPACK_IMPORTED_MODULE_2__.map(function (item) {
         if (item.id === newData.id) {
           console.log("Found the item to update");
-          return;
+          foundData = true;
+          return newData;
         } else {
           console.log("Not the item to update");
           return item;
         }
       });
-      updatedData.push(newData);
+      if (!foundData) updatedData.push(newData);
       var updatedJsonString = JSON.stringify(updatedData, null, 2);
       console.log('Updated data:', updatedData);
       var fileName = 'dynamicContent.json';

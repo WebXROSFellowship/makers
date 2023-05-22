@@ -92,17 +92,20 @@ function AFrame() {
 
     function updateDataFile(jsonString) {
       const newData = JSON.parse(jsonString);
-  
+      var foundData=false;
       const updatedData = data.map((item) => {
         if (item.id === newData.id) {
           console.log("Found the item to update");
-          return ;
+          foundData=true;
+          return newData;
         } else {
           console.log("Not the item to update");
           return item;
         }
       });
-      updatedData.push(newData);
+
+      if(!foundData)
+        updatedData.push(newData);
       const updatedJsonString = JSON.stringify(updatedData, null, 2);
       console.log('Updated data:', updatedData);
       const fileName = 'dynamicContent.json';
