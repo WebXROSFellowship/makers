@@ -4367,9 +4367,11 @@ function AFrame() {
 
         // Append the <a> element to the specified location
         var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
+        console.log("!!!!!!!!!!!!got the parent element");
+        console.log(parentElement);
         parentElement.appendChild(link);
         dataToConsole();
-      }, 5000); // Adjust the delay as needed
+      }, 10000); // Adjust the delay as needed
     }
 
     // getting data from the clipboard to console
@@ -41088,7 +41090,7 @@ if (false) {} else {
   \***************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 -0.75 -3","crossOrigin":"anonymous"}]');
+module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 1.93968 -3","crossorigin":"anonymous"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"1.27063 1.34902 1","visible":"","rotation":"1 0 0"}]');
 
 /***/ }),
 

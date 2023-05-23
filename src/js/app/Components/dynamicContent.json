@@ -2,7 +2,14 @@
   {
     "id": "#astra",
     "gltf-model": "https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb",
-    "position": "-1 -0.75 -3",
-    "crossOrigin": "anonymous"
+    "position": "-1 1.93968 -3",
+    "crossorigin": "anonymous"
+  },
+  {
+    "troika-text": "strokeColor: #fffafa; value: Text is here",
+    "id": "#text",
+    "position": "1.27063 1.34902 1",
+    "visible": "",
+    "rotation": "1 0 0"
   }
 ]

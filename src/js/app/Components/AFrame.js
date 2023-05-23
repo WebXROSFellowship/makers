@@ -32,6 +32,7 @@ function AFrame() {
         var ele = document.querySelector(
           "#scenegraph > div.outliner > div:nth-child(1)"
         );
+        
         console.log(ele);
         ele.click();
         console.log("Clicked");
@@ -46,9 +47,12 @@ function AFrame() {
         var parentElement = document.querySelector(
           "#componentEntityHeader > div.static > div.collapsible-header > div"
         );
+        
+        console.log("!!!!!!!!!!!!got the parent element");
+        console.log(parentElement);
         parentElement.appendChild(link);
         dataToConsole();
-      }, 5000); // Adjust the delay as needed
+      }, 10000); // Adjust the delay as needed
     }
 
     // getting data from the clipboard to console
