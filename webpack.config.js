@@ -6,6 +6,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const IgnoreEmitPlugin = require("ignore-emit-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const Dotenv = require("dotenv-webpack");
 
 const proxyUrl = "https://webxr.local/";
@@ -139,6 +140,7 @@ const developmentConfig = {
       open: false,
       reloadOnRestart: true,
     }),
+    new BundleAnalyzerPlugin(),
   ],
   optimization: {
     minimize: false,
@@ -187,7 +189,7 @@ const productionConfig = {
       new TerserPlugin({
         include: /\.min\.js$/,
         terserOptions: {
-          compress: true,
+          compress: false,
           format: {
             comments: false,
           },
