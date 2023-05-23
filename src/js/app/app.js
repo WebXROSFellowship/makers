@@ -4,8 +4,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
 import Body from "./Components/Body";
-import Sidebar from "./Components/Body";
-import DataContext from "./Utils/DataContext";
+import Profile from "./Components/Profile";
+import Sidebar from "./Components/Sidebar";
+import DataContext from './Utils/DataContext';
 import MenuDataContext from "./Utils/MenuDataContext";
 const NavSites = lazy(() => import("./Components/NavSites"));
 const AFrame = lazy(() => import("./Components/AFrame"));
@@ -18,13 +19,20 @@ const appRouter = createBrowserRouter([
         <Navbar />
         <Sidebar/>
         <Home />
-        {/* <AFrame/> */}
       </>
     ),
     children: [
       {
         path: "/",
         element: <Body />,
+      },
+      {
+        path: "aframe",
+        element: <AFrame />,
+      },
+      {
+        path: "profile/:username",
+        element: <Profile />,
       },
       {
         path: "/:sitename/:sn",
