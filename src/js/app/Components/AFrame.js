@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import assets from "./../psudo_data/assets.json";
+import data from "./dynamicContent.json";
+// have used native file system till endpoints unavailable
+
 
 function AFrame() {
   const [loading, setLoading] = useState(true);
-
+  
   const color = new URLSearchParams(document.location.search).get("color");
   // Default Black color for the plane
   var gcolor = "#000000";
-
   // Check if the color is passed as a query parameter, facilitate both hex and string
   if (color) {
     if (/^[a-zA-Z]+$/.test(color)) {
@@ -16,8 +18,124 @@ function AFrame() {
       gcolor = "#" + color;
     }
   }
-
   useEffect(() => {
+    // loading inspector
+    function loadAndGet() {
+      var sceneEl = document.querySelector("a-scene");
+      sceneEl.addEventListener("loaded", function () {
+        sceneEl.components.inspector.openInspector();
+      });
+    }
+    // creating new button for getting all the data for the entity
+    function addMani() {
+      setTimeout(function () {
+        var ele = document.querySelector(
+          "#scenegraph > div.outliner > div:nth-child(1)"
+        );
+        
+        console.log(ele);
+        ele.click();
+        console.log("Clicked");
+        // Create the <a> element
+        var link = document.createElement("a");
+        link.href = "#";
+        link.title = "send data";
+        link.setAttribute("data-action", "copy-entity-to-clipboard");
+        link.classList.add("button", "fa", "fa-bookmark");
+
+        // Append the <a> element to the specified location
+        var parentElement = document.querySelector(
+          "#componentEntityHeader > div.static > div.collapsible-header > div"
+        );
+        
+        console.log("!!!!!!!!!!!!got the parent element");
+        console.log(parentElement);
+        parentElement.appendChild(link);
+        dataToConsole();
+      }, 10000); // Adjust the delay as needed
+    }
+
+    // getting data from the clipboard to console
+    function dataToConsole() {
+      var element = document.querySelector(
+        "#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-bookmark"
+      );
+
+      // Add the onclick function
+      element.onclick = function () {
+        // Access the data from the clipboard
+        navigator.clipboard.readText().then(function (clipboardData) {
+          // Print the clipboard data to the console
+          console.log(clipboardData);
+          storeData(clipboardData);
+        });
+      };
+    }
+
+    function storeData(entityString) {
+      // Create a temporary element to parse the string
+      var tempElement = document.createElement("div");
+      tempElement.innerHTML = entityString;
+
+      // Get the attributes of the <a-entity> element
+      var entityAttributes = tempElement.firstChild.attributes;
+
+      // Convert the attributes into an object
+      var entityObject = {};
+      for (var i = 0; i < entityAttributes.length; i++) {
+        var attr = entityAttributes[i];
+        entityObject[attr.name] = attr.value;
+      }
+
+      // Convert the object to JSON string
+      var jsonString = JSON.stringify(entityObject);
+      console.log("!!!!!!!!!!!!!!!!!");
+      console.log(jsonString);
+      updateDataFile(jsonString);
+    }
+
+    function updateDataFile(jsonString) {
+      const newData = JSON.parse(jsonString);
+      var foundData=false;
+      const updatedData = data.map((item) => {
+        if (item.id === newData.id) {
+          console.log("Found the item to update");
+          foundData=true;
+          return newData;
+        } else {
+          console.log("Not the item to update");
+          return item;
+        }
+      });
+
+      if(!foundData)
+        updatedData.push(newData);
+      const updatedJsonString = JSON.stringify(updatedData, null, 2);
+      console.log('Updated data:', updatedData);
+      const fileName = 'dynamicContent.json';
+      saveJsonAsBlob(updatedJsonString, fileName);
+
+    }
+
+    function saveJsonAsBlob(updatedData, fileName)
+    {
+        const blob = new Blob([updatedData], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        // Create a temporary link element
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        
+        // Append the link to the document body and click it programmatically
+        document.body.appendChild(link);
+        link.click();
+        
+        // Clean up by removing the link and revoking the URL
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+
     // Event listener for color change
     function changeColor() {
       AFRAME.registerComponent("change-color-on-hover", {
@@ -40,6 +158,8 @@ function AFrame() {
     setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
 
     changeColor();
+    loadAndGet();
+    addMani();
   }, []);
 
   return (
@@ -48,7 +168,6 @@ function AFrame() {
         <a-camera position="0 1.2 0" rotation="0 -45 0">
           <a-cursor id="cursor" color="#FF0000"></a-cursor>
         </a-camera>
-
         <a-assets>
           {assets.map((asset) => {
             if (asset.type === "model") {
@@ -57,10 +176,18 @@ function AFrame() {
                   id={asset.id}
                   src={asset.url}
                   key={asset.id}
+                  crossOrigin="anonymous"
                 ></a-asset-item>
               );
             }
-            return <img id={asset.id} src={asset.url} key={asset.id} />;
+            return (
+              <img
+                id={asset.id}
+                src={asset.url}
+                key={asset.id}
+                crossOrigin="anonymous"
+              />
+            );
           })}
         </a-assets>
 
@@ -69,15 +196,28 @@ function AFrame() {
         ) : (
           <>
             <a-entity
+              id="#powersimple"
               gltf-model="#powersimple"
               position="0 0.75 -3"
               radius="0.5"
               height="1.5"
+              crossOrigin="anonymous"
             ></a-entity>
 
-            <a-entity gltf-model="#astra" position="1 0.75 -3"></a-entity>
+            <a-entity
+              id="#marvel"
+              gltf-model="#marvel"
+              position="1 0.75 -3"
+              scale="3 3 3"
+              crossOrigin="anonymous"
+            ></a-entity>
+
+            {data.map((entity) => (
+              <a-entity key={entity.id} {...entity}></a-entity>
+            ))}
           </>
         )}
+
         <a-sphere
           position="0 0.7 -7"
           radius="2.25"

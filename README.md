@@ -56,3 +56,4 @@ This hybrid uses AFrame with Wordpress. We are looking forward to building the A
 4. AFRAME integration.
 5. Added Accessibility.
 6. Added Routing, Profile Pages
+7. Dynamic 3d assets retrieval, rendering and saving.

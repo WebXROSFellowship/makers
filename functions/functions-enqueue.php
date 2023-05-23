@@ -5,6 +5,15 @@
         //because without this, there is no site, at least not a coherent one.
 
         wp_enqueue_style( 'powersimple',get_stylesheet_directory_uri() . '/style.css');
+       /*      */
+
+        wp_register_script('aframe', 'https://aframe.io/releases/1.2.0/aframe.min.js', array(), '1.2.0', true);
+        wp_enqueue_script('aframe');
+
+        wp_register_script('aframe-troika-text', 'https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js', array(), '', true);
+        wp_enqueue_script('aframe-troika-text');
+
+
     }
 
     add_action( 'wp_enqueue_scripts', 'enqueue_style' );

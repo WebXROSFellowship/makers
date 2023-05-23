@@ -5707,14 +5707,14 @@ const Home = () => {
 ;// CONCATENATED MODULE: ./src/js/app/Components/Body.js
 
 const Body = () => {
-  const SITE_URL = "<?php echo SITE_URL; ?>";
-  const HOME_URL = "<?php echo HOME_URL; ?>";
-  const SITE_TITLE = "<?php echo SITE_TITLE; ?>";
-  const SITE_TAGLINE = "<?php echo SITE_TAGLINE; ?>";
+  const SITE_URL = "MISSING_ENV_VAR".SITE_URL;
+  const HOME_URL = "MISSING_ENV_VAR".HOME_URL;
+  const SITE_TITLE = "MISSING_ENV_VAR".SITE_TITLE;
+  const SITE_TAGLINE = "MISSING_ENV_VAR".SITE_TAGLINE;
   console.log("Site url", SITE_URL);
-  return /*#__PURE__*/react.createElement("div", null, "Body");
+  return /*#__PURE__*/React.createElement("div", null, "Body");
 };
-/* harmony default export */ const Components_Body = (Body);
+/* harmony default export */ const Components_Body = ((/* unused pure expression or super */ null && (Body)));
 ;// CONCATENATED MODULE: ./src/js/app/Components/Profile.js
 
 
@@ -5856,13 +5856,13 @@ function Sidebar() {
 
 
 const NavSites = /*#__PURE__*/(0,react.lazy)(() => __webpack_require__.e(/* import() */ 619).then(__webpack_require__.bind(__webpack_require__, 619)));
-const AFrame = /*#__PURE__*/(0,react.lazy)(() => __webpack_require__.e(/* import() */ 361).then(__webpack_require__.bind(__webpack_require__, 361)));
+const AFrame = /*#__PURE__*/(0,react.lazy)(() => __webpack_require__.e(/* import() */ 832).then(__webpack_require__.bind(__webpack_require__, 832)));
 const appRouter = createBrowserRouter([{
   path: "/",
   element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Components_Navbar, null), /*#__PURE__*/react.createElement(Components_Sidebar, null), /*#__PURE__*/react.createElement(Components_Home, null)),
   children: [{
     path: "/",
-    element: /*#__PURE__*/react.createElement(Components_Body, null)
+    element: /*#__PURE__*/react.createElement(AFrame, null)
   }, {
     path: "aframe",
     element: /*#__PURE__*/react.createElement(AFrame, null)
