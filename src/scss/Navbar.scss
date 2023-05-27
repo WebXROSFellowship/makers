@@ -1,10 +1,11 @@
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 3.125rem;
-  background-color: $darkCharcoal;
-  color: $white;
+  position: absolute;
+  height: 70px;
+  width: 100%;
+  top: 35px;
+  opacity: 0.8;
+  background-color: #0C134F;
+  color: #ffffff;
 }
 
 .navbar-brand {
@@ -27,7 +28,7 @@
 }
 
 .dropbtn {
-  background-color: $darkCharcoal;
+  background-color: #0C134F;
   color: $white;
   font-size: 1.1rem;
   border: none;
@@ -171,4 +172,8 @@
   .dropdown__content {
     margin-top: 0;
   }
+}
+
+.navbar text-white {
+  color: white;
 }

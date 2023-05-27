@@ -17,41 +17,64 @@ DO NOT EDIT IN STYLE.CSS
 @import 'Sidebar.scss';
 
 
-body {
-  background: #000;
-    color:$red;
-    line-height: 150%;  
-    border-color:#a46;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
 // This will automatically work for devices with dark mode activated in OS or browser
-@media (prefers-color-scheme: dark) {
-    body {
-      background-color: $dark-Bg;
-    }
+// @media (prefers-color-scheme: dark) {
+//   body {
+//     background-color: $dark-Bg;
+//   }
 
-    h1 {
-      color: $dark-h1-color;
-    }
+//   .mainpage h1 {
+//     color: $dark-h1-color;
+//   }
 
-    h2 {
-      color: $dark-h2-color;
-    }
+//   .mainpage p {
+//     color: $dark-p-color;
+//   }
 
-    p {
-      color: $dark-p-color;
-    }
+//   .navbar {
+//     background-color: #7F669D;
+//     color: white;
+//   }
+
+//   .dropbtn {
+//     background-color: #7F669D;
+//   }
+// }
+
+.mainpage h1{
+position: absolute;
+width: 771px;
+height: 70px;
+left: 380px;
+top: 140px;
+font-family: sans-serif;
+font-style: Medium;
+font-weight: 500;
+font-size: 40px;
+line-height: 70px;
+text-transform: uppercase;
+color: #5C469C;
+}
+
+.mainpage p{
+position: absolute;
+width: 1170px;
+height: 505px;
+left: 150px;
+top: 250px;
+font-family:sans-serif;
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 37px;
+text-align: justify;
+text-transform: capitalize;
+color: #1D267D;
 }
 
 

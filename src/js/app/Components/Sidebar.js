@@ -130,14 +130,14 @@ function Sidebar() {
                   Decrease Font Size
                 </button>
               </li>
-              <li>
+              {/* <li>
                 <button
                   className='accessibility-light-mode-button'
                   onClick={handleLightModeButtonClick}
                 >
                   Light Mode
                 </button>
-              </li>
+              </li> */}
 
               <li>
                 <button
@@ -190,7 +190,6 @@ function Sidebar() {
           </div>
         </div>
       )}
-      <p>Testing Text</p>
     </div>
   );
 }
