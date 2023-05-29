@@ -34,7 +34,7 @@ add_action( 'rest_api_init', 'register_post_media' );
  function register_post_media() {
  
 
-	register_rest_field( ['post','page','profile','resource','hardware'], 'post_media', array(
+	register_rest_field( ['post','page','profile','resource','hardware', 'team'], 'post_media', array(
 		'get_callback' => 'get_post_media'
 
 		)
@@ -72,7 +72,7 @@ add_action( 'rest_api_init', 'register_related_posts' );
  function register_related_posts() {
  
 
-	register_rest_field( ['post','page','profile','resource','hardware'], 'related', array(
+	register_rest_field( ['post','page','profile','resource','hardware', 'team'], 'related', array(
 		'get_callback' => 'get_related_posts'
 
 		)
@@ -82,6 +82,7 @@ add_action( 'rest_api_init', 'register_related_posts' );
 function get_related_posts( $object ) { 
 	$related_profiles = get_post_meta($object['id'],'related-profile');
 	$related_resources = get_post_meta($object['id'],'related-resource');
+	$related_team = get_post_meta($object['id'],'related-team');
 	
 /*
 	$postmeta_media_fields = "hero,_thumbnail_id,featured_video,screen_image,screenshot,logo";
@@ -100,7 +101,7 @@ function get_related_posts( $object ) {
 	}
 */
 	return array_merge($related_resources,
-				$related_profiles);
+				$related_profiles, $related_team);
 
 
 }
@@ -263,7 +264,7 @@ add_action( 'rest_api_init', 'register_thumbnail_url_versions' );
  function register_thumbnail_url_versions() {
  
 
-	register_rest_field( array('profile','page','post'), 'thumbnail_versions', array(
+	register_rest_field( array('profile','page','post','team'), 'thumbnail_versions', array(
 		'get_callback' => 'get_thumbnail_versions',
 		'schema' => null,
 		)
@@ -283,7 +284,7 @@ add_action( 'rest_api_init', 'register_screen_images' );
  function register_screen_images() {
  
 
-	register_rest_field( array('profile','page','post'), 'screen_images', array(
+	register_rest_field( array('profile','page','post', 'team'), 'screen_images', array(
 		'get_callback' => 'get_screen_images'
 
 		)
@@ -304,7 +305,7 @@ add_action( 'rest_api_init', 'register_properties_3D' );
  function register_properties_3D() {
  
 
-	register_rest_field( array('profile','post','page','event','profile','resource'), 'properties_3D', array(
+	register_rest_field( array('profile','post','page','event','profile','resource', 'team'), 'properties_3D', array(
 		'get_callback' => 'get_properties_3D',
 		'schema' => null,
 		)
@@ -371,7 +372,7 @@ add_action( 'rest_api_init', 'register_featured_video' );
  function register_featured_video() {
  
 
-	register_rest_field( array('profile','post','page'), 'featured_video', array(
+	register_rest_field( array('profile','post','page', 'team'), 'featured_video', array(
 		'get_callback' => 'get_featured_video',
 		'schema' => null,
 		)
@@ -403,7 +404,7 @@ add_action( 'rest_api_init', 'register_post_cats' );
 
 function register_post_cats() {
 
-		register_rest_field( array('profile','post','page','resource'), 'cats', array(
+		register_rest_field( array('profile','post','page','resource', 'team'), 'cats', array(
 			'get_callback' => 'get_post_cats',
 			'schema' => null,
 		)
@@ -421,7 +422,7 @@ add_action( 'rest_api_init', 'register_post_tags' );
 
 function register_post_tags() {
 
-		register_rest_field( array('profile','post','page'), 'tags', array(
+		register_rest_field( array('profile','post','page', 'team'), 'tags', array(
 			'get_callback' => 'get_post_tags',
 			'schema' => null,
 		)
@@ -467,7 +468,7 @@ add_action( 'rest_api_init', 'register_profile_info' );
 		
 	function register_profile_meta() {
 		
-		register_rest_field( array('profile','resource','event'), 'meta', array(
+		register_rest_field( array('profile','resource','event', 'team'), 'meta', array(
 			'get_callback' => 'get_profile_meta',
 			'schema' => null,
 			)
@@ -487,6 +488,31 @@ add_action( 'rest_api_init', 'register_profile_info' );
 	}
 
 
+
+	// register team meta rest field
+	add_action( 'rest_api_init', 'register_team_meta' );
+		
+	function register_team_meta() {
+		
+		register_rest_field( array('profile','resource','event', 'team'), 'meta', array(
+			'get_callback' => 'get_team_meta',
+			'schema' => null,
+			)
+		);
+	}
+		
+    function get_team_meta( $object ) {
+		//shift down postmeta from [0];
+		$new_meta;
+		$meta = get_post_meta( $object['id']);
+		foreach($meta as $key => $value){
+			$new_meta[$key] = $value[0];
+		}
+
+
+        return @$new_meta;
+	}
+	
 
 /*
 	Screen Images

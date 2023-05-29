@@ -2,40 +2,35 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./../../../scss/style.scss";
 import DataContext from "../Utils/DataContext";
-import MenuDataContext from "../Utils/MenuDataContext";
-import langArr from "../assets/langData";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [navbarMenus, setNavbarMenus] = useState([]);
   const [c2IDs, setC2IDs] = useState([]);
-  const [languageArr, setLanguageArr] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
-  const { lang, setLang } = useContext(DataContext);
-  const {menuData, setMenuData} = useContext(MenuDataContext);
+  const { data, setData } = useContext(DataContext);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
-    settingMenuData();
-    setLanguages();
+    fetchMenuData();
   }, []);
 
-  function formatNames(name) {
-    let allWords = name.toLowerCase().split(" ");
-    for(let i=0; i<allWords.length; i++) {
-      allWords[i] = allWords[i][0].toUpperCase() + allWords[i].substr(1);
+  // This function fetches data from an API endpoint and sets the navbarMenus state variable to the retrieved data.
+  async function fetchMenuData() {
+    try {
+      let stagingData = await fetch(
+        "https://staging.webxr.link/wp-json/wp/v2/menus?menus"
+      );
+      let jsonData = await stagingData.json();
+      let items = jsonData[0].items;
+      setMenuData(items);
+      setData(items);
+    } catch (error) {
+      console.log("Error fetching staging data: ", error);
     }
-    let formattedName = allWords.join(' ');
-    return formattedName;
   }
 
-  function settingMenuData() {
-    //Setting Data as Items
-    let items = menuData[lang];
-    setMenuData(prevData => ({
-      ...prevData,
-      [lang]: items
-    }));
+  function setMenuData(items) {
     let head = items.filter((e) => e.menu_item_parent === "0")[0];
     let childItems = items.filter(
       (e) => parseInt(e.menu_item_parent) === head.ID
@@ -61,21 +56,6 @@ const Navbar = () => {
     setNavbarMenus(cData);
   }
 
-  async function setLanguages() {
-    try {
-      // let langFetchURL = "";
-      // let langStagingData = await fetch(langFetchURL);
-      // let langStagingDataJSON = await langStagingData.json();
-
-      // setLanguageArr(langStagingDataJSON);
-      setLanguageArr(langArr);
-    }
-    catch(err) {
-      console.log("Error");
-      console.log(err);
-    }
-  }
-
   /**
    * This is a functional React component that returns a Navbar.
    */
@@ -84,7 +64,7 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         {/* The brand section of the Navbar */}
-        <div className="navbar-brand text-danger">
+        <div className="navbar-brand">
           The Polys WebXR Awards and Summit Series
         </div>
         <div className="navbar-right">
@@ -108,7 +88,7 @@ const Navbar = () => {
                         onMouseLeave={() => setHoveredIndex(-1)}
                         to={menu.url}
                       >
-                        {formatNames(menu.title)}
+                        {menu.title}
                         {c && (
                           <span className="n2-drop">
                             <i className="fa-solid fa-circle-chevron-down"></i>
@@ -137,23 +117,6 @@ const Navbar = () => {
           ) : (
             <></>
           )}
-          {/* The Language Section of Navbar*/}
-          <div className="dropdown">
-            <button className="dropbtn"> Languages </button>
-            <div className="dropdown__content">
-              
-              {languageArr.map((currLang) => {
-                let cLang = currLang.native_name;
-                let code = currLang.code;
-                if(code == 'en') {
-                  code = '';
-                }
-                return (
-                  <span onClick={() => setLang(`${code}`)} key={code} className="dropdown__items">{cLang}</span>
-                );
-              })}
-            </div>
-          </div>
           {/* The social media logo section of the Navbar */}
           <div className="dropdown dropdown--logos dropdown__socials">
             <a
@@ -216,7 +179,8 @@ const Navbar = () => {
           {/* The side menu that appears when the hamburger icon is clicked */}
           {showMenu === true ? (
             <div className="sideMenu">
-              {navbarMenus ? (
+              {
+          navbarMenus ? (
             navbarMenus.map((currEle, i) => {
 
               let {head, childItems, nestedItems} = currEle;
@@ -235,7 +199,7 @@ const Navbar = () => {
                         onMouseLeave={() => setHoveredIndex(-1)}
                         to={menu.url}
                       >
-                        {formatNames(menu.title)}
+                        {menu.title}
                         {c && (
                           <span className="n2-drop">
                             <i className="fa-solid fa-circle-chevron-down"></i>
@@ -264,14 +228,6 @@ const Navbar = () => {
           ) : (
             <></>
           )}
-          <div className="dropdown2">
-            <button className="dropbtn"> Languages </button>
-            <div className="dropdown__content">
-              <span onClick={() => setLang('')} className="dropdown__items">English</span>
-              <span onClick={() => setLang('hi')} className="dropdown__items">Hindi</span>
-              <span onClick={() => setLang('de')} className="dropdown__items">German</span>
-            </div>
-          </div>
             </div>
           ) : (
             <></>

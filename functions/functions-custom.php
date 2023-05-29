@@ -51,6 +51,18 @@ function makers_register_custom_post_types() {
     'taxonomies' => ['category', 'post_tag'],
   ]);
 
+    // Register the 'team' custom post type
+    register_post_type('team', [
+      'labels' => [
+        'name' => 'Team',
+        'singular_name' => 'Team',
+      ],
+      'public' => true,
+      'has_archive' => true,
+      'supports' => ['title', 'editor', 'thumbnail', 'excerpt'],
+      'taxonomies' => ['category', 'post_tag'],
+    ]);
+  
 
 }
 

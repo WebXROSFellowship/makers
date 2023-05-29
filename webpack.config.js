@@ -1,15 +1,12 @@
-const webpack = require("webpack");
-const path = require("path");
-const glob = require("glob");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const IgnoreEmitPlugin = require("ignore-emit-webpack-plugin");
-const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const Dotenv = require("dotenv-webpack");
+const path = require('path');
+const glob = require('glob');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-const proxyUrl = "https://webxr.local/";
+const proxyUrl = 'https://webxr.local/';
 
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);
@@ -18,7 +15,7 @@ function getEntries(pattern, outputName) {
 
   if (files.length > 0) {
     entries[outputName] = files.reduce((acc, file) => {
-      acc.push("./" + file);
+      acc.push('./' + file);
       return acc;
     }, []);
   }
@@ -27,128 +24,88 @@ function getEntries(pattern, outputName) {
   return entries;
 }
 
+
 const common = {
   output: {
     path: path.resolve(__dirname),
-    filename: "[name].js",
+    filename: '[name].js'
   },
   module: {
     rules: [
       {
-        test: /\.(?:js|mjs|cjs)$/,
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: { publicPath: '' },
+          },
+          'css-loader',
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: [
-              ["@babel/preset-env", { targets: "defaults" }],
-              ["@babel/preset-react"],
-            ],
-            plugins: ['@babel/plugin-transform-runtime']
-          },
-        },
+            presets: ['@babel/preset-env']
+          }
+        }
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.(png|jpe?g|gif|glb|gltf)$/i,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
-            options: { publicPath: "" },
+            loader: 'file-loader',
           },
-          "css-loader",
-          "postcss-loader",
-          "sass-loader",
         ],
-      },
-      {
-        test: /\.css$/i,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: { publicPath: "" },
-          },
-          "css-loader",
-          "postcss-loader",
-          "sass-loader",
-        ],
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|jpeg|gif|glb|gltf)$/i,
-        type: "asset",
       },
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: (data) => {
-        return data.chunk.name === "style" ? "style.css" : "style.min.css";
+        return data.chunk.name === 'style' ? 'style.css' : 'style.min.css';
       },
     }),
-    new IgnoreEmitPlugin(["style.js", "style.min.js"]),
-    new Dotenv({
-      path: "./.env",
-      systemvars: true,
-    }),
+    new IgnoreEmitPlugin(['style.js', 'style.min.js']),
   ],
-  resolve: {
-    extensions: [
-      ".js",
-      ".jsx",
-      ".ts",
-      ".tsx",
-      ".jpg",
-      ".jpeg",
-      ".png",
-      ".eot",
-      ".svg",
-      ".gif",
-      ".glb",
-      ".gltf",
-      ".ttf",
-      ".woff",
-      ".woff2",
-    ],
-  },
   watchOptions: {
     ignored: /node_modules/,
   },
   experiments: {
-    topLevelAwait: true,
-  },
-  performance: {
-    maxAssetSize: 99999999,
-    maxEntrypointSize: 99999999,
-  },
+    topLevelAwait: true
+  }
 };
 
 const developmentConfig = {
   ...common,
-  mode: "development",
+  mode: 'development',
   devtool: false,
   entry: () => {
     return {
-      ...getEntries("src/js/app/*.js", "app"),
-      ...getEntries("src/js/vendor/*.js", "vendor"),
-      style: "./src/scss/style.scss",
+      ...getEntries('src/js/app/*.js', 'app'),
+      ...getEntries('src/js/vendor/*.js', 'vendor'),
+      'style': './src/scss/style.scss',
     };
   },
   plugins: [
     ...common.plugins,
     new BrowserSyncPlugin({
-      files: "**/*.php",
+      files: '**/*.php',
       proxy: proxyUrl,
       open: false,
-      reloadOnRestart: true,
+      reloadOnRestart: true
+      
     }),
-    new BundleAnalyzerPlugin(),
   ],
   optimization: {
-    minimize: false,
     minimizer: [
       new TerserPlugin({
         include: /\.js$/,
         terserOptions: {
-          compress: false,
           format: {
             comments: false,
           },
@@ -159,7 +116,7 @@ const developmentConfig = {
         include: /\.css$/,
         minimizerOptions: {
           preset: [
-            "default",
+            'default',
             {
               discardComments: { removeAll: true },
               normalizeWhitespace: false,
@@ -168,28 +125,27 @@ const developmentConfig = {
         },
         test: /\.css$/,
       }),
+      
     ],
   },
 };
 
 const productionConfig = {
   ...common,
-  mode: "production",
+  mode: 'production',
   devtool: false,
   entry: () => {
     return {
-      ...getEntries("src/js/app/*.js", "app.min"),
-      ...getEntries("src/js/vendor/*.js", "vendor.min"),
-      "style.min": "./src/scss/style.scss",
+      ...getEntries('src/js/app/*.js', 'app.min'),
+      ...getEntries('src/js/vendor/*.js', 'vendor.min'),
+      'style.min': './src/scss/style.scss',
     };
   },
   optimization: {
-    minimize: false,
     minimizer: [
       new TerserPlugin({
         include: /\.min\.js$/,
         terserOptions: {
-          compress: false,
           format: {
             comments: false,
           },
@@ -200,7 +156,7 @@ const productionConfig = {
         include: /style\.min\.css$/,
         minimizerOptions: {
           preset: [
-            "default",
+            'default',
             {
               discardComments: { removeAll: true },
               normalizeWhitespace: false,

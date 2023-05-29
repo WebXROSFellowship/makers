@@ -1,16 +1,6 @@
 import React from 'react'
 
 const Body = () => {
-
-
-const SITE_URL=process.env.SITE_URL;
-  const HOME_URL=process.env.HOME_URL;
-  const SITE_TITLE=process.env.SITE_TITLE;
-  const SITE_TAGLINE=process.env.SITE_TAGLINE;
-
-  console.log("Site url", SITE_URL);
-
-
   return (
     <div>Body</div>
   )
