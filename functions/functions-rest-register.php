@@ -123,7 +123,8 @@ add_action( 'rest_api_init', 'register_media_data' );
 }
 
 function get_media_data_by_id($id){//this function builds the data for a lean json packet of media
-		$data = array();   
+		$data = array();  
+	$id = $id;
 	$url = wp_upload_dir();
 	$upload_path = $url['baseurl']."/";
 	$file_path = str_replace($upload_path,'',wp_get_attachment_url($id));
@@ -163,7 +164,7 @@ function get_media_data_by_id($id){//this function builds the data for a lean js
 		$meta_data = $meta;
 	}
 	$data = array(
-	
+		'id' => $id,
 		'alt' => get_post_meta($id,"_wp_attachment_image_alt",true),
 		'caption' => wp_get_attachment_caption($id),
 		'title'=> get_the_title($id),
