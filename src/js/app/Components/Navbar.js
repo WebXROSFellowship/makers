@@ -85,9 +85,9 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         {/* The brand section of the Navbar */}
-        <div className="navbar-brand text-white" style={{ fontFamily: "sans-serif" }}>
-        <img src="src/js/app/assets/webxros.png" alt="logo" className="navbar-logo" />
-          PowerSimple | XROS
+        <div className="navbar-brand text-white" style={{ fontFamily: "sans-serif"}}>
+        <img src="https://staging.webxr.link/wp-content/uploads/2023/05/webxros.png" alt="logo" style={{ width: '50px', height: '50px', marginTop: '-3px' }} />
+        <span style={{ marginLeft: '15px' }}>PowerSimple | XROS</span>
         </div>
 
         <div className="navbar-right">
