@@ -102,9 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
-package.lock.json
+package-lock.json
 webpack.config.js
-AframeHandsOn/AFrame/my-app
-AframeHandsOn/AFrame/my-app
-9a508418e577c82742e418f4a006efab.glb
-9185d406e4f23ab7605a682ffc67c1b4.jpg
+
+
+# lock file
+*.lock
