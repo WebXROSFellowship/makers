@@ -1,7 +1,7 @@
 "use strict";
-(self["webpackChunkmakers"] = self["webpackChunkmakers"] || []).push([[832],{
+(self["webpackChunkmakers"] = self["webpackChunkmakers"] || []).push([[739],{
 
-/***/ 832:
+/***/ 739:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -12,21 +12,8 @@ __webpack_require__.d(__webpack_exports__, {
   "default": () => (/* binding */ Components_AFrame)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-    return target;
-  };
-  return _extends.apply(this, arguments);
-}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
+var esm_extends = __webpack_require__(462);
 // EXTERNAL MODULE: ./node_modules/react/index.js
 var react = __webpack_require__(294);
 ;// CONCATENATED MODULE: ./src/js/app/psudo_data/assets.json
@@ -213,7 +200,7 @@ function AFrame() {
     radius: "0.5",
     height: "1.5",
     crossOrigin: "anonymous"
-  }), dynamicContent_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", _extends({
+  }), dynamicContent_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", (0,esm_extends/* default */.Z)({
     key: entity.id
   }, entity)))), /*#__PURE__*/react.createElement("a-sphere", {
     position: "0 0.7 -7",
@@ -231,6 +218,29 @@ function AFrame() {
   })));
 }
 /* harmony default export */ const Components_AFrame = (AFrame);
+
+/***/ }),
+
+/***/ 462:
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Z: () => (/* binding */ _extends)
+/* harmony export */ });
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
 
 /***/ })
 

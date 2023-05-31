@@ -5,13 +5,32 @@
         //because without this, there is no site, at least not a coherent one.
 
         wp_enqueue_style( 'powersimple',get_stylesheet_directory_uri() . '/style.css');
-       /*      */
 
-        wp_register_script('aframe', 'https://aframe.io/releases/1.2.0/aframe.min.js', array(), '1.2.0', true);
-        wp_enqueue_script('aframe');
+        function enqueue_aframe_library() {
+            wp_enqueue_script( 'aframe', 'https://aframe.io/releases/1.2.0/aframe.min.js', array(), '1.2.0', true );
+        }
+        add_action( 'wp_enqueue_scripts', 'enqueue_aframe_library' );
+        
+        // Enqueue A-Frame Inspector
+        function enqueue_aframe_inspector() {
+            wp_enqueue_script( 'aframe-inspector', 'path/to/aframe-inspector.min.js', array( 'aframe' ), '1.0.0', true );
+        }
+        add_action( 'wp_enqueue_scripts', 'enqueue_aframe_inspector' );
+        
 
         wp_register_script('aframe-troika-text', 'https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js', array(), '', true);
         wp_enqueue_script('aframe-troika-text');
+
+        wp_register_script('aframe-environment', 'https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js', array(), '', true);
+        wp_enqueue_script('aframe-environment');
+
+        wp_register_script('aframe-physics', 'https://cdn.jsdelivr.net/gh/zach-capalbo/aframe-extras/dist/aframe-extras.min.js', array(), '', true);
+        wp_enqueue_script('aframe-physics');
+
+        wp_register_script('aframe-geometry', 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r134/examples/js/deprecated/Geometry.js', array(), '', true);
+        wp_enqueue_script('aframe-geometry');
+        
+        
 
 
     }

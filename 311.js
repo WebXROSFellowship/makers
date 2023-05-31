@@ -1,7 +1,7 @@
 "use strict";
-(self["webpackChunkmakers"] = self["webpackChunkmakers"] || []).push([[832],{
+(self["webpackChunkmakers"] = self["webpackChunkmakers"] || []).push([[311],{
 
-/***/ 832:
+/***/ 311:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -9,50 +9,26 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": () => (/* binding */ Components_AFrame)
+  "default": () => (/* binding */ Components_Demo)
 });
 
-;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-    return target;
-  };
-  return _extends.apply(this, arguments);
-}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
+var esm_extends = __webpack_require__(462);
 // EXTERNAL MODULE: ./node_modules/react/index.js
 var react = __webpack_require__(294);
-;// CONCATENATED MODULE: ./src/js/app/psudo_data/assets.json
-const assets_namespaceObject = JSON.parse('[{"id":"marvel","type":"model","name":"astra","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb"},{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"astra","type":"model","name":"marvel","url":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb"},{"id":"bg","type":"image","name":"background","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/bg.jpg"}]');
-;// CONCATENATED MODULE: ./src/js/app/Components/dynamicContent.json
-const dynamicContent_namespaceObject = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 1.93968 -3","crossorigin":"anonymous"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"1.27063 1.34902 1","visible":"","rotation":"1 0 0"},{"id":"#marvel","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb","position":"1.91177 0.75 -3","scale":"3 3 3","crossorigin":"anonymous"}]');
-;// CONCATENATED MODULE: ./src/js/app/Components/AFrame.js
+;// CONCATENATED MODULE: ./src/js/app/psudo_data/assets_demo.json
+const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh3.glb"}]');
+;// CONCATENATED MODULE: ./src/js/app/Components/dynamicContent_demo.json
+const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-6.244 1.426 -0.311","rotation":"0 90 0","scale":"0.49834 0.58072 1"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{},{"id":"#room","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb","crossorigin":"anonymous","position":"-1.693 0 0.07"}]');
+;// CONCATENATED MODULE: ./src/js/app/Components/Demo.js
 
 
 
 
 // have used native file system till endpoints unavailable
 
-function AFrame() {
+function Demo() {
   const [loading, setLoading] = (0,react.useState)(true);
-  const color = new URLSearchParams(document.location.search).get("color");
-  // Default Black color for the plane
-  var gcolor = "#000000";
-  // Check if the color is passed as a query parameter, facilitate both hex and string
-  if (color) {
-    if (/^[a-zA-Z]+$/.test(color)) {
-      gcolor = color.toLowerCase();
-    } else {
-      gcolor = "#" + color;
-    }
-  }
   (0,react.useEffect)(() => {
     // loading inspector
     function loadAndGet() {
@@ -122,7 +98,7 @@ function AFrame() {
     function updateDataFile(jsonString) {
       const newData = JSON.parse(jsonString);
       var foundData = false;
-      const updatedData = dynamicContent_namespaceObject.map(item => {
+      const updatedData = dynamicContent_demo_namespaceObject.map(item => {
         if (item.id === newData.id) {
           console.log("Found the item to update");
           foundData = true;
@@ -134,18 +110,18 @@ function AFrame() {
       });
       if (!foundData) updatedData.push(newData);
       const updatedJsonString = JSON.stringify(updatedData, null, 2);
-      console.log('Updated data:', updatedData);
-      const fileName = 'dynamicContent.json';
+      console.log("Updated data:", updatedData);
+      const fileName = "dynamicContent_demo.json";
       saveJsonAsBlob(updatedJsonString, fileName);
     }
     function saveJsonAsBlob(updatedData, fileName) {
       const blob = new Blob([updatedData], {
-        type: 'application/json'
+        type: "application/json"
       });
       const url = URL.createObjectURL(blob);
 
       // Create a temporary link element
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
       link.download = fileName;
 
@@ -158,40 +134,20 @@ function AFrame() {
       URL.revokeObjectURL(url);
     }
 
-    // Event listener for color change
-    function changeColor() {
-      AFRAME.registerComponent("change-color-on-hover", {
-        schema: {
-          color: {
-            default: "red"
-          }
-        },
-        init: function () {
-          var data = this.data;
-          var el = this.el;
-          el.addEventListener("mouseenter", function () {
-            el.setAttribute("material", "color", data.color);
-          });
-          el.addEventListener("mouseleave", function () {
-            el.setAttribute("material", "color", "pink");
-          });
-        }
-      });
-    }
     // Heavy models take time to load, hence wait for a while
     setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
 
-    changeColor();
     loadAndGet();
     addMani();
   }, []);
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-scene", null, /*#__PURE__*/react.createElement("a-camera", {
-    position: "0 1.2 0",
-    rotation: "0 -45 0"
-  }, /*#__PURE__*/react.createElement("a-cursor", {
-    id: "cursor",
-    color: "#FF0000"
-  })), /*#__PURE__*/react.createElement("a-assets", null, assets_namespaceObject.map(asset => {
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-scene", null, /*#__PURE__*/react.createElement("a-entity", {
+    id: "rig",
+    "movement-controls": "constrainToNavMesh: true;\r controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+  }, /*#__PURE__*/react.createElement("a-entity", {
+    camera: true,
+    position: "0 1.6 0",
+    "look-controls": "pointerLockEnabled: true"
+  })), /*#__PURE__*/react.createElement("a-assets", null, assets_demo_namespaceObject.map(asset => {
     if (asset.type === "model") {
       return /*#__PURE__*/react.createElement("a-asset-item", {
         id: asset.id,
@@ -207,30 +163,80 @@ function AFrame() {
       crossOrigin: "anonymous"
     });
   })), loading ? /*#__PURE__*/react.createElement("p", null, "Loading...") : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
-    id: "#powersimple",
-    "gltf-model": "#powersimple",
-    position: "0 0.75 -3",
-    radius: "0.5",
-    height: "1.5",
-    crossOrigin: "anonymous"
-  }), dynamicContent_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", _extends({
+    environment: "preset:starry;groundTexture:  walkernoise;grid:none"
+  }), /*#__PURE__*/react.createElement("a-entity", {
+    id: "#room",
+    "gltf-model": "#room",
+    crossOrigin: "anonymous",
+    position: "-1.693 0 0.07"
+  }), /*#__PURE__*/react.createElement("a-entity", {
+    "nav-mesh": true,
+    id: "#navmesh",
+    "gltf-model": "#navmesh",
+    crossOrigin: "anonymous",
+    visible: "true"
+  }), dynamicContent_demo_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", (0,esm_extends/* default */.Z)({
     key: entity.id
-  }, entity)))), /*#__PURE__*/react.createElement("a-sphere", {
-    position: "0 0.7 -7",
-    radius: "2.25",
-    "change-color-on-hover": "color:#FFFFFF"
+  }, entity)))), /*#__PURE__*/react.createElement("a-light", {
+    type: "directional",
+    color: "#ffffff",
+    intensity: "0.8",
+    position: "0.12062 1.52455 0.52977",
+    light: "type: point; angle: 180",
+    rotation: "-0.3 50.509 147.30229250797848",
+    id: "bulb",
+    visible: ""
+  }), /*#__PURE__*/react.createElement("a-light", {
+    type: "directional",
+    color: "#ffffff",
+    intensity: "0.8",
+    position: "3.94786 -1.28516 -0.54807",
+    light: "type: hemisphere; angle: 180",
+    rotation: "-0.3 50.509 147.30229250797848",
+    id: "bulb-3"
+  }), /*#__PURE__*/react.createElement("a-light", {
+    type: "hemisphere",
+    color: "#ffffff",
+    intensity: "0.8",
+    position: "20.45283 -2.62394 -5.68868",
+    light: "type: hemisphere; angle: 180",
+    rotation: "-0.3 50.509 147.30229250797848",
+    id: "bulb-4"
   }), /*#__PURE__*/react.createElement("a-plane", {
+    "static-body": "shape:  mesh",
+    position: "0 0 -4",
+    visible: "false",
     rotation: "-90 0 0",
-    position: "0 -2 -10",
-    width: "10",
-    height: "10",
-    color: gcolor,
-    shadow: true
-  }), /*#__PURE__*/react.createElement("a-sky", {
-    src: "#bg"
+    width: "4",
+    height: "4",
+    color: "#7BC8A4",
+    scale: "6 2 2"
   })));
 }
-/* harmony default export */ const Components_AFrame = (AFrame);
+/* harmony default export */ const Components_Demo = (Demo);
+
+/***/ }),
+
+/***/ 462:
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Z: () => (/* binding */ _extends)
+/* harmony export */ });
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
 
 /***/ })
 

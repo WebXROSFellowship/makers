@@ -10,6 +10,7 @@ import DataContext from './Utils/DataContext';
 import MenuDataContext from "./Utils/MenuDataContext";
 const NavSites = lazy(() => import("./Components/NavSites"));
 const AFrame = lazy(() => import("./Components/AFrame"));
+const Demo = lazy(() => import("./Components/Demo"));
 
 const appRouter = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <AFrame />,
+        element: <Demo />,
       },
       {
         path: "aframe",
