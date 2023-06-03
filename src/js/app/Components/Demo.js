@@ -170,7 +170,6 @@ function Demo() {
           <p>Loading...</p>
         ) : (
           <>
-            <a-entity environment="preset:starry;groundTexture:  walkernoise;grid:none"></a-entity>
             <a-entity
               id="#room"
               gltf-model="#room"
