@@ -6,7 +6,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const IgnoreEmitPlugin = require("ignore-emit-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const Dotenv = require("dotenv-webpack");
 
 const proxyUrl = "https://makers/";
@@ -140,7 +140,7 @@ const developmentConfig = {
       open: false,
       reloadOnRestart: true,
     }),
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
   ],
   optimization: {
     minimize: false,

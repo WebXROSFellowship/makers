@@ -32,10 +32,6 @@ const appRouter = createBrowserRouter([
         element: <AFrame />,
       },
       {
-        path: "profile/:username",
-        element: <Profile />,
-      },
-      {
         path: "/:sitename/:sn",
         element: (
           <Suspense fallback={<h1>Loadinggg...</h1>}>
