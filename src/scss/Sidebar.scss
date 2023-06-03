@@ -91,7 +91,7 @@
   /* Accessibility mode styles */
 
   .high-contrast {
-    filter: invert(1) hue-rotate(100deg);
+    filter: invert(0.1) hue-rotate(180deg);
   }
   
   .greyscale {
@@ -99,35 +99,23 @@
     -webkit-filter: grayscale(100%);
   }
   
-  .light-mode {
-    background-color: $light-Bg;
-  
-    h1 {
-      color: $light-h1-color;
-    }
-  
-    h2 {
-      color: $light-h2-color;
-    }
-  
-    p {
-      color: $light-p-color;
-    } 
-  }
-
   .dark-mode {
     background-color: $dark-Bg;
 
-    h1 {
+    .mainpage h1 {
       color: $dark-h1-color;
     }
-
-    h2 {
-      color: $dark-h2-color;
+    .mainpage p {
+      color: $dark-p-color;
     }
 
-    p {
-      color: $dark-p-color;
+    .navbar{
+      background-color: #7F669D;
+      color:white;
+    }
+
+    .dropbtn {
+      background-color: #7F669D;
     }
   }
 
