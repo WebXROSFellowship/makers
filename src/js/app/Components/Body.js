@@ -1,4 +1,5 @@
 import React from 'react'
+
 import "./../../../scss/style.scss";
 
 const Body = () => {
@@ -13,7 +14,10 @@ const SITE_URL=process.env.SITE_URL;
 
 
   return (
-    <div class='mainpage'>
+    <div className='mainpage'>
+       {/* <ToggleVisibility>
+        <AFrame />
+      </ToggleVisibility> */}
       <h1>WEBXR  OPEN SOURCE FELLOWSHIP</h1>
       <p style={{ marginBottom: '20px' }}>
         “I think it’s actually our obligation and duty to figure out on our side what can we do to make the VR platform take advantage of this trillion plus dollars of content on all of the flat screens.”

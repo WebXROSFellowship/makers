@@ -9,7 +9,7 @@ const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const Dotenv = require("dotenv-webpack");
 
-const proxyUrl = "https://webxr.local/";
+const proxyUrl = "https://makers/";
 
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);
