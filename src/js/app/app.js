@@ -1,11 +1,12 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { Body, Home, Navbar, Profile, Sidebar } from "./Components";
+import { Body, Demo, Home, Navbar, Profile, Sidebar } from "./Components";
 import { DataContext, MenuDataContext } from "./Utils";
 
 const NavSites = lazy(() => import("./Components"));
 const AFrame = lazy(() => import("./Components"));
+// const Demo = lazy(() => import("./Components"));
 
 const appRouter = createBrowserRouter([
   {
@@ -20,7 +21,11 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Body />,
+        element: <Demo />,
+      },
+      {
+        path: "aframe_demo",
+        element: <Demo />,
       },
       {
         path: "aframe",
