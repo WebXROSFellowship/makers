@@ -1,5 +1,8 @@
 import React from 'react'
 
+import ToggleVisibility from "./ToggleVisibility";
+import AFrame from "./AFrame";
+
 const Body = () => {
 
 
@@ -12,7 +15,12 @@ const SITE_URL=process.env.SITE_URL;
 
 
   return (
-    <div>Body</div>
+    <div>
+      Body
+      <ToggleVisibility>
+        <AFrame />
+      </ToggleVisibility>
+    </div>
   )
 }
 

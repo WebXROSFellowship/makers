@@ -4342,7 +4342,7 @@ function getTargetMatch(matches, location) {
 
 /***/ }),
 
-/***/ 268:
+/***/ 18:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -4635,223 +4635,27 @@ const Home = () => {
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(react_router_dist/* Outlet */.j3, null));
 };
 /* harmony default export */ const Components_Home = (Home);
-;// CONCATENATED MODULE: ./src/js/app/Components/Body.js
+;// CONCATENATED MODULE: ./src/js/app/Components/ToggleVisibility.js
 
-const Body = () => {
-  const SITE_URL = "MISSING_ENV_VAR".SITE_URL;
-  const HOME_URL = "MISSING_ENV_VAR".HOME_URL;
-  const SITE_TITLE = "MISSING_ENV_VAR".SITE_TITLE;
-  const SITE_TAGLINE = "MISSING_ENV_VAR".SITE_TAGLINE;
-  console.log("Site url", SITE_URL);
-  return /*#__PURE__*/react.createElement("div", null, "Body");
-};
-/* harmony default export */ const Components_Body = (Body);
-;// CONCATENATED MODULE: ./src/js/app/Components/Profile.js
+function ToggleVisibility(_ref) {
+  let {
+    children
+  } = _ref;
+  console.log("in toggle visibility");
+  // React state to manage visibility
+  const [show, setShow] = (0,react.useState)();
 
-
-
-const Profile = () => {
-  const {
-    username
-  } = (0,react_router_dist/* useParams */.UO)();
-  const {
-    data
-  } = (0,react.useContext)(DataContext/* default */.Z);
-  const cd = data.filter(e => e.slug === username);
-  const content = cd[0].content || "";
-  const userName = cd[0].title;
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("h1", null, userName), /*#__PURE__*/react.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: content
-    }
-  }));
-};
-/* harmony default export */ const Components_Profile = (Profile);
-;// CONCATENATED MODULE: ./src/js/app/Components/Sidebar.js
-
-
-function Sidebar() {
-  const [showAccessibilityPanel, setShowAccessibilityPanel] = (0,react.useState)(false);
-  const handleAccessibilityButtonClick = () => {
-    setShowAccessibilityPanel(true);
-  };
-  const handleAccessibilityCloseButtonClick = () => {
-    setShowAccessibilityPanel(false);
-  };
-  const handleHighContrastButtonClick = () => {
-    document.body.classList.toggle('high-contrast');
-  };
-  const handleGreyscaleButtonClick = () => {
-    document.body.classList.toggle('greyscale');
-  };
-  const handleIncreaseFontSizeButtonClick = () => {
-    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    document.documentElement.style.fontSize = currentFontSize + 1 + 'px';
-  };
-  const handleDecreaseFontSizeButtonClick = () => {
-    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    document.documentElement.style.fontSize = currentFontSize - 1 + 'px';
-  };
-  const handleLightModeButtonClick = () => {
-    document.body.classList.toggle('light-mode');
-  };
-  const handleDarkModeButtonClick = () => {
-    document.body.classList.toggle('dark-mode');
-  };
-  //Additional Dark Mode button for manually turing dark mode on
-  const handleDyslexiaModeButtonClick = () => {
-    document.body.classList.toggle('dyslexia-mode');
-  };
-  const handleIncreaseWordSpaceButtonClick = () => {
-    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
-    document.documentElement.style.wordSpacing = currentWordSpacing + 1 + 'px';
-  };
-  const handleDecreaseWordSpaceButtonClick = () => {
-    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
-    document.documentElement.style.wordSpacing = currentWordSpacing - 1 + 'px';
-  };
-  const handleFocusModeButtonClick = () => {
-    document.body.classList.toggle('focus-mode');
-  };
-  const handleResetButtonClick = () => {
-    // Reset body classList
-    document.body.classList.remove('high-contrast');
-    document.body.classList.remove('greyscale');
-    document.body.classList.remove('light-mode');
-    document.body.classList.remove('dyslexia-mode');
-    document.body.classList.remove('dark-mode');
-
-    // Reset font size and word spacing
-    document.documentElement.style.fontSize = '';
-    document.documentElement.style.wordSpacing = '';
-  };
-  return /*#__PURE__*/react.createElement("div", {
-    className: "App"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-accessible-icon",
-    onClick: handleAccessibilityButtonClick
-  }), showAccessibilityPanel && /*#__PURE__*/react.createElement("div", {
-    className: `accessibility-panel ${showAccessibilityPanel ? 'active' : ''}`
-  }, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-close-button",
-    "aria-label": "Close Accessibility Menu",
-    onClick: handleAccessibilityCloseButtonClick
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "accessibility-close-icon"
-  })), /*#__PURE__*/react.createElement("div", {
-    className: "accessibility-options"
-  }, /*#__PURE__*/react.createElement("ul", null, /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-high-contrast-button",
-    onClick: handleHighContrastButtonClick
-  }, "High Contrast")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-greyscale-button",
-    onClick: handleGreyscaleButtonClick
-  }, "Greyscale")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-increase-font-size-button",
-    onClick: handleIncreaseFontSizeButtonClick
-  }, "Increase Font Size"), /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-decrease-font-size-button",
-    onClick: handleDecreaseFontSizeButtonClick
-  }, "Decrease Font Size")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-light-mode-button",
-    onClick: handleLightModeButtonClick
-  }, "Light Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-dark-mode-button",
-    onClick: handleDarkModeButtonClick
-  }, "Dark Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-dyslexia-mode-button",
-    onClick: handleDyslexiaModeButtonClick
-  }, "Dyslexia Friendly Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-increase-word-space-button",
-    onClick: handleIncreaseWordSpaceButtonClick
-  }, "Increase Word Space"), /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-decrease-word-space-button",
-    onClick: handleDecreaseWordSpaceButtonClick
-  }, "Decrease Word Space")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-focus-mode-button",
-    onClick: handleFocusModeButtonClick
-  }, "Focus Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-reset-button",
-    onClick: handleResetButtonClick
-  }, "Reset"))))), /*#__PURE__*/react.createElement("p", null, "Testing Text"));
-}
-/* harmony default export */ const Components_Sidebar = (Sidebar);
-;// CONCATENATED MODULE: ./src/js/app/Components/NavSites.js
-
-
-
-
-const NavSites = () => {
-  const {
-    sitename,
-    sn
-  } = (0,react_router_dist/* useParams */.UO)();
-  const {
-    lang
-  } = (0,react.useContext)(DataContext/* default */.Z);
-  const {
-    menuData,
-    setMenuData
-  } = (0,react.useContext)(MenuDataContext/* default */.Z);
-
-  // const [menuData, setMenuData] = useState([]);
-
-  // useEffect(() => {
-  //   fetchMenuData();
-  // }, [lang]);
-
-  // async function fetchMenuData() {
-  //   try {
-  //     let fetchURL2 = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
-  //     let stagingData = await fetch(fetchURL2);
-  //     let jsonData = await stagingData.json();
-  //     let items = jsonData.filter((item) => item.slug == "main-menu");
-  //     items = items[0].items;
-  //     setMenuData(items);
-  //   } catch (err) {
-  //     console.log("Error fetching menu data:" + err);
-  //   }
-  // }
-
-  // const filteredMenuData = useMemo(() => {
-  //   const curl = "/" + sitename + "/" + sn + "/";
-  //   const filteredData = menuData?.filter((item) => item.url == curl);
-  //   return filteredData.length > 0 ? filteredData[0].content : null;
-  // }, [menuData, sitename, sn]);
-
-  // const [menuData, setMenuData] = useState({});
-
-  (0,react.useEffect)(() => {
-    fetchMenuData(lang);
-  }, [lang]);
-  async function fetchMenuData(lang) {
-    try {
-      let fetchURL = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
-      let stagingData = await fetch(fetchURL);
-      let jsonData = await stagingData.json();
-      let items = jsonData.filter(item => item.slug === "main-menu");
-      items = items[0]?.items || [];
-      setMenuData(prevData => ({
-        ...prevData,
-        [lang]: items
-      }));
-    } catch (err) {
-      console.log("Error fetching menu data: " + err);
-    }
+  // function to toggle the boolean value
+  function toggleShow() {
+    setShow(!show);
   }
-  const filteredMenuData = (0,react.useMemo)(() => {
-    const curl = "/" + sitename + "/" + sn + "/";
-    const langMenuData = menuData[lang] || [];
-    const filteredData = langMenuData.filter(item => item.url === curl);
-    return filteredData.length > 0 ? filteredData[0].content : null;
-  }, [menuData, lang, sitename, sn]);
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: filteredMenuData
-    }
-  }));
-};
-/* harmony default export */ const Components_NavSites = (NavSites);
+  var buttonText = show ? "Hide Component" : "Show Component";
+  return /*#__PURE__*/react.createElement("div", {
+    className: "component-container"
+  }, show && children, /*#__PURE__*/react.createElement("button", {
+    onClick: toggleShow
+  }, buttonText));
+}
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -5075,6 +4879,225 @@ function AFrame() {
   })));
 }
 /* harmony default export */ const Components_AFrame = (AFrame);
+;// CONCATENATED MODULE: ./src/js/app/Components/Body.js
+
+
+
+const Body = () => {
+  const SITE_URL = "<?php echo SITE_URL; ?>";
+  const HOME_URL = "<?php echo HOME_URL; ?>";
+  const SITE_TITLE = "<?php echo SITE_TITLE; ?>";
+  const SITE_TAGLINE = "<?php echo SITE_TAGLINE; ?>";
+  console.log("Site url", SITE_URL);
+  return /*#__PURE__*/react.createElement("div", null, "Body", /*#__PURE__*/react.createElement(ToggleVisibility, null, /*#__PURE__*/react.createElement(Components_AFrame, null)));
+};
+/* harmony default export */ const Components_Body = (Body);
+;// CONCATENATED MODULE: ./src/js/app/Components/Profile.js
+
+
+
+const Profile = () => {
+  const {
+    username
+  } = (0,react_router_dist/* useParams */.UO)();
+  const {
+    data
+  } = (0,react.useContext)(DataContext/* default */.Z);
+  const cd = data.filter(e => e.slug === username);
+  const content = cd[0].content || "";
+  const userName = cd[0].title;
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("h1", null, userName), /*#__PURE__*/react.createElement("div", {
+    dangerouslySetInnerHTML: {
+      __html: content
+    }
+  }));
+};
+/* harmony default export */ const Components_Profile = (Profile);
+;// CONCATENATED MODULE: ./src/js/app/Components/Sidebar.js
+
+
+function Sidebar() {
+  const [showAccessibilityPanel, setShowAccessibilityPanel] = (0,react.useState)(false);
+  const handleAccessibilityButtonClick = () => {
+    setShowAccessibilityPanel(true);
+  };
+  const handleAccessibilityCloseButtonClick = () => {
+    setShowAccessibilityPanel(false);
+  };
+  const handleHighContrastButtonClick = () => {
+    document.body.classList.toggle('high-contrast');
+  };
+  const handleGreyscaleButtonClick = () => {
+    document.body.classList.toggle('greyscale');
+  };
+  const handleIncreaseFontSizeButtonClick = () => {
+    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    document.documentElement.style.fontSize = currentFontSize + 1 + 'px';
+  };
+  const handleDecreaseFontSizeButtonClick = () => {
+    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    document.documentElement.style.fontSize = currentFontSize - 1 + 'px';
+  };
+  const handleLightModeButtonClick = () => {
+    document.body.classList.toggle('light-mode');
+  };
+  const handleDarkModeButtonClick = () => {
+    document.body.classList.toggle('dark-mode');
+  };
+  //Additional Dark Mode button for manually turing dark mode on
+  const handleDyslexiaModeButtonClick = () => {
+    document.body.classList.toggle('dyslexia-mode');
+  };
+  const handleIncreaseWordSpaceButtonClick = () => {
+    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
+    document.documentElement.style.wordSpacing = currentWordSpacing + 1 + 'px';
+  };
+  const handleDecreaseWordSpaceButtonClick = () => {
+    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
+    document.documentElement.style.wordSpacing = currentWordSpacing - 1 + 'px';
+  };
+  const handleFocusModeButtonClick = () => {
+    document.body.classList.toggle('focus-mode');
+  };
+  const handleResetButtonClick = () => {
+    // Reset body classList
+    document.body.classList.remove('high-contrast');
+    document.body.classList.remove('greyscale');
+    document.body.classList.remove('light-mode');
+    document.body.classList.remove('dyslexia-mode');
+    document.body.classList.remove('dark-mode');
+
+    // Reset font size and word spacing
+    document.documentElement.style.fontSize = '';
+    document.documentElement.style.wordSpacing = '';
+  };
+  return /*#__PURE__*/react.createElement("div", {
+    className: "App"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-accessible-icon",
+    onClick: handleAccessibilityButtonClick
+  }), showAccessibilityPanel && /*#__PURE__*/react.createElement("div", {
+    className: `accessibility-panel ${showAccessibilityPanel ? 'active' : ''}`
+  }, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-close-button",
+    "aria-label": "Close Accessibility Menu",
+    onClick: handleAccessibilityCloseButtonClick
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "accessibility-close-icon"
+  })), /*#__PURE__*/react.createElement("div", {
+    className: "accessibility-options"
+  }, /*#__PURE__*/react.createElement("ul", null, /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-high-contrast-button",
+    onClick: handleHighContrastButtonClick
+  }, "High Contrast")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-greyscale-button",
+    onClick: handleGreyscaleButtonClick
+  }, "Greyscale")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-increase-font-size-button",
+    onClick: handleIncreaseFontSizeButtonClick
+  }, "Increase Font Size"), /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-decrease-font-size-button",
+    onClick: handleDecreaseFontSizeButtonClick
+  }, "Decrease Font Size")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-light-mode-button",
+    onClick: handleLightModeButtonClick
+  }, "Light Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-dark-mode-button",
+    onClick: handleDarkModeButtonClick
+  }, "Dark Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-dyslexia-mode-button",
+    onClick: handleDyslexiaModeButtonClick
+  }, "Dyslexia Friendly Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-increase-word-space-button",
+    onClick: handleIncreaseWordSpaceButtonClick
+  }, "Increase Word Space"), /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-decrease-word-space-button",
+    onClick: handleDecreaseWordSpaceButtonClick
+  }, "Decrease Word Space")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-focus-mode-button",
+    onClick: handleFocusModeButtonClick
+  }, "Focus Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-reset-button",
+    onClick: handleResetButtonClick
+  }, "Reset"))))), /*#__PURE__*/react.createElement("p", null, "Testing Text"));
+}
+/* harmony default export */ const Components_Sidebar = (Sidebar);
+;// CONCATENATED MODULE: ./src/js/app/Components/NavSites.js
+
+
+
+
+const NavSites = () => {
+  const {
+    sitename,
+    sn
+  } = (0,react_router_dist/* useParams */.UO)();
+  const {
+    lang
+  } = (0,react.useContext)(DataContext/* default */.Z);
+  const {
+    menuData,
+    setMenuData
+  } = (0,react.useContext)(MenuDataContext/* default */.Z);
+
+  // const [menuData, setMenuData] = useState([]);
+
+  // useEffect(() => {
+  //   fetchMenuData();
+  // }, [lang]);
+
+  // async function fetchMenuData() {
+  //   try {
+  //     let fetchURL2 = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
+  //     let stagingData = await fetch(fetchURL2);
+  //     let jsonData = await stagingData.json();
+  //     let items = jsonData.filter((item) => item.slug == "main-menu");
+  //     items = items[0].items;
+  //     setMenuData(items);
+  //   } catch (err) {
+  //     console.log("Error fetching menu data:" + err);
+  //   }
+  // }
+
+  // const filteredMenuData = useMemo(() => {
+  //   const curl = "/" + sitename + "/" + sn + "/";
+  //   const filteredData = menuData?.filter((item) => item.url == curl);
+  //   return filteredData.length > 0 ? filteredData[0].content : null;
+  // }, [menuData, sitename, sn]);
+
+  // const [menuData, setMenuData] = useState({});
+
+  (0,react.useEffect)(() => {
+    fetchMenuData(lang);
+  }, [lang]);
+  async function fetchMenuData(lang) {
+    try {
+      let fetchURL = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
+      let stagingData = await fetch(fetchURL);
+      let jsonData = await stagingData.json();
+      let items = jsonData.filter(item => item.slug === "main-menu");
+      items = items[0]?.items || [];
+      setMenuData(prevData => ({
+        ...prevData,
+        [lang]: items
+      }));
+    } catch (err) {
+      console.log("Error fetching menu data: " + err);
+    }
+  }
+  const filteredMenuData = (0,react.useMemo)(() => {
+    const curl = "/" + sitename + "/" + sn + "/";
+    const langMenuData = menuData[lang] || [];
+    const filteredData = langMenuData.filter(item => item.url === curl);
+    return filteredData.length > 0 ? filteredData[0].content : null;
+  }, [menuData, lang, sitename, sn]);
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
+    dangerouslySetInnerHTML: {
+      __html: filteredMenuData
+    }
+  }));
+};
+/* harmony default export */ const Components_NavSites = (NavSites);
 ;// CONCATENATED MODULE: ./src/js/app/Components/index.js
 
 
@@ -5134,8 +5157,8 @@ var react = __webpack_require__(294);
 var dist = __webpack_require__(655);
 // EXTERNAL MODULE: ./node_modules/react-router/dist/index.js
 var react_router_dist = __webpack_require__(250);
-// EXTERNAL MODULE: ./src/js/app/Components/index.js + 11 modules
-var Components = __webpack_require__(268);
+// EXTERNAL MODULE: ./src/js/app/Components/index.js + 12 modules
+var Components = __webpack_require__(18);
 // EXTERNAL MODULE: ./src/js/app/Utils/DataContext.js
 var DataContext = __webpack_require__(179);
 // EXTERNAL MODULE: ./src/js/app/Utils/MenuDataContext.js
@@ -5149,8 +5172,8 @@ var MenuDataContext = __webpack_require__(783);
 
 
 
-const NavSites = /*#__PURE__*/(0,react.lazy)(() => Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 268)));
-const AFrame = /*#__PURE__*/(0,react.lazy)(() => Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 268)));
+const NavSites = /*#__PURE__*/(0,react.lazy)(() => Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 18)));
+const AFrame = /*#__PURE__*/(0,react.lazy)(() => Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 18)));
 const appRouter = (0,dist/* createBrowserRouter */.aj)([{
   path: "/",
   element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Components.Navbar, null), /*#__PURE__*/react.createElement(Components.Sidebar, null), /*#__PURE__*/react.createElement(Components.Home, null)),

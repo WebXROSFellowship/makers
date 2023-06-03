@@ -163,8 +163,8 @@ function AFrame() {
   }, []);
 
   return (
-    <>
-      <a-scene>
+<>
+        <a-scene>
         <a-camera position="0 1.2 0" rotation="0 -45 0">
           <a-cursor id="cursor" color="#FF0000"></a-cursor>
         </a-camera>
