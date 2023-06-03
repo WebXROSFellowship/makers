@@ -4,6 +4,7 @@ import "./../../../scss/style.scss";
 import DataContext from "../Utils/DataContext";
 import MenuDataContext from "../Utils/MenuDataContext";
 import langArr from "../assets/langData";
+// import "src/js/app/assets";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -84,9 +85,11 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         {/* The brand section of the Navbar */}
-        <div className="navbar-brand text-danger">
-          The Polys WebXR Awards and Summit Series
+        <div className="navbar-brand text-white" style={{ fontFamily: "sans-serif"}}>
+        <img src="https://staging.webxr.link/wp-content/uploads/2023/05/webxros.png" alt="logo" style={{ width: '50px', height: '50px', marginTop: '-3px' }} />
+        <span style={{ marginLeft: '15px' }}>PowerSimple | XROS</span>
         </div>
+
         <div className="navbar-right">
           {/* The main dropdown menu items of the Navbar */}
           {navbarMenus ? (
@@ -139,7 +142,7 @@ const Navbar = () => {
           )}
           {/* The Language Section of Navbar*/}
           <div className="dropdown">
-            <button className="dropbtn"> Languages </button>
+            <button className="dropbtn" > Languages </button>
             <div className="dropdown__content">
               
               {languageArr.map((currLang) => {

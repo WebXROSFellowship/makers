@@ -108,3 +108,7 @@ webpack.config.js
 
 # lock file
 *.lock
+
+
+#node_modules
+node_modules/
