@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DataContext from "../Utils/DataContext";
+import { MenuDataContext } from "../Utils";
 
 const Profile = () => {
   const { username } = useParams();
-  const { data } = useContext(DataContext);
-  const cd = data.filter((e) => e.slug === username);
-  const content = cd[0].content || "";
-  const userName = cd[0].title;
+  const { lang } = useContext(DataContext);
+  const { menuData } = useContext(MenuDataContext);
+  const data = menuData[lang];
+  const cd = data?.filter((e) => e?.slug === username);
+  const content = cd[0]?.content || "";
+  const userName = cd[0]?.title;
 
   const [images, setImages] = useState([]);
 
