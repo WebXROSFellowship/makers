@@ -8,8 +8,10 @@ const Profile = () => {
   const { username } = useParams();
   const { lang } = useContext(DataContext);
   const { menuData } = useContext(MenuDataContext);
+
+  const curl = "/profile/"+username+"/";
   const data = menuData[lang];
-  const cd = data?.filter((e) => e?.slug === username);
+  const cd = data?.filter((e) => e?.url === curl);
   const content = cd[0]?.content || "";
   const userName = cd[0]?.title;
 

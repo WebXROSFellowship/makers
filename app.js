@@ -5192,8 +5192,9 @@ const Profile = () => {
   const {
     menuData
   } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_2__.MenuDataContext);
+  const curl = "/profile/" + username + "/";
   const data = menuData[lang];
-  const cd = data?.filter(e => e?.slug === username);
+  const cd = data?.filter(e => e?.url === curl);
   const content = cd[0]?.content || "";
   const userName = cd[0]?.title;
   const [images, setImages] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
