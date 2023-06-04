@@ -31,7 +31,10 @@ const appRouter = createBrowserRouter([
         path: "aframe",
         element: <AFrame />,
       },
-      
+      {
+        path: "profile/:username",
+        element: <Profile />,
+      },
       {
         path: "/:sitename/:sn",
         element: (

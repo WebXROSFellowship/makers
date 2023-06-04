@@ -5227,21 +5227,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _Utils_DataContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Utils/DataContext */ "./src/js/app/Utils/DataContext.js");
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Utils */ "./src/js/app/Utils/index.js");
+
 
 
 
 const Profile = () => {
   const {
     username
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useParams)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useParams)();
   const {
-    data
+    lang
   } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils_DataContext__WEBPACK_IMPORTED_MODULE_1__["default"]);
-  const cd = data.filter(e => e.slug === username);
-  const content = cd[0].content || "";
-  const userName = cd[0].title;
+  const {
+    menuData
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_2__.MenuDataContext);
+  const data = menuData[lang];
+  const cd = data?.filter(e => e?.slug === username);
+  const content = cd[0]?.content || "";
+  const userName = cd[0]?.title;
   const [images, setImages] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetch(`https://staging.webxr.link/wp-json/wp/v2/media?media`).then(response => response.json()).then(data => {
@@ -5520,6 +5526,9 @@ const appRouter = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.createBrowser
   }, {
     path: "aframe",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components__WEBPACK_IMPORTED_MODULE_1__.AFrame, null)
+  }, {
+    path: "profile/:username",
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components__WEBPACK_IMPORTED_MODULE_1__.Profile, null)
   }, {
     path: "/:sitename/:sn",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react__WEBPACK_IMPORTED_MODULE_0__.Suspense, {
