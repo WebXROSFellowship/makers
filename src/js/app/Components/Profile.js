@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DataContext from "../Utils/DataContext";
 import { MenuDataContext } from "../Utils";
-import "./../../../scss/style.scss";
+import "@styles/style.scss"
 
 const Profile = () => {
   const { username } = useParams();

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import "./../../../scss/style.scss";
+import "@styles/style.scss"
 import DataContext from "../Utils/DataContext";
 import MenuDataContext from "../Utils/MenuDataContext";
 import langArr from "../assets/langData";

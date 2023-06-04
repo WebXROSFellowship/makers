@@ -30,6 +30,7 @@
     "@webpack-cli/generators": "^3.0.4",
     "autoprefixer": "^10.4.14",
     "babel-loader": "^9.1.2",
+    "babel-plugin-module-resolver": "^5.0.0",
     "browser-sync-webpack-plugin": "^2.3.0",
     "css-loader": "^6.7.4",
     "css-minimizer-webpack-plugin": "^5.0.0",

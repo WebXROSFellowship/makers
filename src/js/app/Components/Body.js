@@ -1,6 +1,5 @@
 import React from 'react'
-
-import "./../../../scss/style.scss";
+import "@styles/style.scss"
 
 const Body = () => {
 

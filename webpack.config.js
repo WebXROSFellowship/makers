@@ -8,6 +8,7 @@ const IgnoreEmitPlugin = require("ignore-emit-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const Dotenv = require("dotenv-webpack");
+const ModuleResolverPlugin = require("babel-plugin-module-resolver");
 
 const proxyUrl = "https://makers/";
 
@@ -42,7 +43,21 @@ const common = {
               ["@babel/preset-env", { targets: "defaults" }],
               ["@babel/preset-react"],
             ],
-            plugins: ['@babel/plugin-transform-runtime']
+            plugins: ['@babel/plugin-transform-runtime',
+            [
+              "module-resolver",
+              {
+                "root": ["./src"],
+                "alias": {
+                  // Add your module aliases here
+                  "@components": "./src/components",
+                  "@utils": "./src/utils",
+                  "@styles": "./src/scss",
+                }
+              }
+            ]
+
+      ]
           },
         },
       },
@@ -87,6 +102,7 @@ const common = {
       path: "./.env",
       systemvars: true,
     }),
+    
   ],
   resolve: {
     extensions: [
