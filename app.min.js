@@ -4599,7 +4599,7 @@ function useOutlet(context) {
  * @see https://reactrouter.com/hooks/use-params
  */
 
-function useParams() {
+function dist_useParams() {
   let {
     matches
   } = react.useContext(RouteContext);
@@ -6686,11 +6686,11 @@ function usePrompt(_ref8) {
 
 ;// CONCATENATED MODULE: ./src/js/app/Utils/DataContext.js
 
-const DataContext = /*#__PURE__*/(0,react.createContext)({
+const DataContext_DataContext = /*#__PURE__*/(0,react.createContext)({
   data: {}
 });
-DataContext.displayName = "DataContext";
-/* harmony default export */ const Utils_DataContext = (DataContext);
+DataContext_DataContext.displayName = "DataContext";
+/* harmony default export */ const Utils_DataContext = (DataContext_DataContext);
 ;// CONCATENATED MODULE: ./src/js/app/Utils/MenuDataContext.js
 
 const MenuDataContext = /*#__PURE__*/(0,react.createContext)({
@@ -6985,10 +6985,10 @@ const Home = () => {
 
 
 const Body = () => {
-  const SITE_URL = "<?php echo SITE_URL; ?>";
-  const HOME_URL = "<?php echo HOME_URL; ?>";
-  const SITE_TITLE = "<?php echo SITE_TITLE; ?>";
-  const SITE_TAGLINE = "<?php echo SITE_TAGLINE; ?>";
+  const SITE_URL = "MISSING_ENV_VAR".SITE_URL;
+  const HOME_URL = "MISSING_ENV_VAR".HOME_URL;
+  const SITE_TITLE = "MISSING_ENV_VAR".SITE_TITLE;
+  const SITE_TAGLINE = "MISSING_ENV_VAR".SITE_TAGLINE;
   console.log("Site url", SITE_URL);
   return /*#__PURE__*/react.createElement("div", {
     className: "mainpage"
@@ -7009,17 +7009,17 @@ const Profile = () => {
   } = useParams();
   const {
     data
-  } = (0,react.useContext)(Utils_DataContext);
+  } = useContext(DataContext);
   const cd = data.filter(e => e.slug === username);
   const content = cd[0].content || "";
   const userName = cd[0].title;
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("h1", null, userName), /*#__PURE__*/react.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, userName), /*#__PURE__*/React.createElement("div", {
     dangerouslySetInnerHTML: {
       __html: content
     }
   }));
 };
-/* harmony default export */ const Components_Profile = (Profile);
+/* harmony default export */ const Components_Profile = ((/* unused pure expression or super */ null && (Profile)));
 ;// CONCATENATED MODULE: ./src/js/app/Components/Sidebar.js
 
 
@@ -7135,7 +7135,7 @@ const NavSites = () => {
   const {
     sitename,
     sn
-  } = useParams();
+  } = dist_useParams();
   const {
     lang
   } = (0,react.useContext)(Utils_DataContext);
@@ -7545,7 +7545,7 @@ function Demo() {
   }, []);
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-scene", null, /*#__PURE__*/react.createElement("a-entity", {
     id: "rig",
-    "movement-controls": "constrainToNavMesh: true;\r controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+    "movement-controls": "constrainToNavMesh: true; controls: checkpoint, gamepad, trackpad, keyboard, touch;"
   }, /*#__PURE__*/react.createElement("a-entity", {
     camera: true,
     position: "0 1.6 0",
@@ -7653,9 +7653,6 @@ const appRouter = createBrowserRouter([{
   }, {
     path: "aframe",
     element: /*#__PURE__*/react.createElement(Components_AFrame, null)
-  }, {
-    path: "profile/:username",
-    element: /*#__PURE__*/react.createElement(Components_Profile, null)
   }, {
     path: "/:sitename/:sn",
     element: /*#__PURE__*/react.createElement(react.Suspense, {
