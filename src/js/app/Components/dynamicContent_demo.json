@@ -1,0 +1,24 @@
+[
+  {
+    "id": "#powersimple",
+    "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb",
+    "crossorigin": "anonymous",
+    "position": "-6.244 1.426 -0.311",
+    "rotation": "0 90 0",
+    "scale" : "0.49834 0.58072 1"
+  },
+  {
+    "troika-text": "strokeColor: #fffafa; value: Text is here",
+    "id": "#text",
+    "position": "3.66571 1.34902 -0.37157",
+    "visible": "",
+    "rotation": "0.9998113525032866 -89.45590055377542 0"
+  },
+  {},
+  {
+    "id": "#room",
+    "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb",
+    "crossorigin": "anonymous",
+    "position": "-1.693 0 0.07"
+  }
+]

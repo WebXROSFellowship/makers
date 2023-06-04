@@ -2,26 +2,18 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 599:
+/***/ 649:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Ep: () => (/* binding */ createPath),
-/* harmony export */   J0: () => (/* binding */ invariant),
-/* harmony export */   RQ: () => (/* binding */ joinPaths),
-/* harmony export */   WK: () => (/* binding */ isRouteErrorResponse),
-/* harmony export */   X3: () => (/* binding */ AbortedDeferredError),
-/* harmony export */   Zn: () => (/* binding */ stripBasename),
-/* harmony export */   Zq: () => (/* binding */ getPathContributingMatches),
-/* harmony export */   aU: () => (/* binding */ Action),
-/* harmony export */   cP: () => (/* binding */ parsePath),
-/* harmony export */   fp: () => (/* binding */ matchRoutes),
-/* harmony export */   iQ: () => (/* binding */ ErrorResponse),
-/* harmony export */   lX: () => (/* binding */ createBrowserHistory),
-/* harmony export */   p7: () => (/* binding */ createRouter),
-/* harmony export */   pC: () => (/* binding */ resolveTo)
-/* harmony export */ });
-/* unused harmony exports IDLE_BLOCKER, IDLE_FETCHER, IDLE_NAVIGATION, UNSAFE_DEFERRED_SYMBOL, UNSAFE_DeferredData, UNSAFE_convertRoutesToDataRoutes, UNSAFE_warning, createHashHistory, createMemoryHistory, createStaticHandler, defer, generatePath, getStaticContextFromError, getToPathname, isDeferredData, json, matchPath, normalizePathname, redirect, resolvePath */
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  Z: () => (/* binding */ app)
+});
+
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(294);
+;// CONCATENATED MODULE: ./node_modules/@remix-run/router/dist/router.js
 /**
  * @remix-run/router v1.6.2
  *
@@ -88,7 +80,7 @@ const PopStateEventType = "popstate";
  * in stateful non-browser environments like tests and React Native.
  */
 
-function createMemoryHistory(options) {
+function router_createMemoryHistory(options) {
   if (options === void 0) {
     options = {};
   }
@@ -124,7 +116,7 @@ function createMemoryHistory(options) {
   }
 
   function createHref(to) {
-    return typeof to === "string" ? to : createPath(to);
+    return typeof to === "string" ? to : router_createPath(to);
   }
 
   let history = {
@@ -217,7 +209,7 @@ function createMemoryHistory(options) {
  * @see https://github.com/remix-run/history/tree/main/docs/api-reference.md#createbrowserhistory
  */
 
-function createBrowserHistory(options) {
+function router_createBrowserHistory(options) {
   if (options === void 0) {
     options = {};
   }
@@ -237,7 +229,7 @@ function createBrowserHistory(options) {
   }
 
   function createBrowserHref(window, to) {
-    return typeof to === "string" ? to : createPath(to);
+    return typeof to === "string" ? to : router_createPath(to);
   }
 
   return getUrlBasedHistory(createBrowserLocation, createBrowserHref, null, options);
@@ -251,7 +243,7 @@ function createBrowserHistory(options) {
  * @see https://github.com/remix-run/history/tree/main/docs/api-reference.md#createhashhistory
  */
 
-function createHashHistory(options) {
+function router_createHashHistory(options) {
   if (options === void 0) {
     options = {};
   }
@@ -280,7 +272,7 @@ function createHashHistory(options) {
       href = hashIndex === -1 ? url : url.slice(0, hashIndex);
     }
 
-    return href + "#" + (typeof to === "string" ? to : createPath(to));
+    return href + "#" + (typeof to === "string" ? to : router_createPath(to));
   }
 
   function validateHashLocation(location, to) {
@@ -354,7 +346,7 @@ function createLocation(current, to, state, key) {
  * Creates a string URL path from the given pathname, search, and hash components.
  */
 
-function createPath(_ref) {
+function router_createPath(_ref) {
   let {
     pathname = "/",
     search = "",
@@ -487,7 +479,7 @@ function getUrlBasedHistory(getLocation, createHref, validateLocation, options) 
     // under certain conditions, notably when serving from a local HTML file
     // See https://bugzilla.mozilla.org/show_bug.cgi?id=878297
     let base = window.location.origin !== "null" ? window.location.origin : window.location.href;
-    let href = typeof to === "string" ? to : createPath(to);
+    let href = typeof to === "string" ? to : router_createPath(to);
     invariant(base, "No window.location.(origin|href) available to create URL for href: " + href);
     return new URL(href, base);
   }
@@ -608,7 +600,7 @@ function matchRoutes(routes, locationArg, basename) {
   }
 
   let location = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
-  let pathname = stripBasename(location.pathname || "/", basename);
+  let pathname = router_stripBasename(location.pathname || "/", basename);
 
   if (pathname == null) {
     return null;
@@ -657,7 +649,7 @@ function flattenRoutes(routes, branches, parentsMeta, parentPath) {
       meta.relativePath = meta.relativePath.slice(parentPath.length);
     }
 
-    let path = joinPaths([parentPath, meta.relativePath]);
+    let path = router_joinPaths([parentPath, meta.relativePath]);
     let routesMeta = parentsMeta.concat(meta); // Add the children before adding this route to the array so we traverse the
     // route tree depth-first and child routes appear before their parents in
     // the "flattened" version.
@@ -798,7 +790,7 @@ function matchRouteBranch(branch, pathname) {
     let meta = routesMeta[i];
     let end = i === routesMeta.length - 1;
     let remainingPathname = matchedPathname === "/" ? pathname : pathname.slice(matchedPathname.length) || "/";
-    let match = matchPath({
+    let match = router_matchPath({
       path: meta.relativePath,
       caseSensitive: meta.caseSensitive,
       end
@@ -809,13 +801,13 @@ function matchRouteBranch(branch, pathname) {
     matches.push({
       // TODO: Can this as be avoided?
       params: matchedParams,
-      pathname: joinPaths([matchedPathname, match.pathname]),
-      pathnameBase: normalizePathname(joinPaths([matchedPathname, match.pathnameBase])),
+      pathname: router_joinPaths([matchedPathname, match.pathname]),
+      pathnameBase: normalizePathname(router_joinPaths([matchedPathname, match.pathnameBase])),
       route
     });
 
     if (match.pathnameBase !== "/") {
-      matchedPathname = joinPaths([matchedPathname, match.pathnameBase]);
+      matchedPathname = router_joinPaths([matchedPathname, match.pathnameBase]);
     }
   }
 
@@ -882,7 +874,7 @@ function generatePath(originalPath, params) {
  * @see https://reactrouter.com/utils/match-path
  */
 
-function matchPath(pattern, pathname) {
+function router_matchPath(pattern, pathname) {
   if (typeof pattern === "string") {
     pattern = {
       path: pattern,
@@ -979,7 +971,7 @@ function safelyDecodeURIComponent(value, paramName) {
  */
 
 
-function stripBasename(pathname, basename) {
+function router_stripBasename(pathname, basename) {
   if (basename === "/") return pathname;
 
   if (!pathname.toLowerCase().startsWith(basename.toLowerCase())) {
@@ -1071,7 +1063,7 @@ function getPathContributingMatches(matches) {
  * @private
  */
 
-function resolveTo(toArg, routePathnames, locationPathname, isPathRelative) {
+function router_resolveTo(toArg, routePathnames, locationPathname, isPathRelative) {
   if (isPathRelative === void 0) {
     isPathRelative = false;
   }
@@ -1146,7 +1138,7 @@ function getToPathname(to) {
  * @private
  */
 
-const joinPaths = paths => paths.join("/").replace(/\/\/+/g, "/");
+const router_joinPaths = paths => paths.join("/").replace(/\/\/+/g, "/");
 /**
  * @private
  */
@@ -1453,7 +1445,7 @@ const defaultMapRouteProperties = route => ({
  */
 
 
-function createRouter(init) {
+function router_createRouter(init) {
   invariant(init.routes.length > 0, "You must provide a non-empty routes array to createRouter");
   let mapRouteProperties;
 
@@ -2591,7 +2583,7 @@ function createRouter(init) {
 
     if (ABSOLUTE_URL_REGEX.test(redirect.location) && isBrowser && typeof ((_window = window) == null ? void 0 : _window.location) !== "undefined") {
       let url = init.history.createURL(redirect.location);
-      let isDifferentBasename = stripBasename(url.pathname, basename) == null;
+      let isDifferentBasename = router_stripBasename(url.pathname, basename) == null;
 
       if (window.location.origin !== url.origin || isDifferentBasename) {
         if (replace) {
@@ -3017,7 +3009,7 @@ function createStaticHandler(routes, opts) {
     } = _temp2 === void 0 ? {} : _temp2;
     let url = new URL(request.url);
     let method = request.method;
-    let location = createLocation("", createPath(url), null, "default");
+    let location = createLocation("", router_createPath(url), null, "default");
     let matches = matchRoutes(dataRoutes, location, basename); // SSR supports HEAD requests while SPA doesn't
 
     if (!isValidMethod(method) && method !== "HEAD") {
@@ -3109,7 +3101,7 @@ function createStaticHandler(routes, opts) {
     } = _temp3 === void 0 ? {} : _temp3;
     let url = new URL(request.url);
     let method = request.method;
-    let location = createLocation("", createPath(url), null, "default");
+    let location = createLocation("", router_createPath(url), null, "default");
     let matches = matchRoutes(dataRoutes, location, basename); // SSR supports HEAD requests while SPA doesn't
 
     if (!isValidMethod(method) && method !== "HEAD" && method !== "OPTIONS") {
@@ -3428,7 +3420,7 @@ function normalizeTo(location, matches, basename, prependBasename, to, fromRoute
   } // Resolve the relative path
 
 
-  let path = resolveTo(to ? to : ".", getPathContributingMatches(contextualMatches).map(m => m.pathnameBase), stripBasename(location.pathname, basename) || location.pathname, relative === "path"); // When `to` is not specified we inherit search/hash from the current
+  let path = router_resolveTo(to ? to : ".", getPathContributingMatches(contextualMatches).map(m => m.pathnameBase), router_stripBasename(location.pathname, basename) || location.pathname, relative === "path"); // When `to` is not specified we inherit search/hash from the current
   // location, unlike when to="." and we just inherit the path.
   // See https://github.com/remix-run/remix/issues/927
 
@@ -3447,10 +3439,10 @@ function normalizeTo(location, matches, basename, prependBasename, to, fromRoute
 
 
   if (prependBasename && basename !== "/") {
-    path.pathname = path.pathname === "/" ? basename : joinPaths([basename, path.pathname]);
+    path.pathname = path.pathname === "/" ? basename : router_joinPaths([basename, path.pathname]);
   }
 
-  return createPath(path);
+  return router_createPath(path);
 } // Normalize navigation options by converting formMethod=GET formData objects to
 // URLSearchParams so they behave identically to links with query params
 
@@ -3504,7 +3496,7 @@ function normalizeNavigateOptions(normalizeFormMethod, isFetcher, path, opts) {
 
   parsedPath.search = "?" + searchParams;
   return {
-    path: createPath(parsedPath),
+    path: router_createPath(parsedPath),
     submission
   };
 } // Filter out all routes below any caught error as they aren't going to
@@ -3816,7 +3808,7 @@ async function callLoaderOrAction(type, request, match, matches, manifest, mapRo
         // browser as-is
         let currentUrl = new URL(request.url);
         let url = location.startsWith("//") ? new URL(currentUrl.protocol + location) : new URL(location);
-        let isSameBasename = stripBasename(url.pathname, basename) != null;
+        let isSameBasename = router_stripBasename(url.pathname, basename) != null;
 
         if (url.origin === currentUrl.origin && isSameBasename) {
           location = url.pathname + url.search + url.hash;
@@ -4171,7 +4163,7 @@ function findRedirect(results) {
 
 function stripHashFromPath(path) {
   let parsedPath = typeof path === "string" ? parsePath(path) : path;
-  return createPath(_extends({}, parsedPath, {
+  return router_createPath(_extends({}, parsedPath, {
     hash: ""
   }));
 }
@@ -4339,34 +4331,2373 @@ function getTargetMatch(matches, location) {
 
 //# sourceMappingURL=router.js.map
 
+;// CONCATENATED MODULE: ./node_modules/react-router/dist/index.js
+/**
+ * React Router v6.11.2
+ *
+ * Copyright (c) Remix Software Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ *
+ * @license MIT
+ */
 
-/***/ }),
 
-/***/ 18:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  AFrame: () => (/* reexport */ Components_AFrame),
-  Body: () => (/* reexport */ Components_Body),
-  Home: () => (/* reexport */ Components_Home),
-  NavSites: () => (/* reexport */ Components_NavSites),
-  Navbar: () => (/* reexport */ Components_Navbar),
-  Profile: () => (/* reexport */ Components_Profile),
-  Sidebar: () => (/* reexport */ Components_Sidebar)
+function dist_extends() {
+  dist_extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+  return dist_extends.apply(this, arguments);
+}
+
+const DataRouterContext = /*#__PURE__*/react.createContext(null);
+
+if (false) {}
+
+const DataRouterStateContext = /*#__PURE__*/react.createContext(null);
+
+if (false) {}
+
+const AwaitContext = /*#__PURE__*/react.createContext(null);
+
+if (false) {}
+
+const NavigationContext = /*#__PURE__*/react.createContext(null);
+
+if (false) {}
+
+const LocationContext = /*#__PURE__*/react.createContext(null);
+
+if (false) {}
+
+const RouteContext = /*#__PURE__*/react.createContext({
+  outlet: null,
+  matches: [],
+  isDataRoute: false
 });
 
-// EXTERNAL MODULE: ./node_modules/react/index.js
-var react = __webpack_require__(294);
-// EXTERNAL MODULE: ./node_modules/react-router-dom/dist/index.js
-var dist = __webpack_require__(655);
-// EXTERNAL MODULE: ./src/js/app/Utils/DataContext.js
-var DataContext = __webpack_require__(179);
-// EXTERNAL MODULE: ./src/js/app/Utils/MenuDataContext.js
-var MenuDataContext = __webpack_require__(783);
+if (false) {}
+
+const RouteErrorContext = /*#__PURE__*/react.createContext(null);
+
+if (false) {}
+
+/**
+ * Returns the full href for the given "to" value. This is useful for building
+ * custom links that are also accessible and preserve right-click behavior.
+ *
+ * @see https://reactrouter.com/hooks/use-href
+ */
+
+function useHref(to, _temp) {
+  let {
+    relative
+  } = _temp === void 0 ? {} : _temp;
+  !useInRouterContext() ?  false ? 0 : invariant(false) : void 0;
+  let {
+    basename,
+    navigator
+  } = react.useContext(NavigationContext);
+  let {
+    hash,
+    pathname,
+    search
+  } = dist_useResolvedPath(to, {
+    relative
+  });
+  let joinedPathname = pathname; // If we're operating within a basename, prepend it to the pathname prior
+  // to creating the href.  If this is a root navigation, then just use the raw
+  // basename which allows the basename to have full control over the presence
+  // of a trailing slash on root links
+
+  if (basename !== "/") {
+    joinedPathname = pathname === "/" ? basename : router_joinPaths([basename, pathname]);
+  }
+
+  return navigator.createHref({
+    pathname: joinedPathname,
+    search,
+    hash
+  });
+}
+/**
+ * Returns true if this component is a descendant of a <Router>.
+ *
+ * @see https://reactrouter.com/hooks/use-in-router-context
+ */
+
+function useInRouterContext() {
+  return react.useContext(LocationContext) != null;
+}
+/**
+ * Returns the current location object, which represents the current URL in web
+ * browsers.
+ *
+ * Note: If you're using this it may mean you're doing some of your own
+ * "routing" in your app, and we'd like to know what your use case is. We may
+ * be able to provide something higher-level to better suit your needs.
+ *
+ * @see https://reactrouter.com/hooks/use-location
+ */
+
+function dist_useLocation() {
+  !useInRouterContext() ?  false ? 0 : invariant(false) : void 0;
+  return react.useContext(LocationContext).location;
+}
+/**
+ * Returns the current navigation action which describes how the router came to
+ * the current location, either by a pop, push, or replace on the history stack.
+ *
+ * @see https://reactrouter.com/hooks/use-navigation-type
+ */
+
+function useNavigationType() {
+  return React.useContext(LocationContext).navigationType;
+}
+/**
+ * Returns a PathMatch object if the given pattern matches the current URL.
+ * This is useful for components that need to know "active" state, e.g.
+ * <NavLink>.
+ *
+ * @see https://reactrouter.com/hooks/use-match
+ */
+
+function useMatch(pattern) {
+  !useInRouterContext() ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+  let {
+    pathname
+  } = dist_useLocation();
+  return React.useMemo(() => matchPath(pattern, pathname), [pathname, pattern]);
+}
+/**
+ * The interface for the navigate() function returned from useNavigate().
+ */
+
+const navigateEffectWarning = (/* unused pure expression or super */ null && ("You should call navigate() in a React.useEffect(), not when " + "your component is first rendered.")); // Mute warnings for calls to useNavigate in SSR environments
+
+function useIsomorphicLayoutEffect(cb) {
+  let isStatic = react.useContext(NavigationContext).static;
+
+  if (!isStatic) {
+    // We should be able to get rid of this once react 18.3 is released
+    // See: https://github.com/facebook/react/pull/26395
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    react.useLayoutEffect(cb);
+  }
+}
+/**
+ * Returns an imperative method for changing the location. Used by <Link>s, but
+ * may also be used by other elements to change the location.
+ *
+ * @see https://reactrouter.com/hooks/use-navigate
+ */
+
+
+function dist_useNavigate() {
+  let {
+    isDataRoute
+  } = react.useContext(RouteContext); // Conditional usage is OK here because the usage of a data router is static
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+
+  return isDataRoute ? useNavigateStable() : useNavigateUnstable();
+}
+
+function useNavigateUnstable() {
+  !useInRouterContext() ?  false ? 0 : invariant(false) : void 0;
+  let dataRouterContext = react.useContext(DataRouterContext);
+  let {
+    basename,
+    navigator
+  } = react.useContext(NavigationContext);
+  let {
+    matches
+  } = react.useContext(RouteContext);
+  let {
+    pathname: locationPathname
+  } = dist_useLocation();
+  let routePathnamesJson = JSON.stringify(getPathContributingMatches(matches).map(match => match.pathnameBase));
+  let activeRef = react.useRef(false);
+  useIsomorphicLayoutEffect(() => {
+    activeRef.current = true;
+  });
+  let navigate = react.useCallback(function (to, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+     false ? 0 : void 0; // Short circuit here since if this happens on first render the navigate
+    // is useless because we haven't wired up our history listener yet
+
+    if (!activeRef.current) return;
+
+    if (typeof to === "number") {
+      navigator.go(to);
+      return;
+    }
+
+    let path = router_resolveTo(to, JSON.parse(routePathnamesJson), locationPathname, options.relative === "path"); // If we're operating within a basename, prepend it to the pathname prior
+    // to handing off to history (but only if we're not in a data router,
+    // otherwise it'll prepend the basename inside of the router).
+    // If this is a root navigation, then we navigate to the raw basename
+    // which allows the basename to have full control over the presence of a
+    // trailing slash on root links
+
+    if (dataRouterContext == null && basename !== "/") {
+      path.pathname = path.pathname === "/" ? basename : router_joinPaths([basename, path.pathname]);
+    }
+
+    (!!options.replace ? navigator.replace : navigator.push)(path, options.state, options);
+  }, [basename, navigator, routePathnamesJson, locationPathname, dataRouterContext]);
+  return navigate;
+}
+
+const OutletContext = /*#__PURE__*/react.createContext(null);
+/**
+ * Returns the context (if provided) for the child route at this level of the route
+ * hierarchy.
+ * @see https://reactrouter.com/hooks/use-outlet-context
+ */
+
+function useOutletContext() {
+  return React.useContext(OutletContext);
+}
+/**
+ * Returns the element for the child route at this level of the route
+ * hierarchy. Used internally by <Outlet> to render child routes.
+ *
+ * @see https://reactrouter.com/hooks/use-outlet
+ */
+
+function useOutlet(context) {
+  let outlet = react.useContext(RouteContext).outlet;
+
+  if (outlet) {
+    return /*#__PURE__*/react.createElement(OutletContext.Provider, {
+      value: context
+    }, outlet);
+  }
+
+  return outlet;
+}
+/**
+ * Returns an object of key/value pairs of the dynamic params from the current
+ * URL that were matched by the route path.
+ *
+ * @see https://reactrouter.com/hooks/use-params
+ */
+
+function dist_useParams() {
+  let {
+    matches
+  } = react.useContext(RouteContext);
+  let routeMatch = matches[matches.length - 1];
+  return routeMatch ? routeMatch.params : {};
+}
+/**
+ * Resolves the pathname of the given `to` value against the current location.
+ *
+ * @see https://reactrouter.com/hooks/use-resolved-path
+ */
+
+function dist_useResolvedPath(to, _temp2) {
+  let {
+    relative
+  } = _temp2 === void 0 ? {} : _temp2;
+  let {
+    matches
+  } = react.useContext(RouteContext);
+  let {
+    pathname: locationPathname
+  } = dist_useLocation();
+  let routePathnamesJson = JSON.stringify(getPathContributingMatches(matches).map(match => match.pathnameBase));
+  return react.useMemo(() => router_resolveTo(to, JSON.parse(routePathnamesJson), locationPathname, relative === "path"), [to, routePathnamesJson, locationPathname, relative]);
+}
+/**
+ * Returns the element of the route that matched the current location, prepared
+ * with the correct context to render the remainder of the route tree. Route
+ * elements in the tree must render an <Outlet> to render their child route's
+ * element.
+ *
+ * @see https://reactrouter.com/hooks/use-routes
+ */
+
+function useRoutes(routes, locationArg) {
+  return useRoutesImpl(routes, locationArg);
+} // Internal implementation with accept optional param for RouterProvider usage
+
+function useRoutesImpl(routes, locationArg, dataRouterState) {
+  !useInRouterContext() ?  false ? 0 : invariant(false) : void 0;
+  let {
+    navigator
+  } = react.useContext(NavigationContext);
+  let {
+    matches: parentMatches
+  } = react.useContext(RouteContext);
+  let routeMatch = parentMatches[parentMatches.length - 1];
+  let parentParams = routeMatch ? routeMatch.params : {};
+  let parentPathname = routeMatch ? routeMatch.pathname : "/";
+  let parentPathnameBase = routeMatch ? routeMatch.pathnameBase : "/";
+  let parentRoute = routeMatch && routeMatch.route;
+
+  if (false) {}
+
+  let locationFromContext = dist_useLocation();
+  let location;
+
+  if (locationArg) {
+    var _parsedLocationArg$pa;
+
+    let parsedLocationArg = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
+    !(parentPathnameBase === "/" || ((_parsedLocationArg$pa = parsedLocationArg.pathname) == null ? void 0 : _parsedLocationArg$pa.startsWith(parentPathnameBase))) ?  false ? 0 : invariant(false) : void 0;
+    location = parsedLocationArg;
+  } else {
+    location = locationFromContext;
+  }
+
+  let pathname = location.pathname || "/";
+  let remainingPathname = parentPathnameBase === "/" ? pathname : pathname.slice(parentPathnameBase.length) || "/";
+  let matches = matchRoutes(routes, {
+    pathname: remainingPathname
+  });
+
+  if (false) {}
+
+  let renderedMatches = _renderMatches(matches && matches.map(match => Object.assign({}, match, {
+    params: Object.assign({}, parentParams, match.params),
+    pathname: router_joinPaths([parentPathnameBase, // Re-encode pathnames that were decoded inside matchRoutes
+    navigator.encodeLocation ? navigator.encodeLocation(match.pathname).pathname : match.pathname]),
+    pathnameBase: match.pathnameBase === "/" ? parentPathnameBase : router_joinPaths([parentPathnameBase, // Re-encode pathnames that were decoded inside matchRoutes
+    navigator.encodeLocation ? navigator.encodeLocation(match.pathnameBase).pathname : match.pathnameBase])
+  })), parentMatches, dataRouterState); // When a user passes in a `locationArg`, the associated routes need to
+  // be wrapped in a new `LocationContext.Provider` in order for `useLocation`
+  // to use the scoped location instead of the global location.
+
+
+  if (locationArg && renderedMatches) {
+    return /*#__PURE__*/react.createElement(LocationContext.Provider, {
+      value: {
+        location: dist_extends({
+          pathname: "/",
+          search: "",
+          hash: "",
+          state: null,
+          key: "default"
+        }, location),
+        navigationType: Action.Pop
+      }
+    }, renderedMatches);
+  }
+
+  return renderedMatches;
+}
+
+function DefaultErrorComponent() {
+  let error = useRouteError();
+  let message = isRouteErrorResponse(error) ? error.status + " " + error.statusText : error instanceof Error ? error.message : JSON.stringify(error);
+  let stack = error instanceof Error ? error.stack : null;
+  let lightgrey = "rgba(200,200,200, 0.5)";
+  let preStyles = {
+    padding: "0.5rem",
+    backgroundColor: lightgrey
+  };
+  let codeStyles = {
+    padding: "2px 4px",
+    backgroundColor: lightgrey
+  };
+  let devInfo = null;
+
+  if (false) {}
+
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("h2", null, "Unexpected Application Error!"), /*#__PURE__*/react.createElement("h3", {
+    style: {
+      fontStyle: "italic"
+    }
+  }, message), stack ? /*#__PURE__*/react.createElement("pre", {
+    style: preStyles
+  }, stack) : null, devInfo);
+}
+
+const defaultErrorElement = /*#__PURE__*/react.createElement(DefaultErrorComponent, null);
+class RenderErrorBoundary extends react.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      location: props.location,
+      revalidation: props.revalidation,
+      error: props.error
+    };
+  }
+
+  static getDerivedStateFromError(error) {
+    return {
+      error: error
+    };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    // When we get into an error state, the user will likely click "back" to the
+    // previous page that didn't have an error. Because this wraps the entire
+    // application, that will have no effect--the error page continues to display.
+    // This gives us a mechanism to recover from the error when the location changes.
+    //
+    // Whether we're in an error state or not, we update the location in state
+    // so that when we are in an error state, it gets reset when a new location
+    // comes in and the user recovers from the error.
+    if (state.location !== props.location || state.revalidation !== "idle" && props.revalidation === "idle") {
+      return {
+        error: props.error,
+        location: props.location,
+        revalidation: props.revalidation
+      };
+    } // If we're not changing locations, preserve the location but still surface
+    // any new errors that may come through. We retain the existing error, we do
+    // this because the error provided from the app state may be cleared without
+    // the location changing.
+
+
+    return {
+      error: props.error || state.error,
+      location: state.location,
+      revalidation: props.revalidation || state.revalidation
+    };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("React Router caught the following error during render", error, errorInfo);
+  }
+
+  render() {
+    return this.state.error ? /*#__PURE__*/react.createElement(RouteContext.Provider, {
+      value: this.props.routeContext
+    }, /*#__PURE__*/react.createElement(RouteErrorContext.Provider, {
+      value: this.state.error,
+      children: this.props.component
+    })) : this.props.children;
+  }
+
+}
+
+function RenderedRoute(_ref) {
+  let {
+    routeContext,
+    match,
+    children
+  } = _ref;
+  let dataRouterContext = react.useContext(DataRouterContext); // Track how deep we got in our render pass to emulate SSR componentDidCatch
+  // in a DataStaticRouter
+
+  if (dataRouterContext && dataRouterContext.static && dataRouterContext.staticContext && (match.route.errorElement || match.route.ErrorBoundary)) {
+    dataRouterContext.staticContext._deepestRenderedBoundaryId = match.route.id;
+  }
+
+  return /*#__PURE__*/react.createElement(RouteContext.Provider, {
+    value: routeContext
+  }, children);
+}
+
+function _renderMatches(matches, parentMatches, dataRouterState) {
+  var _dataRouterState2;
+
+  if (parentMatches === void 0) {
+    parentMatches = [];
+  }
+
+  if (dataRouterState === void 0) {
+    dataRouterState = null;
+  }
+
+  if (matches == null) {
+    var _dataRouterState;
+
+    if ((_dataRouterState = dataRouterState) != null && _dataRouterState.errors) {
+      // Don't bail if we have data router errors so we can render them in the
+      // boundary.  Use the pre-matched (or shimmed) matches
+      matches = dataRouterState.matches;
+    } else {
+      return null;
+    }
+  }
+
+  let renderedMatches = matches; // If we have data errors, trim matches to the highest error boundary
+
+  let errors = (_dataRouterState2 = dataRouterState) == null ? void 0 : _dataRouterState2.errors;
+
+  if (errors != null) {
+    let errorIndex = renderedMatches.findIndex(m => m.route.id && (errors == null ? void 0 : errors[m.route.id]));
+    !(errorIndex >= 0) ?  false ? 0 : invariant(false) : void 0;
+    renderedMatches = renderedMatches.slice(0, Math.min(renderedMatches.length, errorIndex + 1));
+  }
+
+  return renderedMatches.reduceRight((outlet, match, index) => {
+    let error = match.route.id ? errors == null ? void 0 : errors[match.route.id] : null; // Only data routers handle errors
+
+    let errorElement = null;
+
+    if (dataRouterState) {
+      errorElement = match.route.errorElement || defaultErrorElement;
+    }
+
+    let matches = parentMatches.concat(renderedMatches.slice(0, index + 1));
+
+    let getChildren = () => {
+      let children;
+
+      if (error) {
+        children = errorElement;
+      } else if (match.route.Component) {
+        // Note: This is a de-optimized path since React won't re-use the
+        // ReactElement since it's identity changes with each new
+        // React.createElement call.  We keep this so folks can use
+        // `<Route Component={...}>` in `<Routes>` but generally `Component`
+        // usage is only advised in `RouterProvider` when we can convert it to
+        // `element` ahead of time.
+        children = /*#__PURE__*/react.createElement(match.route.Component, null);
+      } else if (match.route.element) {
+        children = match.route.element;
+      } else {
+        children = outlet;
+      }
+
+      return /*#__PURE__*/react.createElement(RenderedRoute, {
+        match: match,
+        routeContext: {
+          outlet,
+          matches,
+          isDataRoute: dataRouterState != null
+        },
+        children: children
+      });
+    }; // Only wrap in an error boundary within data router usages when we have an
+    // ErrorBoundary/errorElement on this route.  Otherwise let it bubble up to
+    // an ancestor ErrorBoundary/errorElement
+
+
+    return dataRouterState && (match.route.ErrorBoundary || match.route.errorElement || index === 0) ? /*#__PURE__*/react.createElement(RenderErrorBoundary, {
+      location: dataRouterState.location,
+      revalidation: dataRouterState.revalidation,
+      component: errorElement,
+      error: error,
+      children: getChildren(),
+      routeContext: {
+        outlet: null,
+        matches,
+        isDataRoute: true
+      }
+    }) : getChildren();
+  }, null);
+}
+var DataRouterHook;
+
+(function (DataRouterHook) {
+  DataRouterHook["UseBlocker"] = "useBlocker";
+  DataRouterHook["UseRevalidator"] = "useRevalidator";
+  DataRouterHook["UseNavigateStable"] = "useNavigate";
+})(DataRouterHook || (DataRouterHook = {}));
+
+var DataRouterStateHook;
+
+(function (DataRouterStateHook) {
+  DataRouterStateHook["UseBlocker"] = "useBlocker";
+  DataRouterStateHook["UseLoaderData"] = "useLoaderData";
+  DataRouterStateHook["UseActionData"] = "useActionData";
+  DataRouterStateHook["UseRouteError"] = "useRouteError";
+  DataRouterStateHook["UseNavigation"] = "useNavigation";
+  DataRouterStateHook["UseRouteLoaderData"] = "useRouteLoaderData";
+  DataRouterStateHook["UseMatches"] = "useMatches";
+  DataRouterStateHook["UseRevalidator"] = "useRevalidator";
+  DataRouterStateHook["UseNavigateStable"] = "useNavigate";
+  DataRouterStateHook["UseRouteId"] = "useRouteId";
+})(DataRouterStateHook || (DataRouterStateHook = {}));
+
+function getDataRouterConsoleError(hookName) {
+  return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
+}
+
+function useDataRouterContext(hookName) {
+  let ctx = react.useContext(DataRouterContext);
+  !ctx ?  false ? 0 : invariant(false) : void 0;
+  return ctx;
+}
+
+function useDataRouterState(hookName) {
+  let state = react.useContext(DataRouterStateContext);
+  !state ?  false ? 0 : invariant(false) : void 0;
+  return state;
+}
+
+function useRouteContext(hookName) {
+  let route = react.useContext(RouteContext);
+  !route ?  false ? 0 : invariant(false) : void 0;
+  return route;
+} // Internal version with hookName-aware debugging
+
+
+function useCurrentRouteId(hookName) {
+  let route = useRouteContext(hookName);
+  let thisRoute = route.matches[route.matches.length - 1];
+  !thisRoute.route.id ?  false ? 0 : invariant(false) : void 0;
+  return thisRoute.route.id;
+}
+/**
+ * Returns the ID for the nearest contextual route
+ */
+
+
+function useRouteId() {
+  return useCurrentRouteId(DataRouterStateHook.UseRouteId);
+}
+/**
+ * Returns the current navigation, defaulting to an "idle" navigation when
+ * no navigation is in progress
+ */
+
+function dist_useNavigation() {
+  let state = useDataRouterState(DataRouterStateHook.UseNavigation);
+  return state.navigation;
+}
+/**
+ * Returns a revalidate function for manually triggering revalidation, as well
+ * as the current state of any manual revalidations
+ */
+
+function useRevalidator() {
+  let dataRouterContext = useDataRouterContext(DataRouterHook.UseRevalidator);
+  let state = useDataRouterState(DataRouterStateHook.UseRevalidator);
+  return {
+    revalidate: dataRouterContext.router.revalidate,
+    state: state.revalidation
+  };
+}
+/**
+ * Returns the active route matches, useful for accessing loaderData for
+ * parent/child routes or the route "handle" property
+ */
+
+function dist_useMatches() {
+  let {
+    matches,
+    loaderData
+  } = useDataRouterState(DataRouterStateHook.UseMatches);
+  return React.useMemo(() => matches.map(match => {
+    let {
+      pathname,
+      params
+    } = match; // Note: This structure matches that created by createUseMatchesMatch
+    // in the @remix-run/router , so if you change this please also change
+    // that :)  Eventually we'll DRY this up
+
+    return {
+      id: match.route.id,
+      pathname,
+      params,
+      data: loaderData[match.route.id],
+      handle: match.route.handle
+    };
+  }), [matches, loaderData]);
+}
+/**
+ * Returns the loader data for the nearest ancestor Route loader
+ */
+
+function useLoaderData() {
+  let state = useDataRouterState(DataRouterStateHook.UseLoaderData);
+  let routeId = useCurrentRouteId(DataRouterStateHook.UseLoaderData);
+
+  if (state.errors && state.errors[routeId] != null) {
+    console.error("You cannot `useLoaderData` in an errorElement (routeId: " + routeId + ")");
+    return undefined;
+  }
+
+  return state.loaderData[routeId];
+}
+/**
+ * Returns the loaderData for the given routeId
+ */
+
+function useRouteLoaderData(routeId) {
+  let state = useDataRouterState(DataRouterStateHook.UseRouteLoaderData);
+  return state.loaderData[routeId];
+}
+/**
+ * Returns the action data for the nearest ancestor Route action
+ */
+
+function useActionData() {
+  let state = useDataRouterState(DataRouterStateHook.UseActionData);
+  let route = React.useContext(RouteContext);
+  !route ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+  return Object.values((state == null ? void 0 : state.actionData) || {})[0];
+}
+/**
+ * Returns the nearest ancestor Route error, which could be a loader/action
+ * error or a render error.  This is intended to be called from your
+ * ErrorBoundary/errorElement to display a proper error message.
+ */
+
+function useRouteError() {
+  var _state$errors;
+
+  let error = react.useContext(RouteErrorContext);
+  let state = useDataRouterState(DataRouterStateHook.UseRouteError);
+  let routeId = useCurrentRouteId(DataRouterStateHook.UseRouteError); // If this was a render error, we put it in a RouteError context inside
+  // of RenderErrorBoundary
+
+  if (error) {
+    return error;
+  } // Otherwise look for errors from our data router state
+
+
+  return (_state$errors = state.errors) == null ? void 0 : _state$errors[routeId];
+}
+/**
+ * Returns the happy-path data from the nearest ancestor <Await /> value
+ */
+
+function useAsyncValue() {
+  let value = React.useContext(AwaitContext);
+  return value == null ? void 0 : value._data;
+}
+/**
+ * Returns the error from the nearest ancestor <Await /> value
+ */
+
+function useAsyncError() {
+  let value = React.useContext(AwaitContext);
+  return value == null ? void 0 : value._error;
+}
+let blockerId = 0;
+/**
+ * Allow the application to block navigations within the SPA and present the
+ * user a confirmation dialog to confirm the navigation.  Mostly used to avoid
+ * using half-filled form data.  This does not handle hard-reloads or
+ * cross-origin navigations.
+ */
+
+function useBlocker(shouldBlock) {
+  let {
+    router
+  } = useDataRouterContext(DataRouterHook.UseBlocker);
+  let state = useDataRouterState(DataRouterStateHook.UseBlocker);
+  let [blockerKey] = React.useState(() => String(++blockerId));
+  let blockerFunction = React.useCallback(args => {
+    return typeof shouldBlock === "function" ? !!shouldBlock(args) : !!shouldBlock;
+  }, [shouldBlock]);
+  let blocker = router.getBlocker(blockerKey, blockerFunction); // Cleanup on unmount
+
+  React.useEffect(() => () => router.deleteBlocker(blockerKey), [router, blockerKey]); // Prefer the blocker from state since DataRouterContext is memoized so this
+  // ensures we update on blocker state updates
+
+  return state.blockers.get(blockerKey) || blocker;
+}
+/**
+ * Stable version of useNavigate that is used when we are in the context of
+ * a RouterProvider.
+ */
+
+function useNavigateStable() {
+  let {
+    router
+  } = useDataRouterContext(DataRouterHook.UseNavigateStable);
+  let id = useCurrentRouteId(DataRouterStateHook.UseNavigateStable);
+  let activeRef = react.useRef(false);
+  useIsomorphicLayoutEffect(() => {
+    activeRef.current = true;
+  });
+  let navigate = react.useCallback(function (to, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+     false ? 0 : void 0; // Short circuit here since if this happens on first render the navigate
+    // is useless because we haven't wired up our router subscriber yet
+
+    if (!activeRef.current) return;
+
+    if (typeof to === "number") {
+      router.navigate(to);
+    } else {
+      router.navigate(to, dist_extends({
+        fromRouteId: id
+      }, options));
+    }
+  }, [router, id]);
+  return navigate;
+}
+
+const alreadyWarned = {};
+
+function warningOnce(key, cond, message) {
+  if (!cond && !alreadyWarned[key]) {
+    alreadyWarned[key] = true;
+     false ? 0 : void 0;
+  }
+}
+
+/**
+ * Given a Remix Router instance, render the appropriate UI
+ */
+function RouterProvider(_ref) {
+  let {
+    fallbackElement,
+    router
+  } = _ref;
+  // Need to use a layout effect here so we are subscribed early enough to
+  // pick up on any render-driven redirects/navigations (useEffect/<Navigate>)
+  let [state, setState] = react.useState(router.state);
+  react.useLayoutEffect(() => router.subscribe(setState), [router, setState]);
+  let navigator = react.useMemo(() => {
+    return {
+      createHref: router.createHref,
+      encodeLocation: router.encodeLocation,
+      go: n => router.navigate(n),
+      push: (to, state, opts) => router.navigate(to, {
+        state,
+        preventScrollReset: opts == null ? void 0 : opts.preventScrollReset
+      }),
+      replace: (to, state, opts) => router.navigate(to, {
+        replace: true,
+        state,
+        preventScrollReset: opts == null ? void 0 : opts.preventScrollReset
+      })
+    };
+  }, [router]);
+  let basename = router.basename || "/";
+  let dataRouterContext = react.useMemo(() => ({
+    router,
+    navigator,
+    static: false,
+    basename
+  }), [router, navigator, basename]); // The fragment and {null} here are important!  We need them to keep React 18's
+  // useId happy when we are server-rendering since we may have a <script> here
+  // containing the hydrated server-side staticContext (from StaticRouterProvider).
+  // useId relies on the component tree structure to generate deterministic id's
+  // so we need to ensure it remains the same on the client even though
+  // we don't need the <script> tag
+
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(DataRouterContext.Provider, {
+    value: dataRouterContext
+  }, /*#__PURE__*/react.createElement(DataRouterStateContext.Provider, {
+    value: state
+  }, /*#__PURE__*/react.createElement(dist_Router, {
+    basename: router.basename,
+    location: router.state.location,
+    navigationType: router.state.historyAction,
+    navigator: navigator
+  }, router.state.initialized ? /*#__PURE__*/react.createElement(DataRoutes, {
+    routes: router.routes,
+    state: state
+  }) : fallbackElement))), null);
+}
+
+function DataRoutes(_ref2) {
+  let {
+    routes,
+    state
+  } = _ref2;
+  return useRoutesImpl(routes, undefined, state);
+}
+
+/**
+ * A <Router> that stores all entries in memory.
+ *
+ * @see https://reactrouter.com/router-components/memory-router
+ */
+function MemoryRouter(_ref3) {
+  let {
+    basename,
+    children,
+    initialEntries,
+    initialIndex
+  } = _ref3;
+  let historyRef = React.useRef();
+
+  if (historyRef.current == null) {
+    historyRef.current = createMemoryHistory({
+      initialEntries,
+      initialIndex,
+      v5Compat: true
+    });
+  }
+
+  let history = historyRef.current;
+  let [state, setState] = React.useState({
+    action: history.action,
+    location: history.location
+  });
+  React.useLayoutEffect(() => history.listen(setState), [history]);
+  return /*#__PURE__*/React.createElement(dist_Router, {
+    basename: basename,
+    children: children,
+    location: state.location,
+    navigationType: state.action,
+    navigator: history
+  });
+}
+
+/**
+ * Changes the current location.
+ *
+ * Note: This API is mostly useful in React.Component subclasses that are not
+ * able to use hooks. In functional components, we recommend you use the
+ * `useNavigate` hook instead.
+ *
+ * @see https://reactrouter.com/components/navigate
+ */
+function Navigate(_ref4) {
+  let {
+    to,
+    replace,
+    state,
+    relative
+  } = _ref4;
+  !useInRouterContext() ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+   false ? 0 : void 0;
+  let {
+    matches
+  } = React.useContext(RouteContext);
+  let {
+    pathname: locationPathname
+  } = dist_useLocation();
+  let navigate = dist_useNavigate(); // Resolve the path outside of the effect so that when effects run twice in
+  // StrictMode they navigate to the same place
+
+  let path = resolveTo(to, UNSAFE_getPathContributingMatches(matches).map(match => match.pathnameBase), locationPathname, relative === "path");
+  let jsonPath = JSON.stringify(path);
+  React.useEffect(() => navigate(JSON.parse(jsonPath), {
+    replace,
+    state,
+    relative
+  }), [navigate, jsonPath, relative, replace, state]);
+  return null;
+}
+
+/**
+ * Renders the child route's element, if there is one.
+ *
+ * @see https://reactrouter.com/components/outlet
+ */
+function Outlet(props) {
+  return useOutlet(props.context);
+}
+
+/**
+ * Declares an element that should be rendered at a certain URL path.
+ *
+ * @see https://reactrouter.com/components/route
+ */
+function Route(_props) {
+   false ? 0 : UNSAFE_invariant(false) ;
+}
+
+/**
+ * Provides location context for the rest of the app.
+ *
+ * Note: You usually won't render a <Router> directly. Instead, you'll render a
+ * router that is more specific to your environment such as a <BrowserRouter>
+ * in web browsers or a <StaticRouter> for server rendering.
+ *
+ * @see https://reactrouter.com/router-components/router
+ */
+function dist_Router(_ref5) {
+  let {
+    basename: basenameProp = "/",
+    children = null,
+    location: locationProp,
+    navigationType = Action.Pop,
+    navigator,
+    static: staticProp = false
+  } = _ref5;
+  !!useInRouterContext() ?  false ? 0 : invariant(false) : void 0; // Preserve trailing slashes on basename, so we can let the user control
+  // the enforcement of trailing slashes throughout the app
+
+  let basename = basenameProp.replace(/^\/*/, "/");
+  let navigationContext = react.useMemo(() => ({
+    basename,
+    navigator,
+    static: staticProp
+  }), [basename, navigator, staticProp]);
+
+  if (typeof locationProp === "string") {
+    locationProp = parsePath(locationProp);
+  }
+
+  let {
+    pathname = "/",
+    search = "",
+    hash = "",
+    state = null,
+    key = "default"
+  } = locationProp;
+  let locationContext = react.useMemo(() => {
+    let trailingPathname = router_stripBasename(pathname, basename);
+
+    if (trailingPathname == null) {
+      return null;
+    }
+
+    return {
+      location: {
+        pathname: trailingPathname,
+        search,
+        hash,
+        state,
+        key
+      },
+      navigationType
+    };
+  }, [basename, pathname, search, hash, state, key, navigationType]);
+   false ? 0 : void 0;
+
+  if (locationContext == null) {
+    return null;
+  }
+
+  return /*#__PURE__*/react.createElement(NavigationContext.Provider, {
+    value: navigationContext
+  }, /*#__PURE__*/react.createElement(LocationContext.Provider, {
+    children: children,
+    value: locationContext
+  }));
+}
+
+/**
+ * A container for a nested tree of <Route> elements that renders the branch
+ * that best matches the current location.
+ *
+ * @see https://reactrouter.com/components/routes
+ */
+function Routes(_ref6) {
+  let {
+    children,
+    location
+  } = _ref6;
+  return useRoutes(createRoutesFromChildren(children), location);
+}
+
+/**
+ * Component to use for rendering lazily loaded data from returning defer()
+ * in a loader function
+ */
+function Await(_ref7) {
+  let {
+    children,
+    errorElement,
+    resolve
+  } = _ref7;
+  return /*#__PURE__*/React.createElement(AwaitErrorBoundary, {
+    resolve: resolve,
+    errorElement: errorElement
+  }, /*#__PURE__*/React.createElement(ResolveAwait, null, children));
+}
+var AwaitRenderStatus;
+
+(function (AwaitRenderStatus) {
+  AwaitRenderStatus[AwaitRenderStatus["pending"] = 0] = "pending";
+  AwaitRenderStatus[AwaitRenderStatus["success"] = 1] = "success";
+  AwaitRenderStatus[AwaitRenderStatus["error"] = 2] = "error";
+})(AwaitRenderStatus || (AwaitRenderStatus = {}));
+
+const neverSettledPromise = new Promise(() => {});
+
+class AwaitErrorBoundary extends react.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null
+    };
+  }
+
+  static getDerivedStateFromError(error) {
+    return {
+      error
+    };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("<Await> caught the following error during render", error, errorInfo);
+  }
+
+  render() {
+    let {
+      children,
+      errorElement,
+      resolve
+    } = this.props;
+    let promise = null;
+    let status = AwaitRenderStatus.pending;
+
+    if (!(resolve instanceof Promise)) {
+      // Didn't get a promise - provide as a resolved promise
+      status = AwaitRenderStatus.success;
+      promise = Promise.resolve();
+      Object.defineProperty(promise, "_tracked", {
+        get: () => true
+      });
+      Object.defineProperty(promise, "_data", {
+        get: () => resolve
+      });
+    } else if (this.state.error) {
+      // Caught a render error, provide it as a rejected promise
+      status = AwaitRenderStatus.error;
+      let renderError = this.state.error;
+      promise = Promise.reject().catch(() => {}); // Avoid unhandled rejection warnings
+
+      Object.defineProperty(promise, "_tracked", {
+        get: () => true
+      });
+      Object.defineProperty(promise, "_error", {
+        get: () => renderError
+      });
+    } else if (resolve._tracked) {
+      // Already tracked promise - check contents
+      promise = resolve;
+      status = promise._error !== undefined ? AwaitRenderStatus.error : promise._data !== undefined ? AwaitRenderStatus.success : AwaitRenderStatus.pending;
+    } else {
+      // Raw (untracked) promise - track it
+      status = AwaitRenderStatus.pending;
+      Object.defineProperty(resolve, "_tracked", {
+        get: () => true
+      });
+      promise = resolve.then(data => Object.defineProperty(resolve, "_data", {
+        get: () => data
+      }), error => Object.defineProperty(resolve, "_error", {
+        get: () => error
+      }));
+    }
+
+    if (status === AwaitRenderStatus.error && promise._error instanceof AbortedDeferredError) {
+      // Freeze the UI by throwing a never resolved promise
+      throw neverSettledPromise;
+    }
+
+    if (status === AwaitRenderStatus.error && !errorElement) {
+      // No errorElement, throw to the nearest route-level error boundary
+      throw promise._error;
+    }
+
+    if (status === AwaitRenderStatus.error) {
+      // Render via our errorElement
+      return /*#__PURE__*/react.createElement(AwaitContext.Provider, {
+        value: promise,
+        children: errorElement
+      });
+    }
+
+    if (status === AwaitRenderStatus.success) {
+      // Render children with resolved value
+      return /*#__PURE__*/react.createElement(AwaitContext.Provider, {
+        value: promise,
+        children: children
+      });
+    } // Throw to the suspense boundary
+
+
+    throw promise;
+  }
+
+}
+/**
+ * @private
+ * Indirection to leverage useAsyncValue for a render-prop API on <Await>
+ */
+
+
+function ResolveAwait(_ref8) {
+  let {
+    children
+  } = _ref8;
+  let data = useAsyncValue();
+  let toRender = typeof children === "function" ? children(data) : children;
+  return /*#__PURE__*/React.createElement(React.Fragment, null, toRender);
+} ///////////////////////////////////////////////////////////////////////////////
+// UTILS
+///////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Creates a route config from a React "children" object, which is usually
+ * either a `<Route>` element or an array of them. Used internally by
+ * `<Routes>` to create a route config from its children.
+ *
+ * @see https://reactrouter.com/utils/create-routes-from-children
+ */
+
+
+function createRoutesFromChildren(children, parentPath) {
+  if (parentPath === void 0) {
+    parentPath = [];
+  }
+
+  let routes = [];
+  React.Children.forEach(children, (element, index) => {
+    if (! /*#__PURE__*/React.isValidElement(element)) {
+      // Ignore non-elements. This allows people to more easily inline
+      // conditionals in their route config.
+      return;
+    }
+
+    let treePath = [...parentPath, index];
+
+    if (element.type === React.Fragment) {
+      // Transparently support React.Fragment and its children.
+      routes.push.apply(routes, createRoutesFromChildren(element.props.children, treePath));
+      return;
+    }
+
+    !(element.type === Route) ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+    !(!element.props.index || !element.props.children) ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+    let route = {
+      id: element.props.id || treePath.join("-"),
+      caseSensitive: element.props.caseSensitive,
+      element: element.props.element,
+      Component: element.props.Component,
+      index: element.props.index,
+      path: element.props.path,
+      loader: element.props.loader,
+      action: element.props.action,
+      errorElement: element.props.errorElement,
+      ErrorBoundary: element.props.ErrorBoundary,
+      hasErrorBoundary: element.props.ErrorBoundary != null || element.props.errorElement != null,
+      shouldRevalidate: element.props.shouldRevalidate,
+      handle: element.props.handle,
+      lazy: element.props.lazy
+    };
+
+    if (element.props.children) {
+      route.children = createRoutesFromChildren(element.props.children, treePath);
+    }
+
+    routes.push(route);
+  });
+  return routes;
+}
+/**
+ * Renders the result of `matchRoutes()` into a React element.
+ */
+
+function renderMatches(matches) {
+  return _renderMatches(matches);
+}
+
+function mapRouteProperties(route) {
+  let updates = {
+    // Note: this check also occurs in createRoutesFromChildren so update
+    // there if you change this -- please and thank you!
+    hasErrorBoundary: route.ErrorBoundary != null || route.errorElement != null
+  };
+
+  if (route.Component) {
+    if (false) {}
+
+    Object.assign(updates, {
+      element: /*#__PURE__*/react.createElement(route.Component),
+      Component: undefined
+    });
+  }
+
+  if (route.ErrorBoundary) {
+    if (false) {}
+
+    Object.assign(updates, {
+      errorElement: /*#__PURE__*/react.createElement(route.ErrorBoundary),
+      ErrorBoundary: undefined
+    });
+  }
+
+  return updates;
+}
+
+function createMemoryRouter(routes, opts) {
+  return createRouter({
+    basename: opts == null ? void 0 : opts.basename,
+    future: dist_extends({}, opts == null ? void 0 : opts.future, {
+      v7_prependBasename: true
+    }),
+    history: createMemoryHistory({
+      initialEntries: opts == null ? void 0 : opts.initialEntries,
+      initialIndex: opts == null ? void 0 : opts.initialIndex
+    }),
+    hydrationData: opts == null ? void 0 : opts.hydrationData,
+    routes,
+    mapRouteProperties
+  }).initialize();
+} ///////////////////////////////////////////////////////////////////////////////
+
+
+//# sourceMappingURL=index.js.map
+
+;// CONCATENATED MODULE: ./node_modules/react-router-dom/dist/index.js
+/**
+ * React Router DOM v6.11.2
+ *
+ * Copyright (c) Remix Software Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ *
+ * @license MIT
+ */
+
+
+
+
+
+function react_router_dom_dist_extends() {
+  react_router_dom_dist_extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+  return react_router_dom_dist_extends.apply(this, arguments);
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+const defaultMethod = "get";
+const defaultEncType = "application/x-www-form-urlencoded";
+function isHtmlElement(object) {
+  return object != null && typeof object.tagName === "string";
+}
+function isButtonElement(object) {
+  return isHtmlElement(object) && object.tagName.toLowerCase() === "button";
+}
+function isFormElement(object) {
+  return isHtmlElement(object) && object.tagName.toLowerCase() === "form";
+}
+function isInputElement(object) {
+  return isHtmlElement(object) && object.tagName.toLowerCase() === "input";
+}
+
+function isModifiedEvent(event) {
+  return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
+}
+
+function shouldProcessLinkClick(event, target) {
+  return event.button === 0 && ( // Ignore everything but left clicks
+  !target || target === "_self") && // Let browser handle "target=_blank" etc.
+  !isModifiedEvent(event) // Ignore clicks with modifier keys
+  ;
+}
+/**
+ * Creates a URLSearchParams object using the given initializer.
+ *
+ * This is identical to `new URLSearchParams(init)` except it also
+ * supports arrays as values in the object form of the initializer
+ * instead of just strings. This is convenient when you need multiple
+ * values for a given key, but don't want to use an array initializer.
+ *
+ * For example, instead of:
+ *
+ *   let searchParams = new URLSearchParams([
+ *     ['sort', 'name'],
+ *     ['sort', 'price']
+ *   ]);
+ *
+ * you can do:
+ *
+ *   let searchParams = createSearchParams({
+ *     sort: ['name', 'price']
+ *   });
+ */
+
+function createSearchParams(init) {
+  if (init === void 0) {
+    init = "";
+  }
+
+  return new URLSearchParams(typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo, key) => {
+    let value = init[key];
+    return memo.concat(Array.isArray(value) ? value.map(v => [key, v]) : [[key, value]]);
+  }, []));
+}
+function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
+  let searchParams = createSearchParams(locationSearch);
+
+  if (defaultSearchParams) {
+    for (let key of defaultSearchParams.keys()) {
+      if (!searchParams.has(key)) {
+        defaultSearchParams.getAll(key).forEach(value => {
+          searchParams.append(key, value);
+        });
+      }
+    }
+  }
+
+  return searchParams;
+}
+function getFormSubmissionInfo(target, options, basename) {
+  let method;
+  let action = null;
+  let encType;
+  let formData;
+
+  if (isFormElement(target)) {
+    let submissionTrigger = options.submissionTrigger;
+
+    if (options.action) {
+      action = options.action;
+    } else {
+      // When grabbing the action from the element, it will have had the basename
+      // prefixed to ensure non-JS scenarios work, so strip it since we'll
+      // re-prefix in the router
+      let attr = target.getAttribute("action");
+      action = attr ? stripBasename(attr, basename) : null;
+    }
+
+    method = options.method || target.getAttribute("method") || defaultMethod;
+    encType = options.encType || target.getAttribute("enctype") || defaultEncType;
+    formData = new FormData(target);
+
+    if (submissionTrigger && submissionTrigger.name) {
+      formData.append(submissionTrigger.name, submissionTrigger.value);
+    }
+  } else if (isButtonElement(target) || isInputElement(target) && (target.type === "submit" || target.type === "image")) {
+    let form = target.form;
+
+    if (form == null) {
+      throw new Error("Cannot submit a <button> or <input type=\"submit\"> without a <form>");
+    } // <button>/<input type="submit"> may override attributes of <form>
+
+
+    if (options.action) {
+      action = options.action;
+    } else {
+      // When grabbing the action from the element, it will have had the basename
+      // prefixed to ensure non-JS scenarios work, so strip it since we'll
+      // re-prefix in the router
+      let attr = target.getAttribute("formaction") || form.getAttribute("action");
+      action = attr ? stripBasename(attr, basename) : null;
+    }
+
+    method = options.method || target.getAttribute("formmethod") || form.getAttribute("method") || defaultMethod;
+    encType = options.encType || target.getAttribute("formenctype") || form.getAttribute("enctype") || defaultEncType;
+    formData = new FormData(form); // Include name + value from a <button>, appending in case the button name
+    // matches an existing input name
+
+    if (target.name) {
+      formData.append(target.name, target.value);
+    }
+  } else if (isHtmlElement(target)) {
+    throw new Error("Cannot submit element that is not <form>, <button>, or " + "<input type=\"submit|image\">");
+  } else {
+    method = options.method || defaultMethod;
+    action = options.action || null;
+    encType = options.encType || defaultEncType;
+
+    if (target instanceof FormData) {
+      formData = target;
+    } else {
+      formData = new FormData();
+
+      if (target instanceof URLSearchParams) {
+        for (let [name, value] of target) {
+          formData.append(name, value);
+        }
+      } else if (target != null) {
+        for (let name of Object.keys(target)) {
+          formData.append(name, target[name]);
+        }
+      }
+    }
+  }
+
+  return {
+    action,
+    method: method.toLowerCase(),
+    encType,
+    formData
+  };
+}
+
+const _excluded = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset"],
+      _excluded2 = (/* unused pure expression or super */ null && (["aria-current", "caseSensitive", "className", "end", "style", "to", "children"])),
+      _excluded3 = (/* unused pure expression or super */ null && (["reloadDocument", "replace", "method", "action", "onSubmit", "fetcherKey", "routeId", "relative", "preventScrollReset"]));
+function createBrowserRouter(routes, opts) {
+  return router_createRouter({
+    basename: opts == null ? void 0 : opts.basename,
+    future: react_router_dom_dist_extends({}, opts == null ? void 0 : opts.future, {
+      v7_prependBasename: true
+    }),
+    history: router_createBrowserHistory({
+      window: opts == null ? void 0 : opts.window
+    }),
+    hydrationData: (opts == null ? void 0 : opts.hydrationData) || parseHydrationData(),
+    routes,
+    mapRouteProperties: mapRouteProperties
+  }).initialize();
+}
+function createHashRouter(routes, opts) {
+  return createRouter({
+    basename: opts == null ? void 0 : opts.basename,
+    future: react_router_dom_dist_extends({}, opts == null ? void 0 : opts.future, {
+      v7_prependBasename: true
+    }),
+    history: createHashHistory({
+      window: opts == null ? void 0 : opts.window
+    }),
+    hydrationData: (opts == null ? void 0 : opts.hydrationData) || parseHydrationData(),
+    routes,
+    mapRouteProperties: UNSAFE_mapRouteProperties
+  }).initialize();
+}
+
+function parseHydrationData() {
+  var _window;
+
+  let state = (_window = window) == null ? void 0 : _window.__staticRouterHydrationData;
+
+  if (state && state.errors) {
+    state = react_router_dom_dist_extends({}, state, {
+      errors: deserializeErrors(state.errors)
+    });
+  }
+
+  return state;
+}
+
+function deserializeErrors(errors) {
+  if (!errors) return null;
+  let entries = Object.entries(errors);
+  let serialized = {};
+
+  for (let [key, val] of entries) {
+    // Hey you!  If you change this, please change the corresponding logic in
+    // serializeErrors in react-router-dom/server.tsx :)
+    if (val && val.__type === "RouteErrorResponse") {
+      serialized[key] = new ErrorResponse(val.status, val.statusText, val.data, val.internal === true);
+    } else if (val && val.__type === "Error") {
+      let error = new Error(val.message); // Wipe away the client-side stack trace.  Nothing to fill it in with
+      // because we don't serialize SSR stack traces for security reasons
+
+      error.stack = "";
+      serialized[key] = error;
+    } else {
+      serialized[key] = val;
+    }
+  }
+
+  return serialized;
+}
+/**
+ * A `<Router>` for use in web browsers. Provides the cleanest URLs.
+ */
+
+
+function BrowserRouter(_ref) {
+  let {
+    basename,
+    children,
+    window
+  } = _ref;
+  let historyRef = React.useRef();
+
+  if (historyRef.current == null) {
+    historyRef.current = createBrowserHistory({
+      window,
+      v5Compat: true
+    });
+  }
+
+  let history = historyRef.current;
+  let [state, setState] = React.useState({
+    action: history.action,
+    location: history.location
+  });
+  React.useLayoutEffect(() => history.listen(setState), [history]);
+  return /*#__PURE__*/React.createElement(Router, {
+    basename: basename,
+    children: children,
+    location: state.location,
+    navigationType: state.action,
+    navigator: history
+  });
+}
+/**
+ * A `<Router>` for use in web browsers. Stores the location in the hash
+ * portion of the URL so it is not sent to the server.
+ */
+
+function HashRouter(_ref2) {
+  let {
+    basename,
+    children,
+    window
+  } = _ref2;
+  let historyRef = React.useRef();
+
+  if (historyRef.current == null) {
+    historyRef.current = createHashHistory({
+      window,
+      v5Compat: true
+    });
+  }
+
+  let history = historyRef.current;
+  let [state, setState] = React.useState({
+    action: history.action,
+    location: history.location
+  });
+  React.useLayoutEffect(() => history.listen(setState), [history]);
+  return /*#__PURE__*/React.createElement(Router, {
+    basename: basename,
+    children: children,
+    location: state.location,
+    navigationType: state.action,
+    navigator: history
+  });
+}
+/**
+ * A `<Router>` that accepts a pre-instantiated history object. It's important
+ * to note that using your own history object is highly discouraged and may add
+ * two versions of the history library to your bundles unless you use the same
+ * version of the history library that React Router uses internally.
+ */
+
+function HistoryRouter(_ref3) {
+  let {
+    basename,
+    children,
+    history
+  } = _ref3;
+  const [state, setState] = React.useState({
+    action: history.action,
+    location: history.location
+  });
+  React.useLayoutEffect(() => history.listen(setState), [history]);
+  return /*#__PURE__*/React.createElement(Router, {
+    basename: basename,
+    children: children,
+    location: state.location,
+    navigationType: state.action,
+    navigator: history
+  });
+}
+
+if (false) {}
+const dist_isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
+const dist_ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
+/**
+ * The public API for rendering a history-aware <a>.
+ */
+
+const Link = /*#__PURE__*/react.forwardRef(function LinkWithRef(_ref4, ref) {
+  let {
+    onClick,
+    relative,
+    reloadDocument,
+    replace,
+    state,
+    target,
+    to,
+    preventScrollReset
+  } = _ref4,
+      rest = _objectWithoutPropertiesLoose(_ref4, _excluded);
+
+  let {
+    basename
+  } = react.useContext(NavigationContext); // Rendered into <a href> for absolute URLs
+
+  let absoluteHref;
+  let isExternal = false;
+
+  if (typeof to === "string" && dist_ABSOLUTE_URL_REGEX.test(to)) {
+    // Render the absolute href server- and client-side
+    absoluteHref = to; // Only check for external origins client-side
+
+    if (dist_isBrowser) {
+      try {
+        let currentUrl = new URL(window.location.href);
+        let targetUrl = to.startsWith("//") ? new URL(currentUrl.protocol + to) : new URL(to);
+        let path = router_stripBasename(targetUrl.pathname, basename);
+
+        if (targetUrl.origin === currentUrl.origin && path != null) {
+          // Strip the protocol/origin/basename for same-origin absolute URLs
+          to = path + targetUrl.search + targetUrl.hash;
+        } else {
+          isExternal = true;
+        }
+      } catch (e) {
+        // We can't do external URL detection without a valid URL
+         false ? 0 : void 0;
+      }
+    }
+  } // Rendered into <a href> for relative URLs
+
+
+  let href = useHref(to, {
+    relative
+  });
+  let internalOnClick = useLinkClickHandler(to, {
+    replace,
+    state,
+    target,
+    preventScrollReset,
+    relative
+  });
+
+  function handleClick(event) {
+    if (onClick) onClick(event);
+
+    if (!event.defaultPrevented) {
+      internalOnClick(event);
+    }
+  }
+
+  return (
+    /*#__PURE__*/
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    react.createElement("a", react_router_dom_dist_extends({}, rest, {
+      href: absoluteHref || href,
+      onClick: isExternal || reloadDocument ? onClick : handleClick,
+      ref: ref,
+      target: target
+    }))
+  );
+});
+
+if (false) {}
+/**
+ * A <Link> wrapper that knows if it's "active" or not.
+ */
+
+
+const NavLink = /*#__PURE__*/(/* unused pure expression or super */ null && (React.forwardRef(function NavLinkWithRef(_ref5, ref) {
+  let {
+    "aria-current": ariaCurrentProp = "page",
+    caseSensitive = false,
+    className: classNameProp = "",
+    end = false,
+    style: styleProp,
+    to,
+    children
+  } = _ref5,
+      rest = _objectWithoutPropertiesLoose(_ref5, _excluded2);
+
+  let path = useResolvedPath(to, {
+    relative: rest.relative
+  });
+  let location = useLocation();
+  let routerState = React.useContext(UNSAFE_DataRouterStateContext);
+  let {
+    navigator
+  } = React.useContext(UNSAFE_NavigationContext);
+  let toPathname = navigator.encodeLocation ? navigator.encodeLocation(path).pathname : path.pathname;
+  let locationPathname = location.pathname;
+  let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
+
+  if (!caseSensitive) {
+    locationPathname = locationPathname.toLowerCase();
+    nextLocationPathname = nextLocationPathname ? nextLocationPathname.toLowerCase() : null;
+    toPathname = toPathname.toLowerCase();
+  }
+
+  let isActive = locationPathname === toPathname || !end && locationPathname.startsWith(toPathname) && locationPathname.charAt(toPathname.length) === "/";
+  let isPending = nextLocationPathname != null && (nextLocationPathname === toPathname || !end && nextLocationPathname.startsWith(toPathname) && nextLocationPathname.charAt(toPathname.length) === "/");
+  let ariaCurrent = isActive ? ariaCurrentProp : undefined;
+  let className;
+
+  if (typeof classNameProp === "function") {
+    className = classNameProp({
+      isActive,
+      isPending
+    });
+  } else {
+    // If the className prop is not a function, we use a default `active`
+    // class for <NavLink />s that are active. In v5 `active` was the default
+    // value for `activeClassName`, but we are removing that API and can still
+    // use the old default behavior for a cleaner upgrade path and keep the
+    // simple styling rules working as they currently do.
+    className = [classNameProp, isActive ? "active" : null, isPending ? "pending" : null].filter(Boolean).join(" ");
+  }
+
+  let style = typeof styleProp === "function" ? styleProp({
+    isActive,
+    isPending
+  }) : styleProp;
+  return /*#__PURE__*/React.createElement(Link, react_router_dom_dist_extends({}, rest, {
+    "aria-current": ariaCurrent,
+    className: className,
+    ref: ref,
+    style: style,
+    to: to
+  }), typeof children === "function" ? children({
+    isActive,
+    isPending
+  }) : children);
+})));
+
+if (false) {}
+/**
+ * A `@remix-run/router`-aware `<form>`. It behaves like a normal form except
+ * that the interaction with the server is with `fetch` instead of new document
+ * requests, allowing components to add nicer UX to the page as the form is
+ * submitted and returns with data.
+ */
+
+
+const Form = /*#__PURE__*/(/* unused pure expression or super */ null && (React.forwardRef((props, ref) => {
+  return /*#__PURE__*/React.createElement(FormImpl, react_router_dom_dist_extends({}, props, {
+    ref: ref
+  }));
+})));
+
+if (false) {}
+
+const FormImpl = /*#__PURE__*/(/* unused pure expression or super */ null && (React.forwardRef((_ref6, forwardedRef) => {
+  let {
+    reloadDocument,
+    replace,
+    method = defaultMethod,
+    action,
+    onSubmit,
+    fetcherKey,
+    routeId,
+    relative,
+    preventScrollReset
+  } = _ref6,
+      props = _objectWithoutPropertiesLoose(_ref6, _excluded3);
+
+  let submit = useSubmitImpl(fetcherKey, routeId);
+  let formMethod = method.toLowerCase() === "get" ? "get" : "post";
+  let formAction = useFormAction(action, {
+    relative
+  });
+
+  let submitHandler = event => {
+    onSubmit && onSubmit(event);
+    if (event.defaultPrevented) return;
+    event.preventDefault();
+    let submitter = event.nativeEvent.submitter;
+    let submitMethod = (submitter == null ? void 0 : submitter.getAttribute("formmethod")) || method;
+    submit(submitter || event.currentTarget, {
+      method: submitMethod,
+      replace,
+      relative,
+      preventScrollReset
+    });
+  };
+
+  return /*#__PURE__*/React.createElement("form", react_router_dom_dist_extends({
+    ref: forwardedRef,
+    method: formMethod,
+    action: formAction,
+    onSubmit: reloadDocument ? onSubmit : submitHandler
+  }, props));
+})));
+
+if (false) {}
+/**
+ * This component will emulate the browser's scroll restoration on location
+ * changes.
+ */
+
+
+function ScrollRestoration(_ref7) {
+  let {
+    getKey,
+    storageKey
+  } = _ref7;
+  useScrollRestoration({
+    getKey,
+    storageKey
+  });
+  return null;
+}
+
+if (false) {} //#endregion
+////////////////////////////////////////////////////////////////////////////////
+//#region Hooks
+////////////////////////////////////////////////////////////////////////////////
+
+
+var dist_DataRouterHook;
+
+(function (DataRouterHook) {
+  DataRouterHook["UseScrollRestoration"] = "useScrollRestoration";
+  DataRouterHook["UseSubmitImpl"] = "useSubmitImpl";
+  DataRouterHook["UseFetcher"] = "useFetcher";
+})(dist_DataRouterHook || (dist_DataRouterHook = {}));
+
+var dist_DataRouterStateHook;
+
+(function (DataRouterStateHook) {
+  DataRouterStateHook["UseFetchers"] = "useFetchers";
+  DataRouterStateHook["UseScrollRestoration"] = "useScrollRestoration";
+})(dist_DataRouterStateHook || (dist_DataRouterStateHook = {}));
+
+function dist_getDataRouterConsoleError(hookName) {
+  return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
+}
+
+function dist_useDataRouterContext(hookName) {
+  let ctx = React.useContext(UNSAFE_DataRouterContext);
+  !ctx ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+  return ctx;
+}
+
+function dist_useDataRouterState(hookName) {
+  let state = React.useContext(UNSAFE_DataRouterStateContext);
+  !state ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+  return state;
+}
+/**
+ * Handles the click behavior for router `<Link>` components. This is useful if
+ * you need to create custom `<Link>` components with the same click behavior we
+ * use in our exported `<Link>`.
+ */
+
+
+function useLinkClickHandler(to, _temp) {
+  let {
+    target,
+    replace: replaceProp,
+    state,
+    preventScrollReset,
+    relative
+  } = _temp === void 0 ? {} : _temp;
+  let navigate = dist_useNavigate();
+  let location = dist_useLocation();
+  let path = dist_useResolvedPath(to, {
+    relative
+  });
+  return react.useCallback(event => {
+    if (shouldProcessLinkClick(event, target)) {
+      event.preventDefault(); // If the URL hasn't changed, a regular <a> will do a replace instead of
+      // a push, so do the same here unless the replace prop is explicitly set
+
+      let replace = replaceProp !== undefined ? replaceProp : router_createPath(location) === router_createPath(path);
+      navigate(to, {
+        replace,
+        state,
+        preventScrollReset,
+        relative
+      });
+    }
+  }, [location, navigate, path, replaceProp, state, target, to, preventScrollReset, relative]);
+}
+/**
+ * A convenient wrapper for reading and writing search parameters via the
+ * URLSearchParams interface.
+ */
+
+function useSearchParams(defaultInit) {
+   false ? 0 : void 0;
+  let defaultSearchParamsRef = React.useRef(createSearchParams(defaultInit));
+  let hasSetSearchParamsRef = React.useRef(false);
+  let location = useLocation();
+  let searchParams = React.useMemo(() => // Only merge in the defaults if we haven't yet called setSearchParams.
+  // Once we call that we want those to take precedence, otherwise you can't
+  // remove a param with setSearchParams({}) if it has an initial value
+  getSearchParamsForLocation(location.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current), [location.search]);
+  let navigate = useNavigate();
+  let setSearchParams = React.useCallback((nextInit, navigateOptions) => {
+    const newSearchParams = createSearchParams(typeof nextInit === "function" ? nextInit(searchParams) : nextInit);
+    hasSetSearchParamsRef.current = true;
+    navigate("?" + newSearchParams, navigateOptions);
+  }, [navigate, searchParams]);
+  return [searchParams, setSearchParams];
+}
+/**
+ * Returns a function that may be used to programmatically submit a form (or
+ * some arbitrary data) to the server.
+ */
+
+function useSubmit() {
+  return useSubmitImpl();
+}
+
+function useSubmitImpl(fetcherKey, fetcherRouteId) {
+  let {
+    router
+  } = dist_useDataRouterContext(dist_DataRouterHook.UseSubmitImpl);
+  let {
+    basename
+  } = React.useContext(UNSAFE_NavigationContext);
+  let currentRouteId = UNSAFE_useRouteId();
+  return React.useCallback(function (target, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    if (typeof document === "undefined") {
+      throw new Error("You are calling submit during the server render. " + "Try calling submit within a `useEffect` or callback instead.");
+    }
+
+    let {
+      action,
+      method,
+      encType,
+      formData
+    } = getFormSubmissionInfo(target, options, basename); // Base options shared between fetch() and navigate()
+
+    let opts = {
+      preventScrollReset: options.preventScrollReset,
+      formData,
+      formMethod: method,
+      formEncType: encType
+    };
+
+    if (fetcherKey) {
+      !(fetcherRouteId != null) ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+      router.fetch(fetcherKey, fetcherRouteId, action, opts);
+    } else {
+      router.navigate(action, react_router_dom_dist_extends({}, opts, {
+        replace: options.replace,
+        fromRouteId: currentRouteId
+      }));
+    }
+  }, [router, basename, fetcherKey, fetcherRouteId, currentRouteId]);
+} // v7: Eventually we should deprecate this entirely in favor of using the
+// router method directly?
+
+
+function useFormAction(action, _temp2) {
+  let {
+    relative
+  } = _temp2 === void 0 ? {} : _temp2;
+  let {
+    basename
+  } = React.useContext(UNSAFE_NavigationContext);
+  let routeContext = React.useContext(UNSAFE_RouteContext);
+  !routeContext ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+  let [match] = routeContext.matches.slice(-1); // Shallow clone path so we can modify it below, otherwise we modify the
+  // object referenced by useMemo inside useResolvedPath
+
+  let path = react_router_dom_dist_extends({}, useResolvedPath(action ? action : ".", {
+    relative
+  })); // Previously we set the default action to ".". The problem with this is that
+  // `useResolvedPath(".")` excludes search params and the hash of the resolved
+  // URL. This is the intended behavior of when "." is specifically provided as
+  // the form action, but inconsistent w/ browsers when the action is omitted.
+  // https://github.com/remix-run/remix/issues/927
+
+
+  let location = useLocation();
+
+  if (action == null) {
+    // Safe to write to these directly here since if action was undefined, we
+    // would have called useResolvedPath(".") which will never include a search
+    // or hash
+    path.search = location.search;
+    path.hash = location.hash; // When grabbing search params from the URL, remove the automatically
+    // inserted ?index param so we match the useResolvedPath search behavior
+    // which would not include ?index
+
+    if (match.route.index) {
+      let params = new URLSearchParams(path.search);
+      params.delete("index");
+      path.search = params.toString() ? "?" + params.toString() : "";
+    }
+  }
+
+  if ((!action || action === ".") && match.route.index) {
+    path.search = path.search ? path.search.replace(/^\?/, "?index&") : "?index";
+  } // If we're operating within a basename, prepend it to the pathname prior
+  // to creating the form action.  If this is a root navigation, then just use
+  // the raw basename which allows the basename to have full control over the
+  // presence of a trailing slash on root actions
+
+
+  if (basename !== "/") {
+    path.pathname = path.pathname === "/" ? basename : joinPaths([basename, path.pathname]);
+  }
+
+  return createPath(path);
+}
+
+function createFetcherForm(fetcherKey, routeId) {
+  let FetcherForm = /*#__PURE__*/React.forwardRef((props, ref) => {
+    return /*#__PURE__*/React.createElement(FormImpl, react_router_dom_dist_extends({}, props, {
+      ref: ref,
+      fetcherKey: fetcherKey,
+      routeId: routeId
+    }));
+  });
+
+  if (false) {}
+
+  return FetcherForm;
+}
+
+let fetcherId = 0;
+/**
+ * Interacts with route loaders and actions without causing a navigation. Great
+ * for any interaction that stays on the same page.
+ */
+
+function useFetcher() {
+  var _route$matches;
+
+  let {
+    router
+  } = dist_useDataRouterContext(dist_DataRouterHook.UseFetcher);
+  let route = React.useContext(UNSAFE_RouteContext);
+  !route ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+  let routeId = (_route$matches = route.matches[route.matches.length - 1]) == null ? void 0 : _route$matches.route.id;
+  !(routeId != null) ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+  let [fetcherKey] = React.useState(() => String(++fetcherId));
+  let [Form] = React.useState(() => {
+    !routeId ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+    return createFetcherForm(fetcherKey, routeId);
+  });
+  let [load] = React.useState(() => href => {
+    !router ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+    !routeId ?  false ? 0 : UNSAFE_invariant(false) : void 0;
+    router.fetch(fetcherKey, routeId, href);
+  });
+  let submit = useSubmitImpl(fetcherKey, routeId);
+  let fetcher = router.getFetcher(fetcherKey);
+  let fetcherWithComponents = React.useMemo(() => react_router_dom_dist_extends({
+    Form,
+    submit,
+    load
+  }, fetcher), [fetcher, Form, submit, load]);
+  React.useEffect(() => {
+    // Is this busted when the React team gets real weird and calls effects
+    // twice on mount?  We really just need to garbage collect here when this
+    // fetcher is no longer around.
+    return () => {
+      if (!router) {
+        console.warn("No router available to clean up from useFetcher()");
+        return;
+      }
+
+      router.deleteFetcher(fetcherKey);
+    };
+  }, [router, fetcherKey]);
+  return fetcherWithComponents;
+}
+/**
+ * Provides all fetchers currently on the page. Useful for layouts and parent
+ * routes that need to provide pending/optimistic UI regarding the fetch.
+ */
+
+function useFetchers() {
+  let state = dist_useDataRouterState(dist_DataRouterStateHook.UseFetchers);
+  return [...state.fetchers.values()];
+}
+const SCROLL_RESTORATION_STORAGE_KEY = "react-router-scroll-positions";
+let savedScrollPositions = {};
+/**
+ * When rendered inside a RouterProvider, will restore scroll positions on navigations
+ */
+
+function useScrollRestoration(_temp3) {
+  let {
+    getKey,
+    storageKey
+  } = _temp3 === void 0 ? {} : _temp3;
+  let {
+    router
+  } = dist_useDataRouterContext(dist_DataRouterHook.UseScrollRestoration);
+  let {
+    restoreScrollPosition,
+    preventScrollReset
+  } = dist_useDataRouterState(dist_DataRouterStateHook.UseScrollRestoration);
+  let location = useLocation();
+  let matches = useMatches();
+  let navigation = useNavigation(); // Trigger manual scroll restoration while we're active
+
+  React.useEffect(() => {
+    window.history.scrollRestoration = "manual";
+    return () => {
+      window.history.scrollRestoration = "auto";
+    };
+  }, []); // Save positions on pagehide
+
+  usePageHide(React.useCallback(() => {
+    if (navigation.state === "idle") {
+      let key = (getKey ? getKey(location, matches) : null) || location.key;
+      savedScrollPositions[key] = window.scrollY;
+    }
+
+    sessionStorage.setItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY, JSON.stringify(savedScrollPositions));
+    window.history.scrollRestoration = "auto";
+  }, [storageKey, getKey, navigation.state, location, matches])); // Read in any saved scroll locations
+
+  if (typeof document !== "undefined") {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    React.useLayoutEffect(() => {
+      try {
+        let sessionPositions = sessionStorage.getItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY);
+
+        if (sessionPositions) {
+          savedScrollPositions = JSON.parse(sessionPositions);
+        }
+      } catch (e) {// no-op, use default empty object
+      }
+    }, [storageKey]); // Enable scroll restoration in the router
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+
+    React.useLayoutEffect(() => {
+      let disableScrollRestoration = router == null ? void 0 : router.enableScrollRestoration(savedScrollPositions, () => window.scrollY, getKey);
+      return () => disableScrollRestoration && disableScrollRestoration();
+    }, [router, getKey]); // Restore scrolling when state.restoreScrollPosition changes
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+
+    React.useLayoutEffect(() => {
+      // Explicit false means don't do anything (used for submissions)
+      if (restoreScrollPosition === false) {
+        return;
+      } // been here before, scroll to it
+
+
+      if (typeof restoreScrollPosition === "number") {
+        window.scrollTo(0, restoreScrollPosition);
+        return;
+      } // try to scroll to the hash
+
+
+      if (location.hash) {
+        let el = document.getElementById(location.hash.slice(1));
+
+        if (el) {
+          el.scrollIntoView();
+          return;
+        }
+      } // Don't reset if this navigation opted out
+
+
+      if (preventScrollReset === true) {
+        return;
+      } // otherwise go to the top on new locations
+
+
+      window.scrollTo(0, 0);
+    }, [location, restoreScrollPosition, preventScrollReset]);
+  }
+}
+/**
+ * Setup a callback to be fired on the window's `beforeunload` event. This is
+ * useful for saving some data to `window.localStorage` just before the page
+ * refreshes.
+ *
+ * Note: The `callback` argument should be a function created with
+ * `React.useCallback()`.
+ */
+
+function useBeforeUnload(callback, options) {
+  let {
+    capture
+  } = options || {};
+  React.useEffect(() => {
+    let opts = capture != null ? {
+      capture
+    } : undefined;
+    window.addEventListener("beforeunload", callback, opts);
+    return () => {
+      window.removeEventListener("beforeunload", callback, opts);
+    };
+  }, [callback, capture]);
+}
+/**
+ * Setup a callback to be fired on the window's `pagehide` event. This is
+ * useful for saving some data to `window.localStorage` just before the page
+ * refreshes.  This event is better supported than beforeunload across browsers.
+ *
+ * Note: The `callback` argument should be a function created with
+ * `React.useCallback()`.
+ */
+
+function usePageHide(callback, options) {
+  let {
+    capture
+  } = options || {};
+  React.useEffect(() => {
+    let opts = capture != null ? {
+      capture
+    } : undefined;
+    window.addEventListener("pagehide", callback, opts);
+    return () => {
+      window.removeEventListener("pagehide", callback, opts);
+    };
+  }, [callback, capture]);
+}
+/**
+ * Wrapper around useBlocker to show a window.confirm prompt to users instead
+ * of building a custom UI with useBlocker.
+ *
+ * Warning: This has *a lot of rough edges* and behaves very differently (and
+ * very incorrectly in some cases) across browsers if user click addition
+ * back/forward navigations while the confirm is open.  Use at your own risk.
+ */
+
+
+function usePrompt(_ref8) {
+  let {
+    when,
+    message
+  } = _ref8;
+  let blocker = unstable_useBlocker(when);
+  React.useEffect(() => {
+    if (blocker.state === "blocked" && !when) {
+      blocker.reset();
+    }
+  }, [blocker, when]);
+  React.useEffect(() => {
+    if (blocker.state === "blocked") {
+      let proceed = window.confirm(message);
+
+      if (proceed) {
+        setTimeout(blocker.proceed, 0);
+      } else {
+        blocker.reset();
+      }
+    }
+  }, [blocker, message]);
+}
+ //#endregion
+
+
+//# sourceMappingURL=index.js.map
+
+;// CONCATENATED MODULE: ./src/js/app/Utils/DataContext.js
+
+const DataContext_DataContext = /*#__PURE__*/(0,react.createContext)({
+  data: {}
+});
+DataContext_DataContext.displayName = "DataContext";
+/* harmony default export */ const Utils_DataContext = (DataContext_DataContext);
+;// CONCATENATED MODULE: ./src/js/app/Utils/MenuDataContext.js
+
+const MenuDataContext = /*#__PURE__*/(0,react.createContext)({
+  menuData: {}
+});
+MenuDataContext.displayName = "Menu Data";
+/* harmony default export */ const Utils_MenuDataContext = (MenuDataContext);
 ;// CONCATENATED MODULE: ./src/js/app/assets/langData.js
 let langArr = [{
   code: "en",
@@ -4393,6 +6724,8 @@ let langArr = [{
 
 
 
+// import "src/js/app/assets";
+
 const Navbar = () => {
   const [showMenu, setShowMenu] = (0,react.useState)(false);
   const [navbarMenus, setNavbarMenus] = (0,react.useState)([]);
@@ -4402,11 +6735,11 @@ const Navbar = () => {
   const {
     lang,
     setLang
-  } = (0,react.useContext)(DataContext/* default */.Z);
+  } = (0,react.useContext)(Utils_DataContext);
   const {
     menuData,
     setMenuData
-  } = (0,react.useContext)(MenuDataContext/* default */.Z);
+  } = (0,react.useContext)(Utils_MenuDataContext);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   (0,react.useEffect)(() => {
@@ -4469,8 +6802,23 @@ const Navbar = () => {
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("nav", {
     className: "navbar"
   }, /*#__PURE__*/react.createElement("div", {
-    className: "navbar-brand text-danger"
-  }, "The Polys WebXR Awards and Summit Series"), /*#__PURE__*/react.createElement("div", {
+    className: "navbar-brand text-white",
+    style: {
+      fontFamily: "sans-serif"
+    }
+  }, /*#__PURE__*/react.createElement("img", {
+    src: "https://staging.webxr.link/wp-content/uploads/2023/05/webxros.png",
+    alt: "logo",
+    style: {
+      width: '50px',
+      height: '50px',
+      marginTop: '-3px'
+    }
+  }), /*#__PURE__*/react.createElement("span", {
+    style: {
+      marginLeft: '15px'
+    }
+  }, "PowerSimple | XROS")), /*#__PURE__*/react.createElement("div", {
     className: "navbar-right"
   }, navbarMenus ? navbarMenus.map((currEle, i) => {
     let {
@@ -4487,7 +6835,7 @@ const Navbar = () => {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/react.createElement(dist/* Link */.rU, {
+      return /*#__PURE__*/react.createElement(Link, {
         className: "dropdown__items",
         key: i,
         onMouseEnter: () => setHoveredIndex(i),
@@ -4499,7 +6847,7 @@ const Navbar = () => {
         className: "fa-solid fa-circle-chevron-down"
       })), c && hoveredIndex === i && /*#__PURE__*/react.createElement("div", {
         className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(dist/* Link */.rU, {
+      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(Link, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
@@ -4590,7 +6938,7 @@ const Navbar = () => {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/react.createElement(dist/* Link */.rU, {
+      return /*#__PURE__*/react.createElement(Link, {
         className: "dropdown__items",
         key: i,
         onMouseEnter: () => setHoveredIndex(i),
@@ -4602,7 +6950,7 @@ const Navbar = () => {
         className: "fa-solid fa-circle-chevron-down"
       })), c && hoveredIndex === i && /*#__PURE__*/react.createElement("div", {
         className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(dist/* Link */.rU, {
+      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(Link, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
@@ -4626,39 +6974,237 @@ const Navbar = () => {
   }, "German")))) : /*#__PURE__*/react.createElement(react.Fragment, null))));
 };
 /* harmony default export */ const Components_Navbar = (Navbar);
-// EXTERNAL MODULE: ./node_modules/react-router/dist/index.js
-var react_router_dist = __webpack_require__(250);
 ;// CONCATENATED MODULE: ./src/js/app/Components/Home.js
 
 
 const Home = () => {
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(react_router_dist/* Outlet */.j3, null));
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Outlet, null));
 };
 /* harmony default export */ const Components_Home = (Home);
-;// CONCATENATED MODULE: ./src/js/app/Components/ToggleVisibility.js
+;// CONCATENATED MODULE: ./src/js/app/Components/Body.js
 
-function ToggleVisibility(_ref) {
-  let {
-    children
-  } = _ref;
-  console.log("in toggle visibility");
-  // React state to manage visibility
-  const [show, setShow] = (0,react.useState)();
 
-  // function to toggle the boolean value
-  function toggleShow() {
-    setShow(!show);
-  }
-  var buttonText = show ? "Hide Component" : "Show Component";
+const Body = () => {
+  const SITE_URL = "MISSING_ENV_VAR".SITE_URL;
+  const HOME_URL = "MISSING_ENV_VAR".HOME_URL;
+  const SITE_TITLE = "MISSING_ENV_VAR".SITE_TITLE;
+  const SITE_TAGLINE = "MISSING_ENV_VAR".SITE_TAGLINE;
+  console.log("Site url", SITE_URL);
   return /*#__PURE__*/react.createElement("div", {
-    className: "component-container"
-  }, show && children, /*#__PURE__*/react.createElement("button", {
-    onClick: toggleShow
-  }, buttonText));
+    className: "mainpage"
+  }, /*#__PURE__*/react.createElement("h1", null, "WEBXR  OPEN SOURCE FELLOWSHIP"), /*#__PURE__*/react.createElement("p", {
+    style: {
+      marginBottom: '20px'
+    }
+  }, "\u201CI think it\u2019s actually our obligation and duty to figure out on our side what can we do to make the VR platform take advantage of this trillion plus dollars of content on all of the flat screens.\u201D -", /*#__PURE__*/react.createElement("i", null, " John Carmack, Meta Connect Keynote, 2021"), /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "This quote is an essential reminder, that there is an enormous amount of text, images, and video waiting to populate XR worlds. 42% of all websites on the internet use WordPress as a Content Management System (CMS). Our open-source project aims to make it easy to enable WebXR in WordPress using a customizable theme. This will empower content owners to publish their assets already stored in 2D sites into an immersive format.", /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "The strategic approach of enabling entire content libraries stored in WordPress to be presented in WebXR will propel the growth of the Immersive Web, by allowing sites to gradually phase-in presentation of content in Virtual and Augmented Reality without having to change CMS platforms. WordPress's impressive reach, with over 400 million websites using it, and a 64.3% share of the CMS market, makes converting WordPress websites into 3D Experiences a massive market opportunity which will draw developer talent to advance their careers in the Metaverse.", /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "Over the past three years, Powersimple has been using WordPress as an effective admin tool to structure data and populate WebXR sites, with text and image content, and even interactive 3D models. This effectively bridges the gap between the 2D internet of the past and the Immersive Web of the future. The XROS Fellowship, sponsored by FICCI (Federation of Indian Chambers of Commerce & Industry) and Meta, is sponsoring a stipend for six talented students who have been selected from a pool of 120 applicants, to dedicate over 2,000 hours of development time toward repackaging this open-source theme for mass-market use. The project is guided by Ben Erwin, who has over 25-years of experience as a web developer, with 15 specializing in WordPress.", /*#__PURE__*/react.createElement("br", null)));
+};
+/* harmony default export */ const Components_Body = (Body);
+;// CONCATENATED MODULE: ./src/js/app/Components/Profile.js
+
+
+
+const Profile = () => {
+  const {
+    username
+  } = useParams();
+  const {
+    data
+  } = useContext(DataContext);
+  const cd = data.filter(e => e.slug === username);
+  const content = cd[0].content || "";
+  const userName = cd[0].title;
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, userName), /*#__PURE__*/React.createElement("div", {
+    dangerouslySetInnerHTML: {
+      __html: content
+    }
+  }));
+};
+/* harmony default export */ const Components_Profile = ((/* unused pure expression or super */ null && (Profile)));
+;// CONCATENATED MODULE: ./src/js/app/Components/Sidebar.js
+
+
+function Sidebar() {
+  const [showAccessibilityPanel, setShowAccessibilityPanel] = (0,react.useState)(false);
+  const handleAccessibilityButtonClick = () => {
+    setShowAccessibilityPanel(true);
+  };
+  const handleAccessibilityCloseButtonClick = () => {
+    setShowAccessibilityPanel(false);
+  };
+  const handleHighContrastButtonClick = () => {
+    document.body.classList.toggle('high-contrast');
+  };
+  const handleGreyscaleButtonClick = () => {
+    document.body.classList.toggle('greyscale');
+  };
+  const handleIncreaseFontSizeButtonClick = () => {
+    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    document.documentElement.style.fontSize = currentFontSize + 1 + 'px';
+  };
+  const handleDecreaseFontSizeButtonClick = () => {
+    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    document.documentElement.style.fontSize = currentFontSize - 1 + 'px';
+  };
+  const handleLightModeButtonClick = () => {
+    document.body.classList.toggle('light-mode');
+  };
+  const handleDarkModeButtonClick = () => {
+    document.body.classList.toggle('dark-mode');
+  };
+  //Additional Dark Mode button for manually turing dark mode on
+  const handleDyslexiaModeButtonClick = () => {
+    document.body.classList.toggle('dyslexia-mode');
+  };
+  const handleIncreaseWordSpaceButtonClick = () => {
+    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
+    document.documentElement.style.wordSpacing = currentWordSpacing + 1 + 'px';
+  };
+  const handleDecreaseWordSpaceButtonClick = () => {
+    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
+    document.documentElement.style.wordSpacing = currentWordSpacing - 1 + 'px';
+  };
+  const handleFocusModeButtonClick = () => {
+    document.body.classList.toggle('focus-mode');
+  };
+  const handleResetButtonClick = () => {
+    // Reset body classList
+    document.body.classList.remove('high-contrast');
+    document.body.classList.remove('greyscale');
+    document.body.classList.remove('light-mode');
+    document.body.classList.remove('dyslexia-mode');
+    document.body.classList.remove('dark-mode');
+
+    // Reset font size and word spacing
+    document.documentElement.style.fontSize = '';
+    document.documentElement.style.wordSpacing = '';
+  };
+  return /*#__PURE__*/react.createElement("div", {
+    className: "App"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-accessible-icon",
+    onClick: handleAccessibilityButtonClick
+  }), showAccessibilityPanel && /*#__PURE__*/react.createElement("div", {
+    className: `accessibility-panel ${showAccessibilityPanel ? 'active' : ''}`
+  }, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-close-button",
+    "aria-label": "Close Accessibility Menu",
+    onClick: handleAccessibilityCloseButtonClick
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "accessibility-close-icon"
+  })), /*#__PURE__*/react.createElement("div", {
+    className: "accessibility-options"
+  }, /*#__PURE__*/react.createElement("ul", null, /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-high-contrast-button",
+    onClick: handleHighContrastButtonClick
+  }, "High Contrast")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-greyscale-button",
+    onClick: handleGreyscaleButtonClick
+  }, "Greyscale")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-increase-font-size-button",
+    onClick: handleIncreaseFontSizeButtonClick
+  }, "Increase Font Size"), /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-decrease-font-size-button",
+    onClick: handleDecreaseFontSizeButtonClick
+  }, "Decrease Font Size")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-dark-mode-button",
+    onClick: handleDarkModeButtonClick
+  }, "Dark Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-dyslexia-mode-button",
+    onClick: handleDyslexiaModeButtonClick
+  }, "Dyslexia Friendly Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-increase-word-space-button",
+    onClick: handleIncreaseWordSpaceButtonClick
+  }, "Increase Word Space"), /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-decrease-word-space-button",
+    onClick: handleDecreaseWordSpaceButtonClick
+  }, "Decrease Word Space")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-focus-mode-button",
+    onClick: handleFocusModeButtonClick
+  }, "Focus Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
+    className: "accessibility-reset-button",
+    onClick: handleResetButtonClick
+  }, "Reset"))))));
 }
+/* harmony default export */ const Components_Sidebar = (Sidebar);
+;// CONCATENATED MODULE: ./src/js/app/Components/NavSites.js
+
+
+
+
+const NavSites = () => {
+  const {
+    sitename,
+    sn
+  } = dist_useParams();
+  const {
+    lang
+  } = (0,react.useContext)(Utils_DataContext);
+  const {
+    menuData,
+    setMenuData
+  } = (0,react.useContext)(Utils_MenuDataContext);
+
+  // const [menuData, setMenuData] = useState([]);
+
+  // useEffect(() => {
+  //   fetchMenuData();
+  // }, [lang]);
+
+  // async function fetchMenuData() {
+  //   try {
+  //     let fetchURL2 = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
+  //     let stagingData = await fetch(fetchURL2);
+  //     let jsonData = await stagingData.json();
+  //     let items = jsonData.filter((item) => item.slug == "main-menu");
+  //     items = items[0].items;
+  //     setMenuData(items);
+  //   } catch (err) {
+  //     console.log("Error fetching menu data:" + err);
+  //   }
+  // }
+
+  // const filteredMenuData = useMemo(() => {
+  //   const curl = "/" + sitename + "/" + sn + "/";
+  //   const filteredData = menuData?.filter((item) => item.url == curl);
+  //   return filteredData.length > 0 ? filteredData[0].content : null;
+  // }, [menuData, sitename, sn]);
+
+  // const [menuData, setMenuData] = useState({});
+
+  (0,react.useEffect)(() => {
+    fetchMenuData(lang);
+  }, [lang]);
+  async function fetchMenuData(lang) {
+    try {
+      let fetchURL = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
+      let stagingData = await fetch(fetchURL);
+      let jsonData = await stagingData.json();
+      let items = jsonData.filter(item => item.slug === "main-menu");
+      items = items[0]?.items || [];
+      setMenuData(prevData => ({
+        ...prevData,
+        [lang]: items
+      }));
+    } catch (err) {
+      console.log("Error fetching menu data: " + err);
+    }
+  }
+  const filteredMenuData = (0,react.useMemo)(() => {
+    const curl = "/" + sitename + "/" + sn + "/";
+    const langMenuData = menuData[lang] || [];
+    const filteredData = langMenuData.filter(item => item.url === curl);
+    return filteredData.length > 0 ? filteredData[0].content : null;
+  }, [menuData, lang, sitename, sn]);
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
+    dangerouslySetInnerHTML: {
+      __html: filteredMenuData
+    }
+  }));
+};
+/* harmony default export */ const Components_NavSites = (NavSites);
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
+function extends_extends() {
+  extends_extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
       for (var key in source) {
@@ -4669,12 +7215,12 @@ function _extends() {
     }
     return target;
   };
-  return _extends.apply(this, arguments);
+  return extends_extends.apply(this, arguments);
 }
 ;// CONCATENATED MODULE: ./src/js/app/psudo_data/assets.json
 const assets_namespaceObject = JSON.parse('[{"id":"marvel","type":"model","name":"astra","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb"},{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"astra","type":"model","name":"marvel","url":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb"},{"id":"bg","type":"image","name":"background","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/bg.jpg"}]');
 ;// CONCATENATED MODULE: ./src/js/app/Components/dynamicContent.json
-const dynamicContent_namespaceObject = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 1.93968 -3","crossorigin":"anonymous"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"1.27063 1.34902 1","visible":"","rotation":"1 0 0"},{"id":"#marvel","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb","position":"-3.60503 0.75 -3","scale":"3 3 3","crossorigin":"anonymous"}]');
+const dynamicContent_namespaceObject = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 1.93968 -3","crossorigin":"anonymous"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"1.27063 1.34902 1","visible":"","rotation":"1 0 0"},{"id":"#marvel","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb","position":"1.91177 0.75 -3","scale":"3 3 3","crossorigin":"anonymous"}]');
 ;// CONCATENATED MODULE: ./src/js/app/Components/AFrame.js
 
 
@@ -4855,13 +7401,7 @@ function AFrame() {
     radius: "0.5",
     height: "1.5",
     crossOrigin: "anonymous"
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    id: "#marvel",
-    "gltf-model": "#marvel",
-    position: "1 0.75 -3",
-    scale: "3 3 3",
-    crossOrigin: "anonymous"
-  }), dynamicContent_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", _extends({
+  }), dynamicContent_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", extends_extends({
     key: entity.id
   }, entity)))), /*#__PURE__*/react.createElement("a-sphere", {
     position: "0 0.7 -7",
@@ -4879,225 +7419,204 @@ function AFrame() {
   })));
 }
 /* harmony default export */ const Components_AFrame = (AFrame);
-;// CONCATENATED MODULE: ./src/js/app/Components/Body.js
-
-
-
-const Body = () => {
-  const SITE_URL = "<?php echo SITE_URL; ?>";
-  const HOME_URL = "<?php echo HOME_URL; ?>";
-  const SITE_TITLE = "<?php echo SITE_TITLE; ?>";
-  const SITE_TAGLINE = "<?php echo SITE_TAGLINE; ?>";
-  console.log("Site url", SITE_URL);
-  return /*#__PURE__*/react.createElement("div", null, "Body", /*#__PURE__*/react.createElement(ToggleVisibility, null, /*#__PURE__*/react.createElement(Components_AFrame, null)));
-};
-/* harmony default export */ const Components_Body = (Body);
-;// CONCATENATED MODULE: ./src/js/app/Components/Profile.js
-
-
-
-const Profile = () => {
-  const {
-    username
-  } = (0,react_router_dist/* useParams */.UO)();
-  const {
-    data
-  } = (0,react.useContext)(DataContext/* default */.Z);
-  const cd = data.filter(e => e.slug === username);
-  const content = cd[0].content || "";
-  const userName = cd[0].title;
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("h1", null, userName), /*#__PURE__*/react.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: content
-    }
-  }));
-};
-/* harmony default export */ const Components_Profile = (Profile);
-;// CONCATENATED MODULE: ./src/js/app/Components/Sidebar.js
-
-
-function Sidebar() {
-  const [showAccessibilityPanel, setShowAccessibilityPanel] = (0,react.useState)(false);
-  const handleAccessibilityButtonClick = () => {
-    setShowAccessibilityPanel(true);
-  };
-  const handleAccessibilityCloseButtonClick = () => {
-    setShowAccessibilityPanel(false);
-  };
-  const handleHighContrastButtonClick = () => {
-    document.body.classList.toggle('high-contrast');
-  };
-  const handleGreyscaleButtonClick = () => {
-    document.body.classList.toggle('greyscale');
-  };
-  const handleIncreaseFontSizeButtonClick = () => {
-    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    document.documentElement.style.fontSize = currentFontSize + 1 + 'px';
-  };
-  const handleDecreaseFontSizeButtonClick = () => {
-    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    document.documentElement.style.fontSize = currentFontSize - 1 + 'px';
-  };
-  const handleLightModeButtonClick = () => {
-    document.body.classList.toggle('light-mode');
-  };
-  const handleDarkModeButtonClick = () => {
-    document.body.classList.toggle('dark-mode');
-  };
-  //Additional Dark Mode button for manually turing dark mode on
-  const handleDyslexiaModeButtonClick = () => {
-    document.body.classList.toggle('dyslexia-mode');
-  };
-  const handleIncreaseWordSpaceButtonClick = () => {
-    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
-    document.documentElement.style.wordSpacing = currentWordSpacing + 1 + 'px';
-  };
-  const handleDecreaseWordSpaceButtonClick = () => {
-    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
-    document.documentElement.style.wordSpacing = currentWordSpacing - 1 + 'px';
-  };
-  const handleFocusModeButtonClick = () => {
-    document.body.classList.toggle('focus-mode');
-  };
-  const handleResetButtonClick = () => {
-    // Reset body classList
-    document.body.classList.remove('high-contrast');
-    document.body.classList.remove('greyscale');
-    document.body.classList.remove('light-mode');
-    document.body.classList.remove('dyslexia-mode');
-    document.body.classList.remove('dark-mode');
-
-    // Reset font size and word spacing
-    document.documentElement.style.fontSize = '';
-    document.documentElement.style.wordSpacing = '';
-  };
-  return /*#__PURE__*/react.createElement("div", {
-    className: "App"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-accessible-icon",
-    onClick: handleAccessibilityButtonClick
-  }), showAccessibilityPanel && /*#__PURE__*/react.createElement("div", {
-    className: `accessibility-panel ${showAccessibilityPanel ? 'active' : ''}`
-  }, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-close-button",
-    "aria-label": "Close Accessibility Menu",
-    onClick: handleAccessibilityCloseButtonClick
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "accessibility-close-icon"
-  })), /*#__PURE__*/react.createElement("div", {
-    className: "accessibility-options"
-  }, /*#__PURE__*/react.createElement("ul", null, /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-high-contrast-button",
-    onClick: handleHighContrastButtonClick
-  }, "High Contrast")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-greyscale-button",
-    onClick: handleGreyscaleButtonClick
-  }, "Greyscale")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-increase-font-size-button",
-    onClick: handleIncreaseFontSizeButtonClick
-  }, "Increase Font Size"), /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-decrease-font-size-button",
-    onClick: handleDecreaseFontSizeButtonClick
-  }, "Decrease Font Size")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-light-mode-button",
-    onClick: handleLightModeButtonClick
-  }, "Light Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-dark-mode-button",
-    onClick: handleDarkModeButtonClick
-  }, "Dark Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-dyslexia-mode-button",
-    onClick: handleDyslexiaModeButtonClick
-  }, "Dyslexia Friendly Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-increase-word-space-button",
-    onClick: handleIncreaseWordSpaceButtonClick
-  }, "Increase Word Space"), /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-decrease-word-space-button",
-    onClick: handleDecreaseWordSpaceButtonClick
-  }, "Decrease Word Space")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-focus-mode-button",
-    onClick: handleFocusModeButtonClick
-  }, "Focus Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-reset-button",
-    onClick: handleResetButtonClick
-  }, "Reset"))))), /*#__PURE__*/react.createElement("p", null, "Testing Text"));
-}
-/* harmony default export */ const Components_Sidebar = (Sidebar);
-;// CONCATENATED MODULE: ./src/js/app/Components/NavSites.js
+;// CONCATENATED MODULE: ./src/js/app/psudo_data/assets_demo.json
+const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh3.glb"}]');
+;// CONCATENATED MODULE: ./src/js/app/Components/dynamicContent_demo.json
+const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-6.244 1.426 -0.311","rotation":"0 90 0","scale":"0.49834 0.58072 1"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{},{"id":"#room","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb","crossorigin":"anonymous","position":"-1.693 0 0.07"}]');
+;// CONCATENATED MODULE: ./src/js/app/Components/Demo.js
 
 
 
 
-const NavSites = () => {
-  const {
-    sitename,
-    sn
-  } = (0,react_router_dist/* useParams */.UO)();
-  const {
-    lang
-  } = (0,react.useContext)(DataContext/* default */.Z);
-  const {
-    menuData,
-    setMenuData
-  } = (0,react.useContext)(MenuDataContext/* default */.Z);
+// have used native file system till endpoints unavailable
 
-  // const [menuData, setMenuData] = useState([]);
-
-  // useEffect(() => {
-  //   fetchMenuData();
-  // }, [lang]);
-
-  // async function fetchMenuData() {
-  //   try {
-  //     let fetchURL2 = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
-  //     let stagingData = await fetch(fetchURL2);
-  //     let jsonData = await stagingData.json();
-  //     let items = jsonData.filter((item) => item.slug == "main-menu");
-  //     items = items[0].items;
-  //     setMenuData(items);
-  //   } catch (err) {
-  //     console.log("Error fetching menu data:" + err);
-  //   }
-  // }
-
-  // const filteredMenuData = useMemo(() => {
-  //   const curl = "/" + sitename + "/" + sn + "/";
-  //   const filteredData = menuData?.filter((item) => item.url == curl);
-  //   return filteredData.length > 0 ? filteredData[0].content : null;
-  // }, [menuData, sitename, sn]);
-
-  // const [menuData, setMenuData] = useState({});
-
+function Demo() {
+  const [loading, setLoading] = (0,react.useState)(true);
   (0,react.useEffect)(() => {
-    fetchMenuData(lang);
-  }, [lang]);
-  async function fetchMenuData(lang) {
-    try {
-      let fetchURL = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
-      let stagingData = await fetch(fetchURL);
-      let jsonData = await stagingData.json();
-      let items = jsonData.filter(item => item.slug === "main-menu");
-      items = items[0]?.items || [];
-      setMenuData(prevData => ({
-        ...prevData,
-        [lang]: items
-      }));
-    } catch (err) {
-      console.log("Error fetching menu data: " + err);
+    // loading inspector
+    function loadAndGet() {
+      var sceneEl = document.querySelector("a-scene");
+      sceneEl.addEventListener("loaded", function () {
+        sceneEl.components.inspector.openInspector();
+      });
     }
-  }
-  const filteredMenuData = (0,react.useMemo)(() => {
-    const curl = "/" + sitename + "/" + sn + "/";
-    const langMenuData = menuData[lang] || [];
-    const filteredData = langMenuData.filter(item => item.url === curl);
-    return filteredData.length > 0 ? filteredData[0].content : null;
-  }, [menuData, lang, sitename, sn]);
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: filteredMenuData
+    // creating new button for getting all the data for the entity
+    function addMani() {
+      setTimeout(function () {
+        var ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
+        console.log(ele);
+        ele.click();
+        console.log("Clicked");
+        // Create the <a> element
+        var link = document.createElement("a");
+        link.href = "#";
+        link.title = "send data";
+        link.setAttribute("data-action", "copy-entity-to-clipboard");
+        link.classList.add("button", "fa", "fa-bookmark");
+
+        // Append the <a> element to the specified location
+        var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
+        console.log("!!!!!!!!!!!!got the parent element");
+        console.log(parentElement);
+        parentElement.appendChild(link);
+        dataToConsole();
+      }, 10000); // Adjust the delay as needed
     }
-  }));
-};
-/* harmony default export */ const Components_NavSites = (NavSites);
+
+    // getting data from the clipboard to console
+    function dataToConsole() {
+      var element = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-bookmark");
+
+      // Add the onclick function
+      element.onclick = function () {
+        // Access the data from the clipboard
+        navigator.clipboard.readText().then(function (clipboardData) {
+          // Print the clipboard data to the console
+          console.log(clipboardData);
+          storeData(clipboardData);
+        });
+      };
+    }
+    function storeData(entityString) {
+      // Create a temporary element to parse the string
+      var tempElement = document.createElement("div");
+      tempElement.innerHTML = entityString;
+
+      // Get the attributes of the <a-entity> element
+      var entityAttributes = tempElement.firstChild.attributes;
+
+      // Convert the attributes into an object
+      var entityObject = {};
+      for (var i = 0; i < entityAttributes.length; i++) {
+        var attr = entityAttributes[i];
+        entityObject[attr.name] = attr.value;
+      }
+
+      // Convert the object to JSON string
+      var jsonString = JSON.stringify(entityObject);
+      console.log("!!!!!!!!!!!!!!!!!");
+      console.log(jsonString);
+      updateDataFile(jsonString);
+    }
+    function updateDataFile(jsonString) {
+      const newData = JSON.parse(jsonString);
+      var foundData = false;
+      const updatedData = dynamicContent_demo_namespaceObject.map(item => {
+        if (item.id === newData.id) {
+          console.log("Found the item to update");
+          foundData = true;
+          return newData;
+        } else {
+          console.log("Not the item to update");
+          return item;
+        }
+      });
+      if (!foundData) updatedData.push(newData);
+      const updatedJsonString = JSON.stringify(updatedData, null, 2);
+      console.log("Updated data:", updatedData);
+      const fileName = "dynamicContent_demo.json";
+      saveJsonAsBlob(updatedJsonString, fileName);
+    }
+    function saveJsonAsBlob(updatedData, fileName) {
+      const blob = new Blob([updatedData], {
+        type: "application/json"
+      });
+      const url = URL.createObjectURL(blob);
+
+      // Create a temporary link element
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+
+      // Append the link to the document body and click it programmatically
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up by removing the link and revoking the URL
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    // Heavy models take time to load, hence wait for a while
+    setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
+
+    loadAndGet();
+    addMani();
+  }, []);
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-scene", null, /*#__PURE__*/react.createElement("a-entity", {
+    id: "rig",
+    "movement-controls": "constrainToNavMesh: true; controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+  }, /*#__PURE__*/react.createElement("a-entity", {
+    camera: true,
+    position: "0 1.6 0",
+    "look-controls": "pointerLockEnabled: true"
+  })), /*#__PURE__*/react.createElement("a-assets", null, assets_demo_namespaceObject.map(asset => {
+    if (asset.type === "model") {
+      return /*#__PURE__*/react.createElement("a-asset-item", {
+        id: asset.id,
+        src: asset.url,
+        key: asset.id,
+        crossOrigin: "anonymous"
+      });
+    }
+    return /*#__PURE__*/react.createElement("img", {
+      id: asset.id,
+      src: asset.url,
+      key: asset.id,
+      crossOrigin: "anonymous"
+    });
+  })), loading ? /*#__PURE__*/react.createElement("p", null, "Loading...") : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
+    environment: "preset:starry;groundTexture:  walkernoise;grid:none"
+  }), /*#__PURE__*/react.createElement("a-entity", {
+    id: "#room",
+    "gltf-model": "#room",
+    crossOrigin: "anonymous",
+    position: "-1.693 0 0.07"
+  }), /*#__PURE__*/react.createElement("a-entity", {
+    "nav-mesh": true,
+    id: "#navmesh",
+    "gltf-model": "#navmesh",
+    crossOrigin: "anonymous",
+    visible: "true"
+  }), dynamicContent_demo_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", extends_extends({
+    key: entity.id
+  }, entity)))), /*#__PURE__*/react.createElement("a-light", {
+    type: "directional",
+    color: "#ffffff",
+    intensity: "0.8",
+    position: "0.12062 1.52455 0.52977",
+    light: "type: point; angle: 180",
+    rotation: "-0.3 50.509 147.30229250797848",
+    id: "bulb",
+    visible: ""
+  }), /*#__PURE__*/react.createElement("a-light", {
+    type: "directional",
+    color: "#ffffff",
+    intensity: "0.8",
+    position: "3.94786 -1.28516 -0.54807",
+    light: "type: hemisphere; angle: 180",
+    rotation: "-0.3 50.509 147.30229250797848",
+    id: "bulb-3"
+  }), /*#__PURE__*/react.createElement("a-light", {
+    type: "hemisphere",
+    color: "#ffffff",
+    intensity: "0.8",
+    position: "20.45283 -2.62394 -5.68868",
+    light: "type: hemisphere; angle: 180",
+    rotation: "-0.3 50.509 147.30229250797848",
+    id: "bulb-4"
+  }), /*#__PURE__*/react.createElement("a-plane", {
+    "static-body": "shape:  mesh",
+    position: "0 0 -4",
+    visible: "false",
+    rotation: "-90 0 0",
+    width: "4",
+    height: "4",
+    color: "#7BC8A4",
+    scale: "6 2 2"
+  })));
+}
+/* harmony default export */ const Components_Demo = (Demo);
 ;// CONCATENATED MODULE: ./src/js/app/Components/index.js
 
 
@@ -5108,61 +7627,6 @@ const NavSites = () => {
 
 
 
-/***/ }),
-
-/***/ 179:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Z: () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
-
-const DataContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)({
-  data: {}
-});
-DataContext.displayName = "DataContext";
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DataContext);
-
-/***/ }),
-
-/***/ 783:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Z: () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
-
-const MenuDataContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)({
-  menuData: {}
-});
-MenuDataContext.displayName = "Menu Data";
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MenuDataContext);
-
-/***/ }),
-
-/***/ 65:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  Z: () => (/* binding */ app)
-});
-
-// EXTERNAL MODULE: ./node_modules/react/index.js
-var react = __webpack_require__(294);
-// EXTERNAL MODULE: ./node_modules/react-router-dom/dist/index.js
-var dist = __webpack_require__(655);
-// EXTERNAL MODULE: ./node_modules/react-router/dist/index.js
-var react_router_dist = __webpack_require__(250);
-// EXTERNAL MODULE: ./src/js/app/Components/index.js + 12 modules
-var Components = __webpack_require__(18);
-// EXTERNAL MODULE: ./src/js/app/Utils/DataContext.js
-var DataContext = __webpack_require__(179);
-// EXTERNAL MODULE: ./src/js/app/Utils/MenuDataContext.js
-var MenuDataContext = __webpack_require__(783);
 ;// CONCATENATED MODULE: ./src/js/app/Utils/index.js
 
 
@@ -5172,28 +7636,31 @@ var MenuDataContext = __webpack_require__(783);
 
 
 
-const NavSites = /*#__PURE__*/(0,react.lazy)(() => Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 18)));
-const AFrame = /*#__PURE__*/(0,react.lazy)(() => Promise.resolve(/* import() */).then(__webpack_require__.bind(__webpack_require__, 18)));
-const appRouter = (0,dist/* createBrowserRouter */.aj)([{
+
+// const NavSites = lazy(() => import("./Components"));
+// const AFrame = lazy(() => import("./Components"));
+// const Demo = lazy(() => import("./Components"));
+
+const appRouter = createBrowserRouter([{
   path: "/",
-  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Components.Navbar, null), /*#__PURE__*/react.createElement(Components.Sidebar, null), /*#__PURE__*/react.createElement(Components.Home, null)),
+  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Components_Navbar, null), /*#__PURE__*/react.createElement(Components_Sidebar, null), /*#__PURE__*/react.createElement(Components_Home, null)),
   children: [{
     path: "/",
-    element: /*#__PURE__*/react.createElement(Components.Body, null)
+    element: /*#__PURE__*/react.createElement(Components_Body, null)
+  }, {
+    path: "aframe_demo",
+    element: /*#__PURE__*/react.createElement(Components_Demo, null)
   }, {
     path: "aframe",
-    element: /*#__PURE__*/react.createElement(AFrame, null)
-  }, {
-    path: "profile/:username",
-    element: /*#__PURE__*/react.createElement(Components.Profile, null)
+    element: /*#__PURE__*/react.createElement(Components_AFrame, null)
   }, {
     path: "/:sitename/:sn",
     element: /*#__PURE__*/react.createElement(react.Suspense, {
       fallback: /*#__PURE__*/react.createElement("h1", null, "Loadinggg...")
-    }, /*#__PURE__*/react.createElement(NavSites, null))
+    }, /*#__PURE__*/react.createElement(Components_NavSites, null))
   }, {
     path: "/:sitename",
-    element: /*#__PURE__*/react.createElement(NavSites, null)
+    element: /*#__PURE__*/react.createElement(Components_NavSites, null)
   }]
 }]);
 const App = () => {
@@ -5221,17 +7688,17 @@ const App = () => {
   if (data.length === 0) {
     return /*#__PURE__*/react.createElement("div", null, "Loading...");
   }
-  return /*#__PURE__*/react.createElement(DataContext/* default */.Z.Provider, {
+  return /*#__PURE__*/react.createElement(Utils_DataContext.Provider, {
     value: {
       lang: lang,
       setLang: setLang
     }
-  }, /*#__PURE__*/react.createElement(MenuDataContext/* default */.Z.Provider, {
+  }, /*#__PURE__*/react.createElement(Utils_MenuDataContext.Provider, {
     value: {
       menuData,
       setMenuData
     }
-  }, /*#__PURE__*/react.createElement(react_router_dist/* RouterProvider */.pG, {
+  }, /*#__PURE__*/react.createElement(RouterProvider, {
     router: appRouter
   })));
 };
@@ -5244,7 +7711,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(65);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(649);
 
 
 
@@ -5632,2391 +8099,6 @@ if (true) {
 
 /***/ }),
 
-/***/ 655:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   aj: () => (/* binding */ createBrowserRouter),
-/* harmony export */   rU: () => (/* binding */ Link)
-/* harmony export */ });
-/* unused harmony exports BrowserRouter, Form, HashRouter, NavLink, ScrollRestoration, UNSAFE_useScrollRestoration, createHashRouter, createSearchParams, unstable_HistoryRouter, unstable_usePrompt, useBeforeUnload, useFetcher, useFetchers, useFormAction, useLinkClickHandler, useSearchParams, useSubmit */
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(250);
-/* harmony import */ var _remix_run_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(599);
-/**
- * React Router DOM v6.11.2
- *
- * Copyright (c) Remix Software Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.md file in the root directory of this source tree.
- *
- * @license MIT
- */
-
-
-
-
-
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-  return _extends.apply(this, arguments);
-}
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
-const defaultMethod = "get";
-const defaultEncType = "application/x-www-form-urlencoded";
-function isHtmlElement(object) {
-  return object != null && typeof object.tagName === "string";
-}
-function isButtonElement(object) {
-  return isHtmlElement(object) && object.tagName.toLowerCase() === "button";
-}
-function isFormElement(object) {
-  return isHtmlElement(object) && object.tagName.toLowerCase() === "form";
-}
-function isInputElement(object) {
-  return isHtmlElement(object) && object.tagName.toLowerCase() === "input";
-}
-
-function isModifiedEvent(event) {
-  return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
-}
-
-function shouldProcessLinkClick(event, target) {
-  return event.button === 0 && ( // Ignore everything but left clicks
-  !target || target === "_self") && // Let browser handle "target=_blank" etc.
-  !isModifiedEvent(event) // Ignore clicks with modifier keys
-  ;
-}
-/**
- * Creates a URLSearchParams object using the given initializer.
- *
- * This is identical to `new URLSearchParams(init)` except it also
- * supports arrays as values in the object form of the initializer
- * instead of just strings. This is convenient when you need multiple
- * values for a given key, but don't want to use an array initializer.
- *
- * For example, instead of:
- *
- *   let searchParams = new URLSearchParams([
- *     ['sort', 'name'],
- *     ['sort', 'price']
- *   ]);
- *
- * you can do:
- *
- *   let searchParams = createSearchParams({
- *     sort: ['name', 'price']
- *   });
- */
-
-function createSearchParams(init) {
-  if (init === void 0) {
-    init = "";
-  }
-
-  return new URLSearchParams(typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo, key) => {
-    let value = init[key];
-    return memo.concat(Array.isArray(value) ? value.map(v => [key, v]) : [[key, value]]);
-  }, []));
-}
-function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
-  let searchParams = createSearchParams(locationSearch);
-
-  if (defaultSearchParams) {
-    for (let key of defaultSearchParams.keys()) {
-      if (!searchParams.has(key)) {
-        defaultSearchParams.getAll(key).forEach(value => {
-          searchParams.append(key, value);
-        });
-      }
-    }
-  }
-
-  return searchParams;
-}
-function getFormSubmissionInfo(target, options, basename) {
-  let method;
-  let action = null;
-  let encType;
-  let formData;
-
-  if (isFormElement(target)) {
-    let submissionTrigger = options.submissionTrigger;
-
-    if (options.action) {
-      action = options.action;
-    } else {
-      // When grabbing the action from the element, it will have had the basename
-      // prefixed to ensure non-JS scenarios work, so strip it since we'll
-      // re-prefix in the router
-      let attr = target.getAttribute("action");
-      action = attr ? stripBasename(attr, basename) : null;
-    }
-
-    method = options.method || target.getAttribute("method") || defaultMethod;
-    encType = options.encType || target.getAttribute("enctype") || defaultEncType;
-    formData = new FormData(target);
-
-    if (submissionTrigger && submissionTrigger.name) {
-      formData.append(submissionTrigger.name, submissionTrigger.value);
-    }
-  } else if (isButtonElement(target) || isInputElement(target) && (target.type === "submit" || target.type === "image")) {
-    let form = target.form;
-
-    if (form == null) {
-      throw new Error("Cannot submit a <button> or <input type=\"submit\"> without a <form>");
-    } // <button>/<input type="submit"> may override attributes of <form>
-
-
-    if (options.action) {
-      action = options.action;
-    } else {
-      // When grabbing the action from the element, it will have had the basename
-      // prefixed to ensure non-JS scenarios work, so strip it since we'll
-      // re-prefix in the router
-      let attr = target.getAttribute("formaction") || form.getAttribute("action");
-      action = attr ? stripBasename(attr, basename) : null;
-    }
-
-    method = options.method || target.getAttribute("formmethod") || form.getAttribute("method") || defaultMethod;
-    encType = options.encType || target.getAttribute("formenctype") || form.getAttribute("enctype") || defaultEncType;
-    formData = new FormData(form); // Include name + value from a <button>, appending in case the button name
-    // matches an existing input name
-
-    if (target.name) {
-      formData.append(target.name, target.value);
-    }
-  } else if (isHtmlElement(target)) {
-    throw new Error("Cannot submit element that is not <form>, <button>, or " + "<input type=\"submit|image\">");
-  } else {
-    method = options.method || defaultMethod;
-    action = options.action || null;
-    encType = options.encType || defaultEncType;
-
-    if (target instanceof FormData) {
-      formData = target;
-    } else {
-      formData = new FormData();
-
-      if (target instanceof URLSearchParams) {
-        for (let [name, value] of target) {
-          formData.append(name, value);
-        }
-      } else if (target != null) {
-        for (let name of Object.keys(target)) {
-          formData.append(name, target[name]);
-        }
-      }
-    }
-  }
-
-  return {
-    action,
-    method: method.toLowerCase(),
-    encType,
-    formData
-  };
-}
-
-const _excluded = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset"],
-      _excluded2 = (/* unused pure expression or super */ null && (["aria-current", "caseSensitive", "className", "end", "style", "to", "children"])),
-      _excluded3 = (/* unused pure expression or super */ null && (["reloadDocument", "replace", "method", "action", "onSubmit", "fetcherKey", "routeId", "relative", "preventScrollReset"]));
-function createBrowserRouter(routes, opts) {
-  return (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .createRouter */ .p7)({
-    basename: opts == null ? void 0 : opts.basename,
-    future: _extends({}, opts == null ? void 0 : opts.future, {
-      v7_prependBasename: true
-    }),
-    history: (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .createBrowserHistory */ .lX)({
-      window: opts == null ? void 0 : opts.window
-    }),
-    hydrationData: (opts == null ? void 0 : opts.hydrationData) || parseHydrationData(),
-    routes,
-    mapRouteProperties: react_router__WEBPACK_IMPORTED_MODULE_2__/* .UNSAFE_mapRouteProperties */ .us
-  }).initialize();
-}
-function createHashRouter(routes, opts) {
-  return createRouter({
-    basename: opts == null ? void 0 : opts.basename,
-    future: _extends({}, opts == null ? void 0 : opts.future, {
-      v7_prependBasename: true
-    }),
-    history: createHashHistory({
-      window: opts == null ? void 0 : opts.window
-    }),
-    hydrationData: (opts == null ? void 0 : opts.hydrationData) || parseHydrationData(),
-    routes,
-    mapRouteProperties: UNSAFE_mapRouteProperties
-  }).initialize();
-}
-
-function parseHydrationData() {
-  var _window;
-
-  let state = (_window = window) == null ? void 0 : _window.__staticRouterHydrationData;
-
-  if (state && state.errors) {
-    state = _extends({}, state, {
-      errors: deserializeErrors(state.errors)
-    });
-  }
-
-  return state;
-}
-
-function deserializeErrors(errors) {
-  if (!errors) return null;
-  let entries = Object.entries(errors);
-  let serialized = {};
-
-  for (let [key, val] of entries) {
-    // Hey you!  If you change this, please change the corresponding logic in
-    // serializeErrors in react-router-dom/server.tsx :)
-    if (val && val.__type === "RouteErrorResponse") {
-      serialized[key] = new _remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .ErrorResponse */ .iQ(val.status, val.statusText, val.data, val.internal === true);
-    } else if (val && val.__type === "Error") {
-      let error = new Error(val.message); // Wipe away the client-side stack trace.  Nothing to fill it in with
-      // because we don't serialize SSR stack traces for security reasons
-
-      error.stack = "";
-      serialized[key] = error;
-    } else {
-      serialized[key] = val;
-    }
-  }
-
-  return serialized;
-}
-/**
- * A `<Router>` for use in web browsers. Provides the cleanest URLs.
- */
-
-
-function BrowserRouter(_ref) {
-  let {
-    basename,
-    children,
-    window
-  } = _ref;
-  let historyRef = React.useRef();
-
-  if (historyRef.current == null) {
-    historyRef.current = createBrowserHistory({
-      window,
-      v5Compat: true
-    });
-  }
-
-  let history = historyRef.current;
-  let [state, setState] = React.useState({
-    action: history.action,
-    location: history.location
-  });
-  React.useLayoutEffect(() => history.listen(setState), [history]);
-  return /*#__PURE__*/React.createElement(Router, {
-    basename: basename,
-    children: children,
-    location: state.location,
-    navigationType: state.action,
-    navigator: history
-  });
-}
-/**
- * A `<Router>` for use in web browsers. Stores the location in the hash
- * portion of the URL so it is not sent to the server.
- */
-
-function HashRouter(_ref2) {
-  let {
-    basename,
-    children,
-    window
-  } = _ref2;
-  let historyRef = React.useRef();
-
-  if (historyRef.current == null) {
-    historyRef.current = createHashHistory({
-      window,
-      v5Compat: true
-    });
-  }
-
-  let history = historyRef.current;
-  let [state, setState] = React.useState({
-    action: history.action,
-    location: history.location
-  });
-  React.useLayoutEffect(() => history.listen(setState), [history]);
-  return /*#__PURE__*/React.createElement(Router, {
-    basename: basename,
-    children: children,
-    location: state.location,
-    navigationType: state.action,
-    navigator: history
-  });
-}
-/**
- * A `<Router>` that accepts a pre-instantiated history object. It's important
- * to note that using your own history object is highly discouraged and may add
- * two versions of the history library to your bundles unless you use the same
- * version of the history library that React Router uses internally.
- */
-
-function HistoryRouter(_ref3) {
-  let {
-    basename,
-    children,
-    history
-  } = _ref3;
-  const [state, setState] = React.useState({
-    action: history.action,
-    location: history.location
-  });
-  React.useLayoutEffect(() => history.listen(setState), [history]);
-  return /*#__PURE__*/React.createElement(Router, {
-    basename: basename,
-    children: children,
-    location: state.location,
-    navigationType: state.action,
-    navigator: history
-  });
-}
-
-if (false) {}
-const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
-const ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
-/**
- * The public API for rendering a history-aware <a>.
- */
-
-const Link = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function LinkWithRef(_ref4, ref) {
-  let {
-    onClick,
-    relative,
-    reloadDocument,
-    replace,
-    state,
-    target,
-    to,
-    preventScrollReset
-  } = _ref4,
-      rest = _objectWithoutPropertiesLoose(_ref4, _excluded);
-
-  let {
-    basename
-  } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(react_router__WEBPACK_IMPORTED_MODULE_2__/* .UNSAFE_NavigationContext */ .Us); // Rendered into <a href> for absolute URLs
-
-  let absoluteHref;
-  let isExternal = false;
-
-  if (typeof to === "string" && ABSOLUTE_URL_REGEX.test(to)) {
-    // Render the absolute href server- and client-side
-    absoluteHref = to; // Only check for external origins client-side
-
-    if (isBrowser) {
-      try {
-        let currentUrl = new URL(window.location.href);
-        let targetUrl = to.startsWith("//") ? new URL(currentUrl.protocol + to) : new URL(to);
-        let path = (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .stripBasename */ .Zn)(targetUrl.pathname, basename);
-
-        if (targetUrl.origin === currentUrl.origin && path != null) {
-          // Strip the protocol/origin/basename for same-origin absolute URLs
-          to = path + targetUrl.search + targetUrl.hash;
-        } else {
-          isExternal = true;
-        }
-      } catch (e) {
-        // We can't do external URL detection without a valid URL
-         false ? 0 : void 0;
-      }
-    }
-  } // Rendered into <a href> for relative URLs
-
-
-  let href = (0,react_router__WEBPACK_IMPORTED_MODULE_2__/* .useHref */ .oQ)(to, {
-    relative
-  });
-  let internalOnClick = useLinkClickHandler(to, {
-    replace,
-    state,
-    target,
-    preventScrollReset,
-    relative
-  });
-
-  function handleClick(event) {
-    if (onClick) onClick(event);
-
-    if (!event.defaultPrevented) {
-      internalOnClick(event);
-    }
-  }
-
-  return (
-    /*#__PURE__*/
-    // eslint-disable-next-line jsx-a11y/anchor-has-content
-    react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", _extends({}, rest, {
-      href: absoluteHref || href,
-      onClick: isExternal || reloadDocument ? onClick : handleClick,
-      ref: ref,
-      target: target
-    }))
-  );
-});
-
-if (false) {}
-/**
- * A <Link> wrapper that knows if it's "active" or not.
- */
-
-
-const NavLink = /*#__PURE__*/(/* unused pure expression or super */ null && (React.forwardRef(function NavLinkWithRef(_ref5, ref) {
-  let {
-    "aria-current": ariaCurrentProp = "page",
-    caseSensitive = false,
-    className: classNameProp = "",
-    end = false,
-    style: styleProp,
-    to,
-    children
-  } = _ref5,
-      rest = _objectWithoutPropertiesLoose(_ref5, _excluded2);
-
-  let path = useResolvedPath(to, {
-    relative: rest.relative
-  });
-  let location = useLocation();
-  let routerState = React.useContext(UNSAFE_DataRouterStateContext);
-  let {
-    navigator
-  } = React.useContext(UNSAFE_NavigationContext);
-  let toPathname = navigator.encodeLocation ? navigator.encodeLocation(path).pathname : path.pathname;
-  let locationPathname = location.pathname;
-  let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
-
-  if (!caseSensitive) {
-    locationPathname = locationPathname.toLowerCase();
-    nextLocationPathname = nextLocationPathname ? nextLocationPathname.toLowerCase() : null;
-    toPathname = toPathname.toLowerCase();
-  }
-
-  let isActive = locationPathname === toPathname || !end && locationPathname.startsWith(toPathname) && locationPathname.charAt(toPathname.length) === "/";
-  let isPending = nextLocationPathname != null && (nextLocationPathname === toPathname || !end && nextLocationPathname.startsWith(toPathname) && nextLocationPathname.charAt(toPathname.length) === "/");
-  let ariaCurrent = isActive ? ariaCurrentProp : undefined;
-  let className;
-
-  if (typeof classNameProp === "function") {
-    className = classNameProp({
-      isActive,
-      isPending
-    });
-  } else {
-    // If the className prop is not a function, we use a default `active`
-    // class for <NavLink />s that are active. In v5 `active` was the default
-    // value for `activeClassName`, but we are removing that API and can still
-    // use the old default behavior for a cleaner upgrade path and keep the
-    // simple styling rules working as they currently do.
-    className = [classNameProp, isActive ? "active" : null, isPending ? "pending" : null].filter(Boolean).join(" ");
-  }
-
-  let style = typeof styleProp === "function" ? styleProp({
-    isActive,
-    isPending
-  }) : styleProp;
-  return /*#__PURE__*/React.createElement(Link, _extends({}, rest, {
-    "aria-current": ariaCurrent,
-    className: className,
-    ref: ref,
-    style: style,
-    to: to
-  }), typeof children === "function" ? children({
-    isActive,
-    isPending
-  }) : children);
-})));
-
-if (false) {}
-/**
- * A `@remix-run/router`-aware `<form>`. It behaves like a normal form except
- * that the interaction with the server is with `fetch` instead of new document
- * requests, allowing components to add nicer UX to the page as the form is
- * submitted and returns with data.
- */
-
-
-const Form = /*#__PURE__*/(/* unused pure expression or super */ null && (React.forwardRef((props, ref) => {
-  return /*#__PURE__*/React.createElement(FormImpl, _extends({}, props, {
-    ref: ref
-  }));
-})));
-
-if (false) {}
-
-const FormImpl = /*#__PURE__*/(/* unused pure expression or super */ null && (React.forwardRef((_ref6, forwardedRef) => {
-  let {
-    reloadDocument,
-    replace,
-    method = defaultMethod,
-    action,
-    onSubmit,
-    fetcherKey,
-    routeId,
-    relative,
-    preventScrollReset
-  } = _ref6,
-      props = _objectWithoutPropertiesLoose(_ref6, _excluded3);
-
-  let submit = useSubmitImpl(fetcherKey, routeId);
-  let formMethod = method.toLowerCase() === "get" ? "get" : "post";
-  let formAction = useFormAction(action, {
-    relative
-  });
-
-  let submitHandler = event => {
-    onSubmit && onSubmit(event);
-    if (event.defaultPrevented) return;
-    event.preventDefault();
-    let submitter = event.nativeEvent.submitter;
-    let submitMethod = (submitter == null ? void 0 : submitter.getAttribute("formmethod")) || method;
-    submit(submitter || event.currentTarget, {
-      method: submitMethod,
-      replace,
-      relative,
-      preventScrollReset
-    });
-  };
-
-  return /*#__PURE__*/React.createElement("form", _extends({
-    ref: forwardedRef,
-    method: formMethod,
-    action: formAction,
-    onSubmit: reloadDocument ? onSubmit : submitHandler
-  }, props));
-})));
-
-if (false) {}
-/**
- * This component will emulate the browser's scroll restoration on location
- * changes.
- */
-
-
-function ScrollRestoration(_ref7) {
-  let {
-    getKey,
-    storageKey
-  } = _ref7;
-  useScrollRestoration({
-    getKey,
-    storageKey
-  });
-  return null;
-}
-
-if (false) {} //#endregion
-////////////////////////////////////////////////////////////////////////////////
-//#region Hooks
-////////////////////////////////////////////////////////////////////////////////
-
-
-var DataRouterHook;
-
-(function (DataRouterHook) {
-  DataRouterHook["UseScrollRestoration"] = "useScrollRestoration";
-  DataRouterHook["UseSubmitImpl"] = "useSubmitImpl";
-  DataRouterHook["UseFetcher"] = "useFetcher";
-})(DataRouterHook || (DataRouterHook = {}));
-
-var DataRouterStateHook;
-
-(function (DataRouterStateHook) {
-  DataRouterStateHook["UseFetchers"] = "useFetchers";
-  DataRouterStateHook["UseScrollRestoration"] = "useScrollRestoration";
-})(DataRouterStateHook || (DataRouterStateHook = {}));
-
-function getDataRouterConsoleError(hookName) {
-  return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
-}
-
-function useDataRouterContext(hookName) {
-  let ctx = React.useContext(UNSAFE_DataRouterContext);
-  !ctx ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-  return ctx;
-}
-
-function useDataRouterState(hookName) {
-  let state = React.useContext(UNSAFE_DataRouterStateContext);
-  !state ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-  return state;
-}
-/**
- * Handles the click behavior for router `<Link>` components. This is useful if
- * you need to create custom `<Link>` components with the same click behavior we
- * use in our exported `<Link>`.
- */
-
-
-function useLinkClickHandler(to, _temp) {
-  let {
-    target,
-    replace: replaceProp,
-    state,
-    preventScrollReset,
-    relative
-  } = _temp === void 0 ? {} : _temp;
-  let navigate = (0,react_router__WEBPACK_IMPORTED_MODULE_2__/* .useNavigate */ .s0)();
-  let location = (0,react_router__WEBPACK_IMPORTED_MODULE_2__/* .useLocation */ .TH)();
-  let path = (0,react_router__WEBPACK_IMPORTED_MODULE_2__/* .useResolvedPath */ .WU)(to, {
-    relative
-  });
-  return react__WEBPACK_IMPORTED_MODULE_0__.useCallback(event => {
-    if (shouldProcessLinkClick(event, target)) {
-      event.preventDefault(); // If the URL hasn't changed, a regular <a> will do a replace instead of
-      // a push, so do the same here unless the replace prop is explicitly set
-
-      let replace = replaceProp !== undefined ? replaceProp : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .createPath */ .Ep)(location) === (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .createPath */ .Ep)(path);
-      navigate(to, {
-        replace,
-        state,
-        preventScrollReset,
-        relative
-      });
-    }
-  }, [location, navigate, path, replaceProp, state, target, to, preventScrollReset, relative]);
-}
-/**
- * A convenient wrapper for reading and writing search parameters via the
- * URLSearchParams interface.
- */
-
-function useSearchParams(defaultInit) {
-   false ? 0 : void 0;
-  let defaultSearchParamsRef = React.useRef(createSearchParams(defaultInit));
-  let hasSetSearchParamsRef = React.useRef(false);
-  let location = useLocation();
-  let searchParams = React.useMemo(() => // Only merge in the defaults if we haven't yet called setSearchParams.
-  // Once we call that we want those to take precedence, otherwise you can't
-  // remove a param with setSearchParams({}) if it has an initial value
-  getSearchParamsForLocation(location.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current), [location.search]);
-  let navigate = useNavigate();
-  let setSearchParams = React.useCallback((nextInit, navigateOptions) => {
-    const newSearchParams = createSearchParams(typeof nextInit === "function" ? nextInit(searchParams) : nextInit);
-    hasSetSearchParamsRef.current = true;
-    navigate("?" + newSearchParams, navigateOptions);
-  }, [navigate, searchParams]);
-  return [searchParams, setSearchParams];
-}
-/**
- * Returns a function that may be used to programmatically submit a form (or
- * some arbitrary data) to the server.
- */
-
-function useSubmit() {
-  return useSubmitImpl();
-}
-
-function useSubmitImpl(fetcherKey, fetcherRouteId) {
-  let {
-    router
-  } = useDataRouterContext(DataRouterHook.UseSubmitImpl);
-  let {
-    basename
-  } = React.useContext(UNSAFE_NavigationContext);
-  let currentRouteId = UNSAFE_useRouteId();
-  return React.useCallback(function (target, options) {
-    if (options === void 0) {
-      options = {};
-    }
-
-    if (typeof document === "undefined") {
-      throw new Error("You are calling submit during the server render. " + "Try calling submit within a `useEffect` or callback instead.");
-    }
-
-    let {
-      action,
-      method,
-      encType,
-      formData
-    } = getFormSubmissionInfo(target, options, basename); // Base options shared between fetch() and navigate()
-
-    let opts = {
-      preventScrollReset: options.preventScrollReset,
-      formData,
-      formMethod: method,
-      formEncType: encType
-    };
-
-    if (fetcherKey) {
-      !(fetcherRouteId != null) ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-      router.fetch(fetcherKey, fetcherRouteId, action, opts);
-    } else {
-      router.navigate(action, _extends({}, opts, {
-        replace: options.replace,
-        fromRouteId: currentRouteId
-      }));
-    }
-  }, [router, basename, fetcherKey, fetcherRouteId, currentRouteId]);
-} // v7: Eventually we should deprecate this entirely in favor of using the
-// router method directly?
-
-
-function useFormAction(action, _temp2) {
-  let {
-    relative
-  } = _temp2 === void 0 ? {} : _temp2;
-  let {
-    basename
-  } = React.useContext(UNSAFE_NavigationContext);
-  let routeContext = React.useContext(UNSAFE_RouteContext);
-  !routeContext ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-  let [match] = routeContext.matches.slice(-1); // Shallow clone path so we can modify it below, otherwise we modify the
-  // object referenced by useMemo inside useResolvedPath
-
-  let path = _extends({}, useResolvedPath(action ? action : ".", {
-    relative
-  })); // Previously we set the default action to ".". The problem with this is that
-  // `useResolvedPath(".")` excludes search params and the hash of the resolved
-  // URL. This is the intended behavior of when "." is specifically provided as
-  // the form action, but inconsistent w/ browsers when the action is omitted.
-  // https://github.com/remix-run/remix/issues/927
-
-
-  let location = useLocation();
-
-  if (action == null) {
-    // Safe to write to these directly here since if action was undefined, we
-    // would have called useResolvedPath(".") which will never include a search
-    // or hash
-    path.search = location.search;
-    path.hash = location.hash; // When grabbing search params from the URL, remove the automatically
-    // inserted ?index param so we match the useResolvedPath search behavior
-    // which would not include ?index
-
-    if (match.route.index) {
-      let params = new URLSearchParams(path.search);
-      params.delete("index");
-      path.search = params.toString() ? "?" + params.toString() : "";
-    }
-  }
-
-  if ((!action || action === ".") && match.route.index) {
-    path.search = path.search ? path.search.replace(/^\?/, "?index&") : "?index";
-  } // If we're operating within a basename, prepend it to the pathname prior
-  // to creating the form action.  If this is a root navigation, then just use
-  // the raw basename which allows the basename to have full control over the
-  // presence of a trailing slash on root actions
-
-
-  if (basename !== "/") {
-    path.pathname = path.pathname === "/" ? basename : joinPaths([basename, path.pathname]);
-  }
-
-  return createPath(path);
-}
-
-function createFetcherForm(fetcherKey, routeId) {
-  let FetcherForm = /*#__PURE__*/React.forwardRef((props, ref) => {
-    return /*#__PURE__*/React.createElement(FormImpl, _extends({}, props, {
-      ref: ref,
-      fetcherKey: fetcherKey,
-      routeId: routeId
-    }));
-  });
-
-  if (false) {}
-
-  return FetcherForm;
-}
-
-let fetcherId = 0;
-/**
- * Interacts with route loaders and actions without causing a navigation. Great
- * for any interaction that stays on the same page.
- */
-
-function useFetcher() {
-  var _route$matches;
-
-  let {
-    router
-  } = useDataRouterContext(DataRouterHook.UseFetcher);
-  let route = React.useContext(UNSAFE_RouteContext);
-  !route ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-  let routeId = (_route$matches = route.matches[route.matches.length - 1]) == null ? void 0 : _route$matches.route.id;
-  !(routeId != null) ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-  let [fetcherKey] = React.useState(() => String(++fetcherId));
-  let [Form] = React.useState(() => {
-    !routeId ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-    return createFetcherForm(fetcherKey, routeId);
-  });
-  let [load] = React.useState(() => href => {
-    !router ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-    !routeId ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-    router.fetch(fetcherKey, routeId, href);
-  });
-  let submit = useSubmitImpl(fetcherKey, routeId);
-  let fetcher = router.getFetcher(fetcherKey);
-  let fetcherWithComponents = React.useMemo(() => _extends({
-    Form,
-    submit,
-    load
-  }, fetcher), [fetcher, Form, submit, load]);
-  React.useEffect(() => {
-    // Is this busted when the React team gets real weird and calls effects
-    // twice on mount?  We really just need to garbage collect here when this
-    // fetcher is no longer around.
-    return () => {
-      if (!router) {
-        console.warn("No router available to clean up from useFetcher()");
-        return;
-      }
-
-      router.deleteFetcher(fetcherKey);
-    };
-  }, [router, fetcherKey]);
-  return fetcherWithComponents;
-}
-/**
- * Provides all fetchers currently on the page. Useful for layouts and parent
- * routes that need to provide pending/optimistic UI regarding the fetch.
- */
-
-function useFetchers() {
-  let state = useDataRouterState(DataRouterStateHook.UseFetchers);
-  return [...state.fetchers.values()];
-}
-const SCROLL_RESTORATION_STORAGE_KEY = "react-router-scroll-positions";
-let savedScrollPositions = {};
-/**
- * When rendered inside a RouterProvider, will restore scroll positions on navigations
- */
-
-function useScrollRestoration(_temp3) {
-  let {
-    getKey,
-    storageKey
-  } = _temp3 === void 0 ? {} : _temp3;
-  let {
-    router
-  } = useDataRouterContext(DataRouterHook.UseScrollRestoration);
-  let {
-    restoreScrollPosition,
-    preventScrollReset
-  } = useDataRouterState(DataRouterStateHook.UseScrollRestoration);
-  let location = useLocation();
-  let matches = useMatches();
-  let navigation = useNavigation(); // Trigger manual scroll restoration while we're active
-
-  React.useEffect(() => {
-    window.history.scrollRestoration = "manual";
-    return () => {
-      window.history.scrollRestoration = "auto";
-    };
-  }, []); // Save positions on pagehide
-
-  usePageHide(React.useCallback(() => {
-    if (navigation.state === "idle") {
-      let key = (getKey ? getKey(location, matches) : null) || location.key;
-      savedScrollPositions[key] = window.scrollY;
-    }
-
-    sessionStorage.setItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY, JSON.stringify(savedScrollPositions));
-    window.history.scrollRestoration = "auto";
-  }, [storageKey, getKey, navigation.state, location, matches])); // Read in any saved scroll locations
-
-  if (typeof document !== "undefined") {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    React.useLayoutEffect(() => {
-      try {
-        let sessionPositions = sessionStorage.getItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY);
-
-        if (sessionPositions) {
-          savedScrollPositions = JSON.parse(sessionPositions);
-        }
-      } catch (e) {// no-op, use default empty object
-      }
-    }, [storageKey]); // Enable scroll restoration in the router
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-
-    React.useLayoutEffect(() => {
-      let disableScrollRestoration = router == null ? void 0 : router.enableScrollRestoration(savedScrollPositions, () => window.scrollY, getKey);
-      return () => disableScrollRestoration && disableScrollRestoration();
-    }, [router, getKey]); // Restore scrolling when state.restoreScrollPosition changes
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-
-    React.useLayoutEffect(() => {
-      // Explicit false means don't do anything (used for submissions)
-      if (restoreScrollPosition === false) {
-        return;
-      } // been here before, scroll to it
-
-
-      if (typeof restoreScrollPosition === "number") {
-        window.scrollTo(0, restoreScrollPosition);
-        return;
-      } // try to scroll to the hash
-
-
-      if (location.hash) {
-        let el = document.getElementById(location.hash.slice(1));
-
-        if (el) {
-          el.scrollIntoView();
-          return;
-        }
-      } // Don't reset if this navigation opted out
-
-
-      if (preventScrollReset === true) {
-        return;
-      } // otherwise go to the top on new locations
-
-
-      window.scrollTo(0, 0);
-    }, [location, restoreScrollPosition, preventScrollReset]);
-  }
-}
-/**
- * Setup a callback to be fired on the window's `beforeunload` event. This is
- * useful for saving some data to `window.localStorage` just before the page
- * refreshes.
- *
- * Note: The `callback` argument should be a function created with
- * `React.useCallback()`.
- */
-
-function useBeforeUnload(callback, options) {
-  let {
-    capture
-  } = options || {};
-  React.useEffect(() => {
-    let opts = capture != null ? {
-      capture
-    } : undefined;
-    window.addEventListener("beforeunload", callback, opts);
-    return () => {
-      window.removeEventListener("beforeunload", callback, opts);
-    };
-  }, [callback, capture]);
-}
-/**
- * Setup a callback to be fired on the window's `pagehide` event. This is
- * useful for saving some data to `window.localStorage` just before the page
- * refreshes.  This event is better supported than beforeunload across browsers.
- *
- * Note: The `callback` argument should be a function created with
- * `React.useCallback()`.
- */
-
-function usePageHide(callback, options) {
-  let {
-    capture
-  } = options || {};
-  React.useEffect(() => {
-    let opts = capture != null ? {
-      capture
-    } : undefined;
-    window.addEventListener("pagehide", callback, opts);
-    return () => {
-      window.removeEventListener("pagehide", callback, opts);
-    };
-  }, [callback, capture]);
-}
-/**
- * Wrapper around useBlocker to show a window.confirm prompt to users instead
- * of building a custom UI with useBlocker.
- *
- * Warning: This has *a lot of rough edges* and behaves very differently (and
- * very incorrectly in some cases) across browsers if user click addition
- * back/forward navigations while the confirm is open.  Use at your own risk.
- */
-
-
-function usePrompt(_ref8) {
-  let {
-    when,
-    message
-  } = _ref8;
-  let blocker = unstable_useBlocker(when);
-  React.useEffect(() => {
-    if (blocker.state === "blocked" && !when) {
-      blocker.reset();
-    }
-  }, [blocker, when]);
-  React.useEffect(() => {
-    if (blocker.state === "blocked") {
-      let proceed = window.confirm(message);
-
-      if (proceed) {
-        setTimeout(blocker.proceed, 0);
-      } else {
-        blocker.reset();
-      }
-    }
-  }, [blocker, message]);
-}
- //#endregion
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
-/***/ 250:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   TH: () => (/* binding */ useLocation),
-/* harmony export */   UO: () => (/* binding */ useParams),
-/* harmony export */   Us: () => (/* binding */ NavigationContext),
-/* harmony export */   WU: () => (/* binding */ useResolvedPath),
-/* harmony export */   j3: () => (/* binding */ Outlet),
-/* harmony export */   oQ: () => (/* binding */ useHref),
-/* harmony export */   pG: () => (/* binding */ RouterProvider),
-/* harmony export */   s0: () => (/* binding */ useNavigate),
-/* harmony export */   us: () => (/* binding */ mapRouteProperties)
-/* harmony export */ });
-/* unused harmony exports Await, MemoryRouter, Navigate, Route, Router, Routes, UNSAFE_DataRouterContext, UNSAFE_DataRouterStateContext, UNSAFE_LocationContext, UNSAFE_RouteContext, UNSAFE_useRouteId, UNSAFE_useRoutesImpl, createMemoryRouter, createRoutesFromChildren, createRoutesFromElements, renderMatches, unstable_useBlocker, useActionData, useAsyncError, useAsyncValue, useInRouterContext, useLoaderData, useMatch, useMatches, useNavigation, useNavigationType, useOutlet, useOutletContext, useRevalidator, useRouteError, useRouteLoaderData, useRoutes */
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
-/* harmony import */ var _remix_run_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(599);
-/**
- * React Router v6.11.2
- *
- * Copyright (c) Remix Software Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.md file in the root directory of this source tree.
- *
- * @license MIT
- */
-
-
-
-
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-  return _extends.apply(this, arguments);
-}
-
-const DataRouterContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
-
-if (false) {}
-
-const DataRouterStateContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
-
-if (false) {}
-
-const AwaitContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
-
-if (false) {}
-
-const NavigationContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
-
-if (false) {}
-
-const LocationContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
-
-if (false) {}
-
-const RouteContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext({
-  outlet: null,
-  matches: [],
-  isDataRoute: false
-});
-
-if (false) {}
-
-const RouteErrorContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
-
-if (false) {}
-
-/**
- * Returns the full href for the given "to" value. This is useful for building
- * custom links that are also accessible and preserve right-click behavior.
- *
- * @see https://reactrouter.com/hooks/use-href
- */
-
-function useHref(to, _temp) {
-  let {
-    relative
-  } = _temp === void 0 ? {} : _temp;
-  !useInRouterContext() ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_invariant */ .J0)(false) : void 0;
-  let {
-    basename,
-    navigator
-  } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
-  let {
-    hash,
-    pathname,
-    search
-  } = useResolvedPath(to, {
-    relative
-  });
-  let joinedPathname = pathname; // If we're operating within a basename, prepend it to the pathname prior
-  // to creating the href.  If this is a root navigation, then just use the raw
-  // basename which allows the basename to have full control over the presence
-  // of a trailing slash on root links
-
-  if (basename !== "/") {
-    joinedPathname = pathname === "/" ? basename : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .joinPaths */ .RQ)([basename, pathname]);
-  }
-
-  return navigator.createHref({
-    pathname: joinedPathname,
-    search,
-    hash
-  });
-}
-/**
- * Returns true if this component is a descendant of a <Router>.
- *
- * @see https://reactrouter.com/hooks/use-in-router-context
- */
-
-function useInRouterContext() {
-  return react__WEBPACK_IMPORTED_MODULE_0__.useContext(LocationContext) != null;
-}
-/**
- * Returns the current location object, which represents the current URL in web
- * browsers.
- *
- * Note: If you're using this it may mean you're doing some of your own
- * "routing" in your app, and we'd like to know what your use case is. We may
- * be able to provide something higher-level to better suit your needs.
- *
- * @see https://reactrouter.com/hooks/use-location
- */
-
-function useLocation() {
-  !useInRouterContext() ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_invariant */ .J0)(false) : void 0;
-  return react__WEBPACK_IMPORTED_MODULE_0__.useContext(LocationContext).location;
-}
-/**
- * Returns the current navigation action which describes how the router came to
- * the current location, either by a pop, push, or replace on the history stack.
- *
- * @see https://reactrouter.com/hooks/use-navigation-type
- */
-
-function useNavigationType() {
-  return React.useContext(LocationContext).navigationType;
-}
-/**
- * Returns a PathMatch object if the given pattern matches the current URL.
- * This is useful for components that need to know "active" state, e.g.
- * <NavLink>.
- *
- * @see https://reactrouter.com/hooks/use-match
- */
-
-function useMatch(pattern) {
-  !useInRouterContext() ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-  let {
-    pathname
-  } = useLocation();
-  return React.useMemo(() => matchPath(pattern, pathname), [pathname, pattern]);
-}
-/**
- * The interface for the navigate() function returned from useNavigate().
- */
-
-const navigateEffectWarning = (/* unused pure expression or super */ null && ("You should call navigate() in a React.useEffect(), not when " + "your component is first rendered.")); // Mute warnings for calls to useNavigate in SSR environments
-
-function useIsomorphicLayoutEffect(cb) {
-  let isStatic = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext).static;
-
-  if (!isStatic) {
-    // We should be able to get rid of this once react 18.3 is released
-    // See: https://github.com/facebook/react/pull/26395
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(cb);
-  }
-}
-/**
- * Returns an imperative method for changing the location. Used by <Link>s, but
- * may also be used by other elements to change the location.
- *
- * @see https://reactrouter.com/hooks/use-navigate
- */
-
-
-function useNavigate() {
-  let {
-    isDataRoute
-  } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext); // Conditional usage is OK here because the usage of a data router is static
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-
-  return isDataRoute ? useNavigateStable() : useNavigateUnstable();
-}
-
-function useNavigateUnstable() {
-  !useInRouterContext() ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_invariant */ .J0)(false) : void 0;
-  let dataRouterContext = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterContext);
-  let {
-    basename,
-    navigator
-  } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
-  let {
-    matches
-  } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
-  let {
-    pathname: locationPathname
-  } = useLocation();
-  let routePathnamesJson = JSON.stringify((0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_getPathContributingMatches */ .Zq)(matches).map(match => match.pathnameBase));
-  let activeRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
-  useIsomorphicLayoutEffect(() => {
-    activeRef.current = true;
-  });
-  let navigate = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function (to, options) {
-    if (options === void 0) {
-      options = {};
-    }
-
-     false ? 0 : void 0; // Short circuit here since if this happens on first render the navigate
-    // is useless because we haven't wired up our history listener yet
-
-    if (!activeRef.current) return;
-
-    if (typeof to === "number") {
-      navigator.go(to);
-      return;
-    }
-
-    let path = (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .resolveTo */ .pC)(to, JSON.parse(routePathnamesJson), locationPathname, options.relative === "path"); // If we're operating within a basename, prepend it to the pathname prior
-    // to handing off to history (but only if we're not in a data router,
-    // otherwise it'll prepend the basename inside of the router).
-    // If this is a root navigation, then we navigate to the raw basename
-    // which allows the basename to have full control over the presence of a
-    // trailing slash on root links
-
-    if (dataRouterContext == null && basename !== "/") {
-      path.pathname = path.pathname === "/" ? basename : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .joinPaths */ .RQ)([basename, path.pathname]);
-    }
-
-    (!!options.replace ? navigator.replace : navigator.push)(path, options.state, options);
-  }, [basename, navigator, routePathnamesJson, locationPathname, dataRouterContext]);
-  return navigate;
-}
-
-const OutletContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext(null);
-/**
- * Returns the context (if provided) for the child route at this level of the route
- * hierarchy.
- * @see https://reactrouter.com/hooks/use-outlet-context
- */
-
-function useOutletContext() {
-  return React.useContext(OutletContext);
-}
-/**
- * Returns the element for the child route at this level of the route
- * hierarchy. Used internally by <Outlet> to render child routes.
- *
- * @see https://reactrouter.com/hooks/use-outlet
- */
-
-function useOutlet(context) {
-  let outlet = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext).outlet;
-
-  if (outlet) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(OutletContext.Provider, {
-      value: context
-    }, outlet);
-  }
-
-  return outlet;
-}
-/**
- * Returns an object of key/value pairs of the dynamic params from the current
- * URL that were matched by the route path.
- *
- * @see https://reactrouter.com/hooks/use-params
- */
-
-function useParams() {
-  let {
-    matches
-  } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
-  let routeMatch = matches[matches.length - 1];
-  return routeMatch ? routeMatch.params : {};
-}
-/**
- * Resolves the pathname of the given `to` value against the current location.
- *
- * @see https://reactrouter.com/hooks/use-resolved-path
- */
-
-function useResolvedPath(to, _temp2) {
-  let {
-    relative
-  } = _temp2 === void 0 ? {} : _temp2;
-  let {
-    matches
-  } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
-  let {
-    pathname: locationPathname
-  } = useLocation();
-  let routePathnamesJson = JSON.stringify((0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_getPathContributingMatches */ .Zq)(matches).map(match => match.pathnameBase));
-  return react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .resolveTo */ .pC)(to, JSON.parse(routePathnamesJson), locationPathname, relative === "path"), [to, routePathnamesJson, locationPathname, relative]);
-}
-/**
- * Returns the element of the route that matched the current location, prepared
- * with the correct context to render the remainder of the route tree. Route
- * elements in the tree must render an <Outlet> to render their child route's
- * element.
- *
- * @see https://reactrouter.com/hooks/use-routes
- */
-
-function useRoutes(routes, locationArg) {
-  return useRoutesImpl(routes, locationArg);
-} // Internal implementation with accept optional param for RouterProvider usage
-
-function useRoutesImpl(routes, locationArg, dataRouterState) {
-  !useInRouterContext() ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_invariant */ .J0)(false) : void 0;
-  let {
-    navigator
-  } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(NavigationContext);
-  let {
-    matches: parentMatches
-  } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
-  let routeMatch = parentMatches[parentMatches.length - 1];
-  let parentParams = routeMatch ? routeMatch.params : {};
-  let parentPathname = routeMatch ? routeMatch.pathname : "/";
-  let parentPathnameBase = routeMatch ? routeMatch.pathnameBase : "/";
-  let parentRoute = routeMatch && routeMatch.route;
-
-  if (false) {}
-
-  let locationFromContext = useLocation();
-  let location;
-
-  if (locationArg) {
-    var _parsedLocationArg$pa;
-
-    let parsedLocationArg = typeof locationArg === "string" ? (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .parsePath */ .cP)(locationArg) : locationArg;
-    !(parentPathnameBase === "/" || ((_parsedLocationArg$pa = parsedLocationArg.pathname) == null ? void 0 : _parsedLocationArg$pa.startsWith(parentPathnameBase))) ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_invariant */ .J0)(false) : void 0;
-    location = parsedLocationArg;
-  } else {
-    location = locationFromContext;
-  }
-
-  let pathname = location.pathname || "/";
-  let remainingPathname = parentPathnameBase === "/" ? pathname : pathname.slice(parentPathnameBase.length) || "/";
-  let matches = (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .matchRoutes */ .fp)(routes, {
-    pathname: remainingPathname
-  });
-
-  if (false) {}
-
-  let renderedMatches = _renderMatches(matches && matches.map(match => Object.assign({}, match, {
-    params: Object.assign({}, parentParams, match.params),
-    pathname: (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .joinPaths */ .RQ)([parentPathnameBase, // Re-encode pathnames that were decoded inside matchRoutes
-    navigator.encodeLocation ? navigator.encodeLocation(match.pathname).pathname : match.pathname]),
-    pathnameBase: match.pathnameBase === "/" ? parentPathnameBase : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .joinPaths */ .RQ)([parentPathnameBase, // Re-encode pathnames that were decoded inside matchRoutes
-    navigator.encodeLocation ? navigator.encodeLocation(match.pathnameBase).pathname : match.pathnameBase])
-  })), parentMatches, dataRouterState); // When a user passes in a `locationArg`, the associated routes need to
-  // be wrapped in a new `LocationContext.Provider` in order for `useLocation`
-  // to use the scoped location instead of the global location.
-
-
-  if (locationArg && renderedMatches) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(LocationContext.Provider, {
-      value: {
-        location: _extends({
-          pathname: "/",
-          search: "",
-          hash: "",
-          state: null,
-          key: "default"
-        }, location),
-        navigationType: _remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .Action */ .aU.Pop
-      }
-    }, renderedMatches);
-  }
-
-  return renderedMatches;
-}
-
-function DefaultErrorComponent() {
-  let error = useRouteError();
-  let message = (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .isRouteErrorResponse */ .WK)(error) ? error.status + " " + error.statusText : error instanceof Error ? error.message : JSON.stringify(error);
-  let stack = error instanceof Error ? error.stack : null;
-  let lightgrey = "rgba(200,200,200, 0.5)";
-  let preStyles = {
-    padding: "0.5rem",
-    backgroundColor: lightgrey
-  };
-  let codeStyles = {
-    padding: "2px 4px",
-    backgroundColor: lightgrey
-  };
-  let devInfo = null;
-
-  if (false) {}
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Unexpected Application Error!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
-    style: {
-      fontStyle: "italic"
-    }
-  }, message), stack ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("pre", {
-    style: preStyles
-  }, stack) : null, devInfo);
-}
-
-const defaultErrorElement = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(DefaultErrorComponent, null);
-class RenderErrorBoundary extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      location: props.location,
-      revalidation: props.revalidation,
-      error: props.error
-    };
-  }
-
-  static getDerivedStateFromError(error) {
-    return {
-      error: error
-    };
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    // When we get into an error state, the user will likely click "back" to the
-    // previous page that didn't have an error. Because this wraps the entire
-    // application, that will have no effect--the error page continues to display.
-    // This gives us a mechanism to recover from the error when the location changes.
-    //
-    // Whether we're in an error state or not, we update the location in state
-    // so that when we are in an error state, it gets reset when a new location
-    // comes in and the user recovers from the error.
-    if (state.location !== props.location || state.revalidation !== "idle" && props.revalidation === "idle") {
-      return {
-        error: props.error,
-        location: props.location,
-        revalidation: props.revalidation
-      };
-    } // If we're not changing locations, preserve the location but still surface
-    // any new errors that may come through. We retain the existing error, we do
-    // this because the error provided from the app state may be cleared without
-    // the location changing.
-
-
-    return {
-      error: props.error || state.error,
-      location: state.location,
-      revalidation: props.revalidation || state.revalidation
-    };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error("React Router caught the following error during render", error, errorInfo);
-  }
-
-  render() {
-    return this.state.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(RouteContext.Provider, {
-      value: this.props.routeContext
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(RouteErrorContext.Provider, {
-      value: this.state.error,
-      children: this.props.component
-    })) : this.props.children;
-  }
-
-}
-
-function RenderedRoute(_ref) {
-  let {
-    routeContext,
-    match,
-    children
-  } = _ref;
-  let dataRouterContext = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterContext); // Track how deep we got in our render pass to emulate SSR componentDidCatch
-  // in a DataStaticRouter
-
-  if (dataRouterContext && dataRouterContext.static && dataRouterContext.staticContext && (match.route.errorElement || match.route.ErrorBoundary)) {
-    dataRouterContext.staticContext._deepestRenderedBoundaryId = match.route.id;
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(RouteContext.Provider, {
-    value: routeContext
-  }, children);
-}
-
-function _renderMatches(matches, parentMatches, dataRouterState) {
-  var _dataRouterState2;
-
-  if (parentMatches === void 0) {
-    parentMatches = [];
-  }
-
-  if (dataRouterState === void 0) {
-    dataRouterState = null;
-  }
-
-  if (matches == null) {
-    var _dataRouterState;
-
-    if ((_dataRouterState = dataRouterState) != null && _dataRouterState.errors) {
-      // Don't bail if we have data router errors so we can render them in the
-      // boundary.  Use the pre-matched (or shimmed) matches
-      matches = dataRouterState.matches;
-    } else {
-      return null;
-    }
-  }
-
-  let renderedMatches = matches; // If we have data errors, trim matches to the highest error boundary
-
-  let errors = (_dataRouterState2 = dataRouterState) == null ? void 0 : _dataRouterState2.errors;
-
-  if (errors != null) {
-    let errorIndex = renderedMatches.findIndex(m => m.route.id && (errors == null ? void 0 : errors[m.route.id]));
-    !(errorIndex >= 0) ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_invariant */ .J0)(false) : void 0;
-    renderedMatches = renderedMatches.slice(0, Math.min(renderedMatches.length, errorIndex + 1));
-  }
-
-  return renderedMatches.reduceRight((outlet, match, index) => {
-    let error = match.route.id ? errors == null ? void 0 : errors[match.route.id] : null; // Only data routers handle errors
-
-    let errorElement = null;
-
-    if (dataRouterState) {
-      errorElement = match.route.errorElement || defaultErrorElement;
-    }
-
-    let matches = parentMatches.concat(renderedMatches.slice(0, index + 1));
-
-    let getChildren = () => {
-      let children;
-
-      if (error) {
-        children = errorElement;
-      } else if (match.route.Component) {
-        // Note: This is a de-optimized path since React won't re-use the
-        // ReactElement since it's identity changes with each new
-        // React.createElement call.  We keep this so folks can use
-        // `<Route Component={...}>` in `<Routes>` but generally `Component`
-        // usage is only advised in `RouterProvider` when we can convert it to
-        // `element` ahead of time.
-        children = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(match.route.Component, null);
-      } else if (match.route.element) {
-        children = match.route.element;
-      } else {
-        children = outlet;
-      }
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(RenderedRoute, {
-        match: match,
-        routeContext: {
-          outlet,
-          matches,
-          isDataRoute: dataRouterState != null
-        },
-        children: children
-      });
-    }; // Only wrap in an error boundary within data router usages when we have an
-    // ErrorBoundary/errorElement on this route.  Otherwise let it bubble up to
-    // an ancestor ErrorBoundary/errorElement
-
-
-    return dataRouterState && (match.route.ErrorBoundary || match.route.errorElement || index === 0) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(RenderErrorBoundary, {
-      location: dataRouterState.location,
-      revalidation: dataRouterState.revalidation,
-      component: errorElement,
-      error: error,
-      children: getChildren(),
-      routeContext: {
-        outlet: null,
-        matches,
-        isDataRoute: true
-      }
-    }) : getChildren();
-  }, null);
-}
-var DataRouterHook;
-
-(function (DataRouterHook) {
-  DataRouterHook["UseBlocker"] = "useBlocker";
-  DataRouterHook["UseRevalidator"] = "useRevalidator";
-  DataRouterHook["UseNavigateStable"] = "useNavigate";
-})(DataRouterHook || (DataRouterHook = {}));
-
-var DataRouterStateHook;
-
-(function (DataRouterStateHook) {
-  DataRouterStateHook["UseBlocker"] = "useBlocker";
-  DataRouterStateHook["UseLoaderData"] = "useLoaderData";
-  DataRouterStateHook["UseActionData"] = "useActionData";
-  DataRouterStateHook["UseRouteError"] = "useRouteError";
-  DataRouterStateHook["UseNavigation"] = "useNavigation";
-  DataRouterStateHook["UseRouteLoaderData"] = "useRouteLoaderData";
-  DataRouterStateHook["UseMatches"] = "useMatches";
-  DataRouterStateHook["UseRevalidator"] = "useRevalidator";
-  DataRouterStateHook["UseNavigateStable"] = "useNavigate";
-  DataRouterStateHook["UseRouteId"] = "useRouteId";
-})(DataRouterStateHook || (DataRouterStateHook = {}));
-
-function getDataRouterConsoleError(hookName) {
-  return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
-}
-
-function useDataRouterContext(hookName) {
-  let ctx = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterContext);
-  !ctx ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_invariant */ .J0)(false) : void 0;
-  return ctx;
-}
-
-function useDataRouterState(hookName) {
-  let state = react__WEBPACK_IMPORTED_MODULE_0__.useContext(DataRouterStateContext);
-  !state ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_invariant */ .J0)(false) : void 0;
-  return state;
-}
-
-function useRouteContext(hookName) {
-  let route = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteContext);
-  !route ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_invariant */ .J0)(false) : void 0;
-  return route;
-} // Internal version with hookName-aware debugging
-
-
-function useCurrentRouteId(hookName) {
-  let route = useRouteContext(hookName);
-  let thisRoute = route.matches[route.matches.length - 1];
-  !thisRoute.route.id ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_invariant */ .J0)(false) : void 0;
-  return thisRoute.route.id;
-}
-/**
- * Returns the ID for the nearest contextual route
- */
-
-
-function useRouteId() {
-  return useCurrentRouteId(DataRouterStateHook.UseRouteId);
-}
-/**
- * Returns the current navigation, defaulting to an "idle" navigation when
- * no navigation is in progress
- */
-
-function useNavigation() {
-  let state = useDataRouterState(DataRouterStateHook.UseNavigation);
-  return state.navigation;
-}
-/**
- * Returns a revalidate function for manually triggering revalidation, as well
- * as the current state of any manual revalidations
- */
-
-function useRevalidator() {
-  let dataRouterContext = useDataRouterContext(DataRouterHook.UseRevalidator);
-  let state = useDataRouterState(DataRouterStateHook.UseRevalidator);
-  return {
-    revalidate: dataRouterContext.router.revalidate,
-    state: state.revalidation
-  };
-}
-/**
- * Returns the active route matches, useful for accessing loaderData for
- * parent/child routes or the route "handle" property
- */
-
-function useMatches() {
-  let {
-    matches,
-    loaderData
-  } = useDataRouterState(DataRouterStateHook.UseMatches);
-  return React.useMemo(() => matches.map(match => {
-    let {
-      pathname,
-      params
-    } = match; // Note: This structure matches that created by createUseMatchesMatch
-    // in the @remix-run/router , so if you change this please also change
-    // that :)  Eventually we'll DRY this up
-
-    return {
-      id: match.route.id,
-      pathname,
-      params,
-      data: loaderData[match.route.id],
-      handle: match.route.handle
-    };
-  }), [matches, loaderData]);
-}
-/**
- * Returns the loader data for the nearest ancestor Route loader
- */
-
-function useLoaderData() {
-  let state = useDataRouterState(DataRouterStateHook.UseLoaderData);
-  let routeId = useCurrentRouteId(DataRouterStateHook.UseLoaderData);
-
-  if (state.errors && state.errors[routeId] != null) {
-    console.error("You cannot `useLoaderData` in an errorElement (routeId: " + routeId + ")");
-    return undefined;
-  }
-
-  return state.loaderData[routeId];
-}
-/**
- * Returns the loaderData for the given routeId
- */
-
-function useRouteLoaderData(routeId) {
-  let state = useDataRouterState(DataRouterStateHook.UseRouteLoaderData);
-  return state.loaderData[routeId];
-}
-/**
- * Returns the action data for the nearest ancestor Route action
- */
-
-function useActionData() {
-  let state = useDataRouterState(DataRouterStateHook.UseActionData);
-  let route = React.useContext(RouteContext);
-  !route ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-  return Object.values((state == null ? void 0 : state.actionData) || {})[0];
-}
-/**
- * Returns the nearest ancestor Route error, which could be a loader/action
- * error or a render error.  This is intended to be called from your
- * ErrorBoundary/errorElement to display a proper error message.
- */
-
-function useRouteError() {
-  var _state$errors;
-
-  let error = react__WEBPACK_IMPORTED_MODULE_0__.useContext(RouteErrorContext);
-  let state = useDataRouterState(DataRouterStateHook.UseRouteError);
-  let routeId = useCurrentRouteId(DataRouterStateHook.UseRouteError); // If this was a render error, we put it in a RouteError context inside
-  // of RenderErrorBoundary
-
-  if (error) {
-    return error;
-  } // Otherwise look for errors from our data router state
-
-
-  return (_state$errors = state.errors) == null ? void 0 : _state$errors[routeId];
-}
-/**
- * Returns the happy-path data from the nearest ancestor <Await /> value
- */
-
-function useAsyncValue() {
-  let value = React.useContext(AwaitContext);
-  return value == null ? void 0 : value._data;
-}
-/**
- * Returns the error from the nearest ancestor <Await /> value
- */
-
-function useAsyncError() {
-  let value = React.useContext(AwaitContext);
-  return value == null ? void 0 : value._error;
-}
-let blockerId = 0;
-/**
- * Allow the application to block navigations within the SPA and present the
- * user a confirmation dialog to confirm the navigation.  Mostly used to avoid
- * using half-filled form data.  This does not handle hard-reloads or
- * cross-origin navigations.
- */
-
-function useBlocker(shouldBlock) {
-  let {
-    router
-  } = useDataRouterContext(DataRouterHook.UseBlocker);
-  let state = useDataRouterState(DataRouterStateHook.UseBlocker);
-  let [blockerKey] = React.useState(() => String(++blockerId));
-  let blockerFunction = React.useCallback(args => {
-    return typeof shouldBlock === "function" ? !!shouldBlock(args) : !!shouldBlock;
-  }, [shouldBlock]);
-  let blocker = router.getBlocker(blockerKey, blockerFunction); // Cleanup on unmount
-
-  React.useEffect(() => () => router.deleteBlocker(blockerKey), [router, blockerKey]); // Prefer the blocker from state since DataRouterContext is memoized so this
-  // ensures we update on blocker state updates
-
-  return state.blockers.get(blockerKey) || blocker;
-}
-/**
- * Stable version of useNavigate that is used when we are in the context of
- * a RouterProvider.
- */
-
-function useNavigateStable() {
-  let {
-    router
-  } = useDataRouterContext(DataRouterHook.UseNavigateStable);
-  let id = useCurrentRouteId(DataRouterStateHook.UseNavigateStable);
-  let activeRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
-  useIsomorphicLayoutEffect(() => {
-    activeRef.current = true;
-  });
-  let navigate = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(function (to, options) {
-    if (options === void 0) {
-      options = {};
-    }
-
-     false ? 0 : void 0; // Short circuit here since if this happens on first render the navigate
-    // is useless because we haven't wired up our router subscriber yet
-
-    if (!activeRef.current) return;
-
-    if (typeof to === "number") {
-      router.navigate(to);
-    } else {
-      router.navigate(to, _extends({
-        fromRouteId: id
-      }, options));
-    }
-  }, [router, id]);
-  return navigate;
-}
-
-const alreadyWarned = {};
-
-function warningOnce(key, cond, message) {
-  if (!cond && !alreadyWarned[key]) {
-    alreadyWarned[key] = true;
-     false ? 0 : void 0;
-  }
-}
-
-/**
- * Given a Remix Router instance, render the appropriate UI
- */
-function RouterProvider(_ref) {
-  let {
-    fallbackElement,
-    router
-  } = _ref;
-  // Need to use a layout effect here so we are subscribed early enough to
-  // pick up on any render-driven redirects/navigations (useEffect/<Navigate>)
-  let [state, setState] = react__WEBPACK_IMPORTED_MODULE_0__.useState(router.state);
-  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => router.subscribe(setState), [router, setState]);
-  let navigator = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
-    return {
-      createHref: router.createHref,
-      encodeLocation: router.encodeLocation,
-      go: n => router.navigate(n),
-      push: (to, state, opts) => router.navigate(to, {
-        state,
-        preventScrollReset: opts == null ? void 0 : opts.preventScrollReset
-      }),
-      replace: (to, state, opts) => router.navigate(to, {
-        replace: true,
-        state,
-        preventScrollReset: opts == null ? void 0 : opts.preventScrollReset
-      })
-    };
-  }, [router]);
-  let basename = router.basename || "/";
-  let dataRouterContext = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => ({
-    router,
-    navigator,
-    static: false,
-    basename
-  }), [router, navigator, basename]); // The fragment and {null} here are important!  We need them to keep React 18's
-  // useId happy when we are server-rendering since we may have a <script> here
-  // containing the hydrated server-side staticContext (from StaticRouterProvider).
-  // useId relies on the component tree structure to generate deterministic id's
-  // so we need to ensure it remains the same on the client even though
-  // we don't need the <script> tag
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(DataRouterContext.Provider, {
-    value: dataRouterContext
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(DataRouterStateContext.Provider, {
-    value: state
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Router, {
-    basename: router.basename,
-    location: router.state.location,
-    navigationType: router.state.historyAction,
-    navigator: navigator
-  }, router.state.initialized ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(DataRoutes, {
-    routes: router.routes,
-    state: state
-  }) : fallbackElement))), null);
-}
-
-function DataRoutes(_ref2) {
-  let {
-    routes,
-    state
-  } = _ref2;
-  return useRoutesImpl(routes, undefined, state);
-}
-
-/**
- * A <Router> that stores all entries in memory.
- *
- * @see https://reactrouter.com/router-components/memory-router
- */
-function MemoryRouter(_ref3) {
-  let {
-    basename,
-    children,
-    initialEntries,
-    initialIndex
-  } = _ref3;
-  let historyRef = React.useRef();
-
-  if (historyRef.current == null) {
-    historyRef.current = createMemoryHistory({
-      initialEntries,
-      initialIndex,
-      v5Compat: true
-    });
-  }
-
-  let history = historyRef.current;
-  let [state, setState] = React.useState({
-    action: history.action,
-    location: history.location
-  });
-  React.useLayoutEffect(() => history.listen(setState), [history]);
-  return /*#__PURE__*/React.createElement(Router, {
-    basename: basename,
-    children: children,
-    location: state.location,
-    navigationType: state.action,
-    navigator: history
-  });
-}
-
-/**
- * Changes the current location.
- *
- * Note: This API is mostly useful in React.Component subclasses that are not
- * able to use hooks. In functional components, we recommend you use the
- * `useNavigate` hook instead.
- *
- * @see https://reactrouter.com/components/navigate
- */
-function Navigate(_ref4) {
-  let {
-    to,
-    replace,
-    state,
-    relative
-  } = _ref4;
-  !useInRouterContext() ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-   false ? 0 : void 0;
-  let {
-    matches
-  } = React.useContext(RouteContext);
-  let {
-    pathname: locationPathname
-  } = useLocation();
-  let navigate = useNavigate(); // Resolve the path outside of the effect so that when effects run twice in
-  // StrictMode they navigate to the same place
-
-  let path = resolveTo(to, UNSAFE_getPathContributingMatches(matches).map(match => match.pathnameBase), locationPathname, relative === "path");
-  let jsonPath = JSON.stringify(path);
-  React.useEffect(() => navigate(JSON.parse(jsonPath), {
-    replace,
-    state,
-    relative
-  }), [navigate, jsonPath, relative, replace, state]);
-  return null;
-}
-
-/**
- * Renders the child route's element, if there is one.
- *
- * @see https://reactrouter.com/components/outlet
- */
-function Outlet(props) {
-  return useOutlet(props.context);
-}
-
-/**
- * Declares an element that should be rendered at a certain URL path.
- *
- * @see https://reactrouter.com/components/route
- */
-function Route(_props) {
-   false ? 0 : UNSAFE_invariant(false) ;
-}
-
-/**
- * Provides location context for the rest of the app.
- *
- * Note: You usually won't render a <Router> directly. Instead, you'll render a
- * router that is more specific to your environment such as a <BrowserRouter>
- * in web browsers or a <StaticRouter> for server rendering.
- *
- * @see https://reactrouter.com/router-components/router
- */
-function Router(_ref5) {
-  let {
-    basename: basenameProp = "/",
-    children = null,
-    location: locationProp,
-    navigationType = _remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .Action */ .aU.Pop,
-    navigator,
-    static: staticProp = false
-  } = _ref5;
-  !!useInRouterContext() ?  false ? 0 : (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .UNSAFE_invariant */ .J0)(false) : void 0; // Preserve trailing slashes on basename, so we can let the user control
-  // the enforcement of trailing slashes throughout the app
-
-  let basename = basenameProp.replace(/^\/*/, "/");
-  let navigationContext = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => ({
-    basename,
-    navigator,
-    static: staticProp
-  }), [basename, navigator, staticProp]);
-
-  if (typeof locationProp === "string") {
-    locationProp = (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .parsePath */ .cP)(locationProp);
-  }
-
-  let {
-    pathname = "/",
-    search = "",
-    hash = "",
-    state = null,
-    key = "default"
-  } = locationProp;
-  let locationContext = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
-    let trailingPathname = (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .stripBasename */ .Zn)(pathname, basename);
-
-    if (trailingPathname == null) {
-      return null;
-    }
-
-    return {
-      location: {
-        pathname: trailingPathname,
-        search,
-        hash,
-        state,
-        key
-      },
-      navigationType
-    };
-  }, [basename, pathname, search, hash, state, key, navigationType]);
-   false ? 0 : void 0;
-
-  if (locationContext == null) {
-    return null;
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NavigationContext.Provider, {
-    value: navigationContext
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(LocationContext.Provider, {
-    children: children,
-    value: locationContext
-  }));
-}
-
-/**
- * A container for a nested tree of <Route> elements that renders the branch
- * that best matches the current location.
- *
- * @see https://reactrouter.com/components/routes
- */
-function Routes(_ref6) {
-  let {
-    children,
-    location
-  } = _ref6;
-  return useRoutes(createRoutesFromChildren(children), location);
-}
-
-/**
- * Component to use for rendering lazily loaded data from returning defer()
- * in a loader function
- */
-function Await(_ref7) {
-  let {
-    children,
-    errorElement,
-    resolve
-  } = _ref7;
-  return /*#__PURE__*/React.createElement(AwaitErrorBoundary, {
-    resolve: resolve,
-    errorElement: errorElement
-  }, /*#__PURE__*/React.createElement(ResolveAwait, null, children));
-}
-var AwaitRenderStatus;
-
-(function (AwaitRenderStatus) {
-  AwaitRenderStatus[AwaitRenderStatus["pending"] = 0] = "pending";
-  AwaitRenderStatus[AwaitRenderStatus["success"] = 1] = "success";
-  AwaitRenderStatus[AwaitRenderStatus["error"] = 2] = "error";
-})(AwaitRenderStatus || (AwaitRenderStatus = {}));
-
-const neverSettledPromise = new Promise(() => {});
-
-class AwaitErrorBoundary extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null
-    };
-  }
-
-  static getDerivedStateFromError(error) {
-    return {
-      error
-    };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error("<Await> caught the following error during render", error, errorInfo);
-  }
-
-  render() {
-    let {
-      children,
-      errorElement,
-      resolve
-    } = this.props;
-    let promise = null;
-    let status = AwaitRenderStatus.pending;
-
-    if (!(resolve instanceof Promise)) {
-      // Didn't get a promise - provide as a resolved promise
-      status = AwaitRenderStatus.success;
-      promise = Promise.resolve();
-      Object.defineProperty(promise, "_tracked", {
-        get: () => true
-      });
-      Object.defineProperty(promise, "_data", {
-        get: () => resolve
-      });
-    } else if (this.state.error) {
-      // Caught a render error, provide it as a rejected promise
-      status = AwaitRenderStatus.error;
-      let renderError = this.state.error;
-      promise = Promise.reject().catch(() => {}); // Avoid unhandled rejection warnings
-
-      Object.defineProperty(promise, "_tracked", {
-        get: () => true
-      });
-      Object.defineProperty(promise, "_error", {
-        get: () => renderError
-      });
-    } else if (resolve._tracked) {
-      // Already tracked promise - check contents
-      promise = resolve;
-      status = promise._error !== undefined ? AwaitRenderStatus.error : promise._data !== undefined ? AwaitRenderStatus.success : AwaitRenderStatus.pending;
-    } else {
-      // Raw (untracked) promise - track it
-      status = AwaitRenderStatus.pending;
-      Object.defineProperty(resolve, "_tracked", {
-        get: () => true
-      });
-      promise = resolve.then(data => Object.defineProperty(resolve, "_data", {
-        get: () => data
-      }), error => Object.defineProperty(resolve, "_error", {
-        get: () => error
-      }));
-    }
-
-    if (status === AwaitRenderStatus.error && promise._error instanceof _remix_run_router__WEBPACK_IMPORTED_MODULE_1__/* .AbortedDeferredError */ .X3) {
-      // Freeze the UI by throwing a never resolved promise
-      throw neverSettledPromise;
-    }
-
-    if (status === AwaitRenderStatus.error && !errorElement) {
-      // No errorElement, throw to the nearest route-level error boundary
-      throw promise._error;
-    }
-
-    if (status === AwaitRenderStatus.error) {
-      // Render via our errorElement
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(AwaitContext.Provider, {
-        value: promise,
-        children: errorElement
-      });
-    }
-
-    if (status === AwaitRenderStatus.success) {
-      // Render children with resolved value
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(AwaitContext.Provider, {
-        value: promise,
-        children: children
-      });
-    } // Throw to the suspense boundary
-
-
-    throw promise;
-  }
-
-}
-/**
- * @private
- * Indirection to leverage useAsyncValue for a render-prop API on <Await>
- */
-
-
-function ResolveAwait(_ref8) {
-  let {
-    children
-  } = _ref8;
-  let data = useAsyncValue();
-  let toRender = typeof children === "function" ? children(data) : children;
-  return /*#__PURE__*/React.createElement(React.Fragment, null, toRender);
-} ///////////////////////////////////////////////////////////////////////////////
-// UTILS
-///////////////////////////////////////////////////////////////////////////////
-
-/**
- * Creates a route config from a React "children" object, which is usually
- * either a `<Route>` element or an array of them. Used internally by
- * `<Routes>` to create a route config from its children.
- *
- * @see https://reactrouter.com/utils/create-routes-from-children
- */
-
-
-function createRoutesFromChildren(children, parentPath) {
-  if (parentPath === void 0) {
-    parentPath = [];
-  }
-
-  let routes = [];
-  React.Children.forEach(children, (element, index) => {
-    if (! /*#__PURE__*/React.isValidElement(element)) {
-      // Ignore non-elements. This allows people to more easily inline
-      // conditionals in their route config.
-      return;
-    }
-
-    let treePath = [...parentPath, index];
-
-    if (element.type === React.Fragment) {
-      // Transparently support React.Fragment and its children.
-      routes.push.apply(routes, createRoutesFromChildren(element.props.children, treePath));
-      return;
-    }
-
-    !(element.type === Route) ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-    !(!element.props.index || !element.props.children) ?  false ? 0 : UNSAFE_invariant(false) : void 0;
-    let route = {
-      id: element.props.id || treePath.join("-"),
-      caseSensitive: element.props.caseSensitive,
-      element: element.props.element,
-      Component: element.props.Component,
-      index: element.props.index,
-      path: element.props.path,
-      loader: element.props.loader,
-      action: element.props.action,
-      errorElement: element.props.errorElement,
-      ErrorBoundary: element.props.ErrorBoundary,
-      hasErrorBoundary: element.props.ErrorBoundary != null || element.props.errorElement != null,
-      shouldRevalidate: element.props.shouldRevalidate,
-      handle: element.props.handle,
-      lazy: element.props.lazy
-    };
-
-    if (element.props.children) {
-      route.children = createRoutesFromChildren(element.props.children, treePath);
-    }
-
-    routes.push(route);
-  });
-  return routes;
-}
-/**
- * Renders the result of `matchRoutes()` into a React element.
- */
-
-function renderMatches(matches) {
-  return _renderMatches(matches);
-}
-
-function mapRouteProperties(route) {
-  let updates = {
-    // Note: this check also occurs in createRoutesFromChildren so update
-    // there if you change this -- please and thank you!
-    hasErrorBoundary: route.ErrorBoundary != null || route.errorElement != null
-  };
-
-  if (route.Component) {
-    if (false) {}
-
-    Object.assign(updates, {
-      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(route.Component),
-      Component: undefined
-    });
-  }
-
-  if (route.ErrorBoundary) {
-    if (false) {}
-
-    Object.assign(updates, {
-      errorElement: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(route.ErrorBoundary),
-      ErrorBoundary: undefined
-    });
-  }
-
-  return updates;
-}
-
-function createMemoryRouter(routes, opts) {
-  return createRouter({
-    basename: opts == null ? void 0 : opts.basename,
-    future: _extends({}, opts == null ? void 0 : opts.future, {
-      v7_prependBasename: true
-    }),
-    history: createMemoryHistory({
-      initialEntries: opts == null ? void 0 : opts.initialEntries,
-      initialIndex: opts == null ? void 0 : opts.initialIndex
-    }),
-    hydrationData: opts == null ? void 0 : opts.hydrationData,
-    routes,
-    mapRouteProperties
-  }).initialize();
-} ///////////////////////////////////////////////////////////////////////////////
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-
 /***/ 408:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -8144,23 +8226,12 @@ if (true) {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /************************************************************************/
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(65);
+/******/ 	__webpack_require__(649);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()
