@@ -10,8 +10,6 @@ const SITE_URL=process.env.SITE_URL;
   const SITE_TITLE=process.env.SITE_TITLE;
   const SITE_TAGLINE=process.env.SITE_TAGLINE;
 
-  console.log("Site url", SITE_URL);
-
 
   return (
     <div className='mainpage'>

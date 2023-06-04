@@ -4,7 +4,6 @@ import "./../../../scss/style.scss";
 import DataContext from "../Utils/DataContext";
 import MenuDataContext from "../Utils/MenuDataContext";
 import langArr from "../assets/langData";
-// import "src/js/app/assets";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -33,10 +32,6 @@ const Navbar = () => {
   function settingMenuData() {
     //Setting Data as Items
     let items = menuData[lang];
-    setMenuData(prevData => ({
-      ...prevData,
-      [lang]: items
-    }));
     let head = items.filter((e) => e.menu_item_parent === "0")[0];
     let childItems = items.filter(
       (e) => parseInt(e.menu_item_parent) === head.ID
