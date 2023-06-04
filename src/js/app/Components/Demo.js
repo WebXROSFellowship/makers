@@ -138,12 +138,27 @@ function Demo() {
         >
           <a-entity
             camera
+            id="camera"
             position="0 1.6 0"
             look-controls="pointerLockEnabled: true"
           ></a-entity>
         </a-entity>
 
         <a-assets>
+        <a-asset-item
+          id="room"
+          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb"
+          crossOrigin="anonymous"
+          key="room"
+        ></a-asset-item>
+
+        <a-asset-item
+          id="navmesh"
+          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh3.glb"
+          crossOrigin="anonymous"
+          key="navmesh"
+        ></a-asset-item>
+
           {assets.map((asset) => {
             if (asset.type === "model") {
               return (

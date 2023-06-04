@@ -8,8 +8,8 @@
         wp_register_script( 'aframe', 'https://aframe.io/releases/1.2.0/aframe.min.js', array('jquery'), '1.2.0' , false );
         wp_enqueue_script( 'aframe' );
 
-        wp_register_script( 'aframe-inspector', 'https://unpkg.com/aframe-inspector@1.2.x/dist/aframe-inspector.min.js', array('jquery'), '1.2.0' , false );
-        wp_enqueue_script( 'aframe-inspector' );
+        // wp_register_script( 'aframe-inspector', 'https://unpkg.com/aframe-inspector@1.2.x/dist/aframe-inspector.min.js', array('jquery'), '1.2.0' , false );
+        // wp_enqueue_script( 'aframe-inspector' );
 
         
     }

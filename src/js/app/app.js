@@ -21,7 +21,7 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Body />,
+        element: <Demo />,
       },
       {
         path: "aframe_demo",
