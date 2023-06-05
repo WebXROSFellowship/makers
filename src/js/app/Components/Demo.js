@@ -147,14 +147,14 @@ function Demo() {
         <a-assets>
         <a-asset-item
           id="room"
-          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb"
+          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS11.glb"
           crossOrigin="anonymous"
           key="room"
         ></a-asset-item>
 
         <a-asset-item
           id="navmesh"
-          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh3.glb"
+          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh4.glb"
           crossOrigin="anonymous"
           key="navmesh"
         ></a-asset-item>
@@ -189,7 +189,7 @@ function Demo() {
               id="#room"
               gltf-model="#room"
               crossOrigin="anonymous"
-              position="-1.693 0 0.07"
+              position="-1.693 0 0.4"
             ></a-entity>
 
             {/* Finally toggle visibility */}
