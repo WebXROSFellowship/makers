@@ -15,3 +15,13 @@
   margin-top: 2rem;
   margin-bottom: 1rem;
 }
+
+//Commands for Body Page
+@media only screen and (max-width: 720px) {
+  .body-head {
+    font-size: 2rem !important;
+  }
+  .body-text {
+    margin-top: 6rem;
+  }
+}

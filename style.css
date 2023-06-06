@@ -167,7 +167,8 @@ DO NOT EDIT IN STYLE.CSS
   top: 0;
   right: 0;
   width: 60%;
-  margin-top: 3.125rem;
+  margin-top: 5rem;
+  height: 100%;
 }
 
 .dropdown2 {
@@ -382,6 +383,14 @@ button {
   margin-bottom: 1rem;
 }
 
+@media only screen and (max-width: 720px) {
+  .body-head {
+    font-size: 2rem !important;
+  }
+  .body-text {
+    margin-top: 6rem;
+  }
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
