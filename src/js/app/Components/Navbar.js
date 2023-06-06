@@ -79,10 +79,12 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         {/* The brand section of the Navbar */}
+        <Link to="/" className="text-decoration-none">
         <div className="navbar-brand text-white" style={{ fontFamily: "sans-serif"}}>
-        <img src="https://staging.webxr.link/wp-content/uploads/2023/05/webxros.png" alt="logo" style={{ width: '50px', height: '50px', marginTop: '-3px' }} />
-        <span style={{ marginLeft: '15px' }}>PowerSimple | XROS</span>
+        <img src="https://staging.webxr.link/wp-content/uploads/2023/05/webxros.png" alt="logo"  className="logo-img" />
+        <span className="title-head">PowerSimple | XROS</span>
         </div>
+        </Link>
 
         <div className="navbar-right">
           {/* The main dropdown menu items of the Navbar */}
