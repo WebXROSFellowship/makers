@@ -4857,9 +4857,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _Utils_DataContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Utils/DataContext */ "./src/js/app/Utils/DataContext.js");
 /* harmony import */ var _Utils_MenuDataContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Utils/MenuDataContext */ "./src/js/app/Utils/MenuDataContext.js");
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Utils */ "./src/js/app/Utils/index.js");
+
 
 
 
@@ -4868,16 +4870,17 @@ const NavSites = () => {
   const {
     sitename,
     sn
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useParams)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useParams)();
   const {
     lang
   } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils_DataContext__WEBPACK_IMPORTED_MODULE_1__["default"]);
+  // const { menuData } = useContext(MenuDataContext);
   const {
-    menuData
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils_MenuDataContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
+    stagingData
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_3__.StagingDataContext);
   const filteredMenuData = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
     const curl = "/" + sitename + "/" + (sn != undefined ? sn + "/" : "");
-    const langMenuData = menuData[lang] || [];
+    const langMenuData = stagingData || [];
     const filteredData = langMenuData.filter(item => item.url === curl);
     return filteredData.length > 0 ? filteredData[0].content : null;
   }, [menuData, lang, sitename, sn]);
@@ -4903,12 +4906,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
-/* harmony import */ var _Utils_DataContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Utils/DataContext */ "./src/js/app/Utils/DataContext.js");
-/* harmony import */ var _Utils_MenuDataContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Utils/MenuDataContext */ "./src/js/app/Utils/MenuDataContext.js");
-/* harmony import */ var _assets_langData__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../assets/langData */ "./src/js/app/assets/langData.js");
-
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Utils */ "./src/js/app/Utils/index.js");
+/* harmony import */ var _assets_langData__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/langData */ "./src/js/app/assets/langData.js");
 
 
 
@@ -4921,19 +4922,17 @@ const Navbar = () => {
   const [languageArr, setLanguageArr] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [hoveredIndex, setHoveredIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(-1);
   const {
-    lang,
     setLang
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils_DataContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_2__.DataContext);
   const {
-    menuData,
-    setMenuData
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils_MenuDataContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+    stagingData
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_2__.StagingDataContext);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     settingMenuData();
     setLanguages();
-  }, []);
+  }, [stagingData]);
   function formatNames(name) {
     let allWords = name.toLowerCase().split(" ");
     for (let i = 0; i < allWords.length; i++) {
@@ -4943,8 +4942,7 @@ const Navbar = () => {
     return formattedName;
   }
   function settingMenuData() {
-    //Setting Data as Items
-    let items = menuData[lang];
+    let items = stagingData;
     let head = items.filter(e => e.menu_item_parent === "0")[0];
     let childItems = items.filter(e => parseInt(e.menu_item_parent) === head.ID);
     let nestedItems = [];
@@ -4972,7 +4970,7 @@ const Navbar = () => {
       // let langStagingDataJSON = await langStagingData.json();
 
       // setLanguageArr(langStagingDataJSON);
-      setLanguageArr(_assets_langData__WEBPACK_IMPORTED_MODULE_4__["default"]);
+      setLanguageArr(_assets_langData__WEBPACK_IMPORTED_MODULE_3__["default"]);
     } catch (err) {
       console.log("Error");
       console.log(err);
@@ -5019,7 +5017,7 @@ const Navbar = () => {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         className: "dropdown__items",
         key: i,
         onMouseEnter: () => setHoveredIndex(i),
@@ -5031,7 +5029,7 @@ const Navbar = () => {
         className: "fa-solid fa-circle-chevron-down"
       })), c && hoveredIndex === i && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
         className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+      }, nestedItems.map((cur, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
@@ -5122,7 +5120,7 @@ const Navbar = () => {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         className: "dropdown__items",
         key: i,
         onMouseEnter: () => setHoveredIndex(i),
@@ -5134,7 +5132,7 @@ const Navbar = () => {
         className: "fa-solid fa-circle-chevron-down"
       })), c && hoveredIndex === i && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
         className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+      }, nestedItems.map((cur, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
@@ -5173,11 +5171,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
-/* harmony import */ var _Utils_DataContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Utils/DataContext */ "./src/js/app/Utils/DataContext.js");
-/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Utils */ "./src/js/app/Utils/index.js");
-/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
-
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Utils */ "./src/js/app/Utils/index.js");
+/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
 
 
 
@@ -5185,34 +5181,33 @@ __webpack_require__.r(__webpack_exports__);
 const Profile = () => {
   const {
     username
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useParams)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useParams)();
   const {
-    lang
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils_DataContext__WEBPACK_IMPORTED_MODULE_1__["default"]);
-  const {
-    menuData
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_2__.MenuDataContext);
+    stagingData
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_1__.StagingDataContext);
   const curl = "/profile/" + username + "/";
-  const data = menuData[lang];
+  const data = stagingData;
   const cd = data?.filter(e => e?.url === curl);
   const content = cd[0]?.content || "";
-  const userName = cd[0]?.title;
-  const [images, setImages] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const titleName = cd[0]?.title;
+  const [imgLink, setImgLink] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetch(`https://staging.webxr.link/wp-json/wp/v2/media?media`).then(response => response.json()).then(data => {
-      const profileImage = data.find(image => image.slug === username);
+      const profileImage = data?.find(image => image?.slug === username);
       const imageUrl = profileImage ? profileImage.guid.rendered : "";
-      setImages([imageUrl]);
+      setImgLink(imageUrl);
     }).catch(error => console.log(error));
   }, [username]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, userName), images.map((imageUrl, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    key: index,
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
+    className: "profile-text"
+  }, titleName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "profile_container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    src: imageUrl,
-    alt: `Image ${index}`,
+    src: imgLink,
+    alt: `${titleName}`,
     className: "profile-img"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "profile-text",
     dangerouslySetInnerHTML: {
       __html: content
     }
@@ -5422,6 +5417,27 @@ MenuDataContext.displayName = "Menu Data";
 
 /***/ }),
 
+/***/ "./src/js/app/Utils/StagingDataContext.js":
+/*!************************************************!*\
+  !*** ./src/js/app/Utils/StagingDataContext.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const StagingDataContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)({
+  stagingData: []
+});
+StagingDataContext.displayName = "Staging Data";
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StagingDataContext);
+
+/***/ }),
+
 /***/ "./src/js/app/Utils/index.js":
 /*!***********************************!*\
   !*** ./src/js/app/Utils/index.js ***!
@@ -5431,10 +5447,13 @@ MenuDataContext.displayName = "Menu Data";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   DataContext: () => (/* reexport safe */ _DataContext__WEBPACK_IMPORTED_MODULE_0__["default"]),
-/* harmony export */   MenuDataContext: () => (/* reexport safe */ _MenuDataContext__WEBPACK_IMPORTED_MODULE_1__["default"])
+/* harmony export */   MenuDataContext: () => (/* reexport safe */ _MenuDataContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+/* harmony export */   StagingDataContext: () => (/* reexport safe */ _StagingDataContext__WEBPACK_IMPORTED_MODULE_2__["default"])
 /* harmony export */ });
 /* harmony import */ var _DataContext__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataContext */ "./src/js/app/Utils/DataContext.js");
 /* harmony import */ var _MenuDataContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuDataContext */ "./src/js/app/Utils/MenuDataContext.js");
+/* harmony import */ var _StagingDataContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StagingDataContext */ "./src/js/app/Utils/StagingDataContext.js");
+
 
 
 
@@ -5494,7 +5513,7 @@ const appRouter = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.createBrowser
 const App = () => {
   const [lang, setLang] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [menuData, setMenuData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
-  let data = menuData[lang] || [];
+  const [stagingData, setStagingData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetchMenuData();
   }, [lang]);
@@ -5505,21 +5524,23 @@ const App = () => {
       let jsonData = await stagingData.json();
       let items = jsonData.filter(item => item.slug == "main-menu");
       items = items[0].items;
-      setMenuData(prevData => ({
-        ...prevData,
-        [lang]: items
-      }));
+      setStagingData([...items]);
     } catch (error) {
       console.log("Error fetching staging data: ", error);
     }
   }
-  if (data.length === 0) {
+  if (stagingData.length === 0) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "Loading...");
   }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Utils__WEBPACK_IMPORTED_MODULE_2__.DataContext.Provider, {
     value: {
       lang: lang,
       setLang: setLang
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Utils__WEBPACK_IMPORTED_MODULE_2__.StagingDataContext.Provider, {
+    value: {
+      stagingData,
+      setStagingData
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Utils__WEBPACK_IMPORTED_MODULE_2__.MenuDataContext.Provider, {
     value: {
@@ -5528,7 +5549,7 @@ const App = () => {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.RouterProvider, {
     router: appRouter
-  })));
+  }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
 
