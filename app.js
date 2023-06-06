@@ -4651,6 +4651,12 @@ function Demo() {
         console.log(ele);
         ele.click();
         console.log("Clicked");
+        addElement();
+      }, 5000); // Adjust the delay as needed
+    }
+
+    function addElement() {
+      setTimeout(function () {
         // Create the <a> element
         var link = document.createElement("a");
         link.href = "#";
@@ -4664,7 +4670,7 @@ function Demo() {
         console.log(parentElement);
         parentElement.appendChild(link);
         dataToConsole();
-      }, 10000); // Adjust the delay as needed
+      }, 2000); // Adjust the delay as needed
     }
 
     // getting data from the clipboard to console
@@ -4742,10 +4748,15 @@ function Demo() {
     }
 
     // Heavy models take time to load, hence wait for a while
-    setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
-
-    loadAndGet();
-    addMani();
+    async function startLoadingAndGetData() {
+      setLoading(false);
+      await new Promise(resolve => setTimeout(resolve, 10000));
+      console.log('Starting loading');
+      loadAndGet();
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      addMani();
+    }
+    startLoadingAndGetData();
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-scene", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
     id: "rig",
@@ -4790,7 +4801,7 @@ function Demo() {
     id: "#navmesh",
     "gltf-model": "#navmesh",
     crossOrigin: "anonymous",
-    visible: "true"
+    visible: "false"
   }), _dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(entity => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     key: entity.id
   }, entity)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
@@ -41638,7 +41649,7 @@ module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.co
   \********************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-6.244 1.426 -0.311","rotation":"0 90 0","scale":"0.49834 0.58072 1"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#photo1","gltf-model":"https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb","scale":"0.3 0.3 0.3","position":"3.17 0.633 -2.622"},{"id":"#photos2","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","rotation":"-179.99 0 -180","position":"3.035 1.263 2.674"}]');
+module.exports = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-6.244 1.426 -0.311","rotation":"0 90 0","scale":"0.49834 0.58072 1"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#photo1","gltf-model":"https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb","scale":"0.3 0.3 0.3","position":"3.17 0.633 -2.622"},{"id":"#photos2","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","rotation":"-179.99 0 -180","position":"3.035 1.263 2.674"},{"id":"#pic2","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"2.508 1.261 2.668"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"1.33776 1.21406 2.68153"}]');
 
 /***/ }),
 

@@ -24,6 +24,12 @@ function Demo() {
         console.log(ele);
         ele.click();
         console.log("Clicked");
+        addElement();
+      }, 5000); // Adjust the delay as needed
+    }
+
+    function addElement() {
+      setTimeout(function () {
         // Create the <a> element
         var link = document.createElement("a");
         link.href = "#";
@@ -32,15 +38,12 @@ function Demo() {
         link.classList.add("button", "fa", "fa-bookmark");
 
         // Append the <a> element to the specified location
-        var parentElement = document.querySelector(
-          "#componentEntityHeader > div.static > div.collapsible-header > div"
-        );
-
+        var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
         console.log("!!!!!!!!!!!!got the parent element");
         console.log(parentElement);
         parentElement.appendChild(link);
         dataToConsole();
-      }, 10000); // Adjust the delay as needed
+      }, 2000); // Adjust the delay as needed
     }
 
     // getting data from the clipboard to console
@@ -122,10 +125,15 @@ function Demo() {
     }
 
     // Heavy models take time to load, hence wait for a while
-    setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
-
-    loadAndGet();
-    addMani();
+    async function startLoadingAndGetData() {
+      setLoading(false);
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+      console.log('Starting loading');
+      loadAndGet();
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      addMani();
+    }
+    startLoadingAndGetData();
   }, []);
 
   return (
@@ -198,7 +206,7 @@ function Demo() {
               id="#navmesh"
               gltf-model="#navmesh"
               crossOrigin="anonymous"
-              visible="true"
+              visible="false"
             ></a-entity>
 
             {data.map((entity) => (

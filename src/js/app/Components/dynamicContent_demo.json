@@ -25,5 +25,15 @@
     "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
     "rotation": "-179.99 0 -180",
     "position": "3.035 1.263 2.674"
+  },
+  {
+    "id": "#pic2",
+    "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
+    "position": "2.508 1.261 2.668"
+  },
+  {
+    "id": "#pic3",
+    "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
+    "position": "1.33776 1.21406 2.68153"
   }
 ]
