@@ -121,11 +121,56 @@ function Demo() {
       URL.revokeObjectURL(url);
     }
 
+    function AddClickEvent() {
+      AFRAME.registerComponent("show-details-on-click", {
+        init: function () {
+          var el = this.el;
+          el.addEventListener("click", function () {
+            // el.setAttribute("material", "color", "blue");
+            var position = el.getAttribute("position");
+            console.log("Position");
+            console.log(position);
+            console.log(position['y']);
+            console.log({x:position['x'],y:position['y'],z:position['z']});
+            if(el.getAttribute("id") == "#powersimple")
+            {
+              console.log("PowerSimple");
+              var sceneEl = document.querySelector('a-scene');
+              // var entityEl = document.createElement('a-sphere');
+              var entityEl = document.querySelector("#details_text")
+              console.log("result");
+              console.log(entityEl.getAttribute('visible'));
+              if (entityEl.getAttribute('visible')) {
+                entityEl.setAttribute('visible', 'false');
+                // result.setAttribute('visible','false');
+              }
+              else {
+                // Do `.setAttribute()`s to initialize the entity.
+                entityEl.setAttribute('position',{x:position['x'],y:position['y']+0.3*position['y'],z:position['z']});
+                entityEl.setAttribute('troika-text',"value: Developing WebXR");
+                entityEl.setAttribute('rotation', '0 90 0');
+                entityEl.setAttribute('visible', 'true');
+
+              }
+
+            }
+            // var details_box = document.querySelector('#details-box');
+            // var current_state = details_box.getAttribute('visible');
+            // if (current_state == false)
+            // details_box.setAttribute("visible","true");
+            // else
+            // details_box.setAttribute("visible","false");
+          });
+        },
+      });
+    }
+
     // Heavy models take time to load, hence wait for a while
     setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
 
     loadAndGet();
     addMani();
+    AddClickEvent();
   }, []);
 
   return (
@@ -188,7 +233,7 @@ function Demo() {
             ></a-entity>
 
             {data.map((entity) => (
-              <a-entity key={entity.id} {...entity}></a-entity>
+              <a-entity key={entity.id} {...entity} show-details-on-click ></a-entity>
             ))}
           </>
         )}
@@ -221,6 +266,12 @@ function Demo() {
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb-4"
         ></a-light>
+
+        <a-entity
+        id="details_text"
+        visible="false"
+        >
+        </a-entity>
 
         {/* floor collider */}
         <a-plane
