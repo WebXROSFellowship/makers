@@ -128,22 +128,15 @@ function Demo() {
           el.addEventListener("click", function () {
             // el.setAttribute("material", "color", "blue");
             var position = el.getAttribute("position");
-            console.log("Position");
-            console.log(position);
-            console.log(position['y']);
-            console.log({x:position['x'],y:position['y'],z:position['z']});
+            
             if(el.getAttribute("id") == "#powersimple")
             {
-              console.log("PowerSimple");
-              var sceneEl = document.querySelector('a-scene');
-              // var entityEl = document.createElement('a-sphere');
-              var entityEl = document.querySelector("#details_text")
-              console.log("result");
-              console.log(entityEl.getAttribute('visible'));
-              if (entityEl.getAttribute('visible')) {
+
+              var entityEl = document.querySelector("#details_text") 
+
+              if (entityEl.getAttribute('visible')) 
                 entityEl.setAttribute('visible', 'false');
-                // result.setAttribute('visible','false');
-              }
+              
               else {
                 // Do `.setAttribute()`s to initialize the entity.
                 entityEl.setAttribute('position',{x:position['x'],y:position['y']+0.3*position['y'],z:position['z']});
@@ -154,12 +147,23 @@ function Demo() {
               }
 
             }
-            // var details_box = document.querySelector('#details-box');
-            // var current_state = details_box.getAttribute('visible');
-            // if (current_state == false)
-            // details_box.setAttribute("visible","true");
-            // else
-            // details_box.setAttribute("visible","false");
+            else if(el.getAttribute("id") == "tesla-quote")
+            {
+              var entityEl = document.querySelector("#details_text_tesla_quote");
+              
+              if (entityEl.getAttribute('visible')) 
+                entityEl.setAttribute('visible', 'false');
+              
+              else {
+                // For a not visible asset, set properties
+                entityEl.setAttribute('position',{x:position['x'],y:position['y']+0.45*position['y'],z:position['z']});
+                entityEl.setAttribute('troika-text',"value: Famous quote by Nikola Tesla");
+                entityEl.setAttribute('visible', 'true');
+
+              }
+
+            }
+            
           });
         },
       });
@@ -270,6 +274,19 @@ function Demo() {
         <a-entity
         id="details_text"
         visible="false"
+        >
+        </a-entity>
+
+        <a-image src="#tesla-quote"
+          id="tesla-quote"
+          key="tesla-quote"
+          position="-2 1.426 -2.76"
+          rotation="0 0 0"
+          show-details-on-click></a-image>
+
+        <a-entity
+          id="details_text_tesla_quote"
+          visible="false"
         >
         </a-entity>
 
