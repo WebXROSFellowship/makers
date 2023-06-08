@@ -7,7 +7,6 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const IgnoreEmitPlugin = require("ignore-emit-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const Dotenv = require("dotenv-webpack");
 
 const proxyUrl = "https://makers/";
 
@@ -85,10 +84,6 @@ const common = {
       },
     }),
     new IgnoreEmitPlugin(["style.js", "style.min.js"]),
-    new Dotenv({
-      path: "./.env",
-      systemvars: true,
-    }),
   ],
   resolve: {
     extensions: [
