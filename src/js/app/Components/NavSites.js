@@ -3,11 +3,16 @@ import { useParams } from "react-router-dom";
 import DataContext from "../Utils/DataContext";
 import MenuDataContext from "../Utils/MenuDataContext";
 
+import { Config } from "../config/config";
+
+
 const NavSites = () => {
   const { sitename, sn } = useParams();
   const { lang } = useContext(DataContext);
 
   const {menuData, setMenuData} = useContext(MenuDataContext);
+
+  const base_url = Config.SITE_URL;
 
   // const [menuData, setMenuData] = useState([]);
 
@@ -42,7 +47,7 @@ const NavSites = () => {
 
   async function fetchMenuData(lang) {
     try {
-      let fetchURL = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
+      let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
       let stagingData = await fetch(fetchURL);
       let jsonData = await stagingData.json();
       let items = jsonData.filter((item) => item.slug === "main-menu");
