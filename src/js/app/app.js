@@ -31,6 +31,7 @@ const appRouter = createBrowserRouter([
         path: "aframe",
         element: <AFrame />,
       },
+      
       {
         path: "/:sitename/:sn",
         element: (
