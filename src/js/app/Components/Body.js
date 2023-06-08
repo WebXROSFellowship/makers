@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import { Config } from "../config/config";
 
 import "./../../../scss/style.scss";
 
 const Body = () => {
-  console.log("Config Data ...", Config);
   return (
     <div className="mainpage">
       {/* <ToggleVisibility>

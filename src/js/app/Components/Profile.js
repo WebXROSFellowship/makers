@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import DataContext from "../Utils/DataContext";
 import { MenuDataContext } from "../Utils";
 
+import { Config } from "../config/config";
+
+
 const Profile = () => {
   const { username } = useParams();
   const { lang } = useContext(DataContext);
@@ -14,8 +17,11 @@ const Profile = () => {
 
   const [images, setImages] = useState([]);
 
+  const base_url = Config.SITE_URL;
+
+
   useEffect(() => {
-    fetch(`https://staging.webxr.link/wp-json/wp/v2/media?media`)
+    fetch(`${base_url}/wp-json/wp/v2/media?media`)
       .then((response) => response.json())
       .then((data) => {
         const profileImage = data.find((image) => image.slug === username);

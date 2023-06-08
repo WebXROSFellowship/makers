@@ -4,6 +4,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AFrame, Body, Demo, Home, NavSites, Navbar, Profile, Sidebar } from "./Components";
 import { DataContext, MenuDataContext } from "./Utils";
 
+import { Config } from "./config/config";
+
+
 // const NavSites = lazy(() => import("./Components"));
 // const AFrame = lazy(() => import("./Components"));
 // const Demo = lazy(() => import("./Components"));
@@ -53,13 +56,17 @@ const App = () => {
   const [menuData, setMenuData] = useState({});
   let data = menuData[lang] || [];
 
+  console.log("configs...", Config)
+  const base_url = Config.SITE_URL;
+
+
   useEffect(() => {
     fetchMenuData();
   }, [lang]);
 
   async function fetchMenuData() {
     try {
-      let fetchURL = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
+      let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
       let stagingData = await fetch(fetchURL);
       let jsonData = await stagingData.json();
       let items = jsonData.filter((item) => item.slug == "main-menu");
