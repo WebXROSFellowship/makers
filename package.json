@@ -13,7 +13,8 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "lerna": "lerna",
     "watch": "nodemon --watch src/js/app --watch src/js/vendor --watch src/scss -e js,scss --exec 'webpack --watch'",
-    "dev": "next dev"
+    "dev": "next dev",
+    "clean": "rm -rf node_modules/ package-lock.json yarn.lock"
   },
   "dependencies": {
     "@babel/runtime": "^7.21.5",
@@ -33,7 +34,6 @@
     "browser-sync-webpack-plugin": "^2.3.0",
     "css-loader": "^6.7.4",
     "css-minimizer-webpack-plugin": "^5.0.0",
-    "dotenv-webpack": "^8.0.1",
     "html-webpack-plugin": "^5.5.1",
     "ignore-emit-webpack-plugin": "^2.0.6",
     "mini-css-extract-plugin": "^2.7.6",
