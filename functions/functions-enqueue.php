@@ -2,19 +2,8 @@
 
 // enqueue_styles in wordpress theme
     function enqueue_style() {
-        // Register theme stylesheet.
-		$theme_version = wp_get_theme()->get( 'Version' );
-		$version_string = is_string( $theme_version ) ? $theme_version : false;
-		
-        wp_register_style('powersimple',get_template_directory_uri() . '/style.css',array(),$version_string);
-		wp_enqueue_style( 'powersimple' );
-        
-        wp_register_style('bootstrap','https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css',array(),'5.3.0');
-		wp_enqueue_style( 'bootstrap' );
-        
-        wp_register_style('fontawesome','https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css',array(),'6.1.1');
-		wp_enqueue_style( 'fontawesome' );
 
+        wp_enqueue_style( 'powersimple',get_stylesheet_directory_uri() . '/style.css');
     
         wp_register_script( 'aframe', 'https://aframe.io/releases/1.4.0/aframe.min.js', array('jquery'), '1.2.0' , false );
         wp_enqueue_script( 'aframe' );
@@ -25,7 +14,6 @@
 // enqueue_scripts in wordpress theme
     function theme_scripts() {
 
-        // Register theme stylesheet.
         wp_register_script('app',get_stylesheet_directory_uri() . '/app.js', array('jquery'),rand(100000,999999), true); 
         wp_enqueue_script('app');
 
