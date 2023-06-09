@@ -24,7 +24,7 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Body />,
+        element: <Demo />,
       },
       {
         path: "aframe_demo",
@@ -34,7 +34,10 @@ const appRouter = createBrowserRouter([
         path: "aframe",
         element: <AFrame />,
       },
-      
+      {
+        path: "profile/:username",
+        element: <Profile />,
+      },
       {
         path: "/:sitename/:sn",
         element: (

@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import DataContext from "../Utils/DataContext";
-import { MenuDataContext } from "../Utils";
 
 import { Config } from "../config/config";
 
@@ -35,9 +34,6 @@ const Profile = () => {
     <>
       <h1>{userName}</h1>
       <div dangerouslySetInnerHTML={{ __html: content }} />
-      {images.map((imageUrl, index) => (
-        <img key={index} src={imageUrl} alt={`Image ${index}`} />
-      ))}
     </>
   );
 };
