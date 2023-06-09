@@ -5,6 +5,7 @@ import DataContext from "../Utils/DataContext";
 import MenuDataContext from "../Utils/MenuDataContext";
 import langArr from "../assets/langData";
 // import "src/js/app/assets";
+import { Config } from "../config/config";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -13,7 +14,9 @@ const Navbar = () => {
   const [languageArr, setLanguageArr] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const { lang, setLang } = useContext(DataContext);
-  const {menuData, setMenuData} = useContext(MenuDataContext);
+  const { menuData, setMenuData } = useContext(MenuDataContext);
+
+  const base_url = Config.SITE_URL;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
@@ -23,19 +26,19 @@ const Navbar = () => {
 
   function formatNames(name) {
     let allWords = name.toLowerCase().split(" ");
-    for(let i=0; i<allWords.length; i++) {
+    for (let i = 0; i < allWords.length; i++) {
       allWords[i] = allWords[i][0].toUpperCase() + allWords[i].substr(1);
     }
-    let formattedName = allWords.join(' ');
+    let formattedName = allWords.join(" ");
     return formattedName;
   }
 
   function settingMenuData() {
     //Setting Data as Items
     let items = menuData[lang];
-    setMenuData(prevData => ({
+    setMenuData((prevData) => ({
       ...prevData,
-      [lang]: items
+      [lang]: items,
     }));
     let head = items.filter((e) => e.menu_item_parent === "0")[0];
     let childItems = items.filter(
@@ -45,10 +48,12 @@ const Navbar = () => {
     let currIDs = [];
     for (let i = 0; i < childItems.length; i++) {
       let currChild = childItems[i];
-      let allNestedChild = items.filter((e) => parseInt(e.menu_item_parent) === currChild.ID);
+      let allNestedChild = items.filter(
+        (e) => parseInt(e.menu_item_parent) === currChild.ID
+      );
       if (allNestedChild.length > 0) {
         currIDs.push(currChild.ID);
-        allNestedChild.map(ele => nestedItems.push(ele));
+        allNestedChild.map((ele) => nestedItems.push(ele));
       }
     }
     setC2IDs(currIDs);
@@ -70,8 +75,7 @@ const Navbar = () => {
 
       // setLanguageArr(langStagingDataJSON);
       setLanguageArr(langArr);
-    }
-    catch(err) {
+    } catch (err) {
       console.log("Error");
       console.log(err);
     }
@@ -85,56 +89,62 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         {/* The brand section of the Navbar */}
-        <div className="navbar-brand text-white" style={{ fontFamily: "sans-serif"}}>
-        <img src="https://staging.webxr.link/wp-content/uploads/2023/05/webxros.png" alt="logo" style={{ width: '50px', height: '50px', marginTop: '-3px' }} />
-        <span style={{ marginLeft: '15px' }}>PowerSimple | XROS</span>
+        <div
+          className="navbar-brand text-white"
+          style={{ fontFamily: "sans-serif" }}
+        >
+          <img
+            src="`${base_url}/wp-content/uploads/2023/05/webxros.png`"
+            alt="logo"
+            style={{ width: "50px", height: "50px", marginTop: "-3px" }}
+          />
+          <span style={{ marginLeft: "15px" }}>PowerSimple | XROS</span>
         </div>
 
         <div className="navbar-right">
           {/* The main dropdown menu items of the Navbar */}
           {navbarMenus ? (
             navbarMenus.map((currEle, i) => {
-
-              let {head, childItems, nestedItems} = currEle;
+              let { head, childItems, nestedItems } = currEle;
 
               return (
                 <div className="dropdown" key={i}>
-                <button className="dropbtn">{head.title}</button>
-                <div className="dropdown__content">
-                  {childItems.map((menu, i) => {
-                    const c = c2IDs.includes(menu.ID);
-                    return (
-                      <Link
-                        className="dropdown__items"
-                        key={i}
-                        onMouseEnter={() => setHoveredIndex(i)}
-                        onMouseLeave={() => setHoveredIndex(-1)}
-                        to={menu.url}
-                      >
-                        {formatNames(menu.title)}
-                        {c && (
-                          <span className="n2-drop">
-                            <i className="fa-solid fa-circle-chevron-down"></i>
-                          </span>
-                        )}
-                        {c && hoveredIndex === i && (
-                          <div className="n2">
-                            {nestedItems.map((cur, i) => (
-                              <Link
-                                to={cur.url}
-                                className="dropdown__items d2"
-                                key={i}
-                              >
-                                {cur.title}
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </Link>
-                    );
-                  })}
+                  <button className="dropbtn">{head.title}</button>
+                  <div className="dropdown__content">
+                    {childItems.map((menu, i) => {
+                      const c = c2IDs.includes(menu.ID);
+                      return (
+                        <Link
+                          className="dropdown__items"
+                          key={i}
+                          onMouseEnter={() => setHoveredIndex(i)}
+                          onMouseLeave={() => setHoveredIndex(-1)}
+                          to={menu.url}
+                        >
+                          {formatNames(menu.title)}
+                          {c && (
+                            <span className="n2-drop">
+                              <i className="fa-solid fa-circle-chevron-down"></i>
+                            </span>
+                          )}
+                          {c && hoveredIndex === i && (
+                            <div className="n2">
+                              {nestedItems.map((cur, i) => (
+                                <Link
+                                  to={cur.url}
+                                  className="dropdown__items d2"
+                                  key={i}
+                                >
+                                  {cur.title}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
               );
             })
           ) : (
@@ -142,17 +152,22 @@ const Navbar = () => {
           )}
           {/* The Language Section of Navbar*/}
           <div className="dropdown">
-            <button className="dropbtn" > Languages </button>
+            <button className="dropbtn"> Languages </button>
             <div className="dropdown__content">
-              
               {languageArr.map((currLang) => {
                 let cLang = currLang.native_name;
                 let code = currLang.code;
-                if(code == 'en') {
-                  code = '';
+                if (code == "en") {
+                  code = "";
                 }
                 return (
-                  <span onClick={() => setLang(`${code}`)} key={code} className="dropdown__items">{cLang}</span>
+                  <span
+                    onClick={() => setLang(`${code}`)}
+                    key={code}
+                    className="dropdown__items"
+                  >
+                    {cLang}
+                  </span>
                 );
               })}
             </div>
@@ -220,61 +235,72 @@ const Navbar = () => {
           {showMenu === true ? (
             <div className="sideMenu">
               {navbarMenus ? (
-            navbarMenus.map((currEle, i) => {
+                navbarMenus.map((currEle, i) => {
+                  let { head, childItems, nestedItems } = currEle;
 
-              let {head, childItems, nestedItems} = currEle;
-
-              return (
-                <div className="dropdown2" key={i}>
-                <button className="dropbtn">{head.title}</button>
+                  return (
+                    <div className="dropdown2" key={i}>
+                      <button className="dropbtn">{head.title}</button>
+                      <div className="dropdown__content">
+                        {childItems.map((menu, i) => {
+                          const c = c2IDs.includes(menu.ID);
+                          return (
+                            <Link
+                              className="dropdown__items"
+                              key={i}
+                              onMouseEnter={() => setHoveredIndex(i)}
+                              onMouseLeave={() => setHoveredIndex(-1)}
+                              to={menu.url}
+                            >
+                              {formatNames(menu.title)}
+                              {c && (
+                                <span className="n2-drop">
+                                  <i className="fa-solid fa-circle-chevron-down"></i>
+                                </span>
+                              )}
+                              {c && hoveredIndex === i && (
+                                <div className="n2">
+                                  {nestedItems.map((cur, i) => (
+                                    <Link
+                                      to={cur.url}
+                                      className="dropdown__items d2"
+                                      key={i}
+                                    >
+                                      {cur.title}
+                                    </Link>
+                                  ))}
+                                </div>
+                              )}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <></>
+              )}
+              <div className="dropdown2">
+                <button className="dropbtn"> Languages </button>
                 <div className="dropdown__content">
-                  {childItems.map((menu, i) => {
-                    const c = c2IDs.includes(menu.ID);
-                    return (
-                      <Link
-                        className="dropdown__items"
-                        key={i}
-                        onMouseEnter={() => setHoveredIndex(i)}
-                        onMouseLeave={() => setHoveredIndex(-1)}
-                        to={menu.url}
-                      >
-                        {formatNames(menu.title)}
-                        {c && (
-                          <span className="n2-drop">
-                            <i className="fa-solid fa-circle-chevron-down"></i>
-                          </span>
-                        )}
-                        {c && hoveredIndex === i && (
-                          <div className="n2">
-                            {nestedItems.map((cur, i) => (
-                              <Link
-                                to={cur.url}
-                                className="dropdown__items d2"
-                                key={i}
-                              >
-                                {cur.title}
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </Link>
-                    );
-                  })}
+                  <span onClick={() => setLang("")} className="dropdown__items">
+                    English
+                  </span>
+                  <span
+                    onClick={() => setLang("hi")}
+                    className="dropdown__items"
+                  >
+                    Hindi
+                  </span>
+                  <span
+                    onClick={() => setLang("de")}
+                    className="dropdown__items"
+                  >
+                    German
+                  </span>
                 </div>
               </div>
-              );
-            })
-          ) : (
-            <></>
-          )}
-          <div className="dropdown2">
-            <button className="dropbtn"> Languages </button>
-            <div className="dropdown__content">
-              <span onClick={() => setLang('')} className="dropdown__items">English</span>
-              <span onClick={() => setLang('hi')} className="dropdown__items">Hindi</span>
-              <span onClick={() => setLang('de')} className="dropdown__items">German</span>
-            </div>
-          </div>
             </div>
           ) : (
             <></>
