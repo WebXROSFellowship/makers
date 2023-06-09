@@ -4,6 +4,9 @@ import DataContext from "../Utils/DataContext";
 import MenuDataContext from "../Utils/MenuDataContext";
 import { StagingDataContext } from "../Utils";
 
+import { Config } from "../config/config";
+
+
 const NavSites = () => {
   const { sitename, sn } = useParams();
   const { lang } = useContext(DataContext);

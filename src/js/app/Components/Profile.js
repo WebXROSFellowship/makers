@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { StagingDataContext } from "../Utils";
 import "@styles/style.scss";
 
+import { Config } from "../config/config";
+
+
 const Profile = () => {
   const { username } = useParams();
   const { stagingData } = useContext(StagingDataContext);
@@ -14,8 +17,10 @@ const Profile = () => {
   const titleName = cd[0]?.title;
   const [imgLink, setImgLink] = useState("");
 
+  const base_url = Config.SITE_URL;
+
   useEffect(() => {
-    fetch(`https://staging.webxr.link/wp-json/wp/v2/media?media`)
+    fetch(`${base_url}/wp-json/wp/v2/media?media`)
       .then((response) => response.json())
       .then((data) => {
         const profileImage = data?.find((image) => image?.slug === username);

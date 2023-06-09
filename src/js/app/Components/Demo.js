@@ -24,6 +24,12 @@ function Demo() {
         console.log(ele);
         ele.click();
         console.log("Clicked");
+        addElement();
+      }, 5000); // Adjust the delay as needed
+    }
+
+    function addElement() {
+      setTimeout(function () {
         // Create the <a> element
         var link = document.createElement("a");
         link.href = "#";
@@ -32,15 +38,12 @@ function Demo() {
         link.classList.add("button", "fa", "fa-bookmark");
 
         // Append the <a> element to the specified location
-        var parentElement = document.querySelector(
-          "#componentEntityHeader > div.static > div.collapsible-header > div"
-        );
-
+        var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
         console.log("!!!!!!!!!!!!got the parent element");
         console.log(parentElement);
         parentElement.appendChild(link);
         dataToConsole();
-      }, 10000); // Adjust the delay as needed
+      }, 2000); // Adjust the delay as needed
     }
 
     // getting data from the clipboard to console
@@ -121,11 +124,66 @@ function Demo() {
       URL.revokeObjectURL(url);
     }
 
-    // Heavy models take time to load, hence wait for a while
-    setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
+    function AddClickEvent() {
+      AFRAME.registerComponent("show-details-on-click", {
+        init: function () {
+          var el = this.el;
+          el.addEventListener("click", function () {
+            // el.setAttribute("material", "color", "blue");
+            var position = el.getAttribute("position");
+            
+            if(el.getAttribute("id") == "#powersimple")
+            {
 
-    loadAndGet();
-    addMani();
+              var entityEl = document.querySelector("#details_text") 
+
+              if (entityEl.getAttribute('visible')) 
+                entityEl.setAttribute('visible', 'false');
+              
+              else {
+                // Do `.setAttribute()`s to initialize the entity.
+                entityEl.setAttribute('position',{x:position['x'],y:position['y']+0.3*position['y'],z:position['z']});
+                entityEl.setAttribute('troika-text',"value: Developing WebXR");
+                entityEl.setAttribute('rotation', '0 90 0');
+                entityEl.setAttribute('visible', 'true');
+
+              }
+
+            }
+            else if(el.getAttribute("id") == "tesla-quote")
+            {
+              var entityEl = document.querySelector("#details_text_tesla_quote");
+              
+              if (entityEl.getAttribute('visible')) 
+                entityEl.setAttribute('visible', 'false');
+              
+              else {
+                // For a not visible asset, set properties
+                entityEl.setAttribute('position',{x:position['x'],y:position['y']+0.45*position['y'],z:position['z']});
+                entityEl.setAttribute('troika-text',"value: Famous quote by Nikola Tesla");
+                entityEl.setAttribute('visible', 'true');
+
+              }
+
+            }
+            
+          });
+        },
+      });
+    }
+
+    // Heavy models take time to load, hence wait for a while
+    async function startLoadingAndGetData() {
+      setLoading(false);
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+      console.log('Starting loading');
+      loadAndGet();
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      addMani();
+      AddClickEvent();
+
+    }
+    startLoadingAndGetData();
   }, []);
 
   return (
@@ -138,12 +196,27 @@ function Demo() {
         >
           <a-entity
             camera
+            id="camera"
             position="0 1.6 0"
             look-controls="pointerLockEnabled: true"
           ></a-entity>
         </a-entity>
 
         <a-assets>
+        <a-asset-item
+          id="room"
+          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS11.glb"
+          crossOrigin="anonymous"
+          key="room"
+        ></a-asset-item>
+
+        <a-asset-item
+          id="navmesh"
+          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh4.glb"
+          crossOrigin="anonymous"
+          key="navmesh"
+        ></a-asset-item>
+
           {assets.map((asset) => {
             if (asset.type === "model") {
               return (
@@ -170,12 +243,11 @@ function Demo() {
           <p>Loading...</p>
         ) : (
           <>
-            <a-entity environment="preset:starry;groundTexture:  walkernoise;grid:none"></a-entity>
             <a-entity
               id="#room"
               gltf-model="#room"
               crossOrigin="anonymous"
-              position="-1.693 0 0.07"
+              position="-1.693 0 0.4"
             ></a-entity>
 
             {/* Finally toggle visibility */}
@@ -184,11 +256,11 @@ function Demo() {
               id="#navmesh"
               gltf-model="#navmesh"
               crossOrigin="anonymous"
-              visible="true"
+              visible="false"
             ></a-entity>
 
             {data.map((entity) => (
-              <a-entity key={entity.id} {...entity}></a-entity>
+              <a-entity key={entity.id} {...entity} show-details-on-click ></a-entity>
             ))}
           </>
         )}
@@ -221,6 +293,25 @@ function Demo() {
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb-4"
         ></a-light>
+
+        <a-entity
+        id="details_text"
+        visible="false"
+        >
+        </a-entity>
+
+        <a-image src="#tesla-quote"
+          id="tesla-quote"
+          key="tesla-quote"
+          position="-2 1.426 -2.76"
+          rotation="0 0 0"
+          show-details-on-click></a-image>
+
+        <a-entity
+          id="details_text_tesla_quote"
+          visible="false"
+        >
+        </a-entity>
 
         {/* floor collider */}
         <a-plane
