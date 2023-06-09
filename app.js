@@ -13,6 +13,7 @@ __webpack_require__.d(__webpack_exports__, {
 
 // EXTERNAL MODULE: ./node_modules/react/index.js
 var react = __webpack_require__(294);
+var react_namespaceObject = /*#__PURE__*/__webpack_require__.t(react, 2);
 ;// CONCATENATED MODULE: ./node_modules/@remix-run/router/dist/router.js
 /**
  * @remix-run/router v1.6.3
@@ -3827,7 +3828,7 @@ function getTargetMatch(matches, location) {
 
 ;// CONCATENATED MODULE: ./node_modules/react-router/dist/index.js
 /**
- * React Router v6.12.0
+ * React Router v6.12.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -4084,7 +4085,7 @@ function useOutlet(context) {
  *
  * @see https://reactrouter.com/hooks/use-params
  */
-function dist_useParams() {
+function useParams() {
   let {
     matches
   } = react.useContext(RouteContext);
@@ -4592,6 +4593,11 @@ function warningOnce(key, cond, message) {
   }
 }
 
+// Webpack + React 17 fails to compile on the usage of `React.startTransition` or
+// `React["startTransition"]` even if it's behind a feature detection of
+// `"startTransition" in React`. Moving this to a constant avoids the issue :/
+const START_TRANSITION = "startTransition";
+
 /**
  * Given a Remix Router instance, render the appropriate UI
  */
@@ -4604,7 +4610,7 @@ function RouterProvider(_ref) {
   // pick up on any render-driven redirects/navigations (useEffect/<Navigate>)
   let [state, setStateImpl] = react.useState(router.state);
   let setState = react.useCallback(newState => {
-     true ? react.startTransition(() => setStateImpl(newState)) : setStateImpl(newState);
+    START_TRANSITION in react_namespaceObject ? react_namespaceObject[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
   }, [setStateImpl]);
   react.useLayoutEffect(() => router.subscribe(setState), [router, setState]);
   let navigator = react.useMemo(() => {
@@ -4684,7 +4690,7 @@ function MemoryRouter(_ref3) {
     location: history.location
   });
   let setState = React.useCallback(newState => {
-    "startTransition" in React ? React.startTransition(() => setStateImpl(newState)) : setStateImpl(newState);
+    START_TRANSITION in React ? React[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
   }, [setStateImpl]);
   React.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/React.createElement(dist_Router, {
@@ -5053,7 +5059,7 @@ function createMemoryRouter(routes, opts) {
 
 ;// CONCATENATED MODULE: ./node_modules/react-router-dom/dist/index.js
 /**
- * React Router DOM v6.12.0
+ * React Router DOM v6.12.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -5298,6 +5304,10 @@ function deserializeErrors(errors) {
   }
   return serialized;
 }
+// Webpack + React 17 fails to compile on the usage of `React.startTransition` or
+// `React["startTransition"]` even if it's behind a feature detection of
+// `"startTransition" in React`. Moving this to a constant avoids the issue :/
+const dist_START_TRANSITION = "startTransition";
 /**
  * A `<Router>` for use in web browsers. Provides the cleanest URLs.
  */
@@ -5320,7 +5330,7 @@ function BrowserRouter(_ref) {
     location: history.location
   });
   let setState = React.useCallback(newState => {
-    "startTransition" in React ? React.startTransition(() => setStateImpl(newState)) : setStateImpl(newState);
+    dist_START_TRANSITION in React ? React[dist_START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
   }, [setStateImpl]);
   React.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/React.createElement(Router, {
@@ -5354,7 +5364,7 @@ function HashRouter(_ref2) {
     location: history.location
   });
   let setState = React.useCallback(newState => {
-    "startTransition" in React ? React.startTransition(() => setStateImpl(newState)) : setStateImpl(newState);
+    dist_START_TRANSITION in React ? React[dist_START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
   }, [setStateImpl]);
   React.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/React.createElement(Router, {
@@ -5382,7 +5392,7 @@ function HistoryRouter(_ref3) {
     location: history.location
   });
   let setState = React.useCallback(newState => {
-    "startTransition" in React ? React.startTransition(() => setStateImpl(newState)) : setStateImpl(newState);
+    dist_START_TRANSITION in React ? React[dist_START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
   }, [setStateImpl]);
   React.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/React.createElement(Router, {
@@ -6005,11 +6015,11 @@ function usePrompt(_ref8) {
 
 ;// CONCATENATED MODULE: ./src/js/app/Utils/DataContext.js
 
-const DataContext_DataContext = /*#__PURE__*/(0,react.createContext)({
+const DataContext = /*#__PURE__*/(0,react.createContext)({
   data: {}
 });
-DataContext_DataContext.displayName = "DataContext";
-/* harmony default export */ const Utils_DataContext = (DataContext_DataContext);
+DataContext.displayName = "DataContext";
+/* harmony default export */ const Utils_DataContext = (DataContext);
 ;// CONCATENATED MODULE: ./src/js/app/Utils/MenuDataContext.js
 
 const MenuDataContext_MenuDataContext = /*#__PURE__*/(0,react.createContext)({
@@ -6037,7 +6047,7 @@ let langArr = [{
 }];
 /* harmony default export */ const langData = (langArr);
 ;// CONCATENATED MODULE: ./src/js/app/config/config.js
-const config_Config = configScriptData;
+const Config = configScriptData;
 ;// CONCATENATED MODULE: ./src/js/app/Components/Navbar.js
 
 
@@ -6061,7 +6071,7 @@ const Navbar = () => {
     menuData,
     setMenuData
   } = (0,react.useContext)(Utils_MenuDataContext);
-  const base_url = config_Config.SITE_URL;
+  const base_url = Config.SITE_URL;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   (0,react.useEffect)(() => {
@@ -6316,12 +6326,7 @@ const Body = () => {
   }, "\u201CI think it\u2019s actually our obligation and duty to figure out on our side what can we do to make the VR platform take advantage of this trillion plus dollars of content on all of the flat screens.\u201D -", /*#__PURE__*/react.createElement("i", null, " John Carmack, Meta Connect Keynote, 2021"), /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "This quote is an essential reminder, that there is an enormous amount of text, images, and video waiting to populate XR worlds. 42% of all websites on the internet use WordPress as a Content Management System (CMS). Our open-source project aims to make it easy to enable WebXR in WordPress using a customizable theme. This will empower content owners to publish their assets already stored in 2D sites into an immersive format.", /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "The strategic approach of enabling entire content libraries stored in WordPress to be presented in WebXR will propel the growth of the Immersive Web, by allowing sites to gradually phase-in presentation of content in Virtual and Augmented Reality without having to change CMS platforms. WordPress's impressive reach, with over 400 million websites using it, and a 64.3% share of the CMS market, makes converting WordPress websites into 3D Experiences a massive market opportunity which will draw developer talent to advance their careers in the Metaverse.", /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "Over the past three years, Powersimple has been using WordPress as an effective admin tool to structure data and populate WebXR sites, with text and image content, and even interactive 3D models. This effectively bridges the gap between the 2D internet of the past and the Immersive Web of the future. The XROS Fellowship, sponsored by FICCI (Federation of Indian Chambers of Commerce & Industry) and Meta, is sponsoring a stipend for six talented students who have been selected from a pool of 120 applicants, to dedicate over 2,000 hours of development time toward repackaging this open-source theme for mass-market use. The project is guided by Ben Erwin, who has over 25-years of experience as a web developer, with 15 specializing in WordPress.", /*#__PURE__*/react.createElement("br", null)));
 };
 /* harmony default export */ const Components_Body = (Body);
-;// CONCATENATED MODULE: ./src/js/app/Utils/index.js
-
-
-
 ;// CONCATENATED MODULE: ./src/js/app/Components/Profile.js
-
 
 
 
@@ -6332,10 +6337,10 @@ const Profile = () => {
   } = useParams();
   const {
     lang
-  } = useContext(DataContext);
+  } = (0,react.useContext)(Utils_DataContext);
   const {
     menuData
-  } = useContext(MenuDataContext);
+  } = (0,react.useContext)(MenuDataContext);
   const data = menuData[lang];
   const cd = data?.filter(e => e?.slug === username);
   const content = cd[0]?.content || "";
@@ -6349,17 +6354,13 @@ const Profile = () => {
       setImages([imageUrl]);
     }).catch(error => console.log(error));
   }, [username]);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, userName), /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("h1", null, userName), /*#__PURE__*/react.createElement("div", {
     dangerouslySetInnerHTML: {
       __html: content
     }
-  }), images.map((imageUrl, index) => /*#__PURE__*/React.createElement("img", {
-    key: index,
-    src: imageUrl,
-    alt: `Image ${index}`
-  })));
+  }));
 };
-/* harmony default export */ const Components_Profile = ((/* unused pure expression or super */ null && (Profile)));
+/* harmony default export */ const Components_Profile = (Profile);
 ;// CONCATENATED MODULE: ./src/js/app/Components/Sidebar.js
 
 
@@ -6476,7 +6477,7 @@ const NavSites = () => {
   const {
     sitename,
     sn
-  } = dist_useParams();
+  } = useParams();
   const {
     lang
   } = (0,react.useContext)(Utils_DataContext);
@@ -6484,7 +6485,7 @@ const NavSites = () => {
     menuData,
     setMenuData
   } = (0,react.useContext)(Utils_MenuDataContext);
-  const base_url = config_Config.SITE_URL;
+  const base_url = Config.SITE_URL;
 
   // const [menuData, setMenuData] = useState([]);
 
@@ -6708,9 +6709,26 @@ function AFrame() {
         }
       });
     }
+
+    // Below mentioned event gets activated after click
+    function AddClickEvent() {
+      AFRAME.registerComponent("show-details-on-click", {
+        init: function () {
+          var el = this.el;
+          el.addEventListener("click", function () {
+            el.setAttribute("material", "color", "lightblue");
+            var details_box = document.querySelector('#details-box');
+            var current_state = details_box.getAttribute('visible');
+            if (current_state == false) details_box.setAttribute("visible", "true");else details_box.setAttribute("visible", "false");
+          });
+        }
+      });
+    }
+
     // Heavy models take time to load, hence wait for a while
     setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
 
+    AddClickEvent();
     changeColor();
     loadAndGet();
     addMani();
@@ -6748,7 +6766,13 @@ function AFrame() {
   }, entity)))), /*#__PURE__*/react.createElement("a-sphere", {
     position: "0 0.7 -7",
     radius: "2.25",
-    "change-color-on-hover": "color:#FFFFFF"
+    "change-color-on-hover": "color:#FFFFFF",
+    "show-details-on-click": true
+  }), /*#__PURE__*/react.createElement("a-box", {
+    id: "details-box",
+    position: "1 2 -2",
+    color: "lightgreen",
+    visible: "false"
   }), /*#__PURE__*/react.createElement("a-plane", {
     rotation: "-90 0 0",
     position: "0 -2 -10",
@@ -6762,9 +6786,9 @@ function AFrame() {
 }
 /* harmony default export */ const Components_AFrame = (AFrame);
 ;// CONCATENATED MODULE: ./src/js/app/psudo_data/assets_demo.json
-const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh3.glb"}]');
+const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh3.glb"},{"id":"tesla-quote","type":"img","name":"tesla-quote","url":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/tesla-quote.jpg"},{"id":"photos1","type":"model","name":"photos1","url":"https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"}]');
 ;// CONCATENATED MODULE: ./src/js/app/Components/dynamicContent_demo.json
-const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-6.244 1.426 -0.311","rotation":"0 90 0","scale":"0.49834 0.58072 1"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{},{"id":"#room","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb","crossorigin":"anonymous","position":"-1.693 0 0.07"}]');
+const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-6.244 1.426 -0.311","rotation":"0 90 0","scale":"0.49834 0.58072 1"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#photo1","gltf-model":"https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb","scale":"0.3 0.3 0.3","position":"3.17 0.633 -2.622"},{"id":"#photos2","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","rotation":"-179.99 0 -180","position":"3.035 1.263 2.674"},{"id":"#pic2","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"2.508 1.261 2.668"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"1.33776 1.21406 2.68153"}]');
 ;// CONCATENATED MODULE: ./src/js/app/Components/Demo.js
 
 
@@ -6789,6 +6813,12 @@ function Demo() {
         console.log(ele);
         ele.click();
         console.log("Clicked");
+        addElement();
+      }, 5000); // Adjust the delay as needed
+    }
+
+    function addElement() {
+      setTimeout(function () {
         // Create the <a> element
         var link = document.createElement("a");
         link.href = "#";
@@ -6802,7 +6832,7 @@ function Demo() {
         console.log(parentElement);
         parentElement.appendChild(link);
         dataToConsole();
-      }, 10000); // Adjust the delay as needed
+      }, 2000); // Adjust the delay as needed
     }
 
     // getting data from the clipboard to console
@@ -6878,21 +6908,75 @@ function Demo() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
     }
+    function AddClickEvent() {
+      AFRAME.registerComponent("show-details-on-click", {
+        init: function () {
+          var el = this.el;
+          el.addEventListener("click", function () {
+            // el.setAttribute("material", "color", "blue");
+            var position = el.getAttribute("position");
+            if (el.getAttribute("id") == "#powersimple") {
+              var entityEl = document.querySelector("#details_text");
+              if (entityEl.getAttribute('visible')) entityEl.setAttribute('visible', 'false');else {
+                // Do `.setAttribute()`s to initialize the entity.
+                entityEl.setAttribute('position', {
+                  x: position['x'],
+                  y: position['y'] + 0.3 * position['y'],
+                  z: position['z']
+                });
+                entityEl.setAttribute('troika-text', "value: Developing WebXR");
+                entityEl.setAttribute('rotation', '0 90 0');
+                entityEl.setAttribute('visible', 'true');
+              }
+            } else if (el.getAttribute("id") == "tesla-quote") {
+              var entityEl = document.querySelector("#details_text_tesla_quote");
+              if (entityEl.getAttribute('visible')) entityEl.setAttribute('visible', 'false');else {
+                // For a not visible asset, set properties
+                entityEl.setAttribute('position', {
+                  x: position['x'],
+                  y: position['y'] + 0.45 * position['y'],
+                  z: position['z']
+                });
+                entityEl.setAttribute('troika-text', "value: Famous quote by Nikola Tesla");
+                entityEl.setAttribute('visible', 'true');
+              }
+            }
+          });
+        }
+      });
+    }
 
     // Heavy models take time to load, hence wait for a while
-    setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
-
-    loadAndGet();
-    addMani();
+    async function startLoadingAndGetData() {
+      setLoading(false);
+      await new Promise(resolve => setTimeout(resolve, 10000));
+      console.log('Starting loading');
+      loadAndGet();
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      addMani();
+      AddClickEvent();
+    }
+    startLoadingAndGetData();
   }, []);
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-scene", null, /*#__PURE__*/react.createElement("a-entity", {
     id: "rig",
     "movement-controls": "constrainToNavMesh: true;\r controls: checkpoint, gamepad, trackpad, keyboard, touch;"
   }, /*#__PURE__*/react.createElement("a-entity", {
     camera: true,
+    id: "camera",
     position: "0 1.6 0",
     "look-controls": "pointerLockEnabled: true"
-  })), /*#__PURE__*/react.createElement("a-assets", null, assets_demo_namespaceObject.map(asset => {
+  })), /*#__PURE__*/react.createElement("a-assets", null, /*#__PURE__*/react.createElement("a-asset-item", {
+    id: "room",
+    src: "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS11.glb",
+    crossOrigin: "anonymous",
+    key: "room"
+  }), /*#__PURE__*/react.createElement("a-asset-item", {
+    id: "navmesh",
+    src: "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh4.glb",
+    crossOrigin: "anonymous",
+    key: "navmesh"
+  }), assets_demo_namespaceObject.map(asset => {
     if (asset.type === "model") {
       return /*#__PURE__*/react.createElement("a-asset-item", {
         id: asset.id,
@@ -6908,21 +6992,21 @@ function Demo() {
       crossOrigin: "anonymous"
     });
   })), loading ? /*#__PURE__*/react.createElement("p", null, "Loading...") : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
-    environment: "preset:starry;groundTexture:  walkernoise;grid:none"
-  }), /*#__PURE__*/react.createElement("a-entity", {
     id: "#room",
     "gltf-model": "#room",
     crossOrigin: "anonymous",
-    position: "-1.693 0 0.07"
+    position: "-1.693 0 0.4"
   }), /*#__PURE__*/react.createElement("a-entity", {
     "nav-mesh": true,
     id: "#navmesh",
     "gltf-model": "#navmesh",
     crossOrigin: "anonymous",
-    visible: "true"
+    visible: "false"
   }), dynamicContent_demo_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", extends_extends({
     key: entity.id
-  }, entity)))), /*#__PURE__*/react.createElement("a-light", {
+  }, entity, {
+    "show-details-on-click": true
+  })))), /*#__PURE__*/react.createElement("a-light", {
     type: "directional",
     color: "#ffffff",
     intensity: "0.8",
@@ -6947,6 +7031,19 @@ function Demo() {
     light: "type: hemisphere; angle: 180",
     rotation: "-0.3 50.509 147.30229250797848",
     id: "bulb-4"
+  }), /*#__PURE__*/react.createElement("a-entity", {
+    id: "details_text",
+    visible: "false"
+  }), /*#__PURE__*/react.createElement("a-image", {
+    src: "#tesla-quote",
+    id: "tesla-quote",
+    key: "tesla-quote",
+    position: "-2 1.426 -2.76",
+    rotation: "0 0 0",
+    "show-details-on-click": true
+  }), /*#__PURE__*/react.createElement("a-entity", {
+    id: "details_text_tesla_quote",
+    visible: "false"
   }), /*#__PURE__*/react.createElement("a-plane", {
     "static-body": "shape:  mesh",
     position: "0 0 -4",
@@ -6969,16 +7066,15 @@ function Demo() {
 
 
 
+;// CONCATENATED MODULE: ./src/js/app/Utils/index.js
+
+
+
 ;// CONCATENATED MODULE: ./src/js/app/app.js
 
 
 
 
-
-
-// const NavSites = lazy(() => import("./Components"));
-// const AFrame = lazy(() => import("./Components"));
-// const Demo = lazy(() => import("./Components"));
 
 const appRouter = createBrowserRouter([{
   path: "/",
@@ -6993,6 +7089,9 @@ const appRouter = createBrowserRouter([{
     path: "aframe",
     element: /*#__PURE__*/react.createElement(Components_AFrame, null)
   }, {
+    path: "profile/:username",
+    element: /*#__PURE__*/react.createElement(Components_Profile, null)
+  }, {
     path: "/:sitename/:sn",
     element: /*#__PURE__*/react.createElement(react.Suspense, {
       fallback: /*#__PURE__*/react.createElement("h1", null, "Loadinggg...")
@@ -7006,8 +7105,8 @@ const App = () => {
   const [lang, setLang] = (0,react.useState)("");
   const [menuData, setMenuData] = (0,react.useState)({});
   let data = menuData[lang] || [];
-  console.log("configs...", config_Config);
-  const base_url = config_Config.SITE_URL;
+  console.log("configs...", Config);
+  const base_url = Config.SITE_URL;
   (0,react.useEffect)(() => {
     fetchMenuData();
   }, [lang]);
@@ -7550,6 +7649,36 @@ if (true) {
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/create fake namespace object */
+/******/ 	(() => {
+/******/ 		var getProto = Object.getPrototypeOf ? (obj) => (Object.getPrototypeOf(obj)) : (obj) => (obj.__proto__);
+/******/ 		var leafPrototypes;
+/******/ 		// create a fake namespace object
+/******/ 		// mode & 1: value is a module id, require it
+/******/ 		// mode & 2: merge all properties of value into the ns
+/******/ 		// mode & 4: return value when already ns object
+/******/ 		// mode & 16: return value when it's Promise-like
+/******/ 		// mode & 8|1: behave like require
+/******/ 		__webpack_require__.t = function(value, mode) {
+/******/ 			if(mode & 1) value = this(value);
+/******/ 			if(mode & 8) return value;
+/******/ 			if(typeof value === 'object' && value) {
+/******/ 				if((mode & 4) && value.__esModule) return value;
+/******/ 				if((mode & 16) && typeof value.then === 'function') return value;
+/******/ 			}
+/******/ 			var ns = Object.create(null);
+/******/ 			__webpack_require__.r(ns);
+/******/ 			var def = {};
+/******/ 			leafPrototypes = leafPrototypes || [null, getProto({}), getProto([]), getProto(getProto)];
+/******/ 			for(var current = mode & 2 && value; typeof current == 'object' && !~leafPrototypes.indexOf(current); current = getProto(current)) {
+/******/ 				Object.getOwnPropertyNames(current).forEach((key) => (def[key] = () => (value[key])));
+/******/ 			}
+/******/ 			def['default'] = () => (value);
+/******/ 			__webpack_require__.d(ns, def);
+/******/ 			return ns;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -7565,6 +7694,17 @@ if (true) {
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
 /******/ 	})();
 /******/ 	
 /************************************************************************/

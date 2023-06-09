@@ -124,6 +124,54 @@ function Demo() {
       URL.revokeObjectURL(url);
     }
 
+    function AddClickEvent() {
+      AFRAME.registerComponent("show-details-on-click", {
+        init: function () {
+          var el = this.el;
+          el.addEventListener("click", function () {
+            // el.setAttribute("material", "color", "blue");
+            var position = el.getAttribute("position");
+            
+            if(el.getAttribute("id") == "#powersimple")
+            {
+
+              var entityEl = document.querySelector("#details_text") 
+
+              if (entityEl.getAttribute('visible')) 
+                entityEl.setAttribute('visible', 'false');
+              
+              else {
+                // Do `.setAttribute()`s to initialize the entity.
+                entityEl.setAttribute('position',{x:position['x'],y:position['y']+0.3*position['y'],z:position['z']});
+                entityEl.setAttribute('troika-text',"value: Developing WebXR");
+                entityEl.setAttribute('rotation', '0 90 0');
+                entityEl.setAttribute('visible', 'true');
+
+              }
+
+            }
+            else if(el.getAttribute("id") == "tesla-quote")
+            {
+              var entityEl = document.querySelector("#details_text_tesla_quote");
+              
+              if (entityEl.getAttribute('visible')) 
+                entityEl.setAttribute('visible', 'false');
+              
+              else {
+                // For a not visible asset, set properties
+                entityEl.setAttribute('position',{x:position['x'],y:position['y']+0.45*position['y'],z:position['z']});
+                entityEl.setAttribute('troika-text',"value: Famous quote by Nikola Tesla");
+                entityEl.setAttribute('visible', 'true');
+
+              }
+
+            }
+            
+          });
+        },
+      });
+    }
+
     // Heavy models take time to load, hence wait for a while
     async function startLoadingAndGetData() {
       setLoading(false);
@@ -132,6 +180,8 @@ function Demo() {
       loadAndGet();
       await new Promise((resolve) => setTimeout(resolve, 5000));
       addMani();
+      AddClickEvent();
+
     }
     startLoadingAndGetData();
   }, []);
@@ -210,7 +260,7 @@ function Demo() {
             ></a-entity>
 
             {data.map((entity) => (
-              <a-entity key={entity.id} {...entity}></a-entity>
+              <a-entity key={entity.id} {...entity} show-details-on-click ></a-entity>
             ))}
           </>
         )}
@@ -243,6 +293,25 @@ function Demo() {
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb-4"
         ></a-light>
+
+        <a-entity
+        id="details_text"
+        visible="false"
+        >
+        </a-entity>
+
+        <a-image src="#tesla-quote"
+          id="tesla-quote"
+          key="tesla-quote"
+          position="-2 1.426 -2.76"
+          rotation="0 0 0"
+          show-details-on-click></a-image>
+
+        <a-entity
+          id="details_text_tesla_quote"
+          visible="false"
+        >
+        </a-entity>
 
         {/* floor collider */}
         <a-plane
