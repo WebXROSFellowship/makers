@@ -41,7 +41,6 @@
   min-width: 15.625rem;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  margin-top: 0.3rem;
 }
 
 .dropdown__content a {
@@ -112,7 +111,8 @@
   top: 0;
   right: 0;
   width: 60%;
-  margin-top: 3.125rem;
+  margin-top: 5rem;
+  height: 100%;
 }
 .dropdown2 {
   width: 100%;
@@ -176,3 +176,4 @@
 .navbar text-white {
   color: white;
 }
+

@@ -6,6 +6,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const IgnoreEmitPlugin = require("ignore-emit-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
+const ModuleResolverPlugin = require("babel-plugin-module-resolver");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const proxyUrl = "https://makers/";
@@ -13,7 +14,6 @@ const proxyUrl = "https://makers/";
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);
   const entries = {};
-  console.log(files);
 
   if (files.length > 0) {
     entries[outputName] = files.reduce((acc, file) => {
@@ -21,7 +21,6 @@ function getEntries(pattern, outputName) {
       return acc;
     }, []);
   }
-  console.log(entries);
 
   return entries;
 }
@@ -43,7 +42,21 @@ const common = {
               ["@babel/preset-env", { targets: "defaults" }],
               ["@babel/preset-react"],
             ],
-            plugins: ['@babel/plugin-transform-runtime']
+            plugins: ['@babel/plugin-transform-runtime',
+            [
+              "module-resolver",
+              {
+                "root": ["./src"],
+                "alias": {
+                  // Add your module aliases here
+                  "@components": "./src/components",
+                  "@utils": "./src/utils",
+                  "@styles": "./src/scss",
+                }
+              }
+            ]
+
+      ]
           },
         },
       },
