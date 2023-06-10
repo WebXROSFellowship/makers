@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import assets from "../psudo_data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
 
-import { Config } from "../config/config";
+import Config from "../config/config";
 // have used native file system till endpoints unavailable
 
 function Demo() {

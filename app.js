@@ -6059,7 +6059,8 @@ let langArr = [{
 }];
 /* harmony default export */ const langData = (langArr);
 ;// CONCATENATED MODULE: ./src/js/app/config/config.js
-const Config = configScriptData;
+const Config = configData;
+/* harmony default export */ const config = (Config);
 ;// CONCATENATED MODULE: ./src/js/app/Components/Navbar.js
 
 
@@ -6080,7 +6081,7 @@ const Navbar = () => {
   const {
     stagingData
   } = (0,react.useContext)(Utils_StagingDataContext);
-  const base_url = Config.SITE_URL;
+  const base_url = config.SITE_URL;
   let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
@@ -6347,7 +6348,7 @@ const Profile = () => {
   const content = cd[0]?.content || "";
   const titleName = cd[0]?.title;
   const [imgLink, setImgLink] = (0,react.useState)("");
-  const base_url = Config.SITE_URL;
+  const base_url = config.SITE_URL;
   (0,react.useEffect)(() => {
     fetch(`${base_url}/wp-json/wp/v2/media?media`).then(response => response.json()).then(data => {
       const profileImage = data?.find(image => image?.slug === username);
@@ -6763,7 +6764,7 @@ const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","g
 
 function Demo() {
   const [loading, setLoading] = (0,react.useState)(true);
-  const base_url = Config.SITE_URL;
+  const base_url = config.SITE_URL;
   (0,react.useEffect)(() => {
     // loading inspector
     function loadAndGet() {
@@ -7067,8 +7068,8 @@ const App = () => {
   const [lang, setLang] = (0,react.useState)("");
   const [menuData, setMenuData] = (0,react.useState)({});
   const [stagingData, setStagingData] = (0,react.useState)([]);
-  console.log("configs...", Config);
-  const base_url = Config.SITE_URL;
+  console.log("configs...", config);
+  const base_url = config.SITE_URL;
   (0,react.useEffect)(() => {
     fetchMenuData();
   }, [lang]);
