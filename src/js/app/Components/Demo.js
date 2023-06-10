@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import assets from "../psudo_data/assets_demo.json";
 import data from "./dynamicContent_demo.json";
+
+import { Config } from "../config/config";
 // have used native file system till endpoints unavailable
 
 function Demo() {
   const [loading, setLoading] = useState(true);
+  const base_url = Config.SITE_URL;
 
   useEffect(() => {
     // loading inspector
@@ -13,6 +16,7 @@ function Demo() {
       sceneEl.addEventListener("loaded", function () {
         sceneEl.components.inspector.openInspector();
       });
+      console.log("Loaded Inspec");
     }
     // creating new button for getting all the data for the entity
     function addMani() {
@@ -103,8 +107,31 @@ function Demo() {
       const updatedJsonString = JSON.stringify(updatedData, null, 2);
       console.log("Updated data:", updatedData);
       const fileName = "dynamicContent_demo.json";
-      saveJsonAsBlob(updatedJsonString, fileName);
+      // saveJsonAsBlob(updatedJsonString, fileName);
+      updateInspctor(updatedJsonString);
     }
+
+     // Function to update inspector values via API
+     const updateInspctor = async (data) => {
+      console.log("DATA:",data);
+      const url = `${base_url}/wp-json/myroutes/update_inspecter`;
+      var formdata = new FormData();
+      formdata.append("file", fileInput.files[0], data);
+    
+      var requestOptions = {
+        method: "POST",
+        body: formdata,
+        redirect: "follow",
+      };
+    
+      await fetch(url, requestOptions)
+        .then((response) => response.text())
+        .then((result) => {
+            console.log(result);
+            alert(result)
+        })
+        .catch((error) => console.log("error", error));
+    };
 
     function saveJsonAsBlob(updatedData, fileName) {
       const blob = new Blob([updatedData], { type: "application/json" });
