@@ -104,7 +104,30 @@ function Demo() {
       const updatedJsonString = JSON.stringify(updatedData, null, 2);
       console.log("Updated data:", updatedData);
       const fileName = "dynamicContent_demo.json";
-      saveJsonAsBlob(updatedJsonString, fileName);
+      // saveJsonAsBlob(updatedJsonString, fileName);
+      updateInspectorAPI(updatedJsonString);
+    }
+
+     // Function to update inspector values via API
+     async function updateInspectorAPI(jsonData) {
+      const formData = new FormData();
+      formData.append('file', new Blob([jsonData], { type: 'application/json' }));
+
+      try {
+        const response = await fetch('https://webxr.local/wp-json/myroutes/update_inspecter', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          const result = await response.text();
+          console.log('Inspector values updated:', result);
+        } else {
+          console.log('Failed to update inspector values.');
+        }
+      } catch (error) {
+        console.error('Error occurred while updating inspector values:', error);
+      }
     }
 
     function saveJsonAsBlob(updatedData, fileName) {
