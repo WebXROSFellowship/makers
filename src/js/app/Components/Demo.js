@@ -13,6 +13,7 @@ function Demo() {
       sceneEl.addEventListener("loaded", function () {
         sceneEl.components.inspector.openInspector();
       });
+      console.log("Loaded Inspec");
     }
     // creating new button for getting all the data for the entity
     function addMani() {

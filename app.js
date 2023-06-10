@@ -4155,6 +4155,7 @@ function Demo() {
       sceneEl.addEventListener("loaded", function () {
         sceneEl.components.inspector.openInspector();
       });
+      console.log("Loaded Inspec");
     }
     // creating new button for getting all the data for the entity
     function addMani() {
@@ -4310,7 +4311,7 @@ function Demo() {
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-scene", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
     id: "rig",
-    "movement-controls": "constrainToNavMesh: true; controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+    "movement-controls": "constrainToNavMesh: true;\r controls: checkpoint, gamepad, trackpad, keyboard, touch;"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
     camera: true,
     id: "camera",
