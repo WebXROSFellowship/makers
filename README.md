@@ -132,3 +132,6 @@ To enhance the functionality of the A-Frame inspector, we have implemented a con
 ### *Seamless Code Management*
 
 With the integrated save button, users can effortlessly preserve their modifications and ensure that the changes persist across sessions. By saving the updated code back into the JSON file, the virtual reality environment maintains the latest changes made by users, providing a seamless and dynamic user experience.
+
+### *Inspector Update API Integration*  
+Generated POST requests to update the component data dynamically as is changed using the inspector and the custom save-button functionality.
