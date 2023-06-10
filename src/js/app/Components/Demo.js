@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import assets from "../psudo_data/assets_demo.json";
 import data from "./dynamicContent_demo.json";
+
+import { Config } from "../config/config";
 // have used native file system till endpoints unavailable
 
 function Demo() {
   const [loading, setLoading] = useState(true);
+  const base_url = Config.SITE_URL;
 
   useEffect(() => {
     // loading inspector
@@ -105,30 +108,30 @@ function Demo() {
       console.log("Updated data:", updatedData);
       const fileName = "dynamicContent_demo.json";
       // saveJsonAsBlob(updatedJsonString, fileName);
-      updateInspectorAPI(updatedJsonString);
+      updateInspctor(updatedJsonString);
     }
 
      // Function to update inspector values via API
-     async function updateInspectorAPI(jsonData) {
-      const formData = new FormData();
-      formData.append('file', new Blob([jsonData], { type: 'application/json' }));
-
-      try {
-        const response = await fetch('https://webxr.local/wp-json/myroutes/update_inspecter', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (response.ok) {
-          const result = await response.text();
-          console.log('Inspector values updated:', result);
-        } else {
-          console.log('Failed to update inspector values.');
-        }
-      } catch (error) {
-        console.error('Error occurred while updating inspector values:', error);
-      }
-    }
+     const updateInspctor = async (data) => {
+      console.log("DATA:",data);
+      const url = `${base_url}/wp-json/myroutes/update_inspecter`;
+      var formdata = new FormData();
+      formdata.append("file", fileInput.files[0], data);
+    
+      var requestOptions = {
+        method: "POST",
+        body: formdata,
+        redirect: "follow",
+      };
+    
+      await fetch(url, requestOptions)
+        .then((response) => response.text())
+        .then((result) => {
+            console.log(result);
+            alert(result)
+        })
+        .catch((error) => console.log("error", error));
+    };
 
     function saveJsonAsBlob(updatedData, fileName) {
       const blob = new Blob([updatedData], { type: "application/json" });
