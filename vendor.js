@@ -1,8 +1,5 @@
 /******/ (() => { // webpackBootstrap
 var __webpack_exports__ = {};
-/*!*********************************!*\
-  !*** ./src/js/vendor/vendor.js ***!
-  \*********************************/
 let vendorz = {
   "ad": '345'
 };
