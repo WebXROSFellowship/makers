@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
  // Wordpress PHP variables to render into JS at outset.
 
   $array = array(
@@ -24,4 +24,4 @@
 
 
 ?>
-
+ -->
