@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import assets from "../psudo_data/assets_demo.json";
-import data from "./dynamicContent_demo.json";
+import data from "./../../../../data/dynamicContent_demo.json";
+
+import { Config } from "../config/config";
 // have used native file system till endpoints unavailable
 
 function Demo() {
   const [loading, setLoading] = useState(true);
+  const base_url = Config.SITE_URL;
 
   useEffect(() => {
     // loading inspector
@@ -13,6 +16,7 @@ function Demo() {
       sceneEl.addEventListener("loaded", function () {
         sceneEl.components.inspector.openInspector();
       });
+      console.log("Loaded Inspec");
     }
     // creating new button for getting all the data for the entity
     function addMani() {
@@ -38,7 +42,9 @@ function Demo() {
         link.classList.add("button", "fa", "fa-bookmark");
 
         // Append the <a> element to the specified location
-        var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
+        var parentElement = document.querySelector(
+          "#componentEntityHeader > div.static > div.collapsible-header > div"
+        );
         console.log("!!!!!!!!!!!!got the parent element");
         console.log(parentElement);
         parentElement.appendChild(link);
@@ -102,27 +108,32 @@ function Demo() {
       if (!foundData) updatedData.push(newData);
       const updatedJsonString = JSON.stringify(updatedData, null, 2);
       console.log("Updated data:", updatedData);
-      const fileName = "dynamicContent_demo.json";
-      saveJsonAsBlob(updatedJsonString, fileName);
+      updateInspector(updatedJsonString);
     }
 
-    function saveJsonAsBlob(updatedData, fileName) {
-      const blob = new Blob([updatedData], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
+    // Function to update inspector values via API
+    const updateInspector = async (data) => {
+      console.log("DATA:", data);
+      const url = `${base_url}/wp-json/myroutes/update_inspecter`;
+      var formdata = new FormData();
+      formdata.append("file", new Blob([data]));
 
-      // Create a temporary link element
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = fileName;
+      var requestOptions = {
+        method: "POST",
+        body: formdata,
+        redirect: "follow",
+      };
 
-      // Append the link to the document body and click it programmatically
-      document.body.appendChild(link);
-      link.click();
-
-      // Clean up by removing the link and revoking the URL
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }
+      await fetch(url, requestOptions)
+        .then((response) => response.text())
+        .then((result) => {
+          console.log(result);
+          // success: true/false, message
+          const dataResp = JSON.parse(result);
+          alert(dataResp.message);
+        })
+        .catch((error) => console.log("error", error));
+    };
 
     function AddDetails(Obj) {
       console.log("AddName");
@@ -234,40 +245,43 @@ function Demo() {
           el.addEventListener("click", function () {
             // el.setAttribute("material", "color", "blue");
             var position = el.getAttribute("position");
-            
-            if(el.getAttribute("id") == "#powersimple")
-            {
 
-              var entityEl = document.querySelector("#details_text") 
+            if (el.getAttribute("id") == "#powersimple") {
+              var entityEl = document.querySelector("#details_text");
 
-              if (entityEl.getAttribute('visible')) 
-                entityEl.setAttribute('visible', 'false');
-              
+              if (entityEl.getAttribute("visible"))
+                entityEl.setAttribute("visible", "false");
               else {
                 // Do `.setAttribute()`s to initialize the entity.
-                entityEl.setAttribute('position',{x:position['x'],y:position['y']+0.3*position['y'],z:position['z']});
-                entityEl.setAttribute('troika-text',"value: Developing WebXR");
-                entityEl.setAttribute('rotation', '0 90 0');
-                entityEl.setAttribute('visible', 'true');
-
+                entityEl.setAttribute("position", {
+                  x: position["x"],
+                  y: position["y"] + 0.3 * position["y"],
+                  z: position["z"],
+                });
+                entityEl.setAttribute("troika-text", "value: Developing WebXR");
+                entityEl.setAttribute("rotation", "0 90 0");
+                entityEl.setAttribute("visible", "true");
               }
+            } else if (el.getAttribute("id") == "tesla-quote") {
+              var entityEl = document.querySelector(
+                "#details_text_tesla_quote"
+              );
 
-            }
-            else if(el.getAttribute("id") == "tesla-quote")
-            {
-              var entityEl = document.querySelector("#details_text_tesla_quote");
-              
-              if (entityEl.getAttribute('visible')) 
-                entityEl.setAttribute('visible', 'false');
-              
+              if (entityEl.getAttribute("visible"))
+                entityEl.setAttribute("visible", "false");
               else {
                 // For a not visible asset, set properties
-                entityEl.setAttribute('position',{x:position['x'],y:position['y']+0.45*position['y'],z:position['z']});
-                entityEl.setAttribute('troika-text',"value: Famous quote by Nikola Tesla");
-                entityEl.setAttribute('visible', 'true');
-
+                entityEl.setAttribute("position", {
+                  x: position["x"],
+                  y: position["y"] + 0.45 * position["y"],
+                  z: position["z"],
+                });
+                entityEl.setAttribute(
+                  "troika-text",
+                  "value: Famous quote by Nikola Tesla"
+                );
+                entityEl.setAttribute("visible", "true");
               }
-
             }
             
             AddDetails(el);
@@ -280,11 +294,10 @@ function Demo() {
     async function startLoadingAndGetData() {
       setLoading(false);
       await new Promise((resolve) => setTimeout(resolve, 10000));
-      console.log('Starting loading');
+      console.log("Starting loading");
       loadAndGet();
       await new Promise((resolve) => setTimeout(resolve, 5000));
       addMani();
-
     }
     AddClickEvent();
     startLoadingAndGetData();
@@ -307,19 +320,19 @@ function Demo() {
         </a-entity>
 
         <a-assets>
-        <a-asset-item
-          id="room"
-          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS11.glb"
-          crossOrigin="anonymous"
-          key="room"
-        ></a-asset-item>
+          <a-asset-item
+            id="room"
+            src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS11.glb"
+            crossOrigin="anonymous"
+            key="room"
+          ></a-asset-item>
 
-        <a-asset-item
-          id="navmesh"
-          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh4.glb"
-          crossOrigin="anonymous"
-          key="navmesh"
-        ></a-asset-item>
+          <a-asset-item
+            id="navmesh"
+            src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh4.glb"
+            crossOrigin="anonymous"
+            key="navmesh"
+          ></a-asset-item>
 
           {assets.map((asset) => {
             if (asset.type === "model") {
