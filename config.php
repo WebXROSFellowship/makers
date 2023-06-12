@@ -1,7 +1,7 @@
 <?php
  // Wordpress PHP variables to render into JS at outset.
 
-  function config_script() {
+  // function config_script() {
 
     $array = array(
       "SITE_URL" => get_site_url(),
@@ -23,8 +23,8 @@
     wp_localize_script('config-script', 'configData', $array);
     wp_enqueue_script('config-script');
 
-  }
-  add_action( 'wp_enqueue_scripts', 'config_script' );
+  // }
+  // add_action( 'wp_enqueue_scripts', 'config_script' );
 
 
 ?>

@@ -6751,9 +6751,9 @@ function AFrame() {
 }
 /* harmony default export */ const Components_AFrame = (AFrame);
 ;// CONCATENATED MODULE: ./src/js/app/psudo_data/assets_demo.json
-const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh3.glb"},{"id":"tesla-quote","type":"img","name":"tesla-quote","url":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/tesla-quote.jpg"},{"id":"photos1","type":"model","name":"photos1","url":"https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"}]');
+const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh3.glb"},{"id":"photos1","type":"model","name":"photos1","url":"https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"}]');
 ;// CONCATENATED MODULE: ./data/dynamicContent_demo.json
-const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-6.244 1.426 -0.311","rotation":"0 90 0","scale":"0.49834 0.58072 1"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#photo1","gltf-model":"https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb","scale":"0.3 0.3 0.3","position":"3.17 0.633 -2.622"},{"id":"#photos2","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","rotation":"-179.99 0 -180","position":"3.035 1.263 2.674"},{"id":"#pic2","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"2.508 1.25708 2.668","show-details-on-click":"true"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"1.99758 1.272 2.682","show-details-on-click":"true"}]');
+const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-6.244 1.426 -0.311","rotation":"0 90 0","scale":"0.49834 0.58072 1","show-details-on-click":"true"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#photo1","gltf-model":"https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb","scale":"0.3 0.3 0.3","position":"3.17 0.633 -2.622"},{"id":"#photos2","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","rotation":"-179.99 0 -180","position":"3.035 1.263 2.674"},{"id":"#pic2","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"2.508 1.25708 2.668"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"1.90831 1.272 2.682"},{"id":"tesla-image","type":"img","name":"Nikola Tesla","caption":"Visionary inventor and electrical engineer","description":"A Serbian-American inventor, electrical engineer, mechanical engineer, and futurist best known for his contributions to the design of the modern alternating current electricity supply system.","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/TeslaImage.jpeg","position":"-3.846 1.426 2.596","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"heddy-image","name":"Hedy Lamarr","caption":"Actress turned inventor who revolutionized wireless communication.","description":"An Austrian-American actress and inventor who pioneered the technology that would one day form the basis for today’s WiFi, GPS, and Bluetooth communication systems. As a natural beauty seen widely on the big screen in films like Samson and Delilah and White Cargo, society has long ignored her inventive genius.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Hedy-Lamarr.jpeg","position":"-2.482 1.426 -2.590","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"einstein-image","name":"Albert Einstein","caption":"a brilliant physicist, gave theory of relativity","description":"Albert Einstein was a German-born theoretical physicist. Best known for developing the theory of relativity, he also made important contributions to the development of the theory of quantum mechanics, and thus to modern physics.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Albert-Einstein.jpeg","position":"-2.482 1.426 2.659","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"NeilTyson-image","name":"Neil deGrasse Tyson","caption":"Astrophysicist, author, and science communicator","description":"Neil deGrasse Tyson is an American astrophysicist, author, and science communicator. Tyson studied at Harvard University, the University of Texas at Austin, and Columbia University. From 1991 to 1994, he was a postdoctoral research associate at Princeton University.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Neil-Tyson.jpeg","position":"-5.474 1.390 2.642","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"GordonMoore-image","name":"Gordon Moore","caption":"co-founder and emeritus chairman of Intel Corporation","description":"An American engineer, businessman, and co-founder of Intel Corporation. He is known for his observation, known as Moore\'s Law, which states that the number of transistors on a microchip doubles approximately every two years, leading to a rapid advancement in computing power.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Gordon-Moore.jpeg","position":"-3.954 1.426 -2.546","rotation":"0 0 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"TimLee-image","name":"Tim Berners-Lee","caption":"computer scientist known as the inventor of the World Wide Web.","description":"Berners-Lee studied physics at the Queen\'s College, Oxford, and later pursued a career in software engineering. He proposed the concept of a global hypertext system that would allow information to be shared and accessed across different computers. This system became the World Wide Web.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Tim-Lee.jpeg","position":"-5.483 1.426 -2.600","rotation":"0 0 0","width":"0.7","height":"0.9","show-details-on-click":"true"}]');
 ;// CONCATENATED MODULE: ./src/js/app/Components/Demo.js
 
 
@@ -6875,39 +6875,97 @@ function Demo() {
         alert(dataResp.message);
       }).catch(error => console.log("error", error));
     };
+    function AddDetails(Obj) {
+      console.log("AddName");
+      // console.log(Obj);
+      var sci_name = Obj.getAttribute("name");
+      var sci_caption = Obj.getAttribute("caption");
+      var sci_description = Obj.getAttribute("description");
+
+      // If we have a name, we append it
+      if (sci_name) {
+        var id_img = Obj.getAttribute("id");
+        var position = Obj.getAttribute("position");
+        var rotation = Obj.getAttribute("rotation");
+        // console.log(sci_name);
+
+        if (document.querySelector(`#${id_img}_name`)) {
+          // var El = document.querySelector(`#${id_img}_name`);
+          console.log("Already found");
+          // El.parentNode.removeChild(El);
+        } else {
+          var sceneEl = document.querySelector('a-scene');
+          var el = document.createElement('a-entity');
+          el.setAttribute("id", `${id_img}_name`);
+          el.setAttribute("position", {
+            x: position["x"],
+            y: position["y"] - 0.42 * position["y"],
+            z: position["z"]
+          });
+          el.setAttribute("troika-text", `value: ${sci_name}`);
+          el.setAttribute("rotation", rotation);
+          sceneEl.appendChild(el);
+        }
+      }
+
+      // If we have a caption in data, we append it
+      if (sci_caption) {
+        var id_img = Obj.getAttribute("id");
+        var position = Obj.getAttribute("position");
+        var rotation = Obj.getAttribute("rotation");
+        // console.log(sci_name);
+
+        if (document.querySelector(`#${id_img}_desc`)) {
+          var El = document.querySelector(`#${id_img}_desc`);
+          console.log("Already found");
+          El.parentNode.removeChild(El);
+        } else {
+          var caption_style = "strokeColor: #1fb0f2; font-size: 0.06; align: center; outlineWidth: 0.003, material:shader: ocean; color: blue; maxWidth: 0.7;";
+          var sceneEl2 = document.querySelector('a-scene');
+          var el2 = document.createElement('a-entity');
+          el2.setAttribute("id", `${id_img}_desc`);
+          el2.setAttribute("position", {
+            x: position["x"],
+            y: position["y"] - 0.6 * position["y"],
+            z: position["z"]
+          });
+          el2.setAttribute("troika-text", `value: ${sci_caption}; ${caption_style}`);
+          el2.setAttribute("rotation", rotation);
+          sceneEl2.appendChild(el2);
+        }
+      }
+      if (sci_description) {
+        var id_img = Obj.getAttribute("id");
+        var position = Obj.getAttribute("position");
+        var rotation = Obj.getAttribute("rotation");
+        // console.log(sci_name);
+
+        if (document.querySelector(`#${id_img}_description`)) {
+          var El = document.querySelector(`#${id_img}_description`);
+          console.log("Already found");
+          El.parentNode.removeChild(El);
+        } else {
+          var sceneEl = document.querySelector('a-scene');
+          var el = document.createElement('a-entity');
+          var desc_style = "color: #b3dff2; font-size: 0.06; align: center; material: MeshNormalMaterial; maxWidth: 0.6;";
+          el.setAttribute("id", `${id_img}_description`);
+          el.setAttribute("position", {
+            x: position["x"] + 0.7,
+            y: position["y"],
+            z: position["z"]
+          });
+          el.setAttribute("troika-text", `value: ${sci_description}; ${desc_style}`);
+          el.setAttribute("rotation", rotation);
+          sceneEl.appendChild(el);
+        }
+      }
+    }
     function AddClickEvent() {
       AFRAME.registerComponent("show-details-on-click", {
         init: function () {
           var el = this.el;
           el.addEventListener("click", function () {
-            // el.setAttribute("material", "color", "blue");
-            var position = el.getAttribute("position");
-            if (el.getAttribute("id") == "#powersimple") {
-              var entityEl = document.querySelector("#details_text");
-              if (entityEl.getAttribute("visible")) entityEl.setAttribute("visible", "false");else {
-                // Do `.setAttribute()`s to initialize the entity.
-                entityEl.setAttribute("position", {
-                  x: position["x"],
-                  y: position["y"] + 0.3 * position["y"],
-                  z: position["z"]
-                });
-                entityEl.setAttribute("troika-text", "value: Developing WebXR");
-                entityEl.setAttribute("rotation", "0 90 0");
-                entityEl.setAttribute("visible", "true");
-              }
-            } else if (el.getAttribute("id") == "tesla-quote") {
-              var entityEl = document.querySelector("#details_text_tesla_quote");
-              if (entityEl.getAttribute("visible")) entityEl.setAttribute("visible", "false");else {
-                // For a not visible asset, set properties
-                entityEl.setAttribute("position", {
-                  x: position["x"],
-                  y: position["y"] + 0.45 * position["y"],
-                  z: position["z"]
-                });
-                entityEl.setAttribute("troika-text", "value: Famous quote by Nikola Tesla");
-                entityEl.setAttribute("visible", "true");
-              }
-            }
+            AddDetails(el);
           });
         }
       });
@@ -6921,8 +6979,8 @@ function Demo() {
       loadAndGet();
       await new Promise(resolve => setTimeout(resolve, 5000));
       addMani();
-      AddClickEvent();
     }
+    AddClickEvent();
     startLoadingAndGetData();
   }, []);
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-scene", null, /*#__PURE__*/react.createElement("a-entity", {
@@ -6969,11 +7027,23 @@ function Demo() {
     "gltf-model": "#navmesh",
     crossOrigin: "anonymous",
     visible: "false"
-  }), dynamicContent_demo_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", extends_extends({
-    key: entity.id
-  }, entity, {
-    "show-details-on-click": true
-  })))), /*#__PURE__*/react.createElement("a-light", {
+  }), dynamicContent_demo_namespaceObject.map(entity => {
+    if (entity["gltf-model"]) {
+      return /*#__PURE__*/react.createElement("a-entity", extends_extends({
+        key: entity.id
+      }, entity));
+    } else if (entity["type"] == "img") {
+      return /*#__PURE__*/react.createElement("a-image", extends_extends({
+        key: entity.id
+      }, entity));
+    } else {
+      console.log("In the else block, demo.js 293");
+      console.log(entity);
+      return /*#__PURE__*/react.createElement("a-entity", extends_extends({
+        key: entity.id
+      }, entity));
+    }
+  })), /*#__PURE__*/react.createElement("a-light", {
     type: "directional",
     color: "#ffffff",
     intensity: "0.8",
@@ -6998,19 +7068,6 @@ function Demo() {
     light: "type: hemisphere; angle: 180",
     rotation: "-0.3 50.509 147.30229250797848",
     id: "bulb-4"
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    id: "details_text",
-    visible: "false"
-  }), /*#__PURE__*/react.createElement("a-image", {
-    src: "#tesla-quote",
-    id: "tesla-quote",
-    key: "tesla-quote",
-    position: "-2 1.426 -2.76",
-    rotation: "0 0 0",
-    "show-details-on-click": true
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    id: "details_text_tesla_quote",
-    visible: "false"
   }), /*#__PURE__*/react.createElement("a-plane", {
     "static-body": "shape:  mesh",
     position: "0 0 -4",
