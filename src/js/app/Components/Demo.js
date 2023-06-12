@@ -209,7 +209,7 @@ function Demo() {
         <a-assets>
           <a-asset-item
             id="room"
-            src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS11.glb"
+            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Demo9.glb"
             crossOrigin="anonymous"
             key="room"
           ></a-asset-item>
@@ -240,7 +240,6 @@ function Demo() {
               />
             );
           })}
-
         </a-assets>
 
         {loading ? (
@@ -270,37 +269,47 @@ function Demo() {
                 show-details-on-click
               ></a-entity>
             ))}
-            
           </>
         )}
-
+        <a-sky color="#E7F5FB" />
         <a-light
           type="directional"
-          color="#ffffff"
-          intensity="0.8"
-          position="0.12062 1.52455 0.52977"
+          color="#35227A"
+          intensity="0.60"
+          position="4.40664 0.98434 0.05053"
           light="type: point; angle: 180"
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb"
-          visible=""
         ></a-light>
+
         <a-light
           type="directional"
-          color="#ffffff"
-          intensity="0.8"
+          color="#FFFFBC"
+          intensity="0.50"
           position="3.94786 -1.28516 -0.54807"
-          light="type: hemisphere; angle: 180"
+          light="type: hemisphere; angle: 90"
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb-3"
         ></a-light>
+
         <a-light
-          type="hemisphere"
-          color="#ffffff"
-          intensity="0.8"
+          type="directional"
+          color="#FF4400"
+          intensity="2"
           position="20.45283 -2.62394 -5.68868"
-          light="type: hemisphere; angle: 180"
+          light="type: ambient; intensity: 0.3; angle: 180"
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb-4"
+        ></a-light>
+
+        <a-light
+          type="directional"
+          color="#FFFFBC"
+          intensity="0.50"
+          position="-0.21291 -0.99888 0.00254"
+          light="type: hemisphere; color: #ffffff; angle: 90"
+          rotation="-0.3 50.509 147.30229250797848"
+          id="bulb-5"
         ></a-light>
 
         <a-entity id="details_text" visible="false"></a-entity>

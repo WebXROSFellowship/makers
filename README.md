@@ -1,5 +1,3 @@
-# ReadMe
-
 # Makers
 
 A Pilot Repository for the XROS Fellowship x Powersimple Project.
@@ -12,20 +10,8 @@ This hybrid uses AFrame with Wordpress. We are looking forward to building the A
 
 1. Use a suitable server engine to set up wordpress, phpMyAdmin and Apache.
 2. Inside the wordpress folder, look for wp-content > themes , clone the makers repository here.
-3. lnstall node modules
-
-   ```
-   npm install
-
-   ```
-4. Run the server
-
-   ```
-   npm run start
-
-   ```
-5. Set up database from sql folder
-6. Add the following plugins:
+3. Set up database from sql folder
+4. Add the following plugins:
 
    ```
    * CMS Page Tree View
@@ -42,7 +28,7 @@ This hybrid uses AFrame with Wordpress. We are looking forward to building the A
    * WPML String Translation
 
    ```
-7. Add the following commands to wp-config:
+5. Add the following commands to wp-config:
 
    ```
    // to redirect to localhost
@@ -53,6 +39,20 @@ This hybrid uses AFrame with Wordpress. We are looking forward to building the A
    define('ALLOW_UNFILTERED_UPLOADS', true);
 
    ```
+6. lnstall node modules
+
+```
+   npm install
+
+```
+
+7. lnstall node modules
+
+   ```
+   npm run start
+
+   ```
+8. Alter webpack.config.js proxyurl to correspond to your local url.
 
 ## Description
 
@@ -87,10 +87,6 @@ Currently the navbar is designed in such a way that it has the following section
 In order to make the project more accessible and inclusive to a global audience, multi-lingualism is implemented. This feature allows users to interact with the website or application in their preferred language, providing a localized experience and breaking language barriers.
 
 By incorporating multi-lingual support, it enables users to switch between different languages, ensuring that the content and interface are presented in a language they are comfortable with. This can greatly improve accessibility for users who may not be fluent in the default language.
-
-### * AFRAME integration.
-
-This project incorporates A-Frame, a web framework for building virtual reality (VR) and augmented reality (AR) experiences. A-Frame simplifies the development of immersive and interactive content by utilizing familiar web technologies such as HTML, JavaScript, and CSS.
 
 ### * Accessibility.
 
