@@ -35,7 +35,7 @@
   {
     "id": "#pic3",
     "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
-    "position": "1.90831 1.272 2.682"
+    "position": "0.89337 1.272 2.682"
   },
   {
     "id": "tesla-image",
@@ -128,5 +128,4 @@
     "rotation": "0 90 0",
     "position": "0 0.578 2.996"
   }
-
 ]

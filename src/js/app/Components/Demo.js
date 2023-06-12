@@ -10,7 +10,6 @@ function Demo() {
   const [loading, setLoading] = useState(true); // For asset loading
   const base_url = Config.SITE_URL;
 
-
   useEffect(() => {
     AddClickEvent();
     startLoadingAndGetData();
@@ -145,16 +144,13 @@ function Demo() {
       var rotation = Obj.getAttribute("rotation");
       // console.log(sci_name);
 
-      if(document.querySelector(`#${id_img}_name`))
-      {
+      if (document.querySelector(`#${id_img}_name`)) {
         // var El = document.querySelector(`#${id_img}_name`);
         console.log("Already found");
         // El.parentNode.removeChild(El);
-      }
-      else
-      {
-        var sceneEl = document.querySelector('a-scene');
-        var el = document.createElement('a-entity');
+      } else {
+        var sceneEl = document.querySelector("a-scene");
+        var el = document.createElement("a-entity");
 
         el.setAttribute("id", `${id_img}_name`);
         el.setAttribute("position", {
@@ -176,17 +172,16 @@ function Demo() {
       var rotation = Obj.getAttribute("rotation");
       // console.log(sci_name);
 
-      if(document.querySelector(`#${id_img}_desc`))
-      {
+      if (document.querySelector(`#${id_img}_desc`)) {
         var El = document.querySelector(`#${id_img}_desc`);
         console.log("Already found");
         El.parentNode.removeChild(El);
-      }
-      else {
-        var caption_style = "strokeColor: #1fb0f2; font-size: 0.06; align: center; outlineWidth: 0.003, material:shader: ocean; color: blue; maxWidth: 0.7;"
+      } else {
+        var caption_style =
+          "strokeColor: #1fb0f2; font-size: 0.06; align: center; outlineWidth: 0.003, material:shader: ocean; color: blue; maxWidth: 0.7;";
 
-        var sceneEl2 = document.querySelector('a-scene');
-        var el2 = document.createElement('a-entity');
+        var sceneEl2 = document.querySelector("a-scene");
+        var el2 = document.createElement("a-entity");
 
         el2.setAttribute("id", `${id_img}_desc`);
         el2.setAttribute("position", {
@@ -194,31 +189,32 @@ function Demo() {
           y: position["y"] - 0.6 * position["y"],
           z: position["z"],
         });
-        el2.setAttribute("troika-text", `value: ${sci_caption}; ${caption_style}`);
+        el2.setAttribute(
+          "troika-text",
+          `value: ${sci_caption}; ${caption_style}`
+        );
         el2.setAttribute("rotation", rotation);
 
         sceneEl2.appendChild(el2);
       }
     }
-    
+
     if (sci_description) {
       var id_img = Obj.getAttribute("id");
       var position = Obj.getAttribute("position");
       var rotation = Obj.getAttribute("rotation");
       // console.log(sci_name);
 
-      if(document.querySelector(`#${id_img}_description`))
-      {
+      if (document.querySelector(`#${id_img}_description`)) {
         var El = document.querySelector(`#${id_img}_description`);
         console.log("Already found");
         El.parentNode.removeChild(El);
-      }
-      else
-      {
-        var sceneEl = document.querySelector('a-scene');
-        var el = document.createElement('a-entity');
+      } else {
+        var sceneEl = document.querySelector("a-scene");
+        var el = document.createElement("a-entity");
 
-        var desc_style = "color: #b3dff2; font-size: 0.06; align: center; material: MeshNormalMaterial; maxWidth: 0.6;";
+        var desc_style =
+          "color: #b3dff2; font-size: 0.06; align: center; material: MeshNormalMaterial; maxWidth: 0.6;";
 
         el.setAttribute("id", `${id_img}_description`);
         el.setAttribute("position", {
@@ -226,7 +222,10 @@ function Demo() {
           y: position["y"],
           z: position["z"],
         });
-        el.setAttribute("troika-text", `value: ${sci_description}; ${desc_style}`);
+        el.setAttribute(
+          "troika-text",
+          `value: ${sci_description}; ${desc_style}`
+        );
         el.setAttribute("rotation", rotation);
 
         sceneEl.appendChild(el);
@@ -239,7 +238,6 @@ function Demo() {
       init: function () {
         var el = this.el;
         el.addEventListener("click", function () {
-          
           AddDetails(el);
         });
       },
@@ -254,23 +252,14 @@ function Demo() {
     loadInspector();
     await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait for the inspector to load
     customManipulation();
-  
   }
-  
+
   return (
     <>
-      <a-scene>
-        <a-entity
-          id="rig"
-          movement-controls="constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch;"
-        >
-          <a-entity
-            camera
-            id="camera"
-            position="0 1.6 0"
-            look-controls="pointerLockEnabled: true"
-          ></a-entity>
-        </a-entity>
+      <a-scene environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;">
+        <a-camera  position="-0.945 1.2 1.00152" rotation="0 -45 0">
+          <a-cursor id="cursor" color="#FF0000"></a-cursor>
+        </a-camera>
 
         <a-assets>
           <a-asset-item
@@ -285,7 +274,6 @@ function Demo() {
             crossOrigin="anonymous"
             key="navmesh"
           ></a-asset-item>
-
           {assets.map((asset) => {
             if (asset.type === "model") {
               return (
@@ -305,7 +293,7 @@ function Demo() {
                 crossOrigin="anonymous"
               />
             );
-          })}
+          })}{" "}
         </a-assets>
 
         {loading ? (
@@ -318,7 +306,6 @@ function Demo() {
               crossOrigin="anonymous"
               position="-1.693 0 0.4"
             ></a-entity>
-
             {/* Finally toggle visibility */}
             <a-entity
               nav-mesh
@@ -327,39 +314,17 @@ function Demo() {
               crossOrigin="anonymous"
               visible="false"
             ></a-entity>
-
             {data.map((entity) => {
-              if (entity["gltf-model"])
-              { return (
-                  <a-entity
-                    key={entity.id}
-                    {...entity}
-                  ></a-entity>
-                )
-              }
-              else if(entity["type"]=="img")
-              {
-                return (
-                  <a-image
-                    key={entity.id}
-                    {...entity}
-                  >
-                  </a-image>
-                )
-              }
-              else
-              {
+              if (entity["gltf-model"]) {
+                return <a-entity key={entity.id} {...entity}></a-entity>;
+              } else if (entity["type"] == "img") {
+                return <a-image key={entity.id} {...entity}></a-image>;
+              } else {
                 console.log("In the else block, demo.js 293");
                 console.log(entity);
-                return (
-                  <a-entity
-                    key={entity.id}
-                    {...entity}
-                  ></a-entity>
-                );
+                return <a-entity key={entity.id} {...entity}></a-entity>;
               }
-            }
-            )}
+            })}{" "}
           </>
         )}
         <a-sky color="#E7F5FB" />
