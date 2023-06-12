@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import "./../../../scss/style.scss";
-import DataContext from "../Utils/DataContext";
-import MenuDataContext from "../Utils/MenuDataContext";
+import "@styles/style.scss";
+import {DataContext, StagingDataContext } from "../Utils";
 import langArr from "../assets/langData";
 // import "src/js/app/assets";
 import { Config } from "../config/config";
@@ -13,16 +12,18 @@ const Navbar = () => {
   const [c2IDs, setC2IDs] = useState([]);
   const [languageArr, setLanguageArr] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
-  const { lang, setLang } = useContext(DataContext);
-  const { menuData, setMenuData } = useContext(MenuDataContext);
-
+  const { setLang } = useContext(DataContext);
+  const {stagingData} = useContext(StagingDataContext);
   const base_url = Config.SITE_URL;
+
+  let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
+
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
     settingMenuData();
     setLanguages();
-  }, []);
+  }, [stagingData]);
 
   function formatNames(name) {
     let allWords = name.toLowerCase().split(" ");
@@ -34,12 +35,7 @@ const Navbar = () => {
   }
 
   function settingMenuData() {
-    //Setting Data as Items
-    let items = menuData[lang];
-    setMenuData((prevData) => ({
-      ...prevData,
-      [lang]: items,
-    }));
+    let items = stagingData;
     let head = items.filter((e) => e.menu_item_parent === "0")[0];
     let childItems = items.filter(
       (e) => parseInt(e.menu_item_parent) === head.ID
@@ -89,17 +85,12 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         {/* The brand section of the Navbar */}
-        <div
-          className="navbar-brand text-white"
-          style={{ fontFamily: "sans-serif" }}
-        >
-          <img
-            src="`${base_url}/wp-content/uploads/2023/05/webxros.png`"
-            alt="logo"
-            style={{ width: "50px", height: "50px", marginTop: "-3px" }}
-          />
-          <span style={{ marginLeft: "15px" }}>PowerSimple | XROS</span>
+        <Link to="/" className="text-decoration-none">
+        <div className="navbar-brand text-white" style={{ fontFamily: "sans-serif"}}>
+        <img src="${imgBaseURL}" alt="logo"  className="logo-img" />
+        <span className="title-head">PowerSimple | XROS</span>
         </div>
+        </Link>
 
         <div className="navbar-right">
           {/* The main dropdown menu items of the Navbar */}

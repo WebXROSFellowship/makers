@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import assets from "../psudo_data/assets_demo.json";
-import data from "./dynamicContent_demo.json";
+import data from "./../../../../data/dynamicContent_demo.json";
+
+import { Config } from "../config/config";
 // have used native file system till endpoints unavailable
 
 function Demo() {
   const [loading, setLoading] = useState(true);
+  const base_url = Config.SITE_URL;
 
   useEffect(() => {
     // loading inspector
@@ -13,6 +16,7 @@ function Demo() {
       sceneEl.addEventListener("loaded", function () {
         sceneEl.components.inspector.openInspector();
       });
+      console.log("Loaded Inspec");
     }
     // creating new button for getting all the data for the entity
     function addMani() {
@@ -38,7 +42,9 @@ function Demo() {
         link.classList.add("button", "fa", "fa-bookmark");
 
         // Append the <a> element to the specified location
-        var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
+        var parentElement = document.querySelector(
+          "#componentEntityHeader > div.static > div.collapsible-header > div"
+        );
         console.log("!!!!!!!!!!!!got the parent element");
         console.log(parentElement);
         parentElement.appendChild(link);
@@ -102,37 +108,158 @@ function Demo() {
       if (!foundData) updatedData.push(newData);
       const updatedJsonString = JSON.stringify(updatedData, null, 2);
       console.log("Updated data:", updatedData);
-      const fileName = "dynamicContent_demo.json";
-      saveJsonAsBlob(updatedJsonString, fileName);
+      updateInspector(updatedJsonString);
     }
 
-    function saveJsonAsBlob(updatedData, fileName) {
-      const blob = new Blob([updatedData], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
+    // Function to update inspector values via API
+    const updateInspector = async (data) => {
+      console.log("DATA:", data);
+      const url = `${base_url}/wp-json/myroutes/update_inspecter`;
+      var formdata = new FormData();
+      formdata.append("file", new Blob([data]));
 
-      // Create a temporary link element
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = fileName;
+      var requestOptions = {
+        method: "POST",
+        body: formdata,
+        redirect: "follow",
+      };
 
-      // Append the link to the document body and click it programmatically
-      document.body.appendChild(link);
-      link.click();
+      await fetch(url, requestOptions)
+        .then((response) => response.text())
+        .then((result) => {
+          console.log(result);
+          // success: true/false, message
+          const dataResp = JSON.parse(result);
+          alert(dataResp.message);
+        })
+        .catch((error) => console.log("error", error));
+    };
 
-      // Clean up by removing the link and revoking the URL
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+    function AddDetails(Obj) {
+      console.log("AddName");
+      // console.log(Obj);
+      var sci_name = Obj.getAttribute("name");
+      var sci_caption = Obj.getAttribute("caption");
+      var sci_description = Obj.getAttribute("description");
+
+      // If we have a name, we append it
+      if (sci_name) {
+        var id_img = Obj.getAttribute("id");
+        var position = Obj.getAttribute("position");
+        var rotation = Obj.getAttribute("rotation");
+        // console.log(sci_name);
+
+        if(document.querySelector(`#${id_img}_name`))
+        {
+          // var El = document.querySelector(`#${id_img}_name`);
+          console.log("Already found");
+          // El.parentNode.removeChild(El);
+        }
+        else
+        {
+          var sceneEl = document.querySelector('a-scene');
+          var el = document.createElement('a-entity');
+
+          el.setAttribute("id", `${id_img}_name`);
+          el.setAttribute("position", {
+            x: position["x"],
+            y: position["y"] - 0.42 * position["y"],
+            z: position["z"],
+          });
+          el.setAttribute("troika-text", `value: ${sci_name}`);
+          el.setAttribute("rotation", rotation);
+
+          sceneEl.appendChild(el);
+        }
+      }
+
+      // If we have a caption in data, we append it
+      if (sci_caption) {
+        var id_img = Obj.getAttribute("id");
+        var position = Obj.getAttribute("position");
+        var rotation = Obj.getAttribute("rotation");
+        // console.log(sci_name);
+
+        if(document.querySelector(`#${id_img}_desc`))
+        {
+          var El = document.querySelector(`#${id_img}_desc`);
+          console.log("Already found");
+          El.parentNode.removeChild(El);
+        }
+        else {
+          var caption_style = "strokeColor: #1fb0f2; font-size: 0.06; align: center; outlineWidth: 0.003, material:shader: ocean; color: blue; maxWidth: 0.7;"
+
+          var sceneEl2 = document.querySelector('a-scene');
+          var el2 = document.createElement('a-entity');
+
+          el2.setAttribute("id", `${id_img}_desc`);
+          el2.setAttribute("position", {
+            x: position["x"],
+            y: position["y"] - 0.6 * position["y"],
+            z: position["z"],
+          });
+          el2.setAttribute("troika-text", `value: ${sci_caption}; ${caption_style}`);
+          el2.setAttribute("rotation", rotation);
+
+          sceneEl2.appendChild(el2);
+        }
+      }
+      
+      if (sci_description) {
+        var id_img = Obj.getAttribute("id");
+        var position = Obj.getAttribute("position");
+        var rotation = Obj.getAttribute("rotation");
+        // console.log(sci_name);
+
+        if(document.querySelector(`#${id_img}_description`))
+        {
+          var El = document.querySelector(`#${id_img}_description`);
+          console.log("Already found");
+          El.parentNode.removeChild(El);
+        }
+        else
+        {
+          var sceneEl = document.querySelector('a-scene');
+          var el = document.createElement('a-entity');
+
+          var desc_style = "color: #b3dff2; font-size: 0.06; align: center; material: MeshNormalMaterial; maxWidth: 0.6;";
+
+          el.setAttribute("id", `${id_img}_description`);
+          el.setAttribute("position", {
+            x: position["x"] + 0.7,
+            y: position["y"],
+            z: position["z"],
+          });
+          el.setAttribute("troika-text", `value: ${sci_description}; ${desc_style}`);
+          el.setAttribute("rotation", rotation);
+
+          sceneEl.appendChild(el);
+        }
+      }
+    }
+
+    function AddClickEvent() {
+      AFRAME.registerComponent("show-details-on-click", {
+        init: function () {
+          var el = this.el;
+          el.addEventListener("click", function () {
+            
+            AddDetails(el);
+          });
+        },
+      });
     }
 
     // Heavy models take time to load, hence wait for a while
     async function startLoadingAndGetData() {
       setLoading(false);
       await new Promise((resolve) => setTimeout(resolve, 10000));
-      console.log('Starting loading');
+      console.log("Starting loading");
       loadAndGet();
       await new Promise((resolve) => setTimeout(resolve, 5000));
       addMani();
     }
+    AddClickEvent();
     startLoadingAndGetData();
   }, []);
 
@@ -153,19 +280,19 @@ function Demo() {
         </a-entity>
 
         <a-assets>
-        <a-asset-item
-          id="room"
-          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS11.glb"
-          crossOrigin="anonymous"
-          key="room"
-        ></a-asset-item>
+          <a-asset-item
+            id="room"
+            src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS11.glb"
+            crossOrigin="anonymous"
+            key="room"
+          ></a-asset-item>
 
-        <a-asset-item
-          id="navmesh"
-          src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh4.glb"
-          crossOrigin="anonymous"
-          key="navmesh"
-        ></a-asset-item>
+          <a-asset-item
+            id="navmesh"
+            src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh4.glb"
+            crossOrigin="anonymous"
+            key="navmesh"
+          ></a-asset-item>
 
           {assets.map((asset) => {
             if (asset.type === "model") {
@@ -209,9 +336,38 @@ function Demo() {
               visible="false"
             ></a-entity>
 
-            {data.map((entity) => (
-              <a-entity key={entity.id} {...entity}></a-entity>
-            ))}
+            {data.map((entity) => {
+              if (entity["gltf-model"])
+              { return (
+                  <a-entity
+                    key={entity.id}
+                    {...entity}
+                  ></a-entity>
+                )
+              }
+              else if(entity["type"]=="img")
+              {
+                return (
+                  <a-image
+                    key={entity.id}
+                    {...entity}
+                  >
+                  </a-image>
+                )
+              }
+              else
+              {
+                console.log("In the else block, demo.js 293");
+                console.log(entity);
+                return (
+                  <a-entity
+                    key={entity.id}
+                    {...entity}
+                  ></a-entity>
+                );
+              }
+            }
+            )}
           </>
         )}
 

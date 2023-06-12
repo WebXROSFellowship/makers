@@ -1,6 +1,32 @@
 [
-    { "id": "powersimple", "type":"model","name": "powersimple","url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},
-    { "id": "photos1", "type":"model","name": "photos1","url": "https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb"},
-    { "id": "photos2", "type":"model","name": "photos2","url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"}  
+  {
+    "id": "powersimple",
+    "type": "model",
+    "name": "powersimple",
+    "url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"
+  },
+  {
+    "id": "room",
+    "type": "model",
+    "name": "room",
+    "url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb"
+  },
+  {
+    "id": "navmesh",
+    "type": "model",
+    "name": "navmesh",
+    "url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh3.glb"
+  },
+  {
+    "id": "photos1",
+    "type": "model",
+    "name": "photos1",
+    "url": "https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb"
+  },
+  {
+    "id": "photos2",
+    "type": "model",
+    "name": "photos2",
+    "url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"
+  }
 ]
-

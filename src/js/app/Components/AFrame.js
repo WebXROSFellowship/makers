@@ -154,9 +154,29 @@ function AFrame() {
         },
       });
     }
+
+    // Below mentioned event gets activated after click
+    function AddClickEvent() {
+      AFRAME.registerComponent("show-details-on-click", {
+        init: function () {
+          var el = this.el;
+          el.addEventListener("click", function () {
+            el.setAttribute("material", "color", "lightblue");
+            var details_box = document.querySelector('#details-box');
+            var current_state = details_box.getAttribute('visible');
+            if (current_state == false)
+            details_box.setAttribute("visible","true");
+            else
+            details_box.setAttribute("visible","false");
+          });
+        },
+      });
+    }
+
     // Heavy models take time to load, hence wait for a while
     setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
 
+    AddClickEvent();
     changeColor();
     loadAndGet();
     addMani();
@@ -214,6 +234,13 @@ function AFrame() {
           position="0 0.7 -7"
           radius="2.25"
           change-color-on-hover="color:#FFFFFF"
+          show-details-on-click
+        />
+        <a-box
+          id = "details-box"
+          position = "1 2 -2"
+          color = "lightgreen"
+          visible = "false"
         />
         <a-plane
           rotation="-90 0 0"
