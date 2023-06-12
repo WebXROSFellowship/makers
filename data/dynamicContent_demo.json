@@ -30,14 +30,12 @@
   {
     "id": "#pic2",
     "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
-    "position": "2.508 1.25708 2.668",
-    "show-details-on-click": "true"
+    "position": "2.508 1.25708 2.668"
   },
   {
     "id": "#pic3",
     "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
-    "position": "1.99758 1.272 2.682",
-    "show-details-on-click": "true"
+    "position": "1.90831 1.272 2.682"
   },
   {
     "id": "tesla-image",
@@ -48,8 +46,8 @@
     "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/TeslaImage.jpeg",
     "position": "-3.846 1.426 2.596",
     "rotation": "0 180 0",
-    "width":"0.7",
-    "height":"0.9",
+    "width": "0.7",
+    "height": "0.9",
     "show-details-on-click": "true"
   },
   {
@@ -60,8 +58,8 @@
     "type": "img",
     "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Hedy-Lamarr.jpeg",
     "position": "-2.482 1.426 -2.590",
-    "width":"0.7",
-    "height":"0.9",
+    "width": "0.7",
+    "height": "0.9",
     "show-details-on-click": "true"
   },
   {
@@ -73,8 +71,8 @@
     "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Albert-Einstein.jpeg",
     "position": "-2.482 1.426 2.659",
     "rotation": "0 180 0",
-    "width":"0.7",
-    "height":"0.9",
+    "width": "0.7",
+    "height": "0.9",
     "show-details-on-click": "true"
   },
   {
@@ -86,8 +84,8 @@
     "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Neil-Tyson.jpeg",
     "position": "-5.474 1.390 2.642",
     "rotation": "0 180 0",
-    "width":"0.7",
-    "height":"0.9",
+    "width": "0.7",
+    "height": "0.9",
     "show-details-on-click": "true"
   },
   {
@@ -99,8 +97,8 @@
     "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Gordon-Moore.jpeg",
     "position": "-3.954 1.426 -2.546",
     "rotation": "0 0 0",
-    "width":"0.7",
-    "height":"0.9",
+    "width": "0.7",
+    "height": "0.9",
     "show-details-on-click": "true"
   },
   {
@@ -112,9 +110,8 @@
     "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Tim-Lee.jpeg",
     "position": "-5.483 1.426 -2.600",
     "rotation": "0 0 0",
-    "width":"0.7",
-    "height":"0.9",
+    "width": "0.7",
+    "height": "0.9",
     "show-details-on-click": "true"
   }
-
 ]

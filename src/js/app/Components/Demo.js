@@ -382,7 +382,6 @@ function Demo() {
                   <a-entity
                     key={entity.id}
                     {...entity}
-                    show-details-on-click
                   ></a-entity>
                 )
               }
