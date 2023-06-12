@@ -5,13 +5,6 @@
 
         wp_enqueue_style( 'powersimple',get_stylesheet_directory_uri() . '/style.css');
         
-        wp_register_script( 'aframe', 'https://aframe.io/releases/1.4.0/aframe.min.js', array('jquery'), '1.4.0' , false );
-        wp_enqueue_script( 'aframe' );
-
-        wp_register_script( 'aframe-inspector', 'https://unpkg.com/aframe-inspector@1.4.x/dist/aframe-inspector.min.js', array('jquery'), '1.4.0' , false );
-        wp_enqueue_script( 'aframe-inspector' );
-        
-   
     }
     add_action( 'wp_enqueue_scripts', 'enqueue_style' );
 
@@ -30,8 +23,17 @@
         wp_register_script('bootstrap','https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js', array('jquery'),'5.3.0', true); 
         wp_enqueue_script('bootstrap');
 
+        wp_register_script( 'aframe', 'https://aframe.io/releases/1.4.0/aframe.min.js', array('jquery'), '1.4.0' , false );
+        wp_enqueue_script( 'aframe' );
+
+        wp_register_script( 'aframe-inspector', 'https://unpkg.com/aframe-inspector@1.4.x/dist/aframe-inspector.min.js', array('jquery'), '1.4.0' , false );
+        wp_enqueue_script( 'aframe-inspector' );
+        
         wp_register_script('aframe-troika-text', 'https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js', array('jquery'),rand(100000,999999), true);
         wp_enqueue_script('aframe-troika-text');
+
+        wp_register_script('aframe-environment', 'https://unpkg.com/aframe-environment-component@1.3.0/dist/aframe-environment-component.min.js', array('jquery'),'1.3.0', true);
+        wp_enqueue_script('aframe-environment');
 
         // TODO: uncomment to fix nav-mesh movement issues
         // wp_register_script('aframe-physics', 'https://cdn.jsdelivr.net/gh/zach-capalbo/aframe-extras/dist/aframe-extras.min.js', array('jquery'),rand(100000,999999), true);
