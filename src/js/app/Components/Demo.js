@@ -135,51 +135,116 @@ function Demo() {
         .catch((error) => console.log("error", error));
     };
 
+    function AddDetails(Obj) {
+      console.log("AddName");
+      // console.log(Obj);
+      var sci_name = Obj.getAttribute("name");
+      var sci_caption = Obj.getAttribute("caption");
+      var sci_description = Obj.getAttribute("description");
+
+      // If we have a name, we append it
+      if (sci_name) {
+        var id_img = Obj.getAttribute("id");
+        var position = Obj.getAttribute("position");
+        var rotation = Obj.getAttribute("rotation");
+        // console.log(sci_name);
+
+        if(document.querySelector(`#${id_img}_name`))
+        {
+          // var El = document.querySelector(`#${id_img}_name`);
+          console.log("Already found");
+          // El.parentNode.removeChild(El);
+        }
+        else
+        {
+          var sceneEl = document.querySelector('a-scene');
+          var el = document.createElement('a-entity');
+
+          el.setAttribute("id", `${id_img}_name`);
+          el.setAttribute("position", {
+            x: position["x"],
+            y: position["y"] - 0.42 * position["y"],
+            z: position["z"],
+          });
+          el.setAttribute("troika-text", `value: ${sci_name}`);
+          el.setAttribute("rotation", rotation);
+
+          sceneEl.appendChild(el);
+        }
+      }
+
+      // If we have a caption in data, we append it
+      if (sci_caption) {
+        var id_img = Obj.getAttribute("id");
+        var position = Obj.getAttribute("position");
+        var rotation = Obj.getAttribute("rotation");
+        // console.log(sci_name);
+
+        if(document.querySelector(`#${id_img}_desc`))
+        {
+          var El = document.querySelector(`#${id_img}_desc`);
+          console.log("Already found");
+          El.parentNode.removeChild(El);
+        }
+        else {
+          var caption_style = "strokeColor: #1fb0f2; font-size: 0.06; align: center; outlineWidth: 0.003, material:shader: ocean; color: blue; maxWidth: 0.7;"
+
+          var sceneEl2 = document.querySelector('a-scene');
+          var el2 = document.createElement('a-entity');
+
+          el2.setAttribute("id", `${id_img}_desc`);
+          el2.setAttribute("position", {
+            x: position["x"],
+            y: position["y"] - 0.6 * position["y"],
+            z: position["z"],
+          });
+          el2.setAttribute("troika-text", `value: ${sci_caption}; ${caption_style}`);
+          el2.setAttribute("rotation", rotation);
+
+          sceneEl2.appendChild(el2);
+        }
+      }
+      
+      if (sci_description) {
+        var id_img = Obj.getAttribute("id");
+        var position = Obj.getAttribute("position");
+        var rotation = Obj.getAttribute("rotation");
+        // console.log(sci_name);
+
+        if(document.querySelector(`#${id_img}_description`))
+        {
+          var El = document.querySelector(`#${id_img}_description`);
+          console.log("Already found");
+          El.parentNode.removeChild(El);
+        }
+        else
+        {
+          var sceneEl = document.querySelector('a-scene');
+          var el = document.createElement('a-entity');
+
+          var desc_style = "color: #b3dff2; font-size: 0.06; align: center; material: MeshNormalMaterial; maxWidth: 0.6;";
+
+          el.setAttribute("id", `${id_img}_description`);
+          el.setAttribute("position", {
+            x: position["x"] + 0.7,
+            y: position["y"],
+            z: position["z"],
+          });
+          el.setAttribute("troika-text", `value: ${sci_description}; ${desc_style}`);
+          el.setAttribute("rotation", rotation);
+
+          sceneEl.appendChild(el);
+        }
+      }
+    }
+
     function AddClickEvent() {
       AFRAME.registerComponent("show-details-on-click", {
         init: function () {
           var el = this.el;
           el.addEventListener("click", function () {
-            // el.setAttribute("material", "color", "blue");
-            var position = el.getAttribute("position");
-
-            if (el.getAttribute("id") == "#powersimple") {
-              var entityEl = document.querySelector("#details_text");
-
-              if (entityEl.getAttribute("visible"))
-                entityEl.setAttribute("visible", "false");
-              else {
-                // Do `.setAttribute()`s to initialize the entity.
-                entityEl.setAttribute("position", {
-                  x: position["x"],
-                  y: position["y"] + 0.3 * position["y"],
-                  z: position["z"],
-                });
-                entityEl.setAttribute("troika-text", "value: Developing WebXR");
-                entityEl.setAttribute("rotation", "0 90 0");
-                entityEl.setAttribute("visible", "true");
-              }
-            } else if (el.getAttribute("id") == "tesla-quote") {
-              var entityEl = document.querySelector(
-                "#details_text_tesla_quote"
-              );
-
-              if (entityEl.getAttribute("visible"))
-                entityEl.setAttribute("visible", "false");
-              else {
-                // For a not visible asset, set properties
-                entityEl.setAttribute("position", {
-                  x: position["x"],
-                  y: position["y"] + 0.45 * position["y"],
-                  z: position["z"],
-                });
-                entityEl.setAttribute(
-                  "troika-text",
-                  "value: Famous quote by Nikola Tesla"
-                );
-                entityEl.setAttribute("visible", "true");
-              }
-            }
+            
+            AddDetails(el);
           });
         },
       });
@@ -193,8 +258,8 @@ function Demo() {
       loadAndGet();
       await new Promise((resolve) => setTimeout(resolve, 5000));
       addMani();
-      AddClickEvent();
     }
+    AddClickEvent();
     startLoadingAndGetData();
   }, []);
 
@@ -334,19 +399,6 @@ function Demo() {
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb-4"
         ></a-light>
-
-        <a-entity id="details_text" visible="false"></a-entity>
-
-        <a-image
-          src="#tesla-quote"
-          id="tesla-quote"
-          key="tesla-quote"
-          position="-2 1.426 -2.76"
-          rotation="0 0 0"
-          show-details-on-click
-        ></a-image>
-
-        <a-entity id="details_text_tesla_quote" visible="false"></a-entity>
 
         {/* floor collider */}
         <a-plane

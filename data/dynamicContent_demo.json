@@ -5,7 +5,8 @@
     "crossorigin": "anonymous",
     "position": "-6.244 1.426 -0.311",
     "rotation": "0 90 0",
-    "scale": "0.49834 0.58072 1"
+    "scale": "0.49834 0.58072 1",
+    "show-details-on-click": "true"
   },
   {
     "troika-text": "strokeColor: #fffafa; value: Text is here",
@@ -113,4 +114,5 @@
     "height": "0.9",
     "show-details-on-click": "true"
   }
+
 ]
