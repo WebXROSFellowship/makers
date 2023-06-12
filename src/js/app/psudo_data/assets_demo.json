@@ -18,6 +18,13 @@
     "url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh3.glb"
   },
   {
+    "id": "tesla-quote",
+    "type": "img",
+    "name": "tesla-quote",
+    "url": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/tesla-quote.jpg"
+  },
+
+  {
     "id": "photos1",
     "type": "model",
     "name": "photos1",
