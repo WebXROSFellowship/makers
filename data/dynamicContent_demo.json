@@ -3,9 +3,9 @@
     "id": "#powersimple",
     "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb",
     "crossorigin": "anonymous",
-    "position": "-6.244 1.426 -0.311",
-    "rotation": "0 90 0",
-    "scale": "0.49834 0.58072 1",
+    "position": "-7.14106 1.426 2.65764",
+    "rotation": "0 -180 0",
+    "scale": "0.2 0.2 0.2",
     "show-details-on-click": "true"
   },
   {
@@ -35,7 +35,7 @@
   {
     "id": "#pic3",
     "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
-    "position": "1.90831 1.272 2.682"
+    "position": "0.89337 1.272 2.682"
   },
   {
     "id": "tesla-image",
@@ -113,6 +113,19 @@
     "width": "0.7",
     "height": "0.9",
     "show-details-on-click": "true"
+  },
+  {
+    "id": "#sofa",
+    "gltf-model": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb",
+    "show-details-on-click": "true",
+    "rotation": "0 -90 0",
+    "position": "-5.209 0.002 -1.992"
+  },
+  {
+    "id": "#clock",
+    "gltf-model": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb",
+    "show-details-on-click": "true",
+    "rotation": "0 90 0",
+    "position": "0 0.578 2.996"
   }
-
 ]
