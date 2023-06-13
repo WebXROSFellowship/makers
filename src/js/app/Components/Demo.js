@@ -9,19 +9,42 @@ import { Config } from "../config/config";
 function Demo() {
   const [loading, setLoading] = useState(true); // For asset loading
   const base_url = Config.SITE_URL;
+  const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
 
   useEffect(() => {
+    
+    // Call the checkElement function initially
+    checkElement();
+
+    // Set up a MutationObserver to monitor changes in the DOM
+    const observer = new MutationObserver(checkElement);
+    observer.observe(document.body, { subtree: true, childList: true });
+
+    // Clean up the observer on component unmount
+    return () => observer.disconnect();
+  }, [elementDetected]);
+  
+  useEffect(() => {
     AddClickEvent();
-    startLoadingAndGetData();
+    startLoadingAssets();
   }, []);
 
-  function loadInspector() {
-    // Usage: Loads the inspector on application start
-    var sceneEl = document.querySelector("a-scene");
-    sceneEl.addEventListener("loaded", function () {
-      sceneEl.components.inspector.openInspector();
-    });
-    console.log("Inspector Loaded");
+  const checkElement = () => {
+    // Usage: Checks if the inspector has been opened for the first time
+    const ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
+    if (ele !== null && !elementDetected) {
+      console.log("Inspector has been opened for the first time");
+      customManipulation();
+      // Update the state to indicate that the element has been detected
+      setElementDetected(true);
+    }
+  };
+
+  async function startLoadingAssets() {
+    // Usage: Loading of all assets and subsequent render
+    setLoading(false); // Add assets to the scene
+    await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for the assets to load
+    console.log("Assets Loaded");
   }
 
   function customManipulation() {
@@ -33,7 +56,7 @@ function Demo() {
       ele.click();
       console.log("Right Pane Opened");
       addSaveButton();
-    }, 5000); // Adjust the delay as needed
+    }, 2500); // Adjust the delay as needed
   }
 
   function addSaveButton() {
@@ -51,7 +74,7 @@ function Demo() {
       parentElement.appendChild(link);
       console.log("Save Button Added");
       fetchDataClipboard();
-    }, 2000); // Adjust the delay as needed
+    }, 1500); // Adjust the delay as needed
   }
 
   function fetchDataClipboard() {
@@ -244,15 +267,6 @@ function Demo() {
     });
   }
 
-  async function startLoadingAndGetData() {
-    // Usage: Sequence of functions to be called on page load
-
-    setLoading(false); // Add assets to the scene
-    await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for the assets to load
-    loadInspector();
-    await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait for the inspector to load
-    customManipulation();
-  }
 
   return (
     <>
@@ -264,7 +278,7 @@ function Demo() {
         <a-assets>
           <a-asset-item
             id="room"
-            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Demo9.glb"
+            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/igFinal1.glb"
             crossOrigin="anonymous"
             key="room"
           ></a-asset-item>
@@ -293,7 +307,7 @@ function Demo() {
                 crossOrigin="anonymous"
               />
             );
-          })}{" "}
+          })}
         </a-assets>
 
         {loading ? (
@@ -320,14 +334,12 @@ function Demo() {
               } else if (entity["type"] == "img") {
                 return <a-image key={entity.id} {...entity}></a-image>;
               } else {
-                console.log("In the else block, demo.js 293");
-                console.log(entity);
                 return <a-entity key={entity.id} {...entity}></a-entity>;
               }
-            })}{" "}
+            })}
           </>
         )}
-        <a-sky color="#E7F5FB" />
+       
         <a-light
           type="directional"
           color="#35227A"
@@ -367,19 +379,6 @@ function Demo() {
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb-5"
         ></a-light>
-
-        <a-entity id="details_text" visible="false"></a-entity>
-
-        <a-image
-          src="#tesla-quote"
-          id="tesla-quote"
-          key="tesla-quote"
-          position="-2 1.426 -2.76"
-          rotation="0 0 0"
-          show-details-on-click
-        ></a-image>
-
-        <a-entity id="details_text_tesla_quote" visible="false"></a-entity>
 
         {/* floor collider */}
         <a-plane

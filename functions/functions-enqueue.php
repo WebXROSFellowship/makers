@@ -25,9 +25,6 @@
 
         wp_register_script( 'aframe', 'https://aframe.io/releases/1.4.0/aframe.min.js', array('jquery'), '1.4.0' , false );
         wp_enqueue_script( 'aframe' );
-
-        wp_register_script( 'aframe-inspector', 'https://unpkg.com/aframe-inspector@1.4.x/dist/aframe-inspector.min.js', array('jquery'), '1.4.0' , false );
-        wp_enqueue_script( 'aframe-inspector' );
         
         wp_register_script('aframe-troika-text', 'https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js', array('jquery'),rand(100000,999999), true);
         wp_enqueue_script('aframe-troika-text');
