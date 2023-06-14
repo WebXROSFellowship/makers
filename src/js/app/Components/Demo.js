@@ -149,6 +149,7 @@ function Demo() {
         // Result : {success: true/false, message: "..."}
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
+        window.location.reload();
       })
       .catch((error) => console.log("Error", error));
   };
@@ -271,9 +272,11 @@ function Demo() {
   return (
     <>
       <a-scene environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;">
-        <a-camera  position="-0.945 1.2 1.00152" rotation="0 -45 0">
-          <a-cursor id="cursor" color="#FF0000"></a-cursor>
-        </a-camera>
+      <a-entity id="rig" movement-controls="constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch;">
+      <a-entity camera="" position="0 1.6 0"  rotation="-4.469070802020421 -84.91234523838803 0" look-controls="pointerLockEnabled: true" >
+      <a-cursor id="cursor" color="#FF0000"></a-cursor>
+      </a-entity>
+      </a-entity>
 
         <a-assets>
           <a-asset-item
@@ -330,11 +333,11 @@ function Demo() {
             ></a-entity>
             {data.map((entity) => {
               if (entity["gltf-model"]) {
-                return <a-entity key={entity.id} {...entity}></a-entity>;
+                return <a-entity key={entity.id} {...entity} crossOrigin="anonymous"></a-entity>;
               } else if (entity["type"] == "img") {
-                return <a-image key={entity.id} {...entity}></a-image>;
+                return <a-image key={entity.id} {...entity} crossOrigin="anonymous"></a-image>;
               } else {
-                return <a-entity key={entity.id} {...entity}></a-entity>;
+                return <a-entity key={entity.id} {...entity} crossOrigin="anonymous"></a-entity>;
               }
             })}
           </>

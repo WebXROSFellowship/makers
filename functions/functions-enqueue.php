@@ -33,8 +33,8 @@
         wp_enqueue_script('aframe-environment');
 
         // TODO: uncomment to fix nav-mesh movement issues
-        // wp_register_script('aframe-physics', 'https://cdn.jsdelivr.net/gh/zach-capalbo/aframe-extras/dist/aframe-extras.min.js', array('jquery'),rand(100000,999999), true);
-        // wp_enqueue_script('aframe-physics');
+        wp_register_script('aframe-physics', 'https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js', array('jquery'),'7.0.0', true);
+        wp_enqueue_script('aframe-physics');
 
         // wp_register_script('aframe-geometry', 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r134/examples/js/deprecated/Geometry.js', array('jquery'),rand(100000,999999), true);
         // wp_enqueue_script('aframe-geometry');

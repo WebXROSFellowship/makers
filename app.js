@@ -4274,6 +4274,7 @@ function Demo() {
       // Result : {success: true/false, message: "..."}
       const dataResp = JSON.parse(result);
       alert(dataResp.message);
+      window.location.reload();
     }).catch(error => console.log("Error", error));
   };
   function AddDetails(Obj) {
@@ -4373,13 +4374,18 @@ function Demo() {
   }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-scene", {
     environment: "preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-camera", {
-    position: "-0.945 1.2 1.00152",
-    rotation: "0 -45 0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
+    id: "rig",
+    "movement-controls": "constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
+    camera: "",
+    position: "0 1.6 0",
+    rotation: "-4.469070802020421 -84.91234523838803 0",
+    "look-controls": "pointerLockEnabled: true"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-cursor", {
     id: "cursor",
     color: "#FF0000"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-assets", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-assets", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
     id: "room",
     src: "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/igFinal1.glb",
     crossOrigin: "anonymous",
@@ -4419,15 +4425,21 @@ function Demo() {
     if (entity["gltf-model"]) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         key: entity.id
-      }, entity));
+      }, entity, {
+        crossOrigin: "anonymous"
+      }));
     } else if (entity["type"] == "img") {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-image", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         key: entity.id
-      }, entity));
+      }, entity, {
+        crossOrigin: "anonymous"
+      }));
     } else {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         key: entity.id
-      }, entity));
+      }, entity, {
+        crossOrigin: "anonymous"
+      }));
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
     type: "directional",
@@ -41117,7 +41129,7 @@ function _extends() {
   \***************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":"true"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#photo1","gltf-model":"https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb","scale":"0.3 0.3 0.3","position":"3.17 0.633 -2.622"},{"id":"#photos2","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","rotation":"-179.99 0 -180","position":"3.035 1.263 2.674"},{"id":"#pic2","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"2.508 1.25708 2.668"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"0.65811 1.272 2.682"},{"id":"tesla-image","type":"img","name":"Nikola Tesla","caption":"Visionary inventor and electrical engineer","description":"A Serbian-American inventor, electrical engineer, mechanical engineer, and futurist best known for his contributions to the design of the modern alternating current electricity supply system.","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/TeslaImage.jpeg","position":"-3.846 1.426 2.596","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"heddy-image","name":"Hedy Lamarr","caption":"Actress turned inventor who revolutionized wireless communication.","description":"An Austrian-American actress and inventor who pioneered the technology that would one day form the basis for today’s WiFi, GPS, and Bluetooth communication systems. As a natural beauty seen widely on the big screen in films like Samson and Delilah and White Cargo, society has long ignored her inventive genius.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Hedy-Lamarr.jpeg","position":"-2.482 1.426 -2.590","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"einstein-image","name":"Albert Einstein","caption":"a brilliant physicist, gave theory of relativity","description":"Albert Einstein was a German-born theoretical physicist. Best known for developing the theory of relativity, he also made important contributions to the development of the theory of quantum mechanics, and thus to modern physics.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Albert-Einstein.jpeg","position":"-2.482 1.426 2.659","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"NeilTyson-image","name":"Neil deGrasse Tyson","caption":"Astrophysicist, author, and science communicator","description":"Neil deGrasse Tyson is an American astrophysicist, author, and science communicator. Tyson studied at Harvard University, the University of Texas at Austin, and Columbia University. From 1991 to 1994, he was a postdoctoral research associate at Princeton University.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Neil-Tyson.jpeg","position":"-5.474 1.390 2.642","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"GordonMoore-image","name":"Gordon Moore","caption":"co-founder and emeritus chairman of Intel Corporation","description":"An American engineer, businessman, and co-founder of Intel Corporation. He is known for his observation, known as Moore\'s Law, which states that the number of transistors on a microchip doubles approximately every two years, leading to a rapid advancement in computing power.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Gordon-Moore.jpeg","position":"-3.954 1.426 -2.546","rotation":"0 0 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"TimLee-image","name":"Tim Berners-Lee","caption":"computer scientist known as the inventor of the World Wide Web.","description":"Berners-Lee studied physics at the Queen\'s College, Oxford, and later pursued a career in software engineering. He proposed the concept of a global hypertext system that would allow information to be shared and accessed across different computers. This system became the World Wide Web.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Tim-Lee.jpeg","position":"-5.483 1.426 -2.600","rotation":"0 0 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","show-details-on-click":"true","rotation":"0 -90 0","position":"-5.209 0.002 -1.992"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","show-details-on-click":"true","rotation":"0 90 0","position":"0 0.578 2.996"}]');
+module.exports = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":"true"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"3.04421 1.272 2.682","crossorigin":"anonymous"},{"id":"tesla-image","type":"img","name":"Nikola Tesla","caption":"Visionary inventor and electrical engineer","description":"A Serbian-American inventor, electrical engineer, mechanical engineer, and futurist best known for his contributions to the design of the modern alternating current electricity supply system.","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/TeslaImage.jpeg","position":"-3.846 1.426 2.596","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"heddy-image","name":"Hedy Lamarr","caption":"Actress turned inventor who revolutionized wireless communication.","description":"An Austrian-American actress and inventor who pioneered the technology that would one day form the basis for today’s WiFi, GPS, and Bluetooth communication systems. As a natural beauty seen widely on the big screen in films like Samson and Delilah and White Cargo, society has long ignored her inventive genius.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Hedy-Lamarr.jpeg","position":"-2.34299 1.426 -2.59","width":"0.7","height":"0.9","show-details-on-click":"","crossorigin":"anonymous","material":"","geometry":""},{"id":"einstein-image","name":"Albert Einstein","caption":"a brilliant physicist, gave theory of relativity","description":"Albert Einstein was a German-born theoretical physicist. Best known for developing the theory of relativity, he also made important contributions to the development of the theory of quantum mechanics, and thus to modern physics.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Albert-Einstein.jpeg","position":"-2.482 1.426 2.659","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"NeilTyson-image","name":"Neil deGrasse Tyson","caption":"Astrophysicist, author, and science communicator","description":"Neil deGrasse Tyson is an American astrophysicist, author, and science communicator. Tyson studied at Harvard University, the University of Texas at Austin, and Columbia University. From 1991 to 1994, he was a postdoctoral research associate at Princeton University.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Neil-Tyson.jpeg","position":"-5.474 1.390 2.642","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"GordonMoore-image","name":"Gordon Moore","caption":"co-founder and emeritus chairman of Intel Corporation","description":"An American engineer, businessman, and co-founder of Intel Corporation. He is known for his observation, known as Moore\'s Law, which states that the number of transistors on a microchip doubles approximately every two years, leading to a rapid advancement in computing power.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Gordon-Moore.jpeg","position":"-3.954 1.426 -2.546","rotation":"0 0 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"TimLee-image","name":"Tim Berners-Lee","caption":"computer scientist known as the inventor of the World Wide Web.","description":"Berners-Lee studied physics at the Queen\'s College, Oxford, and later pursued a career in software engineering. He proposed the concept of a global hypertext system that would allow information to be shared and accessed across different computers. This system became the World Wide Web.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Tim-Lee.jpeg","position":"-5.483 1.426 -2.600","rotation":"0 0 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"}]');
 
 /***/ }),
 
@@ -41147,7 +41159,7 @@ module.exports = JSON.parse('[{"id":"marvel","type":"model","name":"astra","url"
   \************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"tesla-quote","type":"img","name":"tesla-quote","url":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/tesla-quote.jpg"},{"id":"photos1","type":"model","name":"photos1","url":"https://cdn.glitch.me/b32f8a0e-a5aa-4181-890e-189ebc2588f0/frames_with_photographs.glb"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"},{"id":"sofa","type":"model","name":"sofa","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb"},{"id":"clock","type":"model","name":"clock","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb"}]');
+module.exports = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"},{"id":"sofa","type":"model","name":"sofa","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb"},{"id":"clock","type":"model","name":"clock","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb"}]');
 
 /***/ })
 
