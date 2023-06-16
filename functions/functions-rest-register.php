@@ -674,6 +674,8 @@ if ( function_exists('register_sidebars') ){
 }
 
 
+// update_VR_inspector
+
 add_action('rest_api_init', 'register_inspecter_changes');
 function register_inspecter_changes() {
 	register_rest_route('myroutes', '/update_inspecter',array(
@@ -682,24 +684,21 @@ function register_inspecter_changes() {
 		'permission_callback' => '__return_true',
 	)
 	);
-
 }
 
 function update_inspecter_data($request) {
 	// var_dump( $request);
 	$file = $request->get_file_params();
     $upload_dir = wp_upload_dir();
-    $file_name = $file["file"]["name"]; 
+    $file_name = 'dynamicContent_demo.json';
 	$file_type = $file["file"]["type"]; 
 	$file_tmp_name = $file["file"]['tmp_name'];
     $file_path = get_stylesheet_directory() . '/data/' . $file_name;
 
-	// var_dump($file_path);
-
     if (move_uploaded_file($file_tmp_name, $file_path)) {
 	return array(
             'success' => true,
-			'message' => 'Data Updated Succefully.',
+			'message' => 'Data Updated Successfully.',
             // 'file_path' => $file_path,
         );
     } else {
@@ -708,6 +707,7 @@ function update_inspecter_data($request) {
             'message' => 'Data Update Failed.',
         );
     }}
+
 
 
 ?>

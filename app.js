@@ -4524,9 +4524,26 @@ function AFrame() {
         }
       });
     }
+
+    // Below mentioned event gets activated after click
+    function AddClickEvent() {
+      AFRAME.registerComponent("show-details-on-click", {
+        init: function () {
+          var el = this.el;
+          el.addEventListener("click", function () {
+            el.setAttribute("material", "color", "lightblue");
+            var details_box = document.querySelector('#details-box');
+            var current_state = details_box.getAttribute('visible');
+            if (current_state == false) details_box.setAttribute("visible", "true");else details_box.setAttribute("visible", "false");
+          });
+        }
+      });
+    }
+
     // Heavy models take time to load, hence wait for a while
     setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
 
+    AddClickEvent();
     changeColor();
     loadAndGet();
     addMani();
@@ -4564,7 +4581,13 @@ function AFrame() {
   }, entity)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-sphere", {
     position: "0 0.7 -7",
     radius: "2.25",
-    "change-color-on-hover": "color:#FFFFFF"
+    "change-color-on-hover": "color:#FFFFFF",
+    "show-details-on-click": true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-box", {
+    id: "details-box",
+    position: "1 2 -2",
+    color: "lightgreen",
+    visible: "false"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-plane", {
     rotation: "-90 0 0",
     position: "0 -2 -10",
@@ -4592,19 +4615,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
-/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../scss/style.scss */ "./src/scss/style.scss");
-
+/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
 
 
 const Body = () => {
-  console.log("Config Data ...", _config_config__WEBPACK_IMPORTED_MODULE_1__.Config);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "mainpage"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "WEBXR OPEN SOURCE FELLOWSHIP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-    style: {
-      marginBottom: "20px"
-    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
+    className: "body-head"
+  }, "WEBXR  OPEN SOURCE FELLOWSHIP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+    className: "mb-4 body-text"
   }, "\u201CI think it\u2019s actually our obligation and duty to figure out on our side what can we do to make the VR platform take advantage of this trillion plus dollars of content on all of the flat screens.\u201D -", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", null, " John Carmack, Meta Connect Keynote, 2021"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), "This quote is an essential reminder, that there is an enormous amount of text, images, and video waiting to populate XR worlds. 42% of all websites on the internet use WordPress as a Content Management System (CMS). Our open-source project aims to make it easy to enable WebXR in WordPress using a customizable theme. This will empower content owners to publish their assets already stored in 2D sites into an immersive format.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), "The strategic approach of enabling entire content libraries stored in WordPress to be presented in WebXR will propel the growth of the Immersive Web, by allowing sites to gradually phase-in presentation of content in Virtual and Augmented Reality without having to change CMS platforms. WordPress's impressive reach, with over 400 million websites using it, and a 64.3% share of the CMS market, makes converting WordPress websites into 3D Experiences a massive market opportunity which will draw developer talent to advance their careers in the Metaverse.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), "Over the past three years, Powersimple has been using WordPress as an effective admin tool to structure data and populate WebXR sites, with text and image content, and even interactive 3D models. This effectively bridges the gap between the 2D internet of the past and the Immersive Web of the future. The XROS Fellowship, sponsored by FICCI (Federation of Indian Chambers of Commerce & Industry) and Meta, is sponsoring a stipend for six talented students who have been selected from a pool of 120 applicants, to dedicate over 2,000 hours of development time toward repackaging this open-source theme for mass-market use. The project is guided by Ben Erwin, who has over 25-years of experience as a web developer, with 15 specializing in WordPress.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null)));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Body);
@@ -4625,134 +4645,263 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _psudo_data_assets_demo_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../psudo_data/assets_demo.json */ "./src/js/app/psudo_data/assets_demo.json");
-/* harmony import */ var _dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dynamicContent_demo.json */ "./src/js/app/Components/dynamicContent_demo.json");
+/* harmony import */ var _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../data/dynamicContent_demo.json */ "./data/dynamicContent_demo.json");
+/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
 
 
 
 
-// have used native file system till endpoints unavailable
+// Updated Inspector API data
+
 
 function Demo() {
-  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true); // For asset loading
+  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_4__.Config.SITE_URL;
+  const [elementDetected, setElementDetected] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false); // For inspector loaded
+
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    // loading inspector
-    function loadAndGet() {
-      var sceneEl = document.querySelector("a-scene");
-      sceneEl.addEventListener("loaded", function () {
-        sceneEl.components.inspector.openInspector();
-      });
-    }
-    // creating new button for getting all the data for the entity
-    function addMani() {
-      setTimeout(function () {
-        var ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
-        console.log(ele);
-        ele.click();
-        console.log("Clicked");
-        // Create the <a> element
-        var link = document.createElement("a");
-        link.href = "#";
-        link.title = "send data";
-        link.setAttribute("data-action", "copy-entity-to-clipboard");
-        link.classList.add("button", "fa", "fa-bookmark");
+    // Call the checkElement function initially
+    checkElement();
 
-        // Append the <a> element to the specified location
-        var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
-        console.log("!!!!!!!!!!!!got the parent element");
-        console.log(parentElement);
-        parentElement.appendChild(link);
-        dataToConsole();
-      }, 10000); // Adjust the delay as needed
-    }
+    // Set up a MutationObserver to monitor changes in the DOM
+    const observer = new MutationObserver(checkElement);
+    observer.observe(document.body, {
+      subtree: true,
+      childList: true
+    });
 
-    // getting data from the clipboard to console
-    function dataToConsole() {
-      var element = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-bookmark");
-
-      // Add the onclick function
-      element.onclick = function () {
-        // Access the data from the clipboard
-        navigator.clipboard.readText().then(function (clipboardData) {
-          // Print the clipboard data to the console
-          console.log(clipboardData);
-          storeData(clipboardData);
-        });
-      };
-    }
-    function storeData(entityString) {
-      // Create a temporary element to parse the string
-      var tempElement = document.createElement("div");
-      tempElement.innerHTML = entityString;
-
-      // Get the attributes of the <a-entity> element
-      var entityAttributes = tempElement.firstChild.attributes;
-
-      // Convert the attributes into an object
-      var entityObject = {};
-      for (var i = 0; i < entityAttributes.length; i++) {
-        var attr = entityAttributes[i];
-        entityObject[attr.name] = attr.value;
-      }
-
-      // Convert the object to JSON string
-      var jsonString = JSON.stringify(entityObject);
-      console.log("!!!!!!!!!!!!!!!!!");
-      console.log(jsonString);
-      updateDataFile(jsonString);
-    }
-    function updateDataFile(jsonString) {
-      const newData = JSON.parse(jsonString);
-      var foundData = false;
-      const updatedData = _dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(item => {
-        if (item.id === newData.id) {
-          console.log("Found the item to update");
-          foundData = true;
-          return newData;
-        } else {
-          console.log("Not the item to update");
-          return item;
-        }
-      });
-      if (!foundData) updatedData.push(newData);
-      const updatedJsonString = JSON.stringify(updatedData, null, 2);
-      console.log("Updated data:", updatedData);
-      const fileName = "dynamicContent_demo.json";
-      saveJsonAsBlob(updatedJsonString, fileName);
-    }
-    function saveJsonAsBlob(updatedData, fileName) {
-      const blob = new Blob([updatedData], {
-        type: "application/json"
-      });
-      const url = URL.createObjectURL(blob);
-
-      // Create a temporary link element
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = fileName;
-
-      // Append the link to the document body and click it programmatically
-      document.body.appendChild(link);
-      link.click();
-
-      // Clean up by removing the link and revoking the URL
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }
-
-    // Heavy models take time to load, hence wait for a while
-    setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
-
-    loadAndGet();
-    addMani();
+    // Clean up the observer on component unmount
+    return () => observer.disconnect();
+  }, [elementDetected]);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    AddClickEvent();
+    startLoadingAssets();
   }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-scene", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
-    id: "rig",
-    "movement-controls": "constrainToNavMesh: true;\r controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+  const checkElement = () => {
+    // Usage: Checks if the inspector has been opened for the first time
+    const ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
+    if (ele !== null && !elementDetected) {
+      console.log("Inspector has been opened for the first time");
+      customManipulation();
+      // Update the state to indicate that the element has been detected
+      setElementDetected(true);
+    }
+  };
+  async function startLoadingAssets() {
+    // Usage: Loading of all assets and subsequent render
+    setLoading(false); // Add assets to the scene
+    await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for the assets to load
+    console.log("Assets Loaded");
+  }
+  function customManipulation() {
+    setTimeout(function RightPaneOpen() {
+      // Usage: Opens the Right Pane to add custom button
+      var ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
+      ele.click();
+      console.log("Right Pane Opened");
+      addSaveButton();
+    }, 2500); // Adjust the delay as needed
+  }
+
+  function addSaveButton() {
+    setTimeout(function () {
+      // Usage: Create an <a> element that is appended to the specified location in the inspector.
+      // Properties: "copy-entity-to-clipboard" consolidates element attributes into string and copies to clipboard.
+      var link = document.createElement("a");
+      link.href = "#";
+      link.title = "Send Element Data";
+      link.setAttribute("data-action", "copy-entity-to-clipboard");
+      link.classList.add("button", "fa", "fa-floppy-disk");
+      var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
+      parentElement.appendChild(link);
+      console.log("Save Button Added");
+      fetchDataClipboard();
+    }, 1500); // Adjust the delay as needed
+  }
+
+  function fetchDataClipboard() {
+    // Usage: Fetches the data from the clipboard and stores it in a variable
+    var element = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-floppy-disk");
+    element.onclick = function () {
+      // Usage: Access the data from the clipboard and store it in a variable "clipboardData"
+      navigator.clipboard.readText().then(function (clipboardData) {
+        console.log("Clipboard Data as fetched : ", clipboardData);
+        createJsonSting(clipboardData);
+      });
+    };
+  }
+  function createJsonSting(entityString) {
+    // Usage: Creates a JSON string from the data fetched from the clipboard.
+    var tempElement = document.createElement("div"); // Create a temporary element to parse the string
+    tempElement.innerHTML = entityString;
+    var entityAttributes = tempElement.firstChild.attributes;
+    // Convert the attributes into an object
+    var entityObject = {};
+    for (var i = 0; i < entityAttributes.length; i++) {
+      var attr = entityAttributes[i];
+      entityObject[attr.name] = attr.value;
+    }
+    // Convert the object to JSON string
+    var jsonString = JSON.stringify(entityObject);
+    console.log("JSON element: ", jsonString);
+    updateApiData(jsonString);
+  }
+  function updateApiData(jsonString) {
+    // Usage: Updates the API data with the new JSON string
+    // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
+    const newData = JSON.parse(jsonString);
+    var foundData = false;
+    const updatedData = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(item => {
+      if (item.id === newData.id) {
+        console.log("Found the item to update");
+        foundData = true;
+        return newData;
+      } else {
+        console.log("Not the item to update");
+        return item;
+      }
+    });
+    if (!foundData) updatedData.push(newData);
+    const updatedJsonString = JSON.stringify(updatedData, null, 2);
+    console.log("Updated data:", updatedData);
+    sendApiRequest(updatedJsonString);
+  }
+  const sendApiRequest = async data => {
+    // Usage: Sends the updated data to the API
+    const url = `${base_url}/wp-json/myroutes/update_inspecter`;
+    var formdata = new FormData();
+    formdata.append("file", new Blob([data]));
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow"
+    };
+    await fetch(url, requestOptions).then(response => response.text()).then(result => {
+      // Result : {success: true/false, message: "..."}
+      const dataResp = JSON.parse(result);
+      alert(dataResp.message);
+      window.location.reload();
+    }).catch(error => console.log("Error", error));
+  };
+  function AddDetails(Obj) {
+    console.log("AddName");
+    // console.log(Obj);
+    var sci_name = Obj.getAttribute("name");
+    var sci_caption = Obj.getAttribute("caption");
+    var sci_description = Obj.getAttribute("description");
+
+    // If we have a name, we append it
+    if (sci_name) {
+      var id_img = Obj.getAttribute("id");
+      var position = Obj.getAttribute("position");
+      var rotation = Obj.getAttribute("rotation");
+      // console.log(sci_name);
+
+      if (document.querySelector(`#${id_img}_name`)) {
+        // var El = document.querySelector(`#${id_img}_name`);
+        console.log("Already found");
+        // El.parentNode.removeChild(El);
+      } else {
+        var sceneEl = document.querySelector("a-scene");
+        var el = document.createElement("a-entity");
+        el.setAttribute("id", `${id_img}_name`);
+        el.setAttribute("position", {
+          x: position["x"],
+          y: position["y"] - 0.42 * position["y"],
+          z: position["z"]
+        });
+        el.setAttribute("troika-text", `value: ${sci_name}`);
+        el.setAttribute("rotation", rotation);
+        sceneEl.appendChild(el);
+      }
+    }
+
+    // If we have a caption in data, we append it
+    if (sci_caption) {
+      var id_img = Obj.getAttribute("id");
+      var position = Obj.getAttribute("position");
+      var rotation = Obj.getAttribute("rotation");
+      // console.log(sci_name);
+
+      if (document.querySelector(`#${id_img}_desc`)) {
+        var El = document.querySelector(`#${id_img}_desc`);
+        console.log("Already found");
+        El.parentNode.removeChild(El);
+      } else {
+        var caption_style = "strokeColor: #1fb0f2; font-size: 0.06; align: center; outlineWidth: 0.003, material:shader: ocean; color: blue; maxWidth: 0.7;";
+        var sceneEl2 = document.querySelector("a-scene");
+        var el2 = document.createElement("a-entity");
+        el2.setAttribute("id", `${id_img}_desc`);
+        el2.setAttribute("position", {
+          x: position["x"],
+          y: position["y"] - 0.6 * position["y"],
+          z: position["z"]
+        });
+        el2.setAttribute("troika-text", `value: ${sci_caption}; ${caption_style}`);
+        el2.setAttribute("rotation", rotation);
+        sceneEl2.appendChild(el2);
+      }
+    }
+    if (sci_description) {
+      var id_img = Obj.getAttribute("id");
+      var position = Obj.getAttribute("position");
+      var rotation = Obj.getAttribute("rotation");
+      // console.log(sci_name);
+
+      if (document.querySelector(`#${id_img}_description`)) {
+        var El = document.querySelector(`#${id_img}_description`);
+        console.log("Already found");
+        El.parentNode.removeChild(El);
+      } else {
+        var sceneEl = document.querySelector("a-scene");
+        var el = document.createElement("a-entity");
+        var desc_style = "color: #b3dff2; font-size: 0.06; align: center; material: MeshNormalMaterial; maxWidth: 0.6;";
+        el.setAttribute("id", `${id_img}_description`);
+        el.setAttribute("position", {
+          x: position["x"] + 0.7,
+          y: position["y"],
+          z: position["z"]
+        });
+        el.setAttribute("troika-text", `value: ${sci_description}; ${desc_style}`);
+        el.setAttribute("rotation", rotation);
+        sceneEl.appendChild(el);
+      }
+    }
+  }
+  function AddClickEvent() {
+    AFRAME.registerComponent("show-details-on-click", {
+      init: function () {
+        var el = this.el;
+        el.addEventListener("click", function () {
+          AddDetails(el);
+        });
+      }
+    });
+  }
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-scene", {
+    environment: "preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
-    camera: true,
+    id: "rig",
+    "movement-controls": "constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
+    camera: "",
     position: "0 1.6 0",
+    rotation: "-4.469070802020421 -84.91234523838803 0",
     "look-controls": "pointerLockEnabled: true"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-assets", null, _psudo_data_assets_demo_json__WEBPACK_IMPORTED_MODULE_2__.map(asset => {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-cursor", {
+    id: "cursor",
+    color: "#FF0000"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-assets", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
+    id: "room",
+    src: "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/igFinal1.glb",
+    crossOrigin: "anonymous",
+    key: "room"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
+    id: "navmesh",
+    src: "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh4.glb",
+    crossOrigin: "anonymous",
+    key: "navmesh"
+  }), _psudo_data_assets_demo_json__WEBPACK_IMPORTED_MODULE_2__.map(asset => {
     if (asset.type === "model") {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
         id: asset.id,
@@ -4768,45 +4917,68 @@ function Demo() {
       crossOrigin: "anonymous"
     });
   })), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
-    environment: "preset:starry;groundTexture:  walkernoise;grid:none"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
     id: "#room",
     "gltf-model": "#room",
     crossOrigin: "anonymous",
-    position: "-1.693 0 0.07"
+    position: "-1.693 0 0.4"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
     "nav-mesh": true,
     id: "#navmesh",
     "gltf-model": "#navmesh",
     crossOrigin: "anonymous",
-    visible: "true"
-  }), _dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(entity => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    key: entity.id
-  }, entity)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
+    visible: "false"
+  }), _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(entity => {
+    if (entity["gltf-model"]) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+        key: entity.id
+      }, entity, {
+        crossOrigin: "anonymous"
+      }));
+    } else if (entity["type"] == "img") {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-image", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+        key: entity.id
+      }, entity, {
+        crossOrigin: "anonymous"
+      }));
+    } else {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+        key: entity.id
+      }, entity, {
+        crossOrigin: "anonymous"
+      }));
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
     type: "directional",
-    color: "#ffffff",
-    intensity: "0.8",
-    position: "0.12062 1.52455 0.52977",
+    color: "#35227A",
+    intensity: "0.60",
+    position: "4.40664 0.98434 0.05053",
     light: "type: point; angle: 180",
     rotation: "-0.3 50.509 147.30229250797848",
-    id: "bulb",
-    visible: ""
+    id: "bulb"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
     type: "directional",
-    color: "#ffffff",
-    intensity: "0.8",
+    color: "#FFFFBC",
+    intensity: "0.50",
     position: "3.94786 -1.28516 -0.54807",
-    light: "type: hemisphere; angle: 180",
+    light: "type: hemisphere; angle: 90",
     rotation: "-0.3 50.509 147.30229250797848",
     id: "bulb-3"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
-    type: "hemisphere",
-    color: "#ffffff",
-    intensity: "0.8",
+    type: "directional",
+    color: "#FF4400",
+    intensity: "2",
     position: "20.45283 -2.62394 -5.68868",
-    light: "type: hemisphere; angle: 180",
+    light: "type: ambient; intensity: 0.3; angle: 180",
     rotation: "-0.3 50.509 147.30229250797848",
     id: "bulb-4"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
+    type: "directional",
+    color: "#FFFFBC",
+    intensity: "0.50",
+    position: "-0.21291 -0.99888 0.00254",
+    light: "type: hemisphere; color: #ffffff; angle: 90",
+    rotation: "-0.3 50.509 147.30229250797848",
+    id: "bulb-5"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-plane", {
     "static-body": "shape:  mesh",
     position: "0 0 -4",
@@ -4856,9 +5028,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _Utils_DataContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Utils/DataContext */ "./src/js/app/Utils/DataContext.js");
 /* harmony import */ var _Utils_MenuDataContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Utils/MenuDataContext */ "./src/js/app/Utils/MenuDataContext.js");
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Utils */ "./src/js/app/Utils/index.js");
+/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
+
+
 
 
 
@@ -4867,63 +5043,17 @@ const NavSites = () => {
   const {
     sitename,
     sn
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useParams)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useParams)();
   const {
     lang
   } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils_DataContext__WEBPACK_IMPORTED_MODULE_1__["default"]);
+  // const { menuData } = useContext(MenuDataContext);
   const {
-    menuData,
-    setMenuData
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils_MenuDataContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
-
-  // const [menuData, setMenuData] = useState([]);
-
-  // useEffect(() => {
-  //   fetchMenuData();
-  // }, [lang]);
-
-  // async function fetchMenuData() {
-  //   try {
-  //     let fetchURL2 = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
-  //     let stagingData = await fetch(fetchURL2);
-  //     let jsonData = await stagingData.json();
-  //     let items = jsonData.filter((item) => item.slug == "main-menu");
-  //     items = items[0].items;
-  //     setMenuData(items);
-  //   } catch (err) {
-  //     console.log("Error fetching menu data:" + err);
-  //   }
-  // }
-
-  // const filteredMenuData = useMemo(() => {
-  //   const curl = "/" + sitename + "/" + sn + "/";
-  //   const filteredData = menuData?.filter((item) => item.url == curl);
-  //   return filteredData.length > 0 ? filteredData[0].content : null;
-  // }, [menuData, sitename, sn]);
-
-  // const [menuData, setMenuData] = useState({});
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    fetchMenuData(lang);
-  }, [lang]);
-  async function fetchMenuData(lang) {
-    try {
-      let fetchURL = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
-      let stagingData = await fetch(fetchURL);
-      let jsonData = await stagingData.json();
-      let items = jsonData.filter(item => item.slug === "main-menu");
-      items = items[0]?.items || [];
-      setMenuData(prevData => ({
-        ...prevData,
-        [lang]: items
-      }));
-    } catch (err) {
-      console.log("Error fetching menu data: " + err);
-    }
-  }
+    stagingData
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_3__.StagingDataContext);
   const filteredMenuData = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
-    const curl = "/" + sitename + "/" + sn + "/";
-    const langMenuData = menuData[lang] || [];
+    const curl = "/" + sitename + "/" + (sn != undefined ? sn + "/" : "");
+    const langMenuData = stagingData || [];
     const filteredData = langMenuData.filter(item => item.url === curl);
     return filteredData.length > 0 ? filteredData[0].content : null;
   }, [menuData, lang, sitename, sn]);
@@ -4950,11 +5080,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../../scss/style.scss */ "./src/scss/style.scss");
-/* harmony import */ var _Utils_DataContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Utils/DataContext */ "./src/js/app/Utils/DataContext.js");
-/* harmony import */ var _Utils_MenuDataContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Utils/MenuDataContext */ "./src/js/app/Utils/MenuDataContext.js");
-/* harmony import */ var _assets_langData__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../assets/langData */ "./src/js/app/assets/langData.js");
-
+/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Utils */ "./src/js/app/Utils/index.js");
+/* harmony import */ var _assets_langData__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/langData */ "./src/js/app/assets/langData.js");
+/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
 
 
 
@@ -4969,34 +5098,29 @@ const Navbar = () => {
   const [languageArr, setLanguageArr] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [hoveredIndex, setHoveredIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(-1);
   const {
-    lang,
     setLang
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils_DataContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_2__.DataContext);
   const {
-    menuData,
-    setMenuData
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils_MenuDataContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+    stagingData
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_2__.StagingDataContext);
+  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_4__.Config.SITE_URL;
+  let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     settingMenuData();
     setLanguages();
-  }, []);
+  }, [stagingData]);
   function formatNames(name) {
     let allWords = name.toLowerCase().split(" ");
     for (let i = 0; i < allWords.length; i++) {
       allWords[i] = allWords[i][0].toUpperCase() + allWords[i].substr(1);
     }
-    let formattedName = allWords.join(' ');
+    let formattedName = allWords.join(" ");
     return formattedName;
   }
   function settingMenuData() {
-    //Setting Data as Items
-    let items = menuData[lang];
-    setMenuData(prevData => ({
-      ...prevData,
-      [lang]: items
-    }));
+    let items = stagingData;
     let head = items.filter(e => e.menu_item_parent === "0")[0];
     let childItems = items.filter(e => parseInt(e.menu_item_parent) === head.ID);
     let nestedItems = [];
@@ -5024,7 +5148,7 @@ const Navbar = () => {
       // let langStagingDataJSON = await langStagingData.json();
 
       // setLanguageArr(langStagingDataJSON);
-      setLanguageArr(_assets_langData__WEBPACK_IMPORTED_MODULE_4__["default"]);
+      setLanguageArr(_assets_langData__WEBPACK_IMPORTED_MODULE_3__["default"]);
     } catch (err) {
       console.log("Error");
       console.log(err);
@@ -5037,24 +5161,21 @@ const Navbar = () => {
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("nav", {
     className: "navbar"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+    to: "/",
+    className: "text-decoration-none"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "navbar-brand text-white",
     style: {
       fontFamily: "sans-serif"
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    src: "https://staging.webxr.link/wp-content/uploads/2023/05/webxros.png",
+    src: "${imgBaseURL}",
     alt: "logo",
-    style: {
-      width: '50px',
-      height: '50px',
-      marginTop: '-3px'
-    }
+    className: "logo-img"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    style: {
-      marginLeft: '15px'
-    }
-  }, "PowerSimple | XROS")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "title-head"
+  }, "PowerSimple | XROS"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "navbar-right"
   }, navbarMenus ? navbarMenus.map((currEle, i) => {
     let {
@@ -5098,8 +5219,8 @@ const Navbar = () => {
   }, languageArr.map(currLang => {
     let cLang = currLang.native_name;
     let code = currLang.code;
-    if (code == 'en') {
-      code = '';
+    if (code == "en") {
+      code = "";
     }
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
       onClick: () => setLang(`${code}`),
@@ -5199,13 +5320,13 @@ const Navbar = () => {
   }, " Languages "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dropdown__content"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    onClick: () => setLang(''),
+    onClick: () => setLang(""),
     className: "dropdown__items"
   }, "English"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    onClick: () => setLang('hi'),
+    onClick: () => setLang("hi"),
     className: "dropdown__items"
   }, "Hindi"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    onClick: () => setLang('de'),
+    onClick: () => setLang("de"),
     className: "dropdown__items"
   }, "German")))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null))));
 };
@@ -5225,9 +5346,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
-/* harmony import */ var _Utils_DataContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Utils/DataContext */ "./src/js/app/Utils/DataContext.js");
-/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Utils */ "./src/js/app/Utils/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Utils */ "./src/js/app/Utils/index.js");
+/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
+/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
+
 
 
 
@@ -5235,34 +5358,38 @@ __webpack_require__.r(__webpack_exports__);
 const Profile = () => {
   const {
     username
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useParams)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useParams)();
   const {
-    lang
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils_DataContext__WEBPACK_IMPORTED_MODULE_1__["default"]);
-  const {
-    menuData
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_2__.MenuDataContext);
-  const data = menuData[lang];
-  const cd = data?.filter(e => e?.slug === username);
+    stagingData
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_1__.StagingDataContext);
+  const curl = "/profile/" + username + "/";
+  const data = stagingData;
+  const cd = data?.filter(e => e?.url === curl);
   const content = cd[0]?.content || "";
-  const userName = cd[0]?.title;
-  const [images, setImages] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const titleName = cd[0]?.title;
+  const [imgLink, setImgLink] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_3__.Config.SITE_URL;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    fetch(`https://staging.webxr.link/wp-json/wp/v2/media?media`).then(response => response.json()).then(data => {
-      const profileImage = data.find(image => image.slug === username);
+    fetch(`${base_url}/wp-json/wp/v2/media?media`).then(response => response.json()).then(data => {
+      const profileImage = data?.find(image => image?.slug === username);
       const imageUrl = profileImage ? profileImage.guid.rendered : "";
-      setImages([imageUrl]);
+      setImgLink(imageUrl);
     }).catch(error => console.log(error));
   }, [username]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, userName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
+    className: "profile-text"
+  }, titleName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "profile_container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+    src: imgLink,
+    alt: `${titleName}`,
+    className: "profile-img"
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "profile-text",
     dangerouslySetInnerHTML: {
       __html: content
     }
-  }), images.map((imageUrl, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    key: index,
-    src: imageUrl,
-    alt: `Image ${index}`
-  })));
+  }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Profile);
 
@@ -5280,7 +5407,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../../scss/style.scss */ "./src/scss/style.scss");
+/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
 
 
 function Sidebar() {
@@ -5468,6 +5595,27 @@ MenuDataContext.displayName = "Menu Data";
 
 /***/ }),
 
+/***/ "./src/js/app/Utils/StagingDataContext.js":
+/*!************************************************!*\
+  !*** ./src/js/app/Utils/StagingDataContext.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const StagingDataContext = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)({
+  stagingData: []
+});
+StagingDataContext.displayName = "Staging Data";
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StagingDataContext);
+
+/***/ }),
+
 /***/ "./src/js/app/Utils/index.js":
 /*!***********************************!*\
   !*** ./src/js/app/Utils/index.js ***!
@@ -5477,10 +5625,13 @@ MenuDataContext.displayName = "Menu Data";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   DataContext: () => (/* reexport safe */ _DataContext__WEBPACK_IMPORTED_MODULE_0__["default"]),
-/* harmony export */   MenuDataContext: () => (/* reexport safe */ _MenuDataContext__WEBPACK_IMPORTED_MODULE_1__["default"])
+/* harmony export */   MenuDataContext: () => (/* reexport safe */ _MenuDataContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+/* harmony export */   StagingDataContext: () => (/* reexport safe */ _StagingDataContext__WEBPACK_IMPORTED_MODULE_2__["default"])
 /* harmony export */ });
 /* harmony import */ var _DataContext__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataContext */ "./src/js/app/Utils/DataContext.js");
 /* harmony import */ var _MenuDataContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuDataContext */ "./src/js/app/Utils/MenuDataContext.js");
+/* harmony import */ var _StagingDataContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StagingDataContext */ "./src/js/app/Utils/StagingDataContext.js");
+
 
 
 
@@ -5499,20 +5650,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _Components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Components */ "./src/js/app/Components/index.js");
 /* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Utils */ "./src/js/app/Utils/index.js");
+/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./config/config */ "./src/js/app/config/config.js");
 
 
 
 
 
-// const NavSites = lazy(() => import("./Components"));
-// const AFrame = lazy(() => import("./Components"));
-// const Demo = lazy(() => import("./Components"));
-
-const appRouter = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.createBrowserRouter)([{
+const appRouter = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.createBrowserRouter)([{
   path: "/",
   element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components__WEBPACK_IMPORTED_MODULE_1__.Navbar, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components__WEBPACK_IMPORTED_MODULE_1__.Sidebar, null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components__WEBPACK_IMPORTED_MODULE_1__.Home, null)),
   children: [{
@@ -5524,6 +5672,9 @@ const appRouter = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.createBrowser
   }, {
     path: "aframe",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components__WEBPACK_IMPORTED_MODULE_1__.AFrame, null)
+  }, {
+    path: "profile/:username",
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components__WEBPACK_IMPORTED_MODULE_1__.Profile, null)
   }, {
     path: "/:sitename/:sn",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react__WEBPACK_IMPORTED_MODULE_0__.Suspense, {
@@ -5537,26 +5688,25 @@ const appRouter = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.createBrowser
 const App = () => {
   const [lang, setLang] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [menuData, setMenuData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
-  let data = menuData[lang] || [];
+  const [stagingData, setStagingData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  console.log("configs...", _config_config__WEBPACK_IMPORTED_MODULE_3__.Config);
+  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_3__.Config.SITE_URL;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetchMenuData();
   }, [lang]);
   async function fetchMenuData() {
     try {
-      let fetchURL = `https://staging.webxr.link/${lang}/wp-json/wp/v2/menus?menus`;
+      let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
       let stagingData = await fetch(fetchURL);
       let jsonData = await stagingData.json();
       let items = jsonData.filter(item => item.slug == "main-menu");
       items = items[0].items;
-      setMenuData(prevData => ({
-        ...prevData,
-        [lang]: items
-      }));
+      setStagingData([...items]);
     } catch (error) {
       console.log("Error fetching staging data: ", error);
     }
   }
-  if (data.length === 0) {
+  if (stagingData.length === 0) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "Loading...");
   }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Utils__WEBPACK_IMPORTED_MODULE_2__.DataContext.Provider, {
@@ -5564,14 +5714,19 @@ const App = () => {
       lang: lang,
       setLang: setLang
     }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Utils__WEBPACK_IMPORTED_MODULE_2__.StagingDataContext.Provider, {
+    value: {
+      stagingData,
+      setStagingData
+    }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Utils__WEBPACK_IMPORTED_MODULE_2__.MenuDataContext.Provider, {
     value: {
       menuData,
       setMenuData
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.RouterProvider, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.RouterProvider, {
     router: appRouter
-  })));
+  }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
 
@@ -35687,7 +35842,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @remix-run/router */ "./node_modules/@remix-run/router/dist/router.js");
 /**
- * React Router DOM v6.11.2
+ * React Router DOM v6.12.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -35958,6 +36113,10 @@ function deserializeErrors(errors) {
 
   return serialized;
 }
+// Webpack + React 17 fails to compile on the usage of `React.startTransition` or
+// `React["startTransition"]` even if it's behind a feature detection of
+// `"startTransition" in React`. Moving this to a constant avoids the issue :/
+const START_TRANSITION = "startTransition";
 /**
  * A `<Router>` for use in web browsers. Provides the cleanest URLs.
  */
@@ -35983,7 +36142,10 @@ function BrowserRouter(_ref) {
     action: history.action,
     location: history.location
   });
-  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history]);
+  let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(newState => {
+    START_TRANSITION in react__WEBPACK_IMPORTED_MODULE_0__ ? react__WEBPACK_IMPORTED_MODULE_0__[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Router, {
     basename: basename,
     children: children,
@@ -36017,7 +36179,10 @@ function HashRouter(_ref2) {
     action: history.action,
     location: history.location
   });
-  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history]);
+  let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(newState => {
+    START_TRANSITION in react__WEBPACK_IMPORTED_MODULE_0__ ? react__WEBPACK_IMPORTED_MODULE_0__[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Router, {
     basename: basename,
     children: children,
@@ -36043,7 +36208,10 @@ function HistoryRouter(_ref3) {
     action: history.action,
     location: history.location
   });
-  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history]);
+  let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(newState => {
+    START_TRANSITION in react__WEBPACK_IMPORTED_MODULE_0__ ? react__WEBPACK_IMPORTED_MODULE_0__[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Router, {
     basename: basename,
     children: children,
@@ -36814,7 +36982,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _remix_run_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @remix-run/router */ "./node_modules/@remix-run/router/dist/router.js");
 /**
- * React Router v6.11.2
+ * React Router v6.12.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -37684,6 +37852,11 @@ function warningOnce(key, cond, message) {
   }
 }
 
+// Webpack + React 17 fails to compile on the usage of `React.startTransition` or
+// `React["startTransition"]` even if it's behind a feature detection of
+// `"startTransition" in React`. Moving this to a constant avoids the issue :/
+const START_TRANSITION = "startTransition";
+
 /**
  * Given a Remix Router instance, render the appropriate UI
  */
@@ -37694,7 +37867,10 @@ function RouterProvider(_ref) {
   } = _ref;
   // Need to use a layout effect here so we are subscribed early enough to
   // pick up on any render-driven redirects/navigations (useEffect/<Navigate>)
-  let [state, setState] = react__WEBPACK_IMPORTED_MODULE_0__.useState(router.state);
+  let [state, setStateImpl] = react__WEBPACK_IMPORTED_MODULE_0__.useState(router.state);
+  let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(newState => {
+    START_TRANSITION in react__WEBPACK_IMPORTED_MODULE_0__ ? react__WEBPACK_IMPORTED_MODULE_0__[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl]);
   react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => router.subscribe(setState), [router, setState]);
   let navigator = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
     return {
@@ -37775,7 +37951,10 @@ function MemoryRouter(_ref3) {
     action: history.action,
     location: history.location
   });
-  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history]);
+  let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(newState => {
+    START_TRANSITION in react__WEBPACK_IMPORTED_MODULE_0__ ? react__WEBPACK_IMPORTED_MODULE_0__[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Router, {
     basename: basename,
     children: children,
@@ -41640,6 +41819,16 @@ function _extends() {
 
 /***/ }),
 
+/***/ "./data/dynamicContent_demo.json":
+/*!***************************************!*\
+  !*** ./data/dynamicContent_demo.json ***!
+  \***************************************/
+/***/ ((module) => {
+
+module.exports = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":"true"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"3.04421 1.272 2.682","crossorigin":"anonymous"},{"id":"tesla-image","type":"img","name":"Nikola Tesla","caption":"Visionary inventor and electrical engineer","description":"A Serbian-American inventor, electrical engineer, mechanical engineer, and futurist best known for his contributions to the design of the modern alternating current electricity supply system.","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/TeslaImage.jpeg","position":"-3.846 1.426 2.596","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"heddy-image","name":"Hedy Lamarr","caption":"Actress turned inventor who revolutionized wireless communication.","description":"An Austrian-American actress and inventor who pioneered the technology that would one day form the basis for today’s WiFi, GPS, and Bluetooth communication systems. As a natural beauty seen widely on the big screen in films like Samson and Delilah and White Cargo, society has long ignored her inventive genius.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Hedy-Lamarr.jpeg","position":"-2.34299 1.426 -2.59","width":"0.7","height":"0.9","show-details-on-click":"","crossorigin":"anonymous","material":"","geometry":""},{"id":"einstein-image","name":"Albert Einstein","caption":"a brilliant physicist, gave theory of relativity","description":"Albert Einstein was a German-born theoretical physicist. Best known for developing the theory of relativity, he also made important contributions to the development of the theory of quantum mechanics, and thus to modern physics.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Albert-Einstein.jpeg","position":"-2.482 1.426 2.659","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"NeilTyson-image","name":"Neil deGrasse Tyson","caption":"Astrophysicist, author, and science communicator","description":"Neil deGrasse Tyson is an American astrophysicist, author, and science communicator. Tyson studied at Harvard University, the University of Texas at Austin, and Columbia University. From 1991 to 1994, he was a postdoctoral research associate at Princeton University.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Neil-Tyson.jpeg","position":"-5.474 1.390 2.642","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"GordonMoore-image","name":"Gordon Moore","caption":"co-founder and emeritus chairman of Intel Corporation","description":"An American engineer, businessman, and co-founder of Intel Corporation. He is known for his observation, known as Moore\'s Law, which states that the number of transistors on a microchip doubles approximately every two years, leading to a rapid advancement in computing power.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Gordon-Moore.jpeg","position":"-3.954 1.426 -2.546","rotation":"0 0 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"TimLee-image","name":"Tim Berners-Lee","caption":"computer scientist known as the inventor of the World Wide Web.","description":"Berners-Lee studied physics at the Queen\'s College, Oxford, and later pursued a career in software engineering. He proposed the concept of a global hypertext system that would allow information to be shared and accessed across different computers. This system became the World Wide Web.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Tim-Lee.jpeg","position":"-5.483 1.426 -2.600","rotation":"0 0 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"}]');
+
+/***/ }),
+
 /***/ "./src/js/app/Components/dynamicContent.json":
 /*!***************************************************!*\
   !*** ./src/js/app/Components/dynamicContent.json ***!
@@ -41647,16 +41836,6 @@ function _extends() {
 /***/ ((module) => {
 
 module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 1.93968 -3","crossorigin":"anonymous"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"1.27063 1.34902 1","visible":"","rotation":"1 0 0"},{"id":"#marvel","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb","position":"1.91177 0.75 -3","scale":"3 3 3","crossorigin":"anonymous"}]');
-
-/***/ }),
-
-/***/ "./src/js/app/Components/dynamicContent_demo.json":
-/*!********************************************************!*\
-  !*** ./src/js/app/Components/dynamicContent_demo.json ***!
-  \********************************************************/
-/***/ ((module) => {
-
-module.exports = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-6.244 1.426 -0.311","rotation":"0 90 0","scale":"0.49834 0.58072 1"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{},{"id":"#room","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb","crossorigin":"anonymous","position":"-1.693 0 0.07"}]');
 
 /***/ }),
 
@@ -41676,7 +41855,7 @@ module.exports = JSON.parse('[{"id":"marvel","type":"model","name":"astra","url"
   \************************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/WEBXROS9.glb"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh3.glb"}]');
+module.exports = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"},{"id":"sofa","type":"model","name":"sofa","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb"},{"id":"clock","type":"model","name":"clock","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb"}]');
 
 /***/ })
 
