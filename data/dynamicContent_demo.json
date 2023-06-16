@@ -40,7 +40,7 @@
   {
     "id": "tesla-image",
     "type": "img",
-    "name": "Nikola Tesla",
+    "name": "Neil deGrasse Tyson",
     "caption": "Visionary inventor and electrical engineer",
     "description": "A Serbian-American inventor, electrical engineer, mechanical engineer, and futurist best known for his contributions to the design of the modern alternating current electricity supply system.",
     "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/TeslaImage.jpeg",
@@ -57,10 +57,12 @@
     "description": "An Austrian-American actress and inventor who pioneered the technology that would one day form the basis for today’s WiFi, GPS, and Bluetooth communication systems. As a natural beauty seen widely on the big screen in films like Samson and Delilah and White Cargo, society has long ignored her inventive genius.",
     "type": "img",
     "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Hedy-Lamarr.jpeg",
-    "position": "-2.482 1.426 -2.590",
+    "position": "-2.10878 1.426 -2.59",
     "width": "0.7",
     "height": "0.9",
-    "show-details-on-click": "true"
+    "show-details-on-click": "",
+    "material": "",
+    "geometry": ""
   },
   {
     "id": "einstein-image",
@@ -90,7 +92,7 @@
   },
   {
     "id": "GordonMoore-image",
-    "name": "Gordon Moore",
+    "name": "gordan moore",
     "caption": "co-founder and emeritus chairman of Intel Corporation",
     "description": "An American engineer, businessman, and co-founder of Intel Corporation. He is known for his observation, known as Moore's Law, which states that the number of transistors on a microchip doubles approximately every two years, leading to a rapid advancement in computing power.",
     "type": "img",
@@ -127,5 +129,11 @@
     "show-details-on-click": "true",
     "rotation": "0 90 0",
     "position": "0 0.578 2.996"
+  },
+  {
+    "id": "#room",
+    "gltf-model": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Demo9.glb",
+    "crossorigin": "anonymous",
+    "position": "-1.693 0 0.4"
   }
 ]
