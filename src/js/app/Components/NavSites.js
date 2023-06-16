@@ -18,7 +18,7 @@ const NavSites = () => {
     const langMenuData = stagingData || [];
     const filteredData = langMenuData.filter((item) => item.url === curl);
     return filteredData.length > 0 ? filteredData[0].content : null;
-  }, [menuData, lang, sitename, sn]);
+  }, [stagingData, lang, sitename, sn]);
 
   return (
     <>

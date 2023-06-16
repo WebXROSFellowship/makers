@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import assets from "../psudo_data/assets_demo.json";
-
+import { DataContext } from "../Utils";
 // Updated Inspector API data
 import data from "./../../../../data/dynamicContent_demo.json";
 
@@ -10,6 +10,7 @@ function Demo() {
   const [loading, setLoading] = useState(true); // For asset loading
   const base_url = Config.SITE_URL;
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
+  const {lang} = useContext(DataContext);
 
   useEffect(() => {
     
@@ -57,6 +58,30 @@ function Demo() {
       console.log("Right Pane Opened");
       addSaveButton();
     }, 2500); // Adjust the delay as needed
+  }
+
+  function langBtnClicked(event) {
+
+    var parentElement = event.target.closest(".parentElement");
+
+    var titleElement = parentElement.querySelector(".title");
+
+    var title = titleElement.textContent;
+    
+    //Lang I will already have with the context
+
+    translateText(title, lang);
+
+  }
+
+  async function translateText(title, lang) {
+    const translationLink = `https://staging.webxr.link/${lang}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
+
+    const data = await fetch(translationLink);
+
+    const currData = data.filter((cd)=>cd.title == title);
+
+
   }
 
   function addSaveButton() {
@@ -156,7 +181,7 @@ function Demo() {
 
   function AddDetails(Obj) {
     console.log("AddName");
-    // console.log(Obj);
+    console.log(Obj);
     var sci_name = Obj.getAttribute("name");
     var sci_caption = Obj.getAttribute("caption");
     var sci_description = Obj.getAttribute("description");

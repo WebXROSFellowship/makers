@@ -4139,8 +4139,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _psudo_data_assets_demo_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../psudo_data/assets_demo.json */ "./src/js/app/psudo_data/assets_demo.json");
-/* harmony import */ var _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../data/dynamicContent_demo.json */ "./data/dynamicContent_demo.json");
-/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Utils */ "./src/js/app/Utils/index.js");
+/* harmony import */ var _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../../data/dynamicContent_demo.json */ "./data/dynamicContent_demo.json");
+/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
 
 
 
@@ -4150,9 +4151,11 @@ __webpack_require__.r(__webpack_exports__);
 
 function Demo() {
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true); // For asset loading
-  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_4__.Config.SITE_URL;
+  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_5__.Config.SITE_URL;
   const [elementDetected, setElementDetected] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false); // For inspector loaded
-
+  const {
+    lang
+  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_Utils__WEBPACK_IMPORTED_MODULE_3__.DataContext);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     // Call the checkElement function initially
     checkElement();
@@ -4197,6 +4200,20 @@ function Demo() {
     }, 2500); // Adjust the delay as needed
   }
 
+  function langBtnClicked(event) {
+    var parentElement = event.target.closest(".parentElement");
+    var titleElement = parentElement.querySelector(".title");
+    var title = titleElement.textContent;
+
+    //Lang I will already have with the context
+
+    translateText(title, lang);
+  }
+  async function translateText(title, lang) {
+    const translationLink = `https://staging.webxr.link/${lang}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
+    const data = await fetch(translationLink);
+    const currData = data.filter(cd => cd.title == title);
+  }
   function addSaveButton() {
     setTimeout(function () {
       // Usage: Create an <a> element that is appended to the specified location in the inspector.
@@ -4245,7 +4262,7 @@ function Demo() {
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
     var foundData = false;
-    const updatedData = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(item => {
+    const updatedData = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.map(item => {
       if (item.id === newData.id) {
         console.log("Found the item to update");
         foundData = true;
@@ -4279,7 +4296,7 @@ function Demo() {
   };
   function AddDetails(Obj) {
     console.log("AddName");
-    // console.log(Obj);
+    console.log(Obj);
     var sci_name = Obj.getAttribute("name");
     var sci_caption = Obj.getAttribute("caption");
     var sci_description = Obj.getAttribute("description");
@@ -4421,7 +4438,7 @@ function Demo() {
     "gltf-model": "#navmesh",
     crossOrigin: "anonymous",
     visible: "false"
-  }), _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(entity => {
+  }), _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.map(entity => {
     if (entity["gltf-model"]) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         key: entity.id
@@ -4550,7 +4567,7 @@ const NavSites = () => {
     const langMenuData = stagingData || [];
     const filteredData = langMenuData.filter(item => item.url === curl);
     return filteredData.length > 0 ? filteredData[0].content : null;
-  }, [menuData, lang, sitename, sn]);
+  }, [stagingData, lang, sitename, sn]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     dangerouslySetInnerHTML: {
       __html: filteredMenuData
