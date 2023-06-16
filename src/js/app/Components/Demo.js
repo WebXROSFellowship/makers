@@ -60,30 +60,7 @@ function Demo() {
     }, 2500); // Adjust the delay as needed
   }
 
-  function langBtnClicked(event) {
-
-    var parentElement = event.target.closest(".parentElement");
-
-    var titleElement = parentElement.querySelector(".title");
-
-    var title = titleElement.textContent;
-    
-    //Lang I will already have with the context
-
-    translateText(title, lang);
-
-  }
-
-  async function translateText(title, lang) {
-    const translationLink = `https://staging.webxr.link/${lang}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
-
-    const data = await fetch(translationLink);
-
-    const currData = data.filter((cd)=>cd.title == title);
-
-
-  }
-
+  
   function addSaveButton() {
     setTimeout(function () {
       // Usage: Create an <a> element that is appended to the specified location in the inspector.
