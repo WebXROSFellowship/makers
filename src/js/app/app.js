@@ -68,15 +68,15 @@ const App = () => {
   const base_url = Config.SITE_URL;
 
   
-  const sendDataDump = async () => {
-    const url = "https://staging.webxr.link/wp-json/wp/v2/pages";
+  const sendDataDump = async (lang,slug) => {
+    const url = `${base_url}/${lang}/wp-json/wp/v2/pages`;
     fetch(url)
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
     const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
       var formdata = new FormData();
-      formdata.append('slug', 'data_dump_english');
+      formdata.append('slug', slug);
       formdata.append('data', JSON.stringify(data));
     var requestOptions = {
       method: "POST",
@@ -92,7 +92,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    sendDataDump();
+    sendDataDump('','data_english');
   }, []);
 
   useEffect(() => {

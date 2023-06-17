@@ -723,7 +723,9 @@ function register_data_publish() {
 function publish_data($request) {
 	$slug = $_POST['slug'];
 	$jsonData = $_POST['data'];
-	publishThis($slug,$jsonData);
+	$decodedString = stripslashes($jsonData);
+    $data =json_decode($decodedString);
+	publishThis($slug,$data);
 }
 
 ?>
