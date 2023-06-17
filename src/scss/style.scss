@@ -12,10 +12,69 @@ DO NOT EDIT IN STYLE.CSS
     PUT YOUR COLOR PALETTE HERE:
 */ 
 @import 'partials/colors';
+@import 'App.scss';
+@import 'Navbar.scss';
+@import 'Sidebar.scss';
+@import 'Profile.scss';
 
-body{
-    background: #000;
-    color:$red;
-    line-height: 150%;  
-    border-color:#a46; 
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+// This will automatically work for devices with dark mode activated in OS or browser
+// @media (prefers-color-scheme: dark) {
+//   body {
+//     background-color: $dark-Bg;
+//   }
+
+//   .mainpage h1 {
+//     color: $dark-h1-color;
+//   }
+
+//   .mainpage p {
+//     color: $dark-p-color;
+//   }
+
+//   .navbar {
+//     background-color: #7F669D;
+//     color: white;
+//   }
+
+//   .dropbtn {
+//     background-color: #7F669D;
+//   }
+// }
+
+.mainpage{
+  height: 100%;
+  width: 100%;
+  padding: 15px;
+}
+
+.mainpage h1{
+width: 100%;
+height: 70px;
+font-family: sans-serif;
+font-style: Medium;
+font-weight: 500;
+font-size: 40px;
+line-height: 70px;
+text-transform: uppercase;
+text-align: center;
+color: #5C469C;
+}
+
+.mainpage p{
+width: 100%;
+height: 100%;
+font-family:sans-serif;
+font-style: normal;
+font-weight: 400;
+font-size: 16.2px;
+line-height: 37px;
+text-align: justify;
+text-transform: capitalize;
+color: #1D267D;
 }

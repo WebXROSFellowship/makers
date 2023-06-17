@@ -102,5 +102,13 @@ dist
 
 # TernJS port file
 .tern-port
-package.lock.json
-webpack.config.js
+package-lock.json
+
+
+# lock file
+yarn.lock
+*.lock
+
+
+#node_modules
+node_modules/

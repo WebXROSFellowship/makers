@@ -50,6 +50,8 @@ function makers_register_custom_post_types() {
     'supports' => ['title', 'editor', 'thumbnail', 'excerpt'],
     'taxonomies' => ['category', 'post_tag'],
   ]);
+
+
 }
 
 add_action('init', 'makers_register_custom_post_types');
