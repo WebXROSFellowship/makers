@@ -4387,12 +4387,12 @@ function Demo() {
     color: "#FF0000"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-assets", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
     id: "room",
-    src: "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/igFinal1.glb",
+    src: "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/model01.glb",
     crossOrigin: "anonymous",
     key: "room"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
     id: "navmesh",
-    src: "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh4.glb",
+    src: "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/fMesh.glb",
     crossOrigin: "anonymous",
     key: "navmesh"
   }), _psudo_data_assets_demo_json__WEBPACK_IMPORTED_MODULE_2__.map(asset => {
@@ -4410,17 +4410,20 @@ function Demo() {
       key: asset.id,
       crossOrigin: "anonymous"
     });
-  })), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
+  }), " "), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
     id: "#room",
     "gltf-model": "#room",
-    crossOrigin: "anonymous",
-    position: "-1.693 0 0.4"
+    crossOrigin: "anonymous"
+    // position="-1.693 0 0.4"
+    ,
+    position: "4.537 0 3.468"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
-    "nav-mesh": true,
+    "nav-mesh": "",
     id: "#navmesh",
     "gltf-model": "#navmesh",
     crossOrigin: "anonymous",
-    visible: "false"
+    visible: "false",
+    position: "4.762 0 3.739"
   }), _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(entity => {
     if (entity["gltf-model"]) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
@@ -4441,7 +4444,7 @@ function Demo() {
         crossOrigin: "anonymous"
       }));
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
+  }), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
     type: "directional",
     color: "#35227A",
     intensity: "0.60",
@@ -4454,7 +4457,7 @@ function Demo() {
     color: "#FFFFBC",
     intensity: "0.50",
     position: "3.94786 -1.28516 -0.54807",
-    light: "type: hemisphere; angle: 90",
+    light: "type: hemisphere; angle: 90; color: #8778bf",
     rotation: "-0.3 50.509 147.30229250797848",
     id: "bulb-3"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
@@ -4462,7 +4465,7 @@ function Demo() {
     color: "#FF4400",
     intensity: "2",
     position: "20.45283 -2.62394 -5.68868",
-    light: "type: ambient; intensity: 0.3; angle: 180",
+    light: "type: ambient; intensity: 0.3; angle: 180; color: #7156d2",
     rotation: "-0.3 50.509 147.30229250797848",
     id: "bulb-4"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
