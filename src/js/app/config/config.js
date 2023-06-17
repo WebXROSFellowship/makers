@@ -1,1 +1,3 @@
-export const Config = configScriptData;
+const Config = configData;
+
+export default Config;

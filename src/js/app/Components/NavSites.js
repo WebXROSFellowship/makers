@@ -4,14 +4,13 @@ import DataContext from "../Utils/DataContext";
 import MenuDataContext from "../Utils/MenuDataContext";
 import { StagingDataContext } from "../Utils";
 
-import { Config } from "../config/config";
-
+import Config from "../config/config";
 
 const NavSites = () => {
   const { sitename, sn } = useParams();
   const { lang } = useContext(DataContext);
   // const { menuData } = useContext(MenuDataContext);
-  const {stagingData } = useContext(StagingDataContext);
+  const { stagingData } = useContext(StagingDataContext);
 
   const filteredMenuData = useMemo(() => {
     const curl = "/" + sitename + "/" + (sn != undefined ? sn + "/" : "");
