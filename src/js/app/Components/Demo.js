@@ -30,7 +30,6 @@ function Demo() {
   }, [elementDetected]);
 
   useEffect(() => {
-    AddClickEvent();
     startLoadingAssets();
   }, []);
 
@@ -138,6 +137,7 @@ function Demo() {
       //Do something
     }
   }
+
 
   function customManipulation() {
     setTimeout(function RightPaneOpen() {
@@ -386,12 +386,6 @@ function Demo() {
             crossOrigin="anonymous"
             key="room"
           ></a-asset-item>
-          <img
-            id="image"
-            src="https://staging.webxr.link/wp-content/uploads/2023/05/Tim_Berners-Lee-1.jpeg"
-            crossOrigin="anonymous"
-            key="image"
-          />
           <a-asset-item
             id="navmesh"
             src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/fMesh.glb"
@@ -515,16 +509,9 @@ function Demo() {
         <a-troika-text id="sci_caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
         <a-troika-text id="sci_name" font-size="0.08"></a-troika-text>
 
-        <a-image
-          src="#tesla-quote"
-          id="tesla-quote"
-          key="tesla-quote"
-          position="-2 1.426 -2.76"
-          rotation="0 0 0"
-          show-details-on-click
-        ></a-image>
+   
 
-        <a-entity id="details_text_tesla_quote" visible="false"></a-entity>
+    
         {/* floor collider */}
         <a-plane
           static-body="shape:  mesh"

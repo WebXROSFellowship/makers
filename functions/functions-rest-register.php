@@ -723,11 +723,7 @@ function register_data_publish() {
 function publish_data($request) {
 	$slug = $_POST['slug'];
 	$jsonData = $_POST['data'];
-
-	$data = json_encode($jsonData, true);
-    
-	// var_dump($slug);
-	publishThis($slug,$data);
+	publishThis($slug,$jsonData);
 }
 
 ?>
