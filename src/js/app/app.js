@@ -13,7 +13,8 @@ import {
 } from "./Components";
 import { DataContext, MenuDataContext, StagingDataContext } from "./Utils";
 
-import Config from "./config/config";
+import { Config } from "./config/config";
+
 
 const appRouter = createBrowserRouter([
   {
@@ -64,8 +65,9 @@ const App = () => {
 
   const [stagingData, setStagingData] = useState([]);
 
-  console.log("configs...", Config);
+  console.log("configs...", Config)
   const base_url = Config.SITE_URL;
+
 
   useEffect(() => {
     fetchMenuData();

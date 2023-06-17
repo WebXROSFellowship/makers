@@ -3,13 +3,13 @@
 // enqueue_styles in wordpress theme
     function enqueue_style() {
 
-        wp_enqueue_style('powersimple', get_stylesheet_directory_uri() . '/style.css');
+        wp_enqueue_style( 'powersimple',get_stylesheet_directory_uri() . '/style.css');
         
     }
     add_action( 'wp_enqueue_scripts', 'enqueue_style' );
 
 // enqueue_scripts in wordpress theme
-function theme_scripts() {
+    function theme_scripts() {
 
         wp_register_script('app',get_stylesheet_directory_uri() . '/app.js', array('jquery'),rand(100000,999999), true); 
         wp_enqueue_script('app');
@@ -38,9 +38,10 @@ function theme_scripts() {
 
         // wp_register_script('aframe-geometry', 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r134/examples/js/deprecated/Geometry.js', array('jquery'),rand(100000,999999), true);
         // wp_enqueue_script('aframe-geometry');
+
         
-}
-add_action( 'wp_enqueue_scripts', 'theme_scripts' );  
+    }
+    add_action( 'wp_enqueue_scripts', 'theme_scripts' );  
 
 
 
