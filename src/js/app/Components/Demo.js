@@ -4,10 +4,13 @@ import assets from "../psudo_data/assets_demo.json";
 // Updated Inspector API data
 import data from "./../../../../data/dynamicContent_demo.json";
 
-import { Config } from "../config/config";
+import Config from "../config/config";
+// have used native file system till endpoints unavailable
 
 function Demo() {
   const [loading, setLoading] = useState(true); // For asset loading
+  const [sci_data, setSciData] = useState([]);
+  const [desc_data, setDescData] = useState(["Name", "Caption", "Description", "0 0 0", "0 0 0"]);
   const base_url = Config.SITE_URL;
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
 
@@ -49,6 +52,91 @@ function Demo() {
     setLoading(false); // Add assets to the scene
     await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for the assets to load
     console.log("Assets Loaded");
+    GetFromStaging();
+  }
+
+  function GetFromStaging() {
+    const url = "https://staging.webxr.link/wp-json/wp/v2/pages?slug=webxros-a-frame-demo/";
+    fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            var final_data = data[0]["post_media"]["screen_image"];
+            console.log("Fetch from Staging");
+            console.log(final_data);
+            setSciData(final_data);
+            // AddImages(final_data)
+            AddClickEvent(final_data);
+            // UpdateDescription(final_data);
+            // AddClickEvent()
+            console.log(sci_data);
+
+          })
+
+    console.log(sci_data);
+    
+  }
+  
+  function AddImages(data) {
+    // var temp_data = data[0];
+    // var sceneEl = document.querySelector("a-scene");
+    // var el = document.createElement("a-image");
+
+    // el.setAttribute("id", temp_data['id']);
+    // var src_path = "https://staging.webxr.link"+temp_data['full_path'];
+    // el.setAttribute("crossOrigin", "anonymous");
+    // el.setAttribute("src", src_path);
+
+    // sceneEl.appendChild(el);
+  }
+
+  // UpdateDescription();
+  function SetDescription(data, position, rotation) {
+    var ele_desc = document.querySelector("#sci_description");
+    var ele_caption = document.querySelector("#sci_caption");
+    var ele_name = document.querySelector("#sci_name");
+
+    if(ele_desc.getAttribute("visible") & ele_name.getAttribute("value") == data["title"]) {
+      ele_desc.setAttribute("visible",false);
+      ele_caption.setAttribute("visible",false);
+      ele_name.setAttribute("visible",false);
+    }
+
+    else {
+      ele_desc.setAttribute("value",data["desc"]);
+      ele_desc.object3D.position.set(position['x'] + 0.9, position['y'] - 0.3,position['z']);
+      ele_desc.setAttribute("rotation",rotation);
+
+      ele_caption.setAttribute("value",data["caption"]);
+      ele_caption.object3D.position.set(position['x'], position['y'] - 0.8,position['z']);
+      ele_caption.setAttribute("rotation",rotation);
+
+      ele_name.setAttribute("value",data["title"]);
+      ele_name.object3D.position.set(position['x'], position['y'] - 0.55,position['z']);
+      ele_name.setAttribute("rotation",rotation);
+
+      ele_desc.setAttribute("visible",true);
+      ele_caption.setAttribute("visible",true);
+      ele_name.setAttribute("visible",true);
+    }
+  }
+
+  function UpdateDescription(Obj, data) {
+  
+    var sci_name = Obj.getAttribute("name");
+    var position = Obj.getAttribute("position");
+    var rotation = Obj.getAttribute("rotation");
+    for (var i = 0; i < data.length; i++) {
+      if (sci_name == data[i]["title"])
+        {
+          // console.log("FOund");
+          // console.log(data[i])
+          SetDescription(data[i], position, rotation);
+        }
+      // else {
+      //   console.log(sci_name);
+      // }
+      //Do something
+    }
   }
 
   function customManipulation() {
@@ -261,12 +349,14 @@ function Demo() {
     }
   }
 
-  function AddClickEvent() {
+  function AddClickEvent(data) {
+    // console.log(data);
     AFRAME.registerComponent("show-details-on-click", {
       init: function () {
         var el = this.el;
         el.addEventListener("click", function () {
-          AddDetails(el);
+          // AddDetails(el);
+          UpdateDescription(el, data);
         });
       },
     });
@@ -296,6 +386,12 @@ function Demo() {
             crossOrigin="anonymous"
             key="room"
           ></a-asset-item>
+          <img
+            id="image"
+            src="https://staging.webxr.link/wp-content/uploads/2023/05/Tim_Berners-Lee-1.jpeg"
+            crossOrigin="anonymous"
+            key="image"
+          />
           <a-asset-item
             id="navmesh"
             src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/fMesh.glb"
@@ -413,6 +509,22 @@ function Demo() {
           id="bulb-5"
         ></a-light>
 
+
+        {/* <a-entity id="details_text_new" troika-text= "value:{desc_data}" /> */}
+        <a-troika-text id="sci_description" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
+        <a-troika-text id="sci_caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
+        <a-troika-text id="sci_name" font-size="0.08"></a-troika-text>
+
+        <a-image
+          src="#tesla-quote"
+          id="tesla-quote"
+          key="tesla-quote"
+          position="-2 1.426 -2.76"
+          rotation="0 0 0"
+          show-details-on-click
+        ></a-image>
+
+        <a-entity id="details_text_tesla_quote" visible="false"></a-entity>
         {/* floor collider */}
         <a-plane
           static-body="shape:  mesh"
