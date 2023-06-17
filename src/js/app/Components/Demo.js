@@ -4,15 +4,48 @@ import assets from "../psudo_data/assets_demo.json";
 // Updated Inspector API data
 import data from "./../../../../data/dynamicContent_demo.json";
 
-import { Config } from "../config/config";
+import Config from "../config/config";
+// have used native file system till endpoints unavailable
 
 function Demo() {
   const [loading, setLoading] = useState(true); // For asset loading
   const [sci_data, setSciData] = useState([]);
   const [desc_data, setDescData] = useState(["Name", "Caption", "Description", "0 0 0", "0 0 0"]);
   const base_url = Config.SITE_URL;
+  const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
 
   useEffect(() => {
+    
+    // Call the checkElement function initially
+    checkElement();
+
+    // Set up a MutationObserver to monitor changes in the DOM
+    const observer = new MutationObserver(checkElement);
+    observer.observe(document.body, { subtree: true, childList: true });
+    
+    AddClickEvent();
+    startLoadingAssets();
+
+    // Clean up the observer on component unmount
+    return () => observer.disconnect();
+  }, [elementDetected]);
+
+  const checkElement = () => {
+    // Usage: Checks if the inspector has been opened for the first time
+    const ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
+    if (ele !== null && !elementDetected) {
+      console.log("Inspector has been opened for the first time");
+      customManipulation();
+      // Update the state to indicate that the element has been detected
+      setElementDetected(true);
+    }
+  };
+
+  async function startLoadingAssets() {
+    // Usage: Loading of all assets and subsequent render
+    setLoading(false); // Add assets to the scene
+    await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for the assets to load
+    console.log("Assets Loaded");
     GetFromStaging();
     startLoadingAndGetData();
   }, []);
@@ -108,6 +141,7 @@ function Demo() {
       sceneEl.components.inspector.openInspector();
     });
     console.log("Inspector Loaded");
+
   }
 
   function customManipulation() {
@@ -119,7 +153,7 @@ function Demo() {
       ele.click();
       console.log("Right Pane Opened");
       addSaveButton();
-    }, 5000); // Adjust the delay as needed
+    }, 2500); // Adjust the delay as needed
   }
 
   function addSaveButton() {
@@ -137,7 +171,7 @@ function Demo() {
       parentElement.appendChild(link);
       console.log("Save Button Added");
       fetchDataClipboard();
-    }, 2000); // Adjust the delay as needed
+    }, 1500); // Adjust the delay as needed
   }
 
   function fetchDataClipboard() {
@@ -212,6 +246,7 @@ function Demo() {
         // Result : {success: true/false, message: "..."}
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
+        window.location.reload();
       })
       .catch((error) => console.log("Error", error));
   };
@@ -332,27 +367,20 @@ function Demo() {
     });
   }
 
-  async function startLoadingAndGetData() {
-    // Usage: Sequence of functions to be called on page load
-
-    setLoading(false); // Add assets to the scene
-    await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for the assets to load
-    loadInspector();
-    await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait for the inspector to load
-    customManipulation();
-  }
 
   return (
     <>
       <a-scene environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;">
-        <a-camera  position="-0.945 1.2 1.00152" rotation="0 -45 0">
-          <a-cursor id="cursor" color="#FF0000"></a-cursor>
-        </a-camera>
+      <a-entity id="rig" movement-controls="constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch;">
+      <a-entity camera="" position="0 1.6 0"  rotation="-4.469070802020421 -84.91234523838803 0" look-controls="pointerLockEnabled: true" >
+      <a-cursor id="cursor" color="#FF0000"></a-cursor>
+      </a-entity>
+      </a-entity>
 
         <a-assets>
           <a-asset-item
             id="room"
-            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Demo9.glb"
+            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/igFinal1.glb"
             crossOrigin="anonymous"
             key="room"
           ></a-asset-item>
@@ -387,7 +415,7 @@ function Demo() {
                 crossOrigin="anonymous"
               />
             );
-          })}{" "}
+          })}
         </a-assets>
 
         {loading ? (
@@ -410,18 +438,16 @@ function Demo() {
             ></a-entity>
             {data.map((entity) => {
               if (entity["gltf-model"]) {
-                return <a-entity key={entity.id} {...entity}></a-entity>;
+                return <a-entity key={entity.id} {...entity} crossOrigin="anonymous"></a-entity>;
               } else if (entity["type"] == "img") {
-                return <a-image key={entity.id} {...entity}></a-image>;
+                return <a-image key={entity.id} {...entity} crossOrigin="anonymous"></a-image>;
               } else {
-                console.log("In the else block, demo.js 293");
-                console.log(entity);
-                return <a-entity key={entity.id} {...entity}></a-entity>;
+                return <a-entity key={entity.id} {...entity} crossOrigin="anonymous"></a-entity>;
               }
-            })}{" "}
+            })}
           </>
         )}
-        <a-sky color="#E7F5FB" />
+       
         <a-light
           type="directional"
           color="#35227A"
@@ -462,6 +488,7 @@ function Demo() {
           id="bulb-5"
         ></a-light>
 
+
         {/* <a-entity id="details_text_new" troika-text= "value:{desc_data}" /> */}
         <a-troika-text id="sci_description" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
         <a-troika-text id="sci_caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
@@ -477,7 +504,6 @@ function Demo() {
         ></a-image>
 
         <a-entity id="details_text_tesla_quote" visible="false"></a-entity>
-
         {/* floor collider */}
         <a-plane
           static-body="shape:  mesh"
