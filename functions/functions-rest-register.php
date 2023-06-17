@@ -709,5 +709,25 @@ function update_inspecter_data($request) {
     }}
 
 
+// getting wordpress data and pass in publish method
+add_action('rest_api_init', 'register_data_publish');
+function register_data_publish() {
+	register_rest_route('myroutes', '/data_publish',array(
+		'methods' => 'POST',
+		'callback' => 'publish_data',
+		// 'permission_callback' => '__return_true',
+	)
+	);
+}
+
+function publish_data($request) {
+	$slug = $_POST['slug'];
+	$jsonData = $_POST['data'];
+
+	$data = json_encode($jsonData, true);
+    
+	// var_dump($slug);
+	publishThis($slug,$data);
+}
 
 ?>
