@@ -56,7 +56,7 @@ function Demo() {
 
   function GetFromStaging() {
     console.log("Inside get from staging")
-    const url = "https://staging.webxr.link/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1";
+    const url = base_url+"/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1";
     fetch(url)
           .then((response) => response.json())
           .then((fetchdata) => {
@@ -91,8 +91,8 @@ function Demo() {
         var id = obj.id;
         if(id[0]!='#')
         {
-          id = '#'+id;
-          var ele = document.querySelector(id);
+          id = "#"+id;
+          var ele = document.querySelector("type");
           console.log(ele,id);
           if(ele) {
             ele.setAttribute("position",ele.position);
@@ -323,22 +323,30 @@ function Demo() {
             {/* Finally toggle visibility */}
             { 
               sci_data?.map((oneImg) => {
-                return (
-                  <a-entity id={oneImg.file + "wrapper"} key={oneImg.id} type="wrapper" show-details-on-click="" position="0 0 0" rotation="0 0 0">
-                    <a-image
-                    src={'#'+oneImg.file}
-                    key={oneImg.id}
-                    id={oneImg.title}
-                    width= "0.7"
-                    height= "0.9"
-                    type= "image"
-                    >
-                    </a-image>
-                    <a-troika-text id={oneImg.file + "description"} value={oneImg.alt} visible="false" type="desc" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
-                    <a-troika-text id={oneImg.file + "caption"} value={oneImg.caption} visible="false" type="caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
-                    <a-troika-text id={oneImg.file + "name"} value={oneImg.title} visible="false" type="name" font-size="0.08"></a-troika-text>
-                  </a-entity>
-                )
+                var Obj_id = oneImg.file+"wrapper";
+                // console.log(Obj_id);
+                // console.log(data);
+                var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
+                if(Data_from_Inspector) {
+                  console.log("position", Data_from_Inspector.position);
+                  return (
+                    <a-entity id={oneImg.file + "wrapper"} key={oneImg.id} type="wrapper" show-details-on-click="" position={Data_from_Inspector.position} rotation="0 0 0">
+                      <a-image
+                      src={'#'+oneImg.file}
+                      key={oneImg.id}
+                      id={oneImg.title}
+                      width= "0.7"
+                      height= "0.9"
+                      type= "image"
+                      >
+                      </a-image>
+                      <a-troika-text id={oneImg.file + "description"} value={oneImg.alt} visible="false" type="desc" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
+                      <a-troika-text id={oneImg.file + "caption"} value={oneImg.caption} visible="false" type="caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
+                      <a-troika-text id={oneImg.file + "name"} value={oneImg.title} visible="false" type="name" font-size="0.08"></a-troika-text>
+                    </a-entity>
+                  )
+                }
+                
               })
             }
             <a-entity
