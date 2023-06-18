@@ -4,6 +4,8 @@ import assets from "../psudo_data/assets_demo.json";
 // Updated Inspector API data
 import data from "./../../../../data/dynamicContent_demo.json";
 
+import StagingData from "./../../../../data/data_english.json";
+
 import Config from "../config/config";
 // have used native file system till endpoints unavailable
 
@@ -49,92 +51,71 @@ function Demo() {
   async function startLoadingAssets() {
     // Usage: Loading of all assets and subsequent render
     setLoading(false); // Add assets to the scene
-    await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for the assets to load
-    console.log("Assets Loaded");
     GetFromStaging();
   }
 
   function GetFromStaging() {
-    const url = "https://staging.webxr.link/wp-json/wp/v2/pages?slug=webxros-a-frame-demo/";
+    console.log("Inside get from staging")
+    const url = "https://staging.webxr.link/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1";
     fetch(url)
           .then((response) => response.json())
-          .then((data) => {
-            var final_data = data[0]["post_media"]["screen_image"];
-            console.log("Fetch from Staging");
-            console.log(final_data);
+          .then((fetchdata) => {
+            var final_data = [];
+            fetchdata.map((oneImgData) => {
+              if(oneImgData.data.desc) {
+                final_data.push(oneImgData.data);
+              }
+              // console.log(oneImgData.data);
+            })
+
+            console.log("Staging Data",StagingData[3]);
+            // var final_data = data;
+            // console.log("Fetch from Staging");
+            console.log("final data",final_data);
             setSciData(final_data);
-            // AddImages(final_data)
+            // AddImages(final_data);
             AddClickEvent(final_data);
-            // UpdateDescription(final_data);
-            // AddClickEvent()
-            console.log(sci_data);
+            
+            // UpdateProperties(data);
 
           })
 
-    console.log(sci_data);
+    console.log("sci data",sci_data);
     
   }
-  
-  function AddImages(data) {
-    // var temp_data = data[0];
-    // var sceneEl = document.querySelector("a-scene");
-    // var el = document.createElement("a-image");
 
-    // el.setAttribute("id", temp_data['id']);
-    // var src_path = "https://staging.webxr.link"+temp_data['full_path'];
-    // el.setAttribute("crossOrigin", "anonymous");
-    // el.setAttribute("src", src_path);
-
-    // sceneEl.appendChild(el);
-  }
-
-  // UpdateDescription();
-  function SetDescription(data, position, rotation) {
-    var ele_desc = document.querySelector("#sci_description");
-    var ele_caption = document.querySelector("#sci_caption");
-    var ele_name = document.querySelector("#sci_name");
-
-    if(ele_desc.getAttribute("visible") & ele_name.getAttribute("value") == data["title"]) {
-      ele_desc.setAttribute("visible",false);
-      ele_caption.setAttribute("visible",false);
-      ele_name.setAttribute("visible",false);
-    }
-
-    else {
-      ele_desc.setAttribute("value",data["desc"]);
-      ele_desc.object3D.position.set(position['x'] + 0.9, position['y'] - 0.3,position['z']);
-      ele_desc.setAttribute("rotation",rotation);
-
-      ele_caption.setAttribute("value",data["caption"]);
-      ele_caption.object3D.position.set(position['x'], position['y'] - 0.8,position['z']);
-      ele_caption.setAttribute("rotation",rotation);
-
-      ele_name.setAttribute("value",data["title"]);
-      ele_name.object3D.position.set(position['x'], position['y'] - 0.55,position['z']);
-      ele_name.setAttribute("rotation",rotation);
-
-      ele_desc.setAttribute("visible",true);
-      ele_caption.setAttribute("visible",true);
-      ele_name.setAttribute("visible",true);
-    }
-  }
-
-  function UpdateDescription(Obj, data) {
-  
-    var sci_name = Obj.getAttribute("name");
-    var position = Obj.getAttribute("position");
-    var rotation = Obj.getAttribute("rotation");
-    for (var i = 0; i < data.length; i++) {
-      if (sci_name == data[i]["title"])
+  function UpdateProperties(data) {
+    console.log("UpdateProperties after getStaging",data);
+      console.log("inside if block of UpdateProperties")
+      data.map((obj) => {
+        var id = obj.id;
+        if(id[0]!='#')
         {
-          // console.log("FOund");
-          // console.log(data[i])
-          SetDescription(data[i], position, rotation);
+          id = '#'+id;
+          var ele = document.querySelector(id);
+          console.log(ele,id);
+          if(ele) {
+            ele.setAttribute("position",ele.position);
+          }
+          
         }
-      // else {
-      //   console.log(sci_name);
-      // }
-      //Do something
+        
+      })
+    }
+    
+  
+
+  function ShowDescription(Obj, data) {
+    console.log("ShowDescription");
+    console.log(Obj);
+
+    var children = Obj.querySelectorAll("a-troika-text");
+    // console.log("childeern", children);
+    if(children){
+      var state = !children[0].getAttribute("visible")
+      children[0].setAttribute("visible", state);
+      children[1].setAttribute("visible", state);
+      children[2].setAttribute("visible", state);
     }
   }
 
@@ -246,117 +227,16 @@ function Demo() {
       .catch((error) => console.log("Error", error));
   };
 
-  function AddDetails(Obj) {
-    console.log("AddName");
-    // console.log(Obj);
-    var sci_name = Obj.getAttribute("name");
-    var sci_caption = Obj.getAttribute("caption");
-    var sci_description = Obj.getAttribute("description");
 
-    // If we have a name, we append it
-    if (sci_name) {
-      var id_img = Obj.getAttribute("id");
-      var position = Obj.getAttribute("position");
-      var rotation = Obj.getAttribute("rotation");
-      // console.log(sci_name);
-
-      if (document.querySelector(`#${id_img}_name`)) {
-        // var El = document.querySelector(`#${id_img}_name`);
-        console.log("Already found");
-        // El.parentNode.removeChild(El);
-      } else {
-        var sceneEl = document.querySelector("a-scene");
-        var el = document.createElement("a-entity");
-
-        el.setAttribute("id", `${id_img}_name`);
-        el.setAttribute("position", {
-          x: position["x"],
-          y: position["y"] - 0.42 * position["y"],
-          z: position["z"],
-        });
-        el.setAttribute("troika-text", `value: ${sci_name}`);
-        el.setAttribute("rotation", rotation);
-
-        sceneEl.appendChild(el);
-      }
-    }
-
-    // If we have a caption in data, we append it
-    if (sci_caption) {
-      var id_img = Obj.getAttribute("id");
-      var position = Obj.getAttribute("position");
-      var rotation = Obj.getAttribute("rotation");
-      // console.log(sci_name);
-
-      if (document.querySelector(`#${id_img}_desc`)) {
-        var El = document.querySelector(`#${id_img}_desc`);
-        console.log("Already found");
-        El.parentNode.removeChild(El);
-      } else {
-        var caption_style =
-          "strokeColor: #1fb0f2; font-size: 0.06; align: center; outlineWidth: 0.003, material:shader: ocean; color: blue; maxWidth: 0.7;";
-
-        var sceneEl2 = document.querySelector("a-scene");
-        var el2 = document.createElement("a-entity");
-
-        el2.setAttribute("id", `${id_img}_desc`);
-        el2.setAttribute("position", {
-          x: position["x"],
-          y: position["y"] - 0.6 * position["y"],
-          z: position["z"],
-        });
-        el2.setAttribute(
-          "troika-text",
-          `value: ${sci_caption}; ${caption_style}`
-        );
-        el2.setAttribute("rotation", rotation);
-
-        sceneEl2.appendChild(el2);
-      }
-    }
-
-    if (sci_description) {
-      var id_img = Obj.getAttribute("id");
-      var position = Obj.getAttribute("position");
-      var rotation = Obj.getAttribute("rotation");
-      // console.log(sci_name);
-
-      if (document.querySelector(`#${id_img}_description`)) {
-        var El = document.querySelector(`#${id_img}_description`);
-        console.log("Already found");
-        El.parentNode.removeChild(El);
-      } else {
-        var sceneEl = document.querySelector("a-scene");
-        var el = document.createElement("a-entity");
-
-        var desc_style =
-          "color: #b3dff2; font-size: 0.06; align: center; material: MeshNormalMaterial; maxWidth: 0.6;";
-
-        el.setAttribute("id", `${id_img}_description`);
-        el.setAttribute("position", {
-          x: position["x"] + 0.7,
-          y: position["y"],
-          z: position["z"],
-        });
-        el.setAttribute(
-          "troika-text",
-          `value: ${sci_description}; ${desc_style}`
-        );
-        el.setAttribute("rotation", rotation);
-
-        sceneEl.appendChild(el);
-      }
-    }
-  }
-
-  function AddClickEvent(data) {
-    // console.log(data);
+  function AddClickEvent(fdata) {
+    console.log("In add click event",fdata);
     AFRAME.registerComponent("show-details-on-click", {
       init: function () {
         var el = this.el;
         el.addEventListener("click", function () {
-          // AddDetails(el);
-          UpdateDescription(el, data);
+          ShowDescription(el, fdata);
+          // UpdateProperties(data)
+          // console.log("Click detected");
         });
       },
     });
@@ -392,6 +272,21 @@ function Demo() {
             crossOrigin="anonymous"
             key="navmesh"
           ></a-asset-item>
+
+          {sci_data?.map((sci_info) => {
+            // console.log(sci_info);
+            // console.log(sci_info.id,base_url+sci_info.full_path, sci_info.id);
+            return (
+              <a-asset-item
+                id={sci_info.file}
+                src={base_url + sci_info.full_path}
+                key={sci_info.id}
+                crossOrigin="anonymous"
+                >
+              </a-asset-item>
+            );
+          })
+          }
           {assets.map((asset) => {
             if (asset.type === "model") {
               return (
@@ -411,7 +306,7 @@ function Demo() {
                 crossOrigin="anonymous"
               />
             );
-          })}{" "}
+          })}
         </a-assets>
 
         {loading ? (
@@ -426,6 +321,26 @@ function Demo() {
               position="4.537 0 3.468"
             ></a-entity>
             {/* Finally toggle visibility */}
+            { 
+              sci_data?.map((oneImg) => {
+                return (
+                  <a-entity id={oneImg.file + "wrapper"} key={oneImg.id} type="wrapper" show-details-on-click="" position="0 0 0" rotation="0 0 0">
+                    <a-image
+                    src={'#'+oneImg.file}
+                    key={oneImg.id}
+                    id={oneImg.title}
+                    width= "0.7"
+                    height= "0.9"
+                    type= "image"
+                    >
+                    </a-image>
+                    <a-troika-text id={oneImg.file + "description"} value={oneImg.alt} visible="false" type="desc" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
+                    <a-troika-text id={oneImg.file + "caption"} value={oneImg.caption} visible="false" type="caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
+                    <a-troika-text id={oneImg.file + "name"} value={oneImg.title} visible="false" type="name" font-size="0.08"></a-troika-text>
+                  </a-entity>
+                )
+              })
+            }
             <a-entity
               nav-mesh=""
               id="#navmesh"
@@ -461,6 +376,7 @@ function Demo() {
                 );
               }
             })}{" "}
+            
           </>
         )}
 
@@ -509,9 +425,6 @@ function Demo() {
         <a-troika-text id="sci_caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
         <a-troika-text id="sci_name" font-size="0.08"></a-troika-text>
 
-   
-
-    
         {/* floor collider */}
         <a-plane
           static-body="shape:  mesh"
