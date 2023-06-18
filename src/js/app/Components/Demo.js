@@ -15,24 +15,29 @@ function Demo() {
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
 
   useEffect(() => {
-    
     // Call the checkElement function initially
     checkElement();
 
     // Set up a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(checkElement);
-    observer.observe(document.body, { subtree: true, childList: true });
-    
-    AddClickEvent();
-    startLoadingAssets();
+    observer.observe(document.body, {
+      subtree: true,
+      childList: true,
+    });
 
     // Clean up the observer on component unmount
     return () => observer.disconnect();
   }, [elementDetected]);
 
+  useEffect(() => {
+    startLoadingAssets();
+  }, []);
+
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
-    const ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
+    const ele = document.querySelector(
+      "#scenegraph > div.outliner > div:nth-child(1)"
+    );
     if (ele !== null && !elementDetected) {
       console.log("Inspector has been opened for the first time");
       customManipulation();
@@ -47,8 +52,7 @@ function Demo() {
     await new Promise((resolve) => setTimeout(resolve, 10000)); // Wait for the assets to load
     console.log("Assets Loaded");
     GetFromStaging();
-    startLoadingAndGetData();
-  }, []);
+  }
 
   function GetFromStaging() {
     const url = "https://staging.webxr.link/wp-json/wp/v2/pages?slug=webxros-a-frame-demo/";
@@ -134,15 +138,6 @@ function Demo() {
     }
   }
 
-  function loadInspector() {
-    // Usage: Loads the inspector on application start
-    var sceneEl = document.querySelector("a-scene");
-    sceneEl.addEventListener("loaded", function () {
-      sceneEl.components.inspector.openInspector();
-    });
-    console.log("Inspector Loaded");
-
-  }
 
   function customManipulation() {
     setTimeout(function RightPaneOpen() {
@@ -367,32 +362,33 @@ function Demo() {
     });
   }
 
-
   return (
     <>
       <a-scene environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;">
-      <a-entity id="rig" movement-controls="constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch;">
-      <a-entity camera="" position="0 1.6 0"  rotation="-4.469070802020421 -84.91234523838803 0" look-controls="pointerLockEnabled: true" >
-      <a-cursor id="cursor" color="#FF0000"></a-cursor>
-      </a-entity>
-      </a-entity>
+        <a-entity
+          id="rig"
+          movement-controls="constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+        >
+          <a-entity
+            camera=""
+            position="0 1.6 0"
+            rotation="-4.469070802020421 -84.91234523838803 0"
+            look-controls="pointerLockEnabled: true"
+          >
+            <a-cursor id="cursor" color="#FF0000"></a-cursor>
+          </a-entity>
+        </a-entity>
 
         <a-assets>
           <a-asset-item
             id="room"
-            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/igFinal1.glb"
+            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/model01.glb"
             crossOrigin="anonymous"
             key="room"
           ></a-asset-item>
-          <img
-            id="image"
-            src="https://staging.webxr.link/wp-content/uploads/2023/05/Tim_Berners-Lee-1.jpeg"
-            crossOrigin="anonymous"
-            key="image"
-          />
           <a-asset-item
             id="navmesh"
-            src="https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/Mesh4.glb"
+            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/fMesh.glb"
             crossOrigin="anonymous"
             key="navmesh"
           ></a-asset-item>
@@ -415,7 +411,7 @@ function Demo() {
                 crossOrigin="anonymous"
               />
             );
-          })}
+          })}{" "}
         </a-assets>
 
         {loading ? (
@@ -426,28 +422,48 @@ function Demo() {
               id="#room"
               gltf-model="#room"
               crossOrigin="anonymous"
-              position="-1.693 0 0.4"
+              // position="-1.693 0 0.4"
+              position="4.537 0 3.468"
             ></a-entity>
             {/* Finally toggle visibility */}
             <a-entity
-              nav-mesh
+              nav-mesh=""
               id="#navmesh"
               gltf-model="#navmesh"
               crossOrigin="anonymous"
               visible="false"
+              position="4.762 0 3.739"
             ></a-entity>
             {data.map((entity) => {
               if (entity["gltf-model"]) {
-                return <a-entity key={entity.id} {...entity} crossOrigin="anonymous"></a-entity>;
+                return (
+                  <a-entity
+                    key={entity.id}
+                    {...entity}
+                    crossOrigin="anonymous"
+                  ></a-entity>
+                );
               } else if (entity["type"] == "img") {
-                return <a-image key={entity.id} {...entity} crossOrigin="anonymous"></a-image>;
+                return (
+                  <a-image
+                    key={entity.id}
+                    {...entity}
+                    crossOrigin="anonymous"
+                  ></a-image>
+                );
               } else {
-                return <a-entity key={entity.id} {...entity} crossOrigin="anonymous"></a-entity>;
+                return (
+                  <a-entity
+                    key={entity.id}
+                    {...entity}
+                    crossOrigin="anonymous"
+                  ></a-entity>
+                );
               }
-            })}
+            })}{" "}
           </>
         )}
-       
+
         <a-light
           type="directional"
           color="#35227A"
@@ -463,7 +479,7 @@ function Demo() {
           color="#FFFFBC"
           intensity="0.50"
           position="3.94786 -1.28516 -0.54807"
-          light="type: hemisphere; angle: 90"
+          light="type: hemisphere; angle: 90; color: #8778bf"
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb-3"
         ></a-light>
@@ -473,11 +489,10 @@ function Demo() {
           color="#FF4400"
           intensity="2"
           position="20.45283 -2.62394 -5.68868"
-          light="type: ambient; intensity: 0.3; angle: 180"
+          light="type: ambient; intensity: 0.3; angle: 180; color: #7156d2"
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb-4"
         ></a-light>
-
         <a-light
           type="directional"
           color="#FFFFBC"
@@ -494,16 +509,9 @@ function Demo() {
         <a-troika-text id="sci_caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
         <a-troika-text id="sci_name" font-size="0.08"></a-troika-text>
 
-        <a-image
-          src="#tesla-quote"
-          id="tesla-quote"
-          key="tesla-quote"
-          position="-2 1.426 -2.76"
-          rotation="0 0 0"
-          show-details-on-click
-        ></a-image>
+   
 
-        <a-entity id="details_text_tesla_quote" visible="false"></a-entity>
+    
         {/* floor collider */}
         <a-plane
           static-body="shape:  mesh"
