@@ -90,7 +90,7 @@ const Navbar = () => {
             style={{ fontFamily: "sans-serif" }}
           >
             <img src={imgBaseURL} alt="logo" className="logo-img" />
-            <span className="title-head">PowerSimple | XROS</span>
+            <span className="title-head">{Config.SITE_TITLE}</span>
           </div>
         </Link>
 

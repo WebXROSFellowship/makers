@@ -6190,7 +6190,7 @@ const Navbar = () => {
     className: "logo-img"
   }), /*#__PURE__*/react.createElement("span", {
     className: "title-head"
-  }, "PowerSimple | XROS"))), /*#__PURE__*/react.createElement("div", {
+  }, config.SITE_TITLE))), /*#__PURE__*/react.createElement("div", {
     className: "navbar-right"
   }, navbarMenus ? navbarMenus.map((currEle, i) => {
     let {
