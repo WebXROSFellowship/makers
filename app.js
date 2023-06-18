@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 186:
+/***/ 900:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -6051,28 +6051,28 @@ function usePrompt(_ref8) {
 
 //# sourceMappingURL=index.js.map
 
-;// CONCATENATED MODULE: ./src/js/app/Utils/DataContext.js
+;// CONCATENATED MODULE: ./src/js/app/utils/DataContext.js
 
 const DataContext = /*#__PURE__*/(0,react.createContext)({
   data: {}
 });
 DataContext.displayName = "DataContext";
-/* harmony default export */ const Utils_DataContext = (DataContext);
-;// CONCATENATED MODULE: ./src/js/app/Utils/MenuDataContext.js
+/* harmony default export */ const utils_DataContext = (DataContext);
+;// CONCATENATED MODULE: ./src/js/app/utils/MenuDataContext.js
 
 const MenuDataContext = /*#__PURE__*/(0,react.createContext)({
   menuData: {}
 });
 MenuDataContext.displayName = "Menu Data";
-/* harmony default export */ const Utils_MenuDataContext = (MenuDataContext);
-;// CONCATENATED MODULE: ./src/js/app/Utils/StagingDataContext.js
+/* harmony default export */ const utils_MenuDataContext = (MenuDataContext);
+;// CONCATENATED MODULE: ./src/js/app/utils/StagingDataContext.js
 
 const StagingDataContext = /*#__PURE__*/(0,react.createContext)({
   stagingData: []
 });
 StagingDataContext.displayName = "Staging Data";
-/* harmony default export */ const Utils_StagingDataContext = (StagingDataContext);
-;// CONCATENATED MODULE: ./src/js/app/Utils/index.js
+/* harmony default export */ const utils_StagingDataContext = (StagingDataContext);
+;// CONCATENATED MODULE: ./src/js/app/utils/index.js
 
 
 
@@ -6099,13 +6099,12 @@ let langArr = [{
 ;// CONCATENATED MODULE: ./src/js/app/config/config.js
 const Config = configData;
 /* harmony default export */ const config = (Config);
-;// CONCATENATED MODULE: ./src/js/app/Components/Navbar.js
+;// CONCATENATED MODULE: ./src/js/app/components/Navbar.js
 
 
 
 
 
-// import "src/js/app/assets";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = (0,react.useState)(false);
@@ -6115,10 +6114,10 @@ const Navbar = () => {
   const [hoveredIndex, setHoveredIndex] = (0,react.useState)(-1);
   const {
     setLang
-  } = (0,react.useContext)(Utils_DataContext);
+  } = (0,react.useContext)(utils_DataContext);
   const {
     stagingData
-  } = (0,react.useContext)(Utils_StagingDataContext);
+  } = (0,react.useContext)(utils_StagingDataContext);
   const base_url = config.SITE_URL;
   let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
@@ -6186,7 +6185,7 @@ const Navbar = () => {
       fontFamily: "sans-serif"
     }
   }, /*#__PURE__*/react.createElement("img", {
-    src: "${imgBaseURL}",
+    src: imgBaseURL,
     alt: "logo",
     className: "logo-img"
   }), /*#__PURE__*/react.createElement("span", {
@@ -6346,15 +6345,15 @@ const Navbar = () => {
     className: "dropdown__items"
   }, "German")))) : /*#__PURE__*/react.createElement(react.Fragment, null))));
 };
-/* harmony default export */ const Components_Navbar = (Navbar);
-;// CONCATENATED MODULE: ./src/js/app/Components/Home.js
+/* harmony default export */ const components_Navbar = (Navbar);
+;// CONCATENATED MODULE: ./src/js/app/components/Home.js
 
 
 const Home = () => {
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Outlet, null));
 };
-/* harmony default export */ const Components_Home = (Home);
-;// CONCATENATED MODULE: ./src/js/app/Components/Body.js
+/* harmony default export */ const components_Home = (Home);
+;// CONCATENATED MODULE: ./src/js/app/components/Body.js
 
 
 const Body = () => {
@@ -6366,8 +6365,8 @@ const Body = () => {
     className: "mb-4 body-text"
   }, "\u201CI think it\u2019s actually our obligation and duty to figure out on our side what can we do to make the VR platform take advantage of this trillion plus dollars of content on all of the flat screens.\u201D -", /*#__PURE__*/react.createElement("i", null, " John Carmack, Meta Connect Keynote, 2021"), /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "This quote is an essential reminder, that there is an enormous amount of text, images, and video waiting to populate XR worlds. 42% of all websites on the internet use WordPress as a Content Management System (CMS). Our open-source project aims to make it easy to enable WebXR in WordPress using a customizable theme. This will empower content owners to publish their assets already stored in 2D sites into an immersive format.", /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "The strategic approach of enabling entire content libraries stored in WordPress to be presented in WebXR will propel the growth of the Immersive Web, by allowing sites to gradually phase-in presentation of content in Virtual and Augmented Reality without having to change CMS platforms. WordPress's impressive reach, with over 400 million websites using it, and a 64.3% share of the CMS market, makes converting WordPress websites into 3D Experiences a massive market opportunity which will draw developer talent to advance their careers in the Metaverse.", /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "Over the past three years, Powersimple has been using WordPress as an effective admin tool to structure data and populate WebXR sites, with text and image content, and even interactive 3D models. This effectively bridges the gap between the 2D internet of the past and the Immersive Web of the future. The XROS Fellowship, sponsored by FICCI (Federation of Indian Chambers of Commerce & Industry) and Meta, is sponsoring a stipend for six talented students who have been selected from a pool of 120 applicants, to dedicate over 2,000 hours of development time toward repackaging this open-source theme for mass-market use. The project is guided by Ben Erwin, who has over 25-years of experience as a web developer, with 15 specializing in WordPress.", /*#__PURE__*/react.createElement("br", null)));
 };
-/* harmony default export */ const Components_Body = (Body);
-;// CONCATENATED MODULE: ./src/js/app/Components/Profile.js
+/* harmony default export */ const components_Body = (Body);
+;// CONCATENATED MODULE: ./src/js/app/components/Profile.js
 
 
 
@@ -6379,7 +6378,7 @@ const Profile = () => {
   } = useParams();
   const {
     stagingData
-  } = (0,react.useContext)(Utils_StagingDataContext);
+  } = (0,react.useContext)(utils_StagingDataContext);
   const curl = "/profile/" + username + "/";
   const data = stagingData;
   const cd = data?.filter(e => e?.url === curl);
@@ -6409,8 +6408,8 @@ const Profile = () => {
     }
   }));
 };
-/* harmony default export */ const Components_Profile = (Profile);
-;// CONCATENATED MODULE: ./src/js/app/Components/Sidebar.js
+/* harmony default export */ const components_Profile = (Profile);
+;// CONCATENATED MODULE: ./src/js/app/components/Sidebar.js
 
 
 function Sidebar() {
@@ -6515,11 +6514,8 @@ function Sidebar() {
     onClick: handleResetButtonClick
   }, "Reset"))))));
 }
-/* harmony default export */ const Components_Sidebar = (Sidebar);
-;// CONCATENATED MODULE: ./src/js/app/Components/NavSites.js
-
-
-
+/* harmony default export */ const components_Sidebar = (Sidebar);
+;// CONCATENATED MODULE: ./src/js/app/components/NavSites.js
 
 
 
@@ -6530,11 +6526,11 @@ const NavSites = () => {
   } = useParams();
   const {
     lang
-  } = (0,react.useContext)(Utils_DataContext);
+  } = (0,react.useContext)(utils_DataContext);
   // const { menuData } = useContext(MenuDataContext);
   const {
     stagingData
-  } = (0,react.useContext)(Utils_StagingDataContext);
+  } = (0,react.useContext)(utils_StagingDataContext);
   const filteredMenuData = (0,react.useMemo)(() => {
     const curl = "/" + sitename + "/" + (sn != undefined ? sn + "/" : "");
     const langMenuData = stagingData || [];
@@ -6547,7 +6543,7 @@ const NavSites = () => {
     }
   }));
 };
-/* harmony default export */ const Components_NavSites = (NavSites);
+/* harmony default export */ const components_NavSites = (NavSites);
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function extends_extends() {
   extends_extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -6563,11 +6559,11 @@ function extends_extends() {
   };
   return extends_extends.apply(this, arguments);
 }
-;// CONCATENATED MODULE: ./src/js/app/psudo_data/assets.json
+;// CONCATENATED MODULE: ./data/assets.json
 const assets_namespaceObject = JSON.parse('[{"id":"marvel","type":"model","name":"astra","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb"},{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"astra","type":"model","name":"marvel","url":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb"},{"id":"bg","type":"image","name":"background","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/bg.jpg"}]');
-;// CONCATENATED MODULE: ./src/js/app/Components/dynamicContent.json
-const dynamicContent_namespaceObject = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 1.93968 -3","crossorigin":"anonymous"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"1.27063 1.34902 1","visible":"","rotation":"1 0 0"},{"id":"#marvel","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb","position":"1.91177 0.75 -3","scale":"3 3 3","crossorigin":"anonymous"}]');
-;// CONCATENATED MODULE: ./src/js/app/Components/AFrame.js
+;// CONCATENATED MODULE: ./data/dynamicContent_old.json
+const dynamicContent_old_namespaceObject = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 1.93968 -3","crossorigin":"anonymous"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"1.27063 1.34902 1","visible":"","rotation":"1 0 0"},{"id":"#marvel","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb","position":"1.91177 0.75 -3","scale":"3 3 3","crossorigin":"anonymous"}]');
+;// CONCATENATED MODULE: ./src/js/app/components/AFrame.js
 
 
 
@@ -6656,7 +6652,7 @@ function AFrame() {
     function updateDataFile(jsonString) {
       const newData = JSON.parse(jsonString);
       var foundData = false;
-      const updatedData = dynamicContent_namespaceObject.map(item => {
+      const updatedData = dynamicContent_old_namespaceObject.map(item => {
         if (item.id === newData.id) {
           console.log("Found the item to update");
           foundData = true;
@@ -6764,7 +6760,7 @@ function AFrame() {
     radius: "0.5",
     height: "1.5",
     crossOrigin: "anonymous"
-  }), dynamicContent_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", extends_extends({
+  }), dynamicContent_old_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", extends_extends({
     key: entity.id
   }, entity)))), /*#__PURE__*/react.createElement("a-sphere", {
     position: "0 0.7 -7",
@@ -6787,17 +6783,20 @@ function AFrame() {
     src: "#bg"
   })));
 }
-/* harmony default export */ const Components_AFrame = (AFrame);
-;// CONCATENATED MODULE: ./src/js/app/psudo_data/assets_demo.json
+/* harmony default export */ const components_AFrame = (AFrame);
+;// CONCATENATED MODULE: ./data/assets_demo.json
 const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"},{"id":"sofa","type":"model","name":"sofa","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb"},{"id":"clock","type":"model","name":"clock","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb"}]');
 ;// CONCATENATED MODULE: ./data/dynamicContent_demo.json
-const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":"true"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"1.43381 1.272 2.682","crossorigin":"anonymous"},{"id":"tesla-image","type":"img","name":"Neil deGrasse Tyson","caption":"Visionary inventor and electrical engineer","description":"A Serbian-American inventor, electrical engineer, mechanical engineer, and futurist best known for his contributions to the design of the modern alternating current electricity supply system.","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/TeslaImage.jpeg","position":"-3.846 1.426 2.596","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":"true"},{"id":"heddy-image","name":"Hedy Lamarr","caption":"Actress turned inventor who revolutionized wireless communication.","description":"An Austrian-American actress and inventor who pioneered the technology that would one day form the basis for today’s WiFi, GPS, and Bluetooth communication systems. As a natural beauty seen widely on the big screen in films like Samson and Delilah and White Cargo, society has long ignored her inventive genius.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Hedy-Lamarr.jpeg","position":"-2.34299 1.426 -2.59","width":"0.7","height":"0.9","show-details-on-click":"","crossorigin":"anonymous","material":"","geometry":""},{"id":"einstein-image","name":"Albert Einstein","caption":"a brilliant physicist, gave theory of relativity","description":"Albert Einstein was a German-born theoretical physicist. Best known for developing the theory of relativity, he also made important contributions to the development of the theory of quantum mechanics, and thus to modern physics.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Albert-Einstein.jpeg","position":"-2.482 1.426 2.659","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"NeilTyson-image","name":"Neil deGrasse Tyson","caption":"Astrophysicist, author, and science communicator","description":"Neil deGrasse Tyson is an American astrophysicist, author, and science communicator. Tyson studied at Harvard University, the University of Texas at Austin, and Columbia University. From 1991 to 1994, he was a postdoctoral research associate at Princeton University.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Neil-Tyson.jpeg","position":"-5.474 1.390 2.642","rotation":"0 180 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"GordonMoore-image","name":"gordan moore","caption":"co-founder and emeritus chairman of Intel Corporation","description":"An American engineer, businessman, and co-founder of Intel Corporation. He is known for his observation, known as Moore\'s Law, which states that the number of transistors on a microchip doubles approximately every two years, leading to a rapid advancement in computing power.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Gordon-Moore.jpeg","position":"-3.954 1.426 -2.546","rotation":"0 0 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"TimLee-image","name":"Tim Berners-Lee","caption":"computer scientist known as the inventor of the World Wide Web.","description":"Berners-Lee studied physics at the Queen\'s College, Oxford, and later pursued a career in software engineering. He proposed the concept of a global hypertext system that would allow information to be shared and accessed across different computers. This system became the World Wide Web.","type":"img","src":"https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Tim-Lee.jpeg","position":"-5.483 1.426 -2.600","rotation":"0 0 0","width":"0.7","height":"0.9","show-details-on-click":""},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"}]');
-;// CONCATENATED MODULE: ./src/js/app/Components/Demo.js
+const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":""},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"3.12365 1.272 2.682","crossorigin":"anonymous"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"0 1.26355 0","rotation":""},{"id":"#room","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/model01.glb","crossorigin":"anonymous","position":"1.44486 0.28666 5.61404"}]');
+;// CONCATENATED MODULE: ./src/js/app/components/Demo.js
 
 
 
 
 // Updated Inspector API data
+
+
+// import StagingData from "./../../../../data/data_english.json";
 
 
 // have used native file system till endpoints unavailable
@@ -6839,79 +6838,60 @@ function Demo() {
   async function startLoadingAssets() {
     // Usage: Loading of all assets and subsequent render
     setLoading(false); // Add assets to the scene
-    await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for the assets to load
-    console.log("Assets Loaded");
     GetFromStaging();
   }
   function GetFromStaging() {
-    const url = "https://staging.webxr.link/wp-json/wp/v2/pages?slug=webxros-a-frame-demo/";
-    fetch(url).then(response => response.json()).then(data => {
-      var final_data = data[0]["post_media"]["screen_image"];
-      console.log("Fetch from Staging");
-      console.log(final_data);
+    console.log("Inside get from staging");
+    const url = `${base_url}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
+    fetch(url).then(response => response.json()).then(fetchdata => {
+      var final_data = [];
+      fetchdata.map(oneImgData => {
+        if (oneImgData.data.desc) {
+          final_data.push(oneImgData.data);
+        }
+        // console.log(oneImgData.data);
+      });
+
+      // console.log("Staging Data",StagingData[3]);
+      // var final_data = data;
+      // console.log("Fetch from Staging");
+      console.log("final data", final_data);
       setSciData(final_data);
-      // AddImages(final_data)
+      // AddImages(final_data);
       AddClickEvent(final_data);
-      // UpdateDescription(final_data);
-      // AddClickEvent()
-      console.log(sci_data);
+
+      // UpdateProperties(data);
     });
-    console.log(sci_data);
-  }
-  function AddImages(data) {
-    // var temp_data = data[0];
-    // var sceneEl = document.querySelector("a-scene");
-    // var el = document.createElement("a-image");
 
-    // el.setAttribute("id", temp_data['id']);
-    // var src_path = "https://staging.webxr.link"+temp_data['full_path'];
-    // el.setAttribute("crossOrigin", "anonymous");
-    // el.setAttribute("src", src_path);
-
-    // sceneEl.appendChild(el);
+    console.log("sci data", sci_data);
   }
-
-  // UpdateDescription();
-  function SetDescription(data, position, rotation) {
-    var ele_desc = document.querySelector("#sci_description");
-    var ele_caption = document.querySelector("#sci_caption");
-    var ele_name = document.querySelector("#sci_name");
-    if (ele_desc.getAttribute("visible") & ele_name.getAttribute("value") == data["title"]) {
-      ele_desc.setAttribute("visible", false);
-      ele_caption.setAttribute("visible", false);
-      ele_name.setAttribute("visible", false);
-    } else {
-      ele_desc.setAttribute("value", data["desc"]);
-      ele_desc.object3D.position.set(position['x'] + 0.9, position['y'] - 0.3, position['z']);
-      ele_desc.setAttribute("rotation", rotation);
-      ele_caption.setAttribute("value", data["caption"]);
-      ele_caption.object3D.position.set(position['x'], position['y'] - 0.8, position['z']);
-      ele_caption.setAttribute("rotation", rotation);
-      ele_name.setAttribute("value", data["title"]);
-      ele_name.object3D.position.set(position['x'], position['y'] - 0.55, position['z']);
-      ele_name.setAttribute("rotation", rotation);
-      ele_desc.setAttribute("visible", true);
-      ele_caption.setAttribute("visible", true);
-      ele_name.setAttribute("visible", true);
-    }
-  }
-  function UpdateDescription(Obj, data) {
-    var sci_name = Obj.getAttribute("name");
-    var position = Obj.getAttribute("position");
-    var rotation = Obj.getAttribute("rotation");
-    for (var i = 0; i < data.length; i++) {
-      if (sci_name == data[i]["title"]) {
-        // console.log("FOund");
-        // console.log(data[i])
-        SetDescription(data[i], position, rotation);
+  function UpdateProperties(data) {
+    console.log("UpdateProperties after getStaging", data);
+    console.log("inside if block of UpdateProperties");
+    data.map(obj => {
+      var id = obj.id;
+      if (id[0] != "#") {
+        id = "#" + id;
+        var ele = document.querySelector(id);
+        console.log(ele, id);
+        if (ele) {
+          ele.setAttribute("position", ele.position);
+        }
       }
-      // else {
-      //   console.log(sci_name);
-      // }
-      //Do something
+    });
+  }
+  function ShowDescription(Obj, data) {
+    console.log("ShowDescription");
+    console.log(Obj);
+    var children = Obj.querySelectorAll("a-troika-text");
+    // console.log("childeern", children);
+    if (children) {
+      var state = !children[0].getAttribute("visible");
+      children[0].setAttribute("visible", state);
+      children[1].setAttribute("visible", state);
+      children[2].setAttribute("visible", state);
     }
   }
-
   function customManipulation() {
     setTimeout(function RightPaneOpen() {
       // Usage: Opens the Right Pane to add custom button
@@ -7002,103 +6982,20 @@ function Demo() {
       window.location.reload();
     }).catch(error => console.log("Error", error));
   };
-  function AddDetails(Obj) {
-    console.log("AddName");
-    // console.log(Obj);
-    var sci_name = Obj.getAttribute("name");
-    var sci_caption = Obj.getAttribute("caption");
-    var sci_description = Obj.getAttribute("description");
-
-    // If we have a name, we append it
-    if (sci_name) {
-      var id_img = Obj.getAttribute("id");
-      var position = Obj.getAttribute("position");
-      var rotation = Obj.getAttribute("rotation");
-      // console.log(sci_name);
-
-      if (document.querySelector(`#${id_img}_name`)) {
-        // var El = document.querySelector(`#${id_img}_name`);
-        console.log("Already found");
-        // El.parentNode.removeChild(El);
-      } else {
-        var sceneEl = document.querySelector("a-scene");
-        var el = document.createElement("a-entity");
-        el.setAttribute("id", `${id_img}_name`);
-        el.setAttribute("position", {
-          x: position["x"],
-          y: position["y"] - 0.42 * position["y"],
-          z: position["z"]
-        });
-        el.setAttribute("troika-text", `value: ${sci_name}`);
-        el.setAttribute("rotation", rotation);
-        sceneEl.appendChild(el);
-      }
-    }
-
-    // If we have a caption in data, we append it
-    if (sci_caption) {
-      var id_img = Obj.getAttribute("id");
-      var position = Obj.getAttribute("position");
-      var rotation = Obj.getAttribute("rotation");
-      // console.log(sci_name);
-
-      if (document.querySelector(`#${id_img}_desc`)) {
-        var El = document.querySelector(`#${id_img}_desc`);
-        console.log("Already found");
-        El.parentNode.removeChild(El);
-      } else {
-        var caption_style = "strokeColor: #1fb0f2; font-size: 0.06; align: center; outlineWidth: 0.003, material:shader: ocean; color: blue; maxWidth: 0.7;";
-        var sceneEl2 = document.querySelector("a-scene");
-        var el2 = document.createElement("a-entity");
-        el2.setAttribute("id", `${id_img}_desc`);
-        el2.setAttribute("position", {
-          x: position["x"],
-          y: position["y"] - 0.6 * position["y"],
-          z: position["z"]
-        });
-        el2.setAttribute("troika-text", `value: ${sci_caption}; ${caption_style}`);
-        el2.setAttribute("rotation", rotation);
-        sceneEl2.appendChild(el2);
-      }
-    }
-    if (sci_description) {
-      var id_img = Obj.getAttribute("id");
-      var position = Obj.getAttribute("position");
-      var rotation = Obj.getAttribute("rotation");
-      // console.log(sci_name);
-
-      if (document.querySelector(`#${id_img}_description`)) {
-        var El = document.querySelector(`#${id_img}_description`);
-        console.log("Already found");
-        El.parentNode.removeChild(El);
-      } else {
-        var sceneEl = document.querySelector("a-scene");
-        var el = document.createElement("a-entity");
-        var desc_style = "color: #b3dff2; font-size: 0.06; align: center; material: MeshNormalMaterial; maxWidth: 0.6;";
-        el.setAttribute("id", `${id_img}_description`);
-        el.setAttribute("position", {
-          x: position["x"] + 0.7,
-          y: position["y"],
-          z: position["z"]
-        });
-        el.setAttribute("troika-text", `value: ${sci_description}; ${desc_style}`);
-        el.setAttribute("rotation", rotation);
-        sceneEl.appendChild(el);
-      }
-    }
-  }
-  function AddClickEvent(data) {
-    // console.log(data);
+  function AddClickEvent(fdata) {
+    console.log("In add click event", fdata);
     AFRAME.registerComponent("show-details-on-click", {
       init: function () {
         var el = this.el;
         el.addEventListener("click", function () {
-          // AddDetails(el);
-          UpdateDescription(el, data);
+          ShowDescription(el, fdata);
+          // UpdateProperties(data)
+          // console.log("Click detected");
         });
       }
     });
   }
+
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-scene", {
     environment: "preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
   }, /*#__PURE__*/react.createElement("a-entity", {
@@ -7119,9 +7016,18 @@ function Demo() {
     key: "room"
   }), /*#__PURE__*/react.createElement("a-asset-item", {
     id: "navmesh",
-    src: "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/fMesh.glb",
+    src: "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb",
     crossOrigin: "anonymous",
     key: "navmesh"
+  }), sci_data?.map(sci_info => {
+    // console.log(sci_info);
+    // console.log(sci_info.id,base_url+sci_info.full_path, sci_info.id);
+    return /*#__PURE__*/react.createElement("a-asset-item", {
+      id: sci_info.file,
+      src: base_url + sci_info.full_path,
+      key: sci_info.id,
+      crossOrigin: "anonymous"
+    });
   }), assets_demo_namespaceObject.map(asset => {
     if (asset.type === "model") {
       return /*#__PURE__*/react.createElement("a-asset-item", {
@@ -7137,13 +7043,54 @@ function Demo() {
       key: asset.id,
       crossOrigin: "anonymous"
     });
-  }), " "), loading ? /*#__PURE__*/react.createElement("p", null, "Loading...") : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
+  })), loading ? /*#__PURE__*/react.createElement("p", null, "Loading...") : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
     id: "#room",
     "gltf-model": "#room",
     crossOrigin: "anonymous"
     // position="-1.693 0 0.4"
     ,
     position: "4.537 0 3.468"
+  }), sci_data?.map(oneImg => {
+    return /*#__PURE__*/react.createElement("a-entity", {
+      id: oneImg.file + "wrapper",
+      key: oneImg.id,
+      type: "wrapper",
+      "show-details-on-click": "",
+      position: "0 0 0",
+      rotation: "0 0 0"
+    }, /*#__PURE__*/react.createElement("a-image", {
+      src: "#" + oneImg.file,
+      key: oneImg.id,
+      id: oneImg.title,
+      width: "0.7",
+      height: "0.9",
+      type: "image"
+    }), /*#__PURE__*/react.createElement("a-troika-text", {
+      id: oneImg.file + "description",
+      value: oneImg.alt,
+      visible: "false",
+      type: "desc",
+      color: "#b3dff2",
+      "font-size": "0.06",
+      align: "center",
+      "max-width": "1"
+    }), /*#__PURE__*/react.createElement("a-troika-text", {
+      id: oneImg.file + "caption",
+      value: oneImg.caption,
+      visible: "false",
+      type: "caption",
+      "font-size": "0.06",
+      align: "center",
+      outlineWidth: "0.003",
+      color: "blue",
+      "max-width": "0.7"
+    }), /*#__PURE__*/react.createElement("a-troika-text", {
+      id: oneImg.file + "name",
+      value: oneImg.title,
+      visible: "false",
+      type: "name",
+      "font-size": "0.08"
+    }));
   }), /*#__PURE__*/react.createElement("a-entity", {
     "nav-mesh": "",
     id: "#navmesh",
@@ -7230,8 +7177,8 @@ function Demo() {
     scale: "6 2 2"
   })));
 }
-/* harmony default export */ const Components_Demo = (Demo);
-;// CONCATENATED MODULE: ./src/js/app/Components/index.js
+/* harmony default export */ const components_Demo = (Demo);
+;// CONCATENATED MODULE: ./src/js/app/components/index.js
 
 
 
@@ -7249,27 +7196,27 @@ function Demo() {
 
 const appRouter = createBrowserRouter([{
   path: "/",
-  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Components_Navbar, null), /*#__PURE__*/react.createElement(Components_Sidebar, null), /*#__PURE__*/react.createElement(Components_Home, null)),
+  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(components_Navbar, null), /*#__PURE__*/react.createElement(components_Sidebar, null), /*#__PURE__*/react.createElement(components_Home, null)),
   children: [{
     path: "/",
-    element: /*#__PURE__*/react.createElement(Components_Body, null)
+    element: /*#__PURE__*/react.createElement(components_Body, null)
   }, {
     path: "aframe_demo",
-    element: /*#__PURE__*/react.createElement(Components_Demo, null)
+    element: /*#__PURE__*/react.createElement(components_Demo, null)
   }, {
     path: "aframe",
-    element: /*#__PURE__*/react.createElement(Components_AFrame, null)
+    element: /*#__PURE__*/react.createElement(components_AFrame, null)
   }, {
     path: "profile/:username",
-    element: /*#__PURE__*/react.createElement(Components_Profile, null)
+    element: /*#__PURE__*/react.createElement(components_Profile, null)
   }, {
     path: "/:sitename/:sn",
     element: /*#__PURE__*/react.createElement(react.Suspense, {
       fallback: /*#__PURE__*/react.createElement("h1", null, "Loadinggg...")
-    }, /*#__PURE__*/react.createElement(Components_NavSites, null))
+    }, /*#__PURE__*/react.createElement(components_NavSites, null))
   }, {
     path: "/:sitename",
-    element: /*#__PURE__*/react.createElement(Components_NavSites, null)
+    element: /*#__PURE__*/react.createElement(components_NavSites, null)
   }]
 }]);
 const App = () => {
@@ -7298,8 +7245,12 @@ const App = () => {
       console.log("Error in Getting the Data...", error);
     });
   };
+
+  // TODO: Optimize for dynamicity
   (0,react.useEffect)(() => {
-    sendDataDump("", "index");
+    sendDataDump("", "data_english");
+    sendDataDump("de", "data_german");
+    sendDataDump("hi", "data_hindi");
   }, []);
   (0,react.useEffect)(() => {
     fetchMenuData();
@@ -7319,17 +7270,17 @@ const App = () => {
   if (stagingData.length === 0) {
     return /*#__PURE__*/react.createElement("div", null, "Loading...");
   }
-  return /*#__PURE__*/react.createElement(Utils_DataContext.Provider, {
+  return /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
     value: {
       lang: lang,
       setLang: setLang
     }
-  }, /*#__PURE__*/react.createElement(Utils_StagingDataContext.Provider, {
+  }, /*#__PURE__*/react.createElement(utils_StagingDataContext.Provider, {
     value: {
       stagingData,
       setStagingData
     }
-  }, /*#__PURE__*/react.createElement(Utils_MenuDataContext.Provider, {
+  }, /*#__PURE__*/react.createElement(utils_MenuDataContext.Provider, {
     value: {
       menuData,
       setMenuData
@@ -7347,7 +7298,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(186);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(900);
 
 
 
@@ -7908,7 +7859,7 @@ if (true) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(186);
+/******/ 	__webpack_require__(900);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()

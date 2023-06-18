@@ -10,8 +10,8 @@ import {
   Navbar,
   Profile,
   Sidebar,
-} from "./Components";
-import { DataContext, MenuDataContext, StagingDataContext } from "./Utils";
+} from "./components";
+import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
 
 import Config from "./config/config";
 
@@ -72,7 +72,7 @@ const App = () => {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log("data..",data);
+        console.log("data..", data);
         const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
         const formdata = new FormData();
         formdata.append("slug", slug);
@@ -89,13 +89,17 @@ const App = () => {
             console.log("Data Dump...", result);
           })
           .catch((error) => console.log("Data Dump Error...", error));
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log("Error in Getting the Data...", error);
       });
   };
 
+  // TODO: Optimize for dynamicity
   useEffect(() => {
-    sendDataDump("", "index");
+    sendDataDump("", "data_english");
+    sendDataDump("de", "data_german");
+    sendDataDump("hi", "data_hindi");
   }, []);
 
   useEffect(() => {
