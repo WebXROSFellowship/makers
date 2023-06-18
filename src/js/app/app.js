@@ -67,32 +67,35 @@ const App = () => {
   console.log("configs...", Config);
   const base_url = Config.SITE_URL;
 
-  
-  const sendDataDump = async (lang,slug) => {
-    const url = `${base_url}/${lang}/wp-json/wp/v2/pages`;
+  const sendDataDump = async (lang, slug) => {
+    const url = `${base_url}/${lang}/wp-json`;
     fetch(url)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-    const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
-      var formdata = new FormData();
-      formdata.append('slug', slug);
-      formdata.append('data', JSON.stringify(data));
-    var requestOptions = {
-      method: "POST",
-      body: formdata,
-      redirect: "follow",
-    };
-
-     fetch(apiUrl, requestOptions)
       .then((response) => response.json())
-      .catch((error) => console.log("Error", error));
-    console.log("Done DUMp");
-          });
+      .then((data) => {
+        console.log("data..",data);
+        const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
+        const formdata = new FormData();
+        formdata.append("slug", slug);
+        formdata.append("data", JSON.stringify(data));
+        const requestOptions = {
+          method: "POST",
+          body: formdata,
+          redirect: "follow",
+        };
+
+        fetch(apiUrl, requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            console.log("Data Dump...", result);
+          })
+          .catch((error) => console.log("Data Dump Error...", error));
+      }).catch((error) => {
+        console.log("Error in Getting the Data...", error);
+      });
   };
 
   useEffect(() => {
-    sendDataDump('','data_english');
+    sendDataDump("", "index");
   }, []);
 
   useEffect(() => {
