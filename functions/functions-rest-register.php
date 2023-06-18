@@ -725,7 +725,19 @@ function publish_data($request) {
 	$jsonData = $_POST['data'];
 	$decodedString = stripslashes($jsonData);
     $data =json_decode($decodedString);
-	publishThis($slug,$data);
+
+	if (!empty($slug) && !empty($data) ){
+		publishThis($slug,$data);
+		return array(
+            'success' => true,
+			'message' => 'Data Found Successfully...',
+        );
+	} else {
+		return array(
+            'success' => false,
+			'message' => 'Something went wrong ! Data not found...',
+        );
+	}
 }
 
 ?>
