@@ -723,11 +723,21 @@ function register_data_publish() {
 function publish_data($request) {
 	$slug = $_POST['slug'];
 	$jsonData = $_POST['data'];
+	$decodedString = stripslashes($jsonData);
+    $data =json_decode($decodedString);
 
-	$data = json_encode($jsonData, true);
-    
-	// var_dump($slug);
-	publishThis($slug,$data);
+	if (!empty($slug) && !empty($data) ){
+		publishThis($slug,$data);
+		return array(
+            'success' => true,
+			'message' => 'Data Found Successfully...',
+        );
+	} else {
+		return array(
+            'success' => false,
+			'message' => 'Something went wrong ! Data not found...',
+        );
+	}
 }
 
 ?>

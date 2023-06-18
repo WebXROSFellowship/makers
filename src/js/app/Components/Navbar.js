@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+
 import "@styles/style.scss";
-import { DataContext, StagingDataContext } from "../Utils";
+import { DataContext, StagingDataContext } from "../utils";
 import langArr from "../assets/langData";
-// import "src/js/app/assets";
 import Config from "../config/config";
 
 const Navbar = () => {
@@ -89,7 +89,7 @@ const Navbar = () => {
             className="navbar-brand text-white"
             style={{ fontFamily: "sans-serif" }}
           >
-            <img src="${imgBaseURL}" alt="logo" className="logo-img" />
+            <img src={imgBaseURL} alt="logo" className="logo-img" />
             <span className="title-head">PowerSimple | XROS</span>
           </div>
         </Link>
