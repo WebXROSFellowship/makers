@@ -6787,19 +6787,16 @@ function AFrame() {
 ;// CONCATENATED MODULE: ./data/assets_demo.json
 const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"},{"id":"sofa","type":"model","name":"sofa","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb"},{"id":"clock","type":"model","name":"clock","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb"}]');
 ;// CONCATENATED MODULE: ./data/dynamicContent_demo.json
-const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":""},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"3.12365 1.272 2.682","crossorigin":"anonymous"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"0 1.26355 0","rotation":""},{"id":"#room","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/model01.glb","crossorigin":"anonymous","position":"1.44486 0.28666 5.61404"}]');
+const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":""},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"3.12365 1.272 2.682","crossorigin":"anonymous"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"-0.31529 1.264 -1.99661","rotation":""},{"id":"#room","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/model01.glb","crossorigin":"anonymous","position":"1.44486 0.28666 5.61404"}]');
 ;// CONCATENATED MODULE: ./src/js/app/components/Demo.js
-
 
 
 
 // Updated Inspector API data
 
 
+
 // import StagingData from "./../../../../data/data_english.json";
-
-
-// have used native file system till endpoints unavailable
 
 function Demo() {
   const [loading, setLoading] = (0,react.useState)(true); // For asset loading
@@ -6870,9 +6867,9 @@ function Demo() {
     console.log("inside if block of UpdateProperties");
     data.map(obj => {
       var id = obj.id;
-      if (id[0] != "#") {
+      if (id[0] != '#') {
         id = "#" + id;
-        var ele = document.querySelector(id);
+        var ele = document.querySelector("type");
         console.log(ele, id);
         if (ele) {
           ele.setAttribute("position", ele.position);
@@ -7051,46 +7048,53 @@ function Demo() {
     ,
     position: "4.537 0 3.468"
   }), sci_data?.map(oneImg => {
-    return /*#__PURE__*/react.createElement("a-entity", {
-      id: oneImg.file + "wrapper",
-      key: oneImg.id,
-      type: "wrapper",
-      "show-details-on-click": "",
-      position: "0 0 0",
-      rotation: "0 0 0"
-    }, /*#__PURE__*/react.createElement("a-image", {
-      src: "#" + oneImg.file,
-      key: oneImg.id,
-      id: oneImg.title,
-      width: "0.7",
-      height: "0.9",
-      type: "image"
-    }), /*#__PURE__*/react.createElement("a-troika-text", {
-      id: oneImg.file + "description",
-      value: oneImg.alt,
-      visible: "false",
-      type: "desc",
-      color: "#b3dff2",
-      "font-size": "0.06",
-      align: "center",
-      "max-width": "1"
-    }), /*#__PURE__*/react.createElement("a-troika-text", {
-      id: oneImg.file + "caption",
-      value: oneImg.caption,
-      visible: "false",
-      type: "caption",
-      "font-size": "0.06",
-      align: "center",
-      outlineWidth: "0.003",
-      color: "blue",
-      "max-width": "0.7"
-    }), /*#__PURE__*/react.createElement("a-troika-text", {
-      id: oneImg.file + "name",
-      value: oneImg.title,
-      visible: "false",
-      type: "name",
-      "font-size": "0.08"
-    }));
+    var Obj_id = oneImg.file + "wrapper";
+    // console.log(Obj_id);
+    // console.log(data);
+    var Data_from_Inspector = dynamicContent_demo_namespaceObject.find(obj => obj.id == Obj_id);
+    if (Data_from_Inspector) {
+      console.log("position", Data_from_Inspector.position);
+      return /*#__PURE__*/react.createElement("a-entity", {
+        id: oneImg.file + "wrapper",
+        key: oneImg.id,
+        type: "wrapper",
+        "show-details-on-click": "",
+        position: Data_from_Inspector.position,
+        rotation: "0 0 0"
+      }, /*#__PURE__*/react.createElement("a-image", {
+        src: '#' + oneImg.file,
+        key: oneImg.id,
+        id: oneImg.title,
+        width: "0.7",
+        height: "0.9",
+        type: "image"
+      }), /*#__PURE__*/react.createElement("a-troika-text", {
+        id: oneImg.file + "description",
+        value: oneImg.alt,
+        visible: "false",
+        type: "desc",
+        color: "#b3dff2",
+        "font-size": "0.06",
+        align: "center",
+        "max-width": "1"
+      }), /*#__PURE__*/react.createElement("a-troika-text", {
+        id: oneImg.file + "caption",
+        value: oneImg.caption,
+        visible: "false",
+        type: "caption",
+        "font-size": "0.06",
+        align: "center",
+        outlineWidth: "0.003",
+        color: "blue",
+        "max-width": "0.7"
+      }), /*#__PURE__*/react.createElement("a-troika-text", {
+        id: oneImg.file + "name",
+        value: oneImg.title,
+        visible: "false",
+        type: "name",
+        "font-size": "0.08"
+      }));
+    }
   }), /*#__PURE__*/react.createElement("a-entity", {
     "nav-mesh": "",
     id: "#navmesh",

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import assets from "./../../../../data/assets_demo.json";
 
 // Updated Inspector API data
+import Config from "../config/config";
+import assets from "./../../../../data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
-
 // import StagingData from "./../../../../data/data_english.json";
 
-import Config from "../config/config";
-// have used native file system till endpoints unavailable
 
 function Demo() {
   const [loading, setLoading] = useState(true); // For asset loading
@@ -89,19 +87,22 @@ function Demo() {
   }
 
   function UpdateProperties(data) {
-    console.log("UpdateProperties after getStaging", data);
-    console.log("inside if block of UpdateProperties");
-    data.map((obj) => {
-      var id = obj.id;
-      if (id[0] != "#") {
-        id = "#" + id;
-        var ele = document.querySelector(id);
-        console.log(ele, id);
-        if (ele) {
-          ele.setAttribute("position", ele.position);
+    console.log("UpdateProperties after getStaging",data);
+      console.log("inside if block of UpdateProperties")
+      data.map((obj) => {
+        var id = obj.id;
+        if(id[0]!='#')
+        {
+          id = "#"+id;
+          var ele = document.querySelector("type");
+          console.log(ele,id);
+          if(ele) {
+            ele.setAttribute("position",ele.position);
+          }
+          
         }
       }
-    });
+    );
   }
 
   function ShowDescription(Obj, data) {
@@ -316,55 +317,34 @@ function Demo() {
               position="4.537 0 3.468"
             ></a-entity>
             {/* Finally toggle visibility */}
-            {sci_data?.map((oneImg) => {
-              return (
-                <a-entity
-                  id={oneImg.file + "wrapper"}
-                  key={oneImg.id}
-                  type="wrapper"
-                  show-details-on-click=""
-                  position="0 0 0"
-                  rotation="0 0 0"
-                >
-                  <a-image
-                    src={"#" + oneImg.file}
-                    key={oneImg.id}
-                    id={oneImg.title}
-                    width="0.7"
-                    height="0.9"
-                    type="image"
-                  ></a-image>
-                  <a-troika-text
-                    id={oneImg.file + "description"}
-                    value={oneImg.alt}
-                    visible="false"
-                    type="desc"
-                    color="#b3dff2"
-                    font-size="0.06"
-                    align="center"
-                    max-width="1"
-                  ></a-troika-text>
-                  <a-troika-text
-                    id={oneImg.file + "caption"}
-                    value={oneImg.caption}
-                    visible="false"
-                    type="caption"
-                    font-size="0.06"
-                    align="center"
-                    outlineWidth="0.003"
-                    color="blue"
-                    max-width="0.7"
-                  ></a-troika-text>
-                  <a-troika-text
-                    id={oneImg.file + "name"}
-                    value={oneImg.title}
-                    visible="false"
-                    type="name"
-                    font-size="0.08"
-                  ></a-troika-text>
-                </a-entity>
-              );
-            })}
+            { 
+              sci_data?.map((oneImg) => {
+                var Obj_id = oneImg.file+"wrapper";
+                // console.log(Obj_id);
+                // console.log(data);
+                var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
+                if(Data_from_Inspector) {
+                  console.log("position", Data_from_Inspector.position);
+                  return (
+                    <a-entity id={oneImg.file + "wrapper"} key={oneImg.id} type="wrapper" show-details-on-click="" position={Data_from_Inspector.position} rotation="0 0 0">
+                      <a-image
+                      src={'#'+oneImg.file}
+                      key={oneImg.id}
+                      id={oneImg.title}
+                      width= "0.7"
+                      height= "0.9"
+                      type= "image"
+                      >
+                      </a-image>
+                      <a-troika-text id={oneImg.file + "description"} value={oneImg.alt} visible="false" type="desc" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
+                      <a-troika-text id={oneImg.file + "caption"} value={oneImg.caption} visible="false" type="caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
+                      <a-troika-text id={oneImg.file + "name"} value={oneImg.title} visible="false" type="name" font-size="0.08"></a-troika-text>
+                    </a-entity>
+                  )
+                }
+                
+              })
+            }
             <a-entity
               nav-mesh=""
               id="#navmesh"
