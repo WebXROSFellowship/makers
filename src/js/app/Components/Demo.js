@@ -4,7 +4,7 @@ import assets from "../psudo_data/assets_demo.json";
 // Updated Inspector API data
 import data from "./../../../../data/dynamicContent_demo.json";
 
-import StagingData from "./../../../../data/data_english.json";
+// import StagingData from "./../../../../data/data_english.json";
 
 import Config from "../config/config";
 // have used native file system till endpoints unavailable
@@ -15,7 +15,15 @@ function Demo() {
   const [desc_data, setDescData] = useState(["Name", "Caption", "Description", "0 0 0", "0 0 0"]);
   const base_url = Config.SITE_URL;
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
+  const [module, setModule] = useState(data);
 
+  const loadModule = async () => {
+    // Dynamically import the module
+    const importedModule = await import('./../../../../data/dynamicContent_demo.json');
+    console.log("importedModule:",importedModule);
+    // Set the imported module to the state
+    setModule(importedModule);
+  };
   useEffect(() => {
     // Call the checkElement function initially
     checkElement();
@@ -56,7 +64,7 @@ function Demo() {
 
   function GetFromStaging() {
     console.log("Inside get from staging")
-    const url = "https://staging.webxr.link/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1";
+    const url = `${base_url}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
     fetch(url)
           .then((response) => response.json())
           .then((fetchdata) => {
@@ -68,7 +76,7 @@ function Demo() {
               // console.log(oneImgData.data);
             })
 
-            console.log("Staging Data",StagingData[3]);
+            // console.log("Staging Data",StagingData[3]);
             // var final_data = data;
             // console.log("Fetch from Staging");
             console.log("final data",final_data);
@@ -222,7 +230,9 @@ function Demo() {
         // Result : {success: true/false, message: "..."}
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
+        loadModule();
         window.location.reload();
+        
       })
       .catch((error) => console.log("Error", error));
   };
