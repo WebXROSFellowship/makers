@@ -388,7 +388,7 @@ function Demo() {
           ></a-asset-item>
           <a-asset-item
             id="navmesh"
-            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/fMesh.glb"
+            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb"
             crossOrigin="anonymous"
             key="navmesh"
           ></a-asset-item>
