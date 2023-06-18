@@ -5298,6 +5298,8 @@ const App = () => {
   };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     sendDataDump('', 'data_english');
+    sendDataDump('de', 'data_german');
+    sendDataDump('hi', 'data_hindi');
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetchMenuData();

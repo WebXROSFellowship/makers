@@ -93,6 +93,8 @@ const App = () => {
 
   useEffect(() => {
     sendDataDump('','data_english');
+    sendDataDump('de','data_german');
+    sendDataDump('hi','data_hindi');
   }, []);
 
   useEffect(() => {
