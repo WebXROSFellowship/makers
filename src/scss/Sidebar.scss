@@ -100,23 +100,32 @@
   }
   
   .dark-mode {
-    background-color: $dark-Bg;
-
-    .mainpage h1 {
-      color: $dark-h1-color;
-    }
-    .mainpage p {
-      color: $dark-p-color;
-    }
-
-    .navbar{
-      background-color: #7F669D;
-      color:white;
+    #root{
+      background-color: rgba(0, 0, 15, 0.95);
     }
 
     .dropbtn {
-      background-color: #7F669D;
+     color: #27374D;
     }
+    .mainpage h1 {
+      color: #9DB2BF;
+    }
+    .mainpage p {
+      color: #DDE6ED;
+    }
+
+    .navbar{
+      background-color: #DDE6ED;
+      color:#27374D;
+    }
+
+    .dropbtn {
+      background-color: #DDE6ED;
+    }
+    .title-head{
+      color: #27374D;
+    }
+   
   }
 
   .dyslexia-mode {

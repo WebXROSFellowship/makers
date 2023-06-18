@@ -16,7 +16,7 @@ const Navbar = () => {
   const { stagingData } = useContext(StagingDataContext);
   const base_url = Config.SITE_URL;
 
-  let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
+  // let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
@@ -89,7 +89,7 @@ const Navbar = () => {
             className="navbar-brand text-white"
             style={{ fontFamily: "sans-serif" }}
           >
-            <img src="${imgBaseURL}" alt="logo" className="logo-img" />
+            <img src="https://staging.webxr.link/wp-content/uploads/2023/05/webxros.png" alt="logo" className="logo-img" />
             <span className="title-head">PowerSimple | XROS</span>
           </div>
         </Link>
@@ -275,7 +275,7 @@ const Navbar = () => {
                 <></>
               )}
               <div className="dropdown2">
-                <button className="dropbtn"> Languages </button>
+                <button className="dropbtn"> Languages  </button>
                 <div className="dropdown__content">
                   <span onClick={() => setLang("")} className="dropdown__items">
                     English

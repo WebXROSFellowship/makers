@@ -25,26 +25,33 @@ code {
 
 // This will automatically work for devices with dark mode activated in OS or browser
 // @media (prefers-color-scheme: dark) {
-//   body {
-//     background-color: $dark-Bg;
-//   }
 
-//   .mainpage h1 {
-//     color: $dark-h1-color;
-//   }
+//     #root{
+//       background-color: rgba(0, 0, 15, 0.95);
+//     }
 
-//   .mainpage p {
-//     color: $dark-p-color;
-//   }
+//     .dropbtn {
+//      color: #27374D;
+//     }
+//     .mainpage h1 {
+//       color: #9DB2BF;
+//     }
+//     .mainpage p {
+//       color: #DDE6ED;
+//     }
 
-//   .navbar {
-//     background-color: #7F669D;
-//     color: white;
-//   }
+//     .navbar{
+//       background-color: #DDE6ED;
+//       color:#27374D;
+//     }
 
-//   .dropbtn {
-//     background-color: #7F669D;
-//   }
+//     .dropbtn {
+//       background-color: #DDE6ED;
+//     }
+//     .title-head{
+//       color: #27374D;
+//     }
+   
 // }
 
 .mainpage{
@@ -63,7 +70,8 @@ font-size: 40px;
 line-height: 70px;
 text-transform: uppercase;
 text-align: center;
-color: #5C469C;
+color: #526D82;
+padding: 40px;
 }
 
 .mainpage p{
@@ -76,5 +84,10 @@ font-size: 16.2px;
 line-height: 37px;
 text-align: justify;
 text-transform: capitalize;
-color: #1D267D;
+color: #00000F;
+padding: 3% 10%;
+}
+
+#root{
+  background-color: rgba(221, 230, 237, 0.95);
 }
