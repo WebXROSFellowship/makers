@@ -168,7 +168,7 @@ function get_media_data_by_id($id){//this function builds the data for a lean js
 		'alt' => get_post_meta($id,"_wp_attachment_image_alt",true),
 		'caption' => wp_get_attachment_caption($id),
 		'title'=> get_the_title($id),
-		'desc' =>nl2br(get_post($id)->post_content),
+		'desc' =>get_post($id)->post_content,
 		'path'=> $path,
 		'file' => $file,
 		'mime' => $mime,
