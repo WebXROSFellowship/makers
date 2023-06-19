@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 525:
+/***/ 900:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -3828,7 +3828,7 @@ function getTargetMatch(matches, location) {
 
 ;// CONCATENATED MODULE: ./node_modules/react-router/dist/index.js
 /**
- * React Router v6.12.1
+ * React Router v6.13.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -3855,6 +3855,33 @@ function dist_extends() {
   };
   return dist_extends.apply(this, arguments);
 }
+
+/**
+  Not a true "polyfill" since we guard via the feature flag at runtime,
+  but close enough :)
+
+  Webpack + React 17 fails to compile on any of the following because webpack
+  complains that `startTransition` doesn't exist in `React`:
+  * import { startTransition } from "react"
+  * import * as React from from "react";
+    "startTransition" in React ? React.startTransition(() => setState()) : setState()
+  * import * as React from from "react";
+    "startTransition" in React ? React["startTransition"](() => setState()) : setState()
+
+  Moving it to a constant such as the following solves the Webpack/React 17 issue:
+  * import * as React from from "react";
+    const START_TRANSITION = "startTransition";
+    START_TRANSITION in React ? React[START_TRANSITION](() => setState()) : setState()
+
+  However, that introduces webpack/terser minification issues in production builds
+  in React 18 where minification/obfuscation ends up removing the call of
+  React.startTransition entirely from the first half of the ternary.  Grabbing
+  this exported reference once up front resolves that issue.
+
+  See https://github.com/remix-run/react-router/issues/10579
+*/
+const START_TRANSITION = "startTransition";
+var startTransitionImpl = react_namespaceObject[START_TRANSITION];
 
 // Create react-specific types from the agnostic types in @remix-run/router to
 // export from react-router
@@ -4593,25 +4620,24 @@ function warningOnce(key, cond, message) {
   }
 }
 
-// Webpack + React 17 fails to compile on the usage of `React.startTransition` or
-// `React["startTransition"]` even if it's behind a feature detection of
-// `"startTransition" in React`. Moving this to a constant avoids the issue :/
-const START_TRANSITION = "startTransition";
-
 /**
  * Given a Remix Router instance, render the appropriate UI
  */
 function RouterProvider(_ref) {
   let {
     fallbackElement,
-    router
+    router,
+    future
   } = _ref;
   // Need to use a layout effect here so we are subscribed early enough to
   // pick up on any render-driven redirects/navigations (useEffect/<Navigate>)
   let [state, setStateImpl] = react.useState(router.state);
+  let {
+    v7_startTransition
+  } = future || {};
   let setState = react.useCallback(newState => {
-    START_TRANSITION in react_namespaceObject ? react_namespaceObject[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl]);
+    v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl, v7_startTransition]);
   react.useLayoutEffect(() => router.subscribe(setState), [router, setState]);
   let navigator = react.useMemo(() => {
     return {
@@ -4674,7 +4700,8 @@ function MemoryRouter(_ref3) {
     basename,
     children,
     initialEntries,
-    initialIndex
+    initialIndex,
+    future
   } = _ref3;
   let historyRef = React.useRef();
   if (historyRef.current == null) {
@@ -4689,9 +4716,12 @@ function MemoryRouter(_ref3) {
     action: history.action,
     location: history.location
   });
+  let {
+    v7_startTransition
+  } = future || {};
   let setState = React.useCallback(newState => {
-    START_TRANSITION in React ? React[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl]);
+    v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl, v7_startTransition]);
   React.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/React.createElement(dist_Router, {
     basename: basename,
@@ -5059,7 +5089,7 @@ function createMemoryRouter(routes, opts) {
 
 ;// CONCATENATED MODULE: ./node_modules/react-router-dom/dist/index.js
 /**
- * React Router DOM v6.12.1
+ * React Router DOM v6.13.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -5304,10 +5334,6 @@ function deserializeErrors(errors) {
   }
   return serialized;
 }
-// Webpack + React 17 fails to compile on the usage of `React.startTransition` or
-// `React["startTransition"]` even if it's behind a feature detection of
-// `"startTransition" in React`. Moving this to a constant avoids the issue :/
-const dist_START_TRANSITION = "startTransition";
 /**
  * A `<Router>` for use in web browsers. Provides the cleanest URLs.
  */
@@ -5315,6 +5341,7 @@ function BrowserRouter(_ref) {
   let {
     basename,
     children,
+    future,
     window
   } = _ref;
   let historyRef = React.useRef();
@@ -5329,9 +5356,12 @@ function BrowserRouter(_ref) {
     action: history.action,
     location: history.location
   });
+  let {
+    v7_startTransition
+  } = future || {};
   let setState = React.useCallback(newState => {
-    dist_START_TRANSITION in React ? React[dist_START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl]);
+    v7_startTransition && UNSAFE_startTransitionImpl ? UNSAFE_startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl, v7_startTransition]);
   React.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/React.createElement(Router, {
     basename: basename,
@@ -5349,6 +5379,7 @@ function HashRouter(_ref2) {
   let {
     basename,
     children,
+    future,
     window
   } = _ref2;
   let historyRef = React.useRef();
@@ -5363,9 +5394,12 @@ function HashRouter(_ref2) {
     action: history.action,
     location: history.location
   });
+  let {
+    v7_startTransition
+  } = future || {};
   let setState = React.useCallback(newState => {
-    dist_START_TRANSITION in React ? React[dist_START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl]);
+    v7_startTransition && UNSAFE_startTransitionImpl ? UNSAFE_startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl, v7_startTransition]);
   React.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/React.createElement(Router, {
     basename: basename,
@@ -5385,15 +5419,19 @@ function HistoryRouter(_ref3) {
   let {
     basename,
     children,
+    future,
     history
   } = _ref3;
   let [state, setStateImpl] = React.useState({
     action: history.action,
     location: history.location
   });
+  let {
+    v7_startTransition
+  } = future || {};
   let setState = React.useCallback(newState => {
-    dist_START_TRANSITION in React ? React[dist_START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl]);
+    v7_startTransition && UNSAFE_startTransitionImpl ? UNSAFE_startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl, v7_startTransition]);
   React.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/React.createElement(Router, {
     basename: basename,
@@ -6013,28 +6051,28 @@ function usePrompt(_ref8) {
 
 //# sourceMappingURL=index.js.map
 
-;// CONCATENATED MODULE: ./src/js/app/Utils/DataContext.js
+;// CONCATENATED MODULE: ./src/js/app/utils/DataContext.js
 
 const DataContext = /*#__PURE__*/(0,react.createContext)({
   data: {}
 });
 DataContext.displayName = "DataContext";
-/* harmony default export */ const Utils_DataContext = (DataContext);
-;// CONCATENATED MODULE: ./src/js/app/Utils/MenuDataContext.js
+/* harmony default export */ const utils_DataContext = (DataContext);
+;// CONCATENATED MODULE: ./src/js/app/utils/MenuDataContext.js
 
 const MenuDataContext = /*#__PURE__*/(0,react.createContext)({
   menuData: {}
 });
 MenuDataContext.displayName = "Menu Data";
-/* harmony default export */ const Utils_MenuDataContext = (MenuDataContext);
-;// CONCATENATED MODULE: ./src/js/app/Utils/StagingDataContext.js
+/* harmony default export */ const utils_MenuDataContext = (MenuDataContext);
+;// CONCATENATED MODULE: ./src/js/app/utils/StagingDataContext.js
 
 const StagingDataContext = /*#__PURE__*/(0,react.createContext)({
   stagingData: []
 });
 StagingDataContext.displayName = "Staging Data";
-/* harmony default export */ const Utils_StagingDataContext = (StagingDataContext);
-;// CONCATENATED MODULE: ./src/js/app/Utils/index.js
+/* harmony default export */ const utils_StagingDataContext = (StagingDataContext);
+;// CONCATENATED MODULE: ./src/js/app/utils/index.js
 
 
 
@@ -6061,13 +6099,12 @@ let langArr = [{
 ;// CONCATENATED MODULE: ./src/js/app/config/config.js
 const Config = configData;
 /* harmony default export */ const config = (Config);
-;// CONCATENATED MODULE: ./src/js/app/Components/Navbar.js
+;// CONCATENATED MODULE: ./src/js/app/components/Navbar.js
 
 
 
 
 
-// import "src/js/app/assets";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = (0,react.useState)(false);
@@ -6077,10 +6114,10 @@ const Navbar = () => {
   const [hoveredIndex, setHoveredIndex] = (0,react.useState)(-1);
   const {
     setLang
-  } = (0,react.useContext)(Utils_DataContext);
+  } = (0,react.useContext)(utils_DataContext);
   const {
     stagingData
-  } = (0,react.useContext)(Utils_StagingDataContext);
+  } = (0,react.useContext)(utils_StagingDataContext);
   const base_url = config.SITE_URL;
   let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
@@ -6148,12 +6185,12 @@ const Navbar = () => {
       fontFamily: "sans-serif"
     }
   }, /*#__PURE__*/react.createElement("img", {
-    src: "${imgBaseURL}",
+    src: imgBaseURL,
     alt: "logo",
     className: "logo-img"
   }), /*#__PURE__*/react.createElement("span", {
     className: "title-head"
-  }, "PowerSimple | XROS"))), /*#__PURE__*/react.createElement("div", {
+  }, config.SITE_TITLE))), /*#__PURE__*/react.createElement("div", {
     className: "navbar-right"
   }, navbarMenus ? navbarMenus.map((currEle, i) => {
     let {
@@ -6308,15 +6345,15 @@ const Navbar = () => {
     className: "dropdown__items"
   }, "German")))) : /*#__PURE__*/react.createElement(react.Fragment, null))));
 };
-/* harmony default export */ const Components_Navbar = (Navbar);
-;// CONCATENATED MODULE: ./src/js/app/Components/Home.js
+/* harmony default export */ const components_Navbar = (Navbar);
+;// CONCATENATED MODULE: ./src/js/app/components/Home.js
 
 
 const Home = () => {
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Outlet, null));
 };
-/* harmony default export */ const Components_Home = (Home);
-;// CONCATENATED MODULE: ./src/js/app/Components/Body.js
+/* harmony default export */ const components_Home = (Home);
+;// CONCATENATED MODULE: ./src/js/app/components/Body.js
 
 
 const Body = () => {
@@ -6328,8 +6365,8 @@ const Body = () => {
     className: "mb-4 body-text"
   }, "\u201CI think it\u2019s actually our obligation and duty to figure out on our side what can we do to make the VR platform take advantage of this trillion plus dollars of content on all of the flat screens.\u201D -", /*#__PURE__*/react.createElement("i", null, " John Carmack, Meta Connect Keynote, 2021"), /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "This quote is an essential reminder, that there is an enormous amount of text, images, and video waiting to populate XR worlds. 42% of all websites on the internet use WordPress as a Content Management System (CMS). Our open-source project aims to make it easy to enable WebXR in WordPress using a customizable theme. This will empower content owners to publish their assets already stored in 2D sites into an immersive format.", /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "The strategic approach of enabling entire content libraries stored in WordPress to be presented in WebXR will propel the growth of the Immersive Web, by allowing sites to gradually phase-in presentation of content in Virtual and Augmented Reality without having to change CMS platforms. WordPress's impressive reach, with over 400 million websites using it, and a 64.3% share of the CMS market, makes converting WordPress websites into 3D Experiences a massive market opportunity which will draw developer talent to advance their careers in the Metaverse.", /*#__PURE__*/react.createElement("br", null), /*#__PURE__*/react.createElement("br", null), "Over the past three years, Powersimple has been using WordPress as an effective admin tool to structure data and populate WebXR sites, with text and image content, and even interactive 3D models. This effectively bridges the gap between the 2D internet of the past and the Immersive Web of the future. The XROS Fellowship, sponsored by FICCI (Federation of Indian Chambers of Commerce & Industry) and Meta, is sponsoring a stipend for six talented students who have been selected from a pool of 120 applicants, to dedicate over 2,000 hours of development time toward repackaging this open-source theme for mass-market use. The project is guided by Ben Erwin, who has over 25-years of experience as a web developer, with 15 specializing in WordPress.", /*#__PURE__*/react.createElement("br", null)));
 };
-/* harmony default export */ const Components_Body = (Body);
-;// CONCATENATED MODULE: ./src/js/app/Components/Profile.js
+/* harmony default export */ const components_Body = (Body);
+;// CONCATENATED MODULE: ./src/js/app/components/Profile.js
 
 
 
@@ -6341,7 +6378,7 @@ const Profile = () => {
   } = useParams();
   const {
     stagingData
-  } = (0,react.useContext)(Utils_StagingDataContext);
+  } = (0,react.useContext)(utils_StagingDataContext);
   const curl = "/profile/" + username + "/";
   const data = stagingData;
   const cd = data?.filter(e => e?.url === curl);
@@ -6371,8 +6408,8 @@ const Profile = () => {
     }
   }));
 };
-/* harmony default export */ const Components_Profile = (Profile);
-;// CONCATENATED MODULE: ./src/js/app/Components/Sidebar.js
+/* harmony default export */ const components_Profile = (Profile);
+;// CONCATENATED MODULE: ./src/js/app/components/Sidebar.js
 
 
 function Sidebar() {
@@ -6477,11 +6514,8 @@ function Sidebar() {
     onClick: handleResetButtonClick
   }, "Reset"))))));
 }
-/* harmony default export */ const Components_Sidebar = (Sidebar);
-;// CONCATENATED MODULE: ./src/js/app/Components/NavSites.js
-
-
-
+/* harmony default export */ const components_Sidebar = (Sidebar);
+;// CONCATENATED MODULE: ./src/js/app/components/NavSites.js
 
 
 
@@ -6492,11 +6526,11 @@ const NavSites = () => {
   } = useParams();
   const {
     lang
-  } = (0,react.useContext)(Utils_DataContext);
+  } = (0,react.useContext)(utils_DataContext);
   // const { menuData } = useContext(MenuDataContext);
   const {
     stagingData
-  } = (0,react.useContext)(Utils_StagingDataContext);
+  } = (0,react.useContext)(utils_StagingDataContext);
   const filteredMenuData = (0,react.useMemo)(() => {
     const curl = "/" + sitename + "/" + (sn != undefined ? sn + "/" : "");
     const langMenuData = stagingData || [];
@@ -6509,7 +6543,7 @@ const NavSites = () => {
     }
   }));
 };
-/* harmony default export */ const Components_NavSites = (NavSites);
+/* harmony default export */ const components_NavSites = (NavSites);
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function extends_extends() {
   extends_extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -6525,11 +6559,11 @@ function extends_extends() {
   };
   return extends_extends.apply(this, arguments);
 }
-;// CONCATENATED MODULE: ./src/js/app/psudo_data/assets.json
+;// CONCATENATED MODULE: ./data/assets.json
 const assets_namespaceObject = JSON.parse('[{"id":"marvel","type":"model","name":"astra","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb"},{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"astra","type":"model","name":"marvel","url":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb"},{"id":"bg","type":"image","name":"background","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/bg.jpg"}]');
-;// CONCATENATED MODULE: ./src/js/app/Components/dynamicContent.json
-const dynamicContent_namespaceObject = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 1.93968 -3","crossorigin":"anonymous"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"1.27063 1.34902 1","visible":"","rotation":"1 0 0"},{"id":"#marvel","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb","position":"1.91177 0.75 -3","scale":"3 3 3","crossorigin":"anonymous"}]');
-;// CONCATENATED MODULE: ./src/js/app/Components/AFrame.js
+;// CONCATENATED MODULE: ./data/dynamicContent_old.json
+const dynamicContent_old_namespaceObject = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 1.93968 -3","crossorigin":"anonymous"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"1.27063 1.34902 1","visible":"","rotation":"1 0 0"},{"id":"#marvel","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb","position":"1.91177 0.75 -3","scale":"3 3 3","crossorigin":"anonymous"}]');
+;// CONCATENATED MODULE: ./src/js/app/components/AFrame.js
 
 
 
@@ -6618,7 +6652,7 @@ function AFrame() {
     function updateDataFile(jsonString) {
       const newData = JSON.parse(jsonString);
       var foundData = false;
-      const updatedData = dynamicContent_namespaceObject.map(item => {
+      const updatedData = dynamicContent_old_namespaceObject.map(item => {
         if (item.id === newData.id) {
           console.log("Found the item to update");
           foundData = true;
@@ -6726,7 +6760,7 @@ function AFrame() {
     radius: "0.5",
     height: "1.5",
     crossOrigin: "anonymous"
-  }), dynamicContent_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", extends_extends({
+  }), dynamicContent_old_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", extends_extends({
     key: entity.id
   }, entity)))), /*#__PURE__*/react.createElement("a-sphere", {
     position: "0 0.7 -7",
@@ -6749,23 +6783,20 @@ function AFrame() {
     src: "#bg"
   })));
 }
-/* harmony default export */ const Components_AFrame = (AFrame);
-;// CONCATENATED MODULE: ./src/js/app/psudo_data/assets_demo.json
+/* harmony default export */ const components_AFrame = (AFrame);
+;// CONCATENATED MODULE: ./data/assets_demo.json
 const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"},{"id":"sofa","type":"model","name":"sofa","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb"},{"id":"clock","type":"model","name":"clock","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb"}]');
-// EXTERNAL MODULE: ./data/dynamicContent_demo.json
-var dynamicContent_demo = __webpack_require__(149);
-;// CONCATENATED MODULE: ./src/js/app/Components/Demo.js
-
+;// CONCATENATED MODULE: ./data/dynamicContent_demo.json
+const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":""},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"3.12365 1.272 2.682","crossorigin":"anonymous"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"-0.31529 1.264 -1.99661","rotation":""},{"id":"#room","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/model01.glb","crossorigin":"anonymous","position":"1.44486 0.28666 5.61404"}]');
+;// CONCATENATED MODULE: ./src/js/app/components/Demo.js
 
 
 
 // Updated Inspector API data
 
 
+
 // import StagingData from "./../../../../data/data_english.json";
-
-
-// have used native file system till endpoints unavailable
 
 function Demo() {
   const [loading, setLoading] = (0,react.useState)(true); // For asset loading
@@ -6773,14 +6804,7 @@ function Demo() {
   const [desc_data, setDescData] = (0,react.useState)(["Name", "Caption", "Description", "0 0 0", "0 0 0"]);
   const base_url = config.SITE_URL;
   const [elementDetected, setElementDetected] = (0,react.useState)(false); // For inspector loaded
-  const [module, setModule] = (0,react.useState)(dynamicContent_demo);
-  const loadModule = async () => {
-    // Dynamically import the module
-    const importedModule = await Promise.resolve(/* import() */).then(__webpack_require__.t.bind(__webpack_require__, 149, 19));
-    console.log("importedModule:", importedModule);
-    // Set the imported module to the state
-    setModule(importedModule);
-  };
+
   (0,react.useEffect)(() => {
     // Call the checkElement function initially
     checkElement();
@@ -6844,8 +6868,8 @@ function Demo() {
     data.map(obj => {
       var id = obj.id;
       if (id[0] != '#') {
-        id = '#' + id;
-        var ele = document.querySelector(id);
+        id = "#" + id;
+        var ele = document.querySelector("type");
         console.log(ele, id);
         if (ele) {
           ele.setAttribute("position", ele.position);
@@ -6923,7 +6947,7 @@ function Demo() {
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
     var foundData = false;
-    const updatedData = dynamicContent_demo.map(item => {
+    const updatedData = dynamicContent_demo_namespaceObject.map(item => {
       if (item.id === newData.id) {
         console.log("Found the item to update");
         foundData = true;
@@ -6952,7 +6976,6 @@ function Demo() {
       // Result : {success: true/false, message: "..."}
       const dataResp = JSON.parse(result);
       alert(dataResp.message);
-      loadModule();
       window.location.reload();
     }).catch(error => console.log("Error", error));
   };
@@ -7025,46 +7048,53 @@ function Demo() {
     ,
     position: "4.537 0 3.468"
   }), sci_data?.map(oneImg => {
-    return /*#__PURE__*/react.createElement("a-entity", {
-      id: oneImg.file + "wrapper",
-      key: oneImg.id,
-      type: "wrapper",
-      "show-details-on-click": "",
-      position: "0 0 0",
-      rotation: "0 0 0"
-    }, /*#__PURE__*/react.createElement("a-image", {
-      src: '#' + oneImg.file,
-      key: oneImg.id,
-      id: oneImg.title,
-      width: "0.7",
-      height: "0.9",
-      type: "image"
-    }), /*#__PURE__*/react.createElement("a-troika-text", {
-      id: oneImg.file + "description",
-      value: oneImg.alt,
-      visible: "false",
-      type: "desc",
-      color: "#b3dff2",
-      "font-size": "0.06",
-      align: "center",
-      "max-width": "1"
-    }), /*#__PURE__*/react.createElement("a-troika-text", {
-      id: oneImg.file + "caption",
-      value: oneImg.caption,
-      visible: "false",
-      type: "caption",
-      "font-size": "0.06",
-      align: "center",
-      outlineWidth: "0.003",
-      color: "blue",
-      "max-width": "0.7"
-    }), /*#__PURE__*/react.createElement("a-troika-text", {
-      id: oneImg.file + "name",
-      value: oneImg.title,
-      visible: "false",
-      type: "name",
-      "font-size": "0.08"
-    }));
+    var Obj_id = oneImg.file + "wrapper";
+    // console.log(Obj_id);
+    // console.log(data);
+    var Data_from_Inspector = dynamicContent_demo_namespaceObject.find(obj => obj.id == Obj_id);
+    if (Data_from_Inspector) {
+      console.log("position", Data_from_Inspector.position);
+      return /*#__PURE__*/react.createElement("a-entity", {
+        id: oneImg.file + "wrapper",
+        key: oneImg.id,
+        type: "wrapper",
+        "show-details-on-click": "",
+        position: Data_from_Inspector.position,
+        rotation: "0 0 0"
+      }, /*#__PURE__*/react.createElement("a-image", {
+        src: '#' + oneImg.file,
+        key: oneImg.id,
+        id: oneImg.title,
+        width: "0.7",
+        height: "0.9",
+        type: "image"
+      }), /*#__PURE__*/react.createElement("a-troika-text", {
+        id: oneImg.file + "description",
+        value: oneImg.alt,
+        visible: "false",
+        type: "desc",
+        color: "#b3dff2",
+        "font-size": "0.06",
+        align: "center",
+        "max-width": "1"
+      }), /*#__PURE__*/react.createElement("a-troika-text", {
+        id: oneImg.file + "caption",
+        value: oneImg.caption,
+        visible: "false",
+        type: "caption",
+        "font-size": "0.06",
+        align: "center",
+        outlineWidth: "0.003",
+        color: "blue",
+        "max-width": "0.7"
+      }), /*#__PURE__*/react.createElement("a-troika-text", {
+        id: oneImg.file + "name",
+        value: oneImg.title,
+        visible: "false",
+        type: "name",
+        "font-size": "0.08"
+      }));
+    }
   }), /*#__PURE__*/react.createElement("a-entity", {
     "nav-mesh": "",
     id: "#navmesh",
@@ -7072,7 +7102,7 @@ function Demo() {
     crossOrigin: "anonymous",
     visible: "false",
     position: "4.762 0 3.739"
-  }), dynamicContent_demo.map(entity => {
+  }), dynamicContent_demo_namespaceObject.map(entity => {
     if (entity["gltf-model"]) {
       return /*#__PURE__*/react.createElement("a-entity", extends_extends({
         key: entity.id
@@ -7151,8 +7181,8 @@ function Demo() {
     scale: "6 2 2"
   })));
 }
-/* harmony default export */ const Components_Demo = (Demo);
-;// CONCATENATED MODULE: ./src/js/app/Components/index.js
+/* harmony default export */ const components_Demo = (Demo);
+;// CONCATENATED MODULE: ./src/js/app/components/index.js
 
 
 
@@ -7170,27 +7200,27 @@ function Demo() {
 
 const appRouter = createBrowserRouter([{
   path: "/",
-  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Components_Navbar, null), /*#__PURE__*/react.createElement(Components_Sidebar, null), /*#__PURE__*/react.createElement(Components_Home, null)),
+  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(components_Navbar, null), /*#__PURE__*/react.createElement(components_Sidebar, null), /*#__PURE__*/react.createElement(components_Home, null)),
   children: [{
     path: "/",
-    element: /*#__PURE__*/react.createElement(Components_Body, null)
+    element: /*#__PURE__*/react.createElement(components_Body, null)
   }, {
     path: "aframe_demo",
-    element: /*#__PURE__*/react.createElement(Components_Demo, null)
+    element: /*#__PURE__*/react.createElement(components_Demo, null)
   }, {
     path: "aframe",
-    element: /*#__PURE__*/react.createElement(Components_AFrame, null)
+    element: /*#__PURE__*/react.createElement(components_AFrame, null)
   }, {
     path: "profile/:username",
-    element: /*#__PURE__*/react.createElement(Components_Profile, null)
+    element: /*#__PURE__*/react.createElement(components_Profile, null)
   }, {
     path: "/:sitename/:sn",
     element: /*#__PURE__*/react.createElement(react.Suspense, {
       fallback: /*#__PURE__*/react.createElement("h1", null, "Loadinggg...")
-    }, /*#__PURE__*/react.createElement(Components_NavSites, null))
+    }, /*#__PURE__*/react.createElement(components_NavSites, null))
   }, {
     path: "/:sitename",
-    element: /*#__PURE__*/react.createElement(Components_NavSites, null)
+    element: /*#__PURE__*/react.createElement(components_NavSites, null)
   }]
 }]);
 const App = () => {
@@ -7200,28 +7230,31 @@ const App = () => {
   console.log("configs...", config);
   const base_url = config.SITE_URL;
   const sendDataDump = async (lang, slug) => {
-    const url = `${base_url}/${lang}/wp-json/wp/v2/pages`;
+    const url = `${base_url}/${lang}/wp-json`;
     fetch(url).then(response => response.json()).then(data => {
-      console.log(data);
+      console.log("data..", data);
       const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
-      var formdata = new FormData();
-      formdata.append('slug', slug);
-      formdata.append('data', JSON.stringify(data));
-      var requestOptions = {
+      const formdata = new FormData();
+      formdata.append("slug", slug);
+      formdata.append("data", JSON.stringify(data));
+      const requestOptions = {
         method: "POST",
         body: formdata,
         redirect: "follow"
       };
-      fetch(apiUrl, requestOptions).then(response => response.json()).catch(error => console.log("Error", error));
-      console.log("Done DUMp");
+      fetch(apiUrl, requestOptions).then(response => response.json()).then(result => {
+        console.log("Data Dump...", result);
+      }).catch(error => console.log("Data Dump Error...", error));
+    }).catch(error => {
+      console.log("Error in Getting the Data...", error);
     });
   };
 
   // TODO: Optimize for dynamicity
   (0,react.useEffect)(() => {
-    sendDataDump('', 'data_english');
-    sendDataDump('de', 'data_german');
-    sendDataDump('hi', 'data_hindi');
+    sendDataDump("", "data_english");
+    sendDataDump("de", "data_german");
+    sendDataDump("hi", "data_hindi");
   }, []);
   (0,react.useEffect)(() => {
     fetchMenuData();
@@ -7241,17 +7274,17 @@ const App = () => {
   if (stagingData.length === 0) {
     return /*#__PURE__*/react.createElement("div", null, "Loading...");
   }
-  return /*#__PURE__*/react.createElement(Utils_DataContext.Provider, {
+  return /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
     value: {
       lang: lang,
       setLang: setLang
     }
-  }, /*#__PURE__*/react.createElement(Utils_StagingDataContext.Provider, {
+  }, /*#__PURE__*/react.createElement(utils_StagingDataContext.Provider, {
     value: {
       stagingData,
       setStagingData
     }
-  }, /*#__PURE__*/react.createElement(Utils_MenuDataContext.Provider, {
+  }, /*#__PURE__*/react.createElement(utils_MenuDataContext.Provider, {
     value: {
       menuData,
       setMenuData
@@ -7269,7 +7302,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(525);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(900);
 
 
 
@@ -7738,13 +7771,6 @@ if (true) {
 } else {}
 
 
-/***/ }),
-
-/***/ 149:
-/***/ ((module) => {
-
-module.exports = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":""},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"3.66571 1.34902 -0.37157","visible":"","rotation":"0.9998113525032866 -89.45590055377542 0"},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"3.01994 1.272 2.682","crossorigin":"anonymous"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"0 1.26355 0","rotation":""}]');
-
 /***/ })
 
 /******/ 	});
@@ -7837,7 +7863,7 @@ module.exports = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.gli
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(525);
+/******/ 	__webpack_require__(900);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()

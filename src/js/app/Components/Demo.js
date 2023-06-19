@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
-import assets from "../psudo_data/assets_demo.json";
 
 // Updated Inspector API data
+import Config from "../config/config";
+import assets from "./../../../../data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
-
 // import StagingData from "./../../../../data/data_english.json";
 
-import Config from "../config/config";
-// have used native file system till endpoints unavailable
 
 function Demo() {
   const [loading, setLoading] = useState(true); // For asset loading
   const [sci_data, setSciData] = useState([]);
-  const [desc_data, setDescData] = useState(["Name", "Caption", "Description", "0 0 0", "0 0 0"]);
+  const [desc_data, setDescData] = useState([
+    "Name",
+    "Caption",
+    "Description",
+    "0 0 0",
+    "0 0 0",
+  ]);
   const base_url = Config.SITE_URL;
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
   const [module, setModule] = useState(data);
@@ -63,33 +67,31 @@ function Demo() {
   }
 
   function GetFromStaging() {
-    console.log("Inside get from staging")
+    // console.log("Inside get from staging");
     const url = `${base_url}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
     fetch(url)
-          .then((response) => response.json())
-          .then((fetchdata) => {
-            var final_data = [];
-            fetchdata.map((oneImgData) => {
-              if(oneImgData.data.desc) {
-                final_data.push(oneImgData.data);
-              }
-              // console.log(oneImgData.data);
-            })
+      .then((response) => response.json())
+      .then((fetchdata) => {
+        var final_data = [];
+        fetchdata.map((oneImgData) => {
+          if (oneImgData.data.desc) {
+            final_data.push(oneImgData.data);
+          }
+          // console.log(oneImgData.data);
+        });
 
-            // console.log("Staging Data",StagingData[3]);
-            // var final_data = data;
-            // console.log("Fetch from Staging");
-            console.log("final data",final_data);
-            setSciData(final_data);
-            // AddImages(final_data);
-            AddClickEvent(final_data);
-            
-            // UpdateProperties(data);
+        // console.log("Staging Data",StagingData[3]);
+        // var final_data = data;
+        // console.log("Fetch from Staging");
+        console.log("final data", final_data);
+        setSciData(final_data);
+        // AddImages(final_data);
+        AddClickEvent(final_data);
 
-          })
+        // UpdateProperties(data);
+      });
 
-    console.log("sci data",sci_data);
-    
+    console.log("sci data", sci_data);
   }
 
   function UpdateProperties(data) {
@@ -99,19 +101,17 @@ function Demo() {
         var id = obj.id;
         if(id[0]!='#')
         {
-          id = '#'+id;
-          var ele = document.querySelector(id);
+          id = "#"+id;
+          var ele = document.querySelector("type");
           console.log(ele,id);
           if(ele) {
             ele.setAttribute("position",ele.position);
           }
           
         }
-        
-      })
-    }
-    
-  
+      }
+    );
+  }
 
   function ShowDescription(Obj, data) {
     console.log("ShowDescription");
@@ -119,14 +119,13 @@ function Demo() {
 
     var children = Obj.querySelectorAll("a-troika-text");
     // console.log("childeern", children);
-    if(children){
-      var state = !children[0].getAttribute("visible")
+    if (children) {
+      var state = !children[0].getAttribute("visible");
       children[0].setAttribute("visible", state);
       children[1].setAttribute("visible", state);
       children[2].setAttribute("visible", state);
     }
   }
-
 
   function customManipulation() {
     setTimeout(function RightPaneOpen() {
@@ -237,9 +236,8 @@ function Demo() {
       .catch((error) => console.log("Error", error));
   };
 
-
   function AddClickEvent(fdata) {
-    console.log("In add click event",fdata);
+    console.log("In add click event", fdata);
     AFRAME.registerComponent("show-details-on-click", {
       init: function () {
         var el = this.el;
@@ -292,11 +290,9 @@ function Demo() {
                 src={base_url + sci_info.full_path}
                 key={sci_info.id}
                 crossOrigin="anonymous"
-                >
-              </a-asset-item>
+              ></a-asset-item>
             );
-          })
-          }
+          })}
           {assets.map((asset) => {
             if (asset.type === "model") {
               return (
@@ -333,22 +329,30 @@ function Demo() {
             {/* Finally toggle visibility */}
             { 
               sci_data?.map((oneImg) => {
-                return (
-                  <a-entity id={oneImg.file + "wrapper"} key={oneImg.id} type="wrapper" show-details-on-click="" position="0 0 0" rotation="0 0 0">
-                    <a-image
-                    src={'#'+oneImg.file}
-                    key={oneImg.id}
-                    id={oneImg.title}
-                    width= "0.7"
-                    height= "0.9"
-                    type= "image"
-                    >
-                    </a-image>
-                    <a-troika-text id={oneImg.file + "description"} value={oneImg.alt} visible="false" type="desc" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
-                    <a-troika-text id={oneImg.file + "caption"} value={oneImg.caption} visible="false" type="caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
-                    <a-troika-text id={oneImg.file + "name"} value={oneImg.title} visible="false" type="name" font-size="0.08"></a-troika-text>
-                  </a-entity>
-                )
+                var Obj_id = oneImg.file+"wrapper";
+                // console.log(Obj_id);
+                // console.log(data);
+                var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
+                if(Data_from_Inspector) {
+                  console.log("position", Data_from_Inspector.position);
+                  return (
+                    <a-entity id={oneImg.file + "wrapper"} key={oneImg.id} type="wrapper" show-details-on-click="" position={Data_from_Inspector.position} rotation="0 0 0">
+                      <a-image
+                      src={'#'+oneImg.file}
+                      key={oneImg.id}
+                      id={oneImg.title}
+                      width= "0.7"
+                      height= "0.9"
+                      type= "image"
+                      >
+                      </a-image>
+                      <a-troika-text id={oneImg.file + "description"} value={oneImg.alt} visible="false" type="desc" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
+                      <a-troika-text id={oneImg.file + "caption"} value={oneImg.caption} visible="false" type="caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
+                      <a-troika-text id={oneImg.file + "name"} value={oneImg.title} visible="false" type="name" font-size="0.08"></a-troika-text>
+                    </a-entity>
+                  )
+                }
+                
               })
             }
             <a-entity
@@ -386,7 +390,6 @@ function Demo() {
                 );
               }
             })}{" "}
-            
           </>
         )}
 
@@ -429,10 +432,22 @@ function Demo() {
           id="bulb-5"
         ></a-light>
 
-
         {/* <a-entity id="details_text_new" troika-text= "value:{desc_data}" /> */}
-        <a-troika-text id="sci_description" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
-        <a-troika-text id="sci_caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
+        <a-troika-text
+          id="sci_description"
+          color="#b3dff2"
+          font-size="0.06"
+          align="center"
+          max-width="1"
+        ></a-troika-text>
+        <a-troika-text
+          id="sci_caption"
+          font-size="0.06"
+          align="center"
+          outlineWidth="0.003"
+          color="blue"
+          max-width="0.7"
+        ></a-troika-text>
         <a-troika-text id="sci_name" font-size="0.08"></a-troika-text>
 
         {/* floor collider */}

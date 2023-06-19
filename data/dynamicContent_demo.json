@@ -38,7 +38,13 @@
     "id": "Alan-Turing-1.pngwrapper",
     "type": "wrapper",
     "show-details-on-click": "",
-    "position": "0 1.26355 0",
+    "position": "-0.31529 1.264 -1.99661",
     "rotation": ""
+  },
+  {
+    "id": "#room",
+    "gltf-model": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/model01.glb",
+    "crossorigin": "anonymous",
+    "position": "1.44486 0.28666 5.61404"
   }
 ]
