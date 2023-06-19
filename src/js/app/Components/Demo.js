@@ -12,15 +12,7 @@ function Demo() {
   const [sci_data, setSciData] = useState([]);
   const base_url = Config.SITE_URL;
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
-  const [module, setModule] = useState(data);
 
-  const loadModule = async () => {
-    // Dynamically import the module
-    const importedModule = await import('./../../../../data/dynamicContent_demo.json');
-    console.log("importedModule:",importedModule);
-    // Set the imported module to the state
-    setModule(importedModule);
-  };
   useEffect(() => {
     // Call the checkElement function initially
     checkElement();
@@ -55,8 +47,9 @@ function Demo() {
 
   async function startLoadingAssets() {
     // Usage: Loading of all assets and subsequent render
-    setLoading(false); // Add assets to the scene
     GetFromStaging();
+    setLoading(false); // Add assets to the scene
+    
   }
 
   function GetFromStaging() {
@@ -220,7 +213,6 @@ function Demo() {
         // Result : {success: true/false, message: "..."}
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
-        loadModule();
         window.location.reload();
         
       })
