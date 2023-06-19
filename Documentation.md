@@ -1,4 +1,4 @@
-![flow1](./DocAssests/Flowchart1.png
+![flow1](DocAssests/Flowchart1.png)
 
 
 # App Component
@@ -53,7 +53,7 @@ To enhance the user experience, the code includes a loading message if the **`st
 
 # Demo
 
-![flow2](./DocAssests/flowchart2.png)
+![flow2](DocAssests/flowchart2.png)
 
 The flow of the code can be seen as shown.
 
