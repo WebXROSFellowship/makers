@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 // Updated Inspector API data
-import Config from "../config/config";
+import AppConfig from "../config/appConfig";
 import assets from "./../../../../data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
 // import StagingData from "./../../../../data/data_english.json";
@@ -17,7 +17,7 @@ function Demo() {
     "0 0 0",
     "0 0 0",
   ]);
-  const base_url = Config.SITE_URL;
+  const base_url = AppConfig.SITE_URL;
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "@styles/style.scss";
 import { DataContext, StagingDataContext } from "../utils";
 import langArr from "../assets/langData";
-import Config from "../config/config";
+import AppConfig from "../config/appConfig";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -14,7 +14,7 @@ const Navbar = () => {
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const { setLang } = useContext(DataContext);
   const { stagingData } = useContext(StagingDataContext);
-  const base_url = Config.SITE_URL;
+  const base_url = AppConfig.SITE_URL;
 
   let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
@@ -90,7 +90,7 @@ const Navbar = () => {
             style={{ fontFamily: "sans-serif" }}
           >
             <img src={imgBaseURL} alt="logo" className="logo-img" />
-            <span className="title-head">{Config.SITE_TITLE}</span>
+            <span className="title-head">{AppConfig.SITE_TITLE}</span>
           </div>
         </Link>
 
