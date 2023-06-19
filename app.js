@@ -41337,9 +41337,9 @@ module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.co
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
+/******/ 	__webpack_require__("./src/js/app/index.js");
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__("./src/js/app/app.js");
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/js/app/index.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/js/app/app.js");
 /******/ 	
 /******/ })()
 ;
