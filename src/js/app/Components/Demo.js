@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from "react";
-import assets from "../psudo_data/assets_demo.json";
 
 // Updated Inspector API data
+import Config from "../config/config";
+import assets from "./../../../../data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
 
-import StagingData from "./../../../../data/data_english.json";
-
-import Config from "../config/config";
-// have used native file system till endpoints unavailable
 
 function Demo() {
   const [loading, setLoading] = useState(true); // For asset loading
   const [sci_data, setSciData] = useState([]);
-  const [desc_data, setDescData] = useState(["Name", "Caption", "Description", "0 0 0", "0 0 0"]);
   const base_url = Config.SITE_URL;
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
+  const [module, setModule] = useState(data);
 
+  const loadModule = async () => {
+    // Dynamically import the module
+    const importedModule = await import('./../../../../data/dynamicContent_demo.json');
+    console.log("importedModule:",importedModule);
+    // Set the imported module to the state
+    setModule(importedModule);
+  };
   useEffect(() => {
     // Call the checkElement function initially
     checkElement();
@@ -67,8 +71,6 @@ function Demo() {
               }
               // console.log(oneImgData.data);
             })
-
-            console.log("Staging Data", StagingData[3]);
             // var final_data = data;
             // console.log("Fetch from Staging");
             console.log("final data", final_data);
@@ -78,26 +80,6 @@ function Demo() {
       })
   }
 
-  function UpdateProperties(data) {
-    console.log("UpdateProperties after getStaging", data);
-    console.log("inside if block of UpdateProperties")
-    data.map((obj) => {
-      var id = obj.id;
-      if (id[0] != '#') {
-        id = "#" + id;
-        var ele = document.querySelector("type");
-        console.log(ele, id);
-        if (ele) {
-          ele.setAttribute("position", ele.position);
-        }
-
-      }
-
-    })
-  }
-
-
-
   function ShowDescription(Obj, data) {
     console.log("ShowDescription");
     console.log(Obj);
@@ -105,13 +87,12 @@ function Demo() {
     var children = Obj.querySelectorAll("a-troika-text");
     // console.log("childeern", children);
     if (children) {
-      var state = !children[0].getAttribute("visible")
+      var state = !children[0].getAttribute("visible");
       children[0].setAttribute("visible", state);
       children[1].setAttribute("visible", state);
       children[2].setAttribute("visible", state);
     }
   }
-
 
   function customManipulation() {
     setTimeout(function RightPaneOpen() {
@@ -174,23 +155,40 @@ function Demo() {
     updateApiData(jsonString);
   }
 
+  function updateClassData(json){
+    const { value,id,visible,src, ...newJson } = json;
+    return newJson;
+  }
   function updateApiData(jsonString) {
     // Usage: Updates the API data with the new JSON string
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
     var foundData = false;
+    var foundClassData=false;
     const updatedData = data.map((item) => {
-      if (item.id === newData.id) {
+      if (item.class !==undefined && newData.class!==undefined && newData.class===item.class) {
+        console.log("Found Class Updation");
+        foundClassData = true
+        var alteredClassData=updateClassData(newData);
+        return alteredClassData;
+      }
+      else if (newData.id !== undefined && item.id === newData.id) {
+        console.log(newData.id);
         console.log("Found the item to update");
         foundData = true;
         return newData;
-      } else {
+      } else{
         console.log("Not the item to update");
         return item;
-      }
+      } 
     });
 
-    if (!foundData) updatedData.push(newData);
+    if (!foundData && newData.id!==undefined && newData.class===undefined) updatedData.push(newData);
+    if (newData.class !==undefined && !foundClassData){
+      console.log("New Class Data");
+      var alteredClassData=updateClassData(newData);
+      updatedData.push(alteredClassData);
+    }
 
     const updatedJsonString = JSON.stringify(updatedData, null, 2);
     console.log("Updated data:", updatedData);
@@ -215,11 +213,12 @@ function Demo() {
         // Result : {success: true/false, message: "..."}
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
-        // window.location.reload();
+        loadModule();
+        window.location.reload();
+        
       })
       .catch((error) => console.log("Error", error));
   };
-
 
   function AddClickEvent(fdata) {
     console.log("In add click event", fdata);
@@ -261,7 +260,7 @@ function Demo() {
           ></a-asset-item>
           <a-asset-item
             id="navmesh"
-            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/fMesh.glb"
+            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb"
             crossOrigin="anonymous"
             key="navmesh"
           ></a-asset-item>
@@ -327,22 +326,24 @@ function Demo() {
                   // console.log("troika",desc_props);
                 }
                 var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
-                if (Data_from_Inspector) {
+                var desc_format = data.find(obj => obj.class== "desc_wrapper");
+                var cap_format = data.find(obj => obj.class== "caption_wrapper");
+                var name_format = data.find(obj => obj.class== "name_wrapper");
+                var img_format = data.find(obj => obj.class== "image_wrapper");
+                if(Data_from_Inspector) {
                   console.log("position", Data_from_Inspector.position);
                   return (
-                    <a-entity id={oneImg.file + "wrapper"} key={oneImg.id} type="wrapper" show-details-on-click="" position={Data_from_Inspector.position} rotation="0 0 0">
+                    <a-entity id={oneImg.file + "wrapper"} type= "wrapper" key={oneImg.id} {...Data_from_Inspector}  show-details-on-click="">
                       <a-image
-                        src={base_url + oneImg.full_path}
-                        key={oneImg.id}
-                        id={oneImg.title}
-                        width="0.7"
-                        height="0.9"
-                        type="image"
+                      src={base_url + oneImg.full_path}
+                      {...img_format}
+                      type= "wrapper"
+                      class="image_wrapper"
                       >
                       </a-image>
-                      <a-troika-text value="Hi" visible="false" type="desc"></a-troika-text>
-                      <a-troika-text value={oneImg.caption} visible="false" type="caption" font-size="0.06" align="center" outlineWidth="0.003" color="blue" max-width="0.7" position="0 -0.8 0"></a-troika-text>
-                      <a-troika-text value={oneImg.title} visible="false" type="name" font-size="0.08" position="0 -0.58 0"></a-troika-text>
+                      <a-troika-text class="desc_wrapper" type= "wrapper" value={oneImg.alt} visible="false" {...desc_format} ></a-troika-text>
+                      <a-troika-text class="caption_wrapper" type= "wrapper" value={oneImg.caption} visible="false" {...cap_format} ></a-troika-text>
+                      <a-troika-text class="name_wrapper" type= "wrapper" value={oneImg.title} visible="false" {...name_format} ></a-troika-text>
                     </a-entity>
                   )
                 }
@@ -374,7 +375,10 @@ function Demo() {
                     crossOrigin="anonymous"
                   ></a-image>
                 );
-              } else {
+              } else if (entity["type"] == "wrapper") {
+                  console.log("Wrapper rendered");
+              }
+              else {
                 return (
                   <a-entity
                     key={entity.id}
@@ -384,7 +388,6 @@ function Demo() {
                 );
               }
             })}{" "}
-
           </>
         )}
 
@@ -426,12 +429,6 @@ function Demo() {
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb-5"
         ></a-light>
-
-
-        {/* <a-entity id="details_text_new" troika-text= "value:{desc_data}" /> */}
-        <a-troika-text id="sci_description" color="#b3dff2" font-size="0.06" align="center" max-width="1"></a-troika-text>
-        <a-troika-text id="sci_caption" font-size="0.06" align="center" outlineWidth="0.003" color="blue" max-width="0.7"></a-troika-text>
-        <a-troika-text id="sci_name" font-size="0.08"></a-troika-text>
 
         {/* floor collider */}
         <a-plane

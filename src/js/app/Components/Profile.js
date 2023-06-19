@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { StagingDataContext } from "../Utils";
+
+import { StagingDataContext } from "../utils";
 import "@styles/style.scss";
 
 import Config from "../config/config";
