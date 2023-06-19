@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { StagingDataContext } from "../Utils";
+
+import { StagingDataContext } from "../utils";
 import "@styles/style.scss";
 
-import { Config } from "../config/config";
-
+import Config from "../config/config";
 
 const Profile = () => {
   const { username } = useParams();
@@ -36,7 +36,10 @@ const Profile = () => {
       <div className="profile_container">
         <img src={imgLink} alt={`${titleName}`} className="profile-img" />
       </div>
-      <div className="profile-text" dangerouslySetInnerHTML={{ __html: content }} />
+      <div
+        className="profile-text"
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
     </>
   );
 };

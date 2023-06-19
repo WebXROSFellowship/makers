@@ -1,0 +1,26 @@
+[
+  {
+    "id": "powersimple",
+    "type": "model",
+    "name": "powersimple",
+    "url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"
+  },
+  {
+    "id": "photos2",
+    "type": "model",
+    "name": "photos2",
+    "url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"
+  },
+  {
+    "id": "sofa",
+    "type": "model",
+    "name": "sofa",
+    "url": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb"
+  },
+  {
+    "id": "clock",
+    "type": "model",
+    "name": "clock",
+    "url": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb"
+  }
+]
