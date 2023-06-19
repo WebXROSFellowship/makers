@@ -50,14 +50,14 @@ function Demo() {
 
   async function startLoadingAssets() {
     // Usage: Loading of all assets and subsequent render
-    setLoading(false); // Add assets to the scene
     GetFromStaging();
+    setLoading(false); // Add assets to the scene
   }
 
-  function GetFromStaging() {
+  async function GetFromStaging() {
     console.log("Inside get from staging")
     const url = base_url+"/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1";
-    fetch(url)
+    await fetch(url)
           .then((response) => response.json())
           .then((fetchdata) => {
             var final_data = [];
@@ -68,42 +68,35 @@ function Demo() {
               // console.log(oneImgData.data);
             })
 
-            console.log("Staging Data",StagingData[3]);
+            console.log("Staging Data", StagingData[3]);
             // var final_data = data;
             // console.log("Fetch from Staging");
-            console.log("final data",final_data);
+            console.log("final data", final_data);
             setSciData(final_data);
             // AddImages(final_data);
             AddClickEvent(final_data);
-            
-            // UpdateProperties(data);
-
-          })
-
-    console.log("sci data",sci_data);
-    
+      })
   }
 
   function UpdateProperties(data) {
-    console.log("UpdateProperties after getStaging",data);
-      console.log("inside if block of UpdateProperties")
-      data.map((obj) => {
-        var id = obj.id;
-        if(id[0]!='#')
-        {
-          id = "#"+id;
-          var ele = document.querySelector("type");
-          console.log(ele,id);
-          if(ele) {
-            ele.setAttribute("position",ele.position);
-          }
-          
+    console.log("UpdateProperties after getStaging", data);
+    console.log("inside if block of UpdateProperties")
+    data.map((obj) => {
+      var id = obj.id;
+      if (id[0] != '#') {
+        id = "#" + id;
+        var ele = document.querySelector("type");
+        console.log(ele, id);
+        if (ele) {
+          ele.setAttribute("position", ele.position);
         }
-        
-      })
-    }
-    
-  
+
+      }
+
+    })
+  }
+
+
 
   function ShowDescription(Obj, data) {
     console.log("ShowDescription");
@@ -111,7 +104,7 @@ function Demo() {
 
     var children = Obj.querySelectorAll("a-troika-text");
     // console.log("childeern", children);
-    if(children){
+    if (children) {
       var state = !children[0].getAttribute("visible")
       children[0].setAttribute("visible", state);
       children[1].setAttribute("visible", state);
@@ -222,14 +215,14 @@ function Demo() {
         // Result : {success: true/false, message: "..."}
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((error) => console.log("Error", error));
   };
 
 
   function AddClickEvent(fdata) {
-    console.log("In add click event",fdata);
+    console.log("In add click event", fdata);
     AFRAME.registerComponent("show-details-on-click", {
       init: function () {
         var el = this.el;
@@ -273,20 +266,21 @@ function Demo() {
             key="navmesh"
           ></a-asset-item>
 
-          {sci_data?.map((sci_info) => {
-            // console.log(sci_info);
+          {/* {sci_data?.map((sci_info) => {
+            console.log(sci_info.file);
             // console.log(sci_info.id,base_url+sci_info.full_path, sci_info.id);
+            if(sci_info.file == "Alan-Turing-1.png" || sci_info.file == "Hedy_Lamarr-1.jpeg")
             return (
               <a-asset-item
                 id={sci_info.file}
                 src={base_url + sci_info.full_path}
                 key={sci_info.id}
                 crossOrigin="anonymous"
-                >
+              >
               </a-asset-item>
             );
           })
-          }
+          } */}
           {assets.map((asset) => {
             if (asset.type === "model") {
               return (
@@ -321,32 +315,38 @@ function Demo() {
               position="4.537 0 3.468"
             ></a-entity>
             {/* Finally toggle visibility */}
-            { 
+            {
               sci_data?.map((oneImg) => {
-                var Obj_id = oneImg.file+"wrapper";
+                var Obj_id = oneImg.file + "wrapper";
                 // console.log(Obj_id);
                 // console.log(data);
+                var desc_props = data.find(obj => obj.type == "desc");
+                if(desc_props) {
+                  // console.log("color",desc_props);
+                  desc_props = desc_props["troika-text"]
+                  // console.log("troika",desc_props);
+                }
                 var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
-                if(Data_from_Inspector) {
+                if (Data_from_Inspector) {
                   console.log("position", Data_from_Inspector.position);
                   return (
                     <a-entity id={oneImg.file + "wrapper"} key={oneImg.id} type="wrapper" show-details-on-click="" position={Data_from_Inspector.position} rotation="0 0 0">
                       <a-image
-                      src={'#'+oneImg.file}
-                      key={oneImg.id}
-                      id={oneImg.title}
-                      width= "0.7"
-                      height= "0.9"
-                      type= "image"
+                        src={base_url + oneImg.full_path}
+                        key={oneImg.id}
+                        id={oneImg.title}
+                        width="0.7"
+                        height="0.9"
+                        type="image"
                       >
                       </a-image>
-                      <a-troika-text id={oneImg.file + "description"} value={oneImg.alt} visible="false" type="desc" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
-                      <a-troika-text id={oneImg.file + "caption"} value={oneImg.caption} visible="false" type="caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
-                      <a-troika-text id={oneImg.file + "name"} value={oneImg.title} visible="false" type="name" font-size="0.08"></a-troika-text>
+                      <a-troika-text value="Hi" visible="false" type="desc"></a-troika-text>
+                      <a-troika-text value={oneImg.caption} visible="false" type="caption" font-size="0.06" align="center" outlineWidth="0.003" color="blue" max-width="0.7" position="0 -0.8 0"></a-troika-text>
+                      <a-troika-text value={oneImg.title} visible="false" type="name" font-size="0.08" position="0 -0.58 0"></a-troika-text>
                     </a-entity>
                   )
                 }
-                
+
               })
             }
             <a-entity
@@ -384,7 +384,7 @@ function Demo() {
                 );
               }
             })}{" "}
-            
+
           </>
         )}
 
@@ -429,8 +429,8 @@ function Demo() {
 
 
         {/* <a-entity id="details_text_new" troika-text= "value:{desc_data}" /> */}
-        <a-troika-text id="sci_description" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
-        <a-troika-text id="sci_caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
+        <a-troika-text id="sci_description" color="#b3dff2" font-size="0.06" align="center" max-width="1"></a-troika-text>
+        <a-troika-text id="sci_caption" font-size="0.06" align="center" outlineWidth="0.003" color="blue" max-width="0.7"></a-troika-text>
         <a-troika-text id="sci_name" font-size="0.08"></a-troika-text>
 
         {/* floor collider */}
