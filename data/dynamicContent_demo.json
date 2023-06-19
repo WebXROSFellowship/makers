@@ -9,16 +9,9 @@
     "show-details-on-click": ""
   },
   {
-    "troika-text": "strokeColor: #fffafa; value: Text is here",
-    "id": "#text",
-    "position": "3.66571 1.34902 -0.37157",
-    "visible": "",
-    "rotation": "0.9998113525032866 -89.45590055377542 0"
-  },
-  {
     "id": "#pic3",
     "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
-    "position": "3.12365 1.272 2.682",
+    "position": "3.08108 1.272 2.682",
     "crossorigin": "anonymous"
   },
   {
@@ -38,13 +31,66 @@
     "id": "Alan-Turing-1.pngwrapper",
     "type": "wrapper",
     "show-details-on-click": "",
-    "position": "-0.31529 1.264 -1.99661",
-    "rotation": ""
+    "position": "-5.82625 1.67077 -2.55294",
+    "rotation": "0.1 0 0"
   },
   {
-    "id": "#room",
-    "gltf-model": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/model01.glb",
-    "crossorigin": "anonymous",
-    "position": "1.44486 0.28666 5.61404"
+    "id": "Hedy_Lamarr-1.jpegwrapper",
+    "type": "wrapper",
+    "position": "-3.81005 1.66126 -2.597",
+    "show-details-on-click": ""
+  },
+  {
+    "class": "name_wrapper",
+    "type": "wrapper",
+    "troika-text": "color: #ffffff; align: center; fontSize: 0.08",
+    "position": "0 -0.4706 0"
+  },
+  {
+    "class": "caption_wrapper",
+    "type": "wrapper",
+    "troika-text": "align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #d4ff00",
+    "position": "0 -0.58371 0"
+  },
+  {
+    "class": "desc_wrapper",
+    "type": "wrapper",
+    "troika-text": "color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2",
+    "position": "1.057 0 0"
+  },
+  {
+    "class": "image_wrapper",
+    "material": "",
+    "geometry": "",
+    "type": "wrapper",
+    "position": "",
+    "scale": "0.718 0.762 1"
+  },
+  {
+    "id": "albert-einstein-1.jpegwrapper",
+    "type": "wrapper",
+    "show-details-on-click": "",
+    "position": "-7.63777 1.653 -2.59869"
+  },
+  {
+    "id": "Nikola-Tesla-.pngwrapper",
+    "type": "wrapper",
+    "show-details-on-click": "",
+    "rotation": "179.9998479605043 0 179.9998479605043",
+    "position": "-2.84602 1.30415 2.68782"
+  },
+  {
+    "id": "gordan-moore-1.jpegwrapper",
+    "type": "wrapper",
+    "show-details-on-click": "",
+    "rotation": "-180 0 -180",
+    "position": "-4.93481 1.28642 2.6718"
+  },
+  {
+    "id": "Neil_deGrasse_Tyson-1.jpegwrapper",
+    "type": "wrapper",
+    "show-details-on-click": "",
+    "rotation": "-179.9998479605043 0 -179.9998479605043",
+    "position": "-0.90005 1.2661 2.65545"
   }
 ]

@@ -10,16 +10,17 @@ import data from "./../../../../data/dynamicContent_demo.json";
 function Demo() {
   const [loading, setLoading] = useState(true); // For asset loading
   const [sci_data, setSciData] = useState([]);
-  const [desc_data, setDescData] = useState([
-    "Name",
-    "Caption",
-    "Description",
-    "0 0 0",
-    "0 0 0",
-  ]);
   const base_url = Config.SITE_URL;
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
+  const [module, setModule] = useState(data);
 
+  const loadModule = async () => {
+    // Dynamically import the module
+    const importedModule = await import('./../../../../data/dynamicContent_demo.json');
+    console.log("importedModule:",importedModule);
+    // Set the imported module to the state
+    setModule(importedModule);
+  };
   useEffect(() => {
     // Call the checkElement function initially
     checkElement();
@@ -59,7 +60,7 @@ function Demo() {
   }
 
   function GetFromStaging() {
-    console.log("Inside get from staging");
+    // console.log("Inside get from staging");
     const url = `${base_url}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
     fetch(url)
       .then((response) => response.json())
@@ -84,25 +85,6 @@ function Demo() {
       });
 
     console.log("sci data", sci_data);
-  }
-
-  function UpdateProperties(data) {
-    console.log("UpdateProperties after getStaging",data);
-      console.log("inside if block of UpdateProperties")
-      data.map((obj) => {
-        var id = obj.id;
-        if(id[0]!='#')
-        {
-          id = "#"+id;
-          var ele = document.querySelector("type");
-          console.log(ele,id);
-          if(ele) {
-            ele.setAttribute("position",ele.position);
-          }
-          
-        }
-      }
-    );
   }
 
   function ShowDescription(Obj, data) {
@@ -180,23 +162,40 @@ function Demo() {
     updateApiData(jsonString);
   }
 
+  function updateClassData(json){
+    const { value,id,visible,src, ...newJson } = json;
+    return newJson;
+  }
   function updateApiData(jsonString) {
     // Usage: Updates the API data with the new JSON string
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
     var foundData = false;
+    var foundClassData=false;
     const updatedData = data.map((item) => {
-      if (item.id === newData.id) {
+      if (item.class !==undefined && newData.class!==undefined && newData.class===item.class) {
+        console.log("Found Class Updation");
+        foundClassData = true
+        var alteredClassData=updateClassData(newData);
+        return alteredClassData;
+      }
+      else if (newData.id !== undefined && item.id === newData.id) {
+        console.log(newData.id);
         console.log("Found the item to update");
         foundData = true;
         return newData;
-      } else {
+      } else{
         console.log("Not the item to update");
         return item;
-      }
+      } 
     });
 
-    if (!foundData) updatedData.push(newData);
+    if (!foundData && newData.id!==undefined && newData.class===undefined) updatedData.push(newData);
+    if (newData.class !==undefined && !foundClassData){
+      console.log("New Class Data");
+      var alteredClassData=updateClassData(newData);
+      updatedData.push(alteredClassData);
+    }
 
     const updatedJsonString = JSON.stringify(updatedData, null, 2);
     console.log("Updated data:", updatedData);
@@ -221,7 +220,9 @@ function Demo() {
         // Result : {success: true/false, message: "..."}
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
+        loadModule();
         window.location.reload();
+        
       })
       .catch((error) => console.log("Error", error));
   };
@@ -272,7 +273,7 @@ function Demo() {
           ></a-asset-item>
 
           {sci_data?.map((sci_info) => {
-            // console.log(sci_info);
+            console.log(sci_info);
             // console.log(sci_info.id,base_url+sci_info.full_path, sci_info.id);
             return (
               <a-asset-item
@@ -323,22 +324,24 @@ function Demo() {
                 // console.log(Obj_id);
                 // console.log(data);
                 var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
+                var desc_format = data.find(obj => obj.class== "desc_wrapper");
+                var cap_format = data.find(obj => obj.class== "caption_wrapper");
+                var name_format = data.find(obj => obj.class== "name_wrapper");
+                var img_format = data.find(obj => obj.class== "image_wrapper");
                 if(Data_from_Inspector) {
                   console.log("position", Data_from_Inspector.position);
                   return (
-                    <a-entity id={oneImg.file + "wrapper"} key={oneImg.id} type="wrapper" show-details-on-click="" position={Data_from_Inspector.position} rotation="0 0 0">
+                    <a-entity id={oneImg.file + "wrapper"} type= "wrapper" key={oneImg.id} {...Data_from_Inspector}  show-details-on-click="">
                       <a-image
                       src={'#'+oneImg.file}
-                      key={oneImg.id}
-                      id={oneImg.title}
-                      width= "0.7"
-                      height= "0.9"
-                      type= "image"
+                      {...img_format}
+                      type= "wrapper"
+                      class="image_wrapper"
                       >
                       </a-image>
-                      <a-troika-text id={oneImg.file + "description"} value={oneImg.alt} visible="false" type="desc" color= "#b3dff2" font-size= "0.06" align= "center" max-width= "1"></a-troika-text>
-                      <a-troika-text id={oneImg.file + "caption"} value={oneImg.caption} visible="false" type="caption" font-size= "0.06" align= "center" outlineWidth= "0.003" color= "blue" max-width= "0.7"></a-troika-text>
-                      <a-troika-text id={oneImg.file + "name"} value={oneImg.title} visible="false" type="name" font-size="0.08"></a-troika-text>
+                      <a-troika-text class="desc_wrapper" type= "wrapper" value={oneImg.alt} visible="false" {...desc_format} ></a-troika-text>
+                      <a-troika-text class="caption_wrapper" type= "wrapper" value={oneImg.caption} visible="false" {...cap_format} ></a-troika-text>
+                      <a-troika-text class="name_wrapper" type= "wrapper" value={oneImg.title} visible="false" {...name_format} ></a-troika-text>
                     </a-entity>
                   )
                 }
@@ -370,7 +373,10 @@ function Demo() {
                     crossOrigin="anonymous"
                   ></a-image>
                 );
-              } else {
+              } else if (entity["type"] == "wrapper") {
+                  console.log("Wrapper rendered");
+              }
+              else {
                 return (
                   <a-entity
                     key={entity.id}
@@ -421,24 +427,6 @@ function Demo() {
           rotation="-0.3 50.509 147.30229250797848"
           id="bulb-5"
         ></a-light>
-
-        {/* <a-entity id="details_text_new" troika-text= "value:{desc_data}" /> */}
-        <a-troika-text
-          id="sci_description"
-          color="#b3dff2"
-          font-size="0.06"
-          align="center"
-          max-width="1"
-        ></a-troika-text>
-        <a-troika-text
-          id="sci_caption"
-          font-size="0.06"
-          align="center"
-          outlineWidth="0.003"
-          color="blue"
-          max-width="0.7"
-        ></a-troika-text>
-        <a-troika-text id="sci_name" font-size="0.08"></a-troika-text>
 
         {/* floor collider */}
         <a-plane
