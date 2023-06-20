@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Config from "../config/config";
 import assets from "./../../../../data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
-// import StagingData from "./../../../../data/data_english.json";
 
 
 function Demo() {
@@ -52,32 +51,26 @@ function Demo() {
     
   }
 
-  function GetFromStaging() {
-    // console.log("Inside get from staging");
-    const url = `${base_url}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
-    fetch(url)
-      .then((response) => response.json())
-      .then((fetchdata) => {
-        var final_data = [];
-        fetchdata.map((oneImgData) => {
-          if (oneImgData.data.desc) {
-            final_data.push(oneImgData.data);
-          }
-          // console.log(oneImgData.data);
-        });
-
-        // console.log("Staging Data",StagingData[3]);
-        // var final_data = data;
-        // console.log("Fetch from Staging");
-        console.log("final data", final_data);
-        setSciData(final_data);
-        // AddImages(final_data);
-        AddClickEvent(final_data);
-
-        // UpdateProperties(data);
-      });
-
-    console.log("sci data", sci_data);
+  async function GetFromStaging() {
+    console.log("Inside get from staging")
+    const url = base_url+"/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1";
+    await fetch(url)
+          .then((response) => response.json())
+          .then((fetchdata) => {
+            var final_data = [];
+            fetchdata.map((oneImgData) => {
+              if(oneImgData.data.desc) {
+                final_data.push(oneImgData.data);
+              }
+              // console.log(oneImgData.data);
+            })
+            // var final_data = data;
+            // console.log("Fetch from Staging");
+            console.log("final data", final_data);
+            setSciData(final_data);
+            // AddImages(final_data);
+            AddClickEvent(final_data);
+      })
   }
 
   function ShowDescription(Obj, data) {
@@ -264,18 +257,21 @@ function Demo() {
             key="navmesh"
           ></a-asset-item>
 
-          {sci_data?.map((sci_info) => {
-            console.log(sci_info);
+          {/* {sci_data?.map((sci_info) => {
+            console.log(sci_info.file);
             // console.log(sci_info.id,base_url+sci_info.full_path, sci_info.id);
+            if(sci_info.file == "Alan-Turing-1.png" || sci_info.file == "Hedy_Lamarr-1.jpeg")
             return (
               <a-asset-item
                 id={sci_info.file}
                 src={base_url + sci_info.full_path}
                 key={sci_info.id}
                 crossOrigin="anonymous"
-              ></a-asset-item>
+              >
+              </a-asset-item>
             );
-          })}
+          })
+          } */}
           {assets.map((asset) => {
             if (asset.type === "model") {
               return (
@@ -310,11 +306,17 @@ function Demo() {
               position="4.537 0 3.468"
             ></a-entity>
             {/* Finally toggle visibility */}
-            { 
+            {
               sci_data?.map((oneImg) => {
-                var Obj_id = oneImg.file+"wrapper";
+                var Obj_id = oneImg.file + "wrapper";
                 // console.log(Obj_id);
                 // console.log(data);
+                var desc_props = data.find(obj => obj.type == "desc");
+                if(desc_props) {
+                  // console.log("color",desc_props);
+                  desc_props = desc_props["troika-text"]
+                  // console.log("troika",desc_props);
+                }
                 var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
                 var desc_format = data.find(obj => obj.class== "desc_wrapper");
                 var cap_format = data.find(obj => obj.class== "caption_wrapper");
@@ -325,7 +327,7 @@ function Demo() {
                   return (
                     <a-entity id={oneImg.file + "wrapper"} type= "wrapper" key={oneImg.id} {...Data_from_Inspector}  show-details-on-click="">
                       <a-image
-                      src={'#'+oneImg.file}
+                      src={base_url + oneImg.full_path}
                       {...img_format}
                       type= "wrapper"
                       class="image_wrapper"
@@ -337,7 +339,7 @@ function Demo() {
                     </a-entity>
                   )
                 }
-                
+
               })
             }
             <a-entity
