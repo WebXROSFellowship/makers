@@ -1,9 +1,48 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from 'react';
 
 import "@styles/style.scss";
 
 const Body = () => {
+  const [imageUrl, setImageUrl] = useState('');
+
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?pages');
+        if (response.ok) {
+          const data = await response.json();
+          const page = data.find((item) => item.slug === 'webxr-open-source-fellowship');
+          if (page && page.featured_media) {
+            const mediaResponse = await fetch(`https://staging.webxr.link/wp-json/wp/v2/media/${page.featured_media}`);
+            if (mediaResponse.ok) {
+              const mediaData = await mediaResponse.json();
+              if (mediaData.media_details && mediaData.media_details.sizes && mediaData.media_details.sizes.full) {
+                const fullImageUrl = mediaData.media_details.sizes.full.source_url;
+                setImageUrl(fullImageUrl);
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching image:', error);
+      }
+    };
+
+    fetchImage();
+  }, []);
+
+
   return (
+    <>
+   
+    <div>
+      {imageUrl ? (
+        <img src={imageUrl} alt="Image" />
+      ) : (
+        <p>Loading image...</p>
+      )}
+    </div>
     <div className="mainpage">
       <h1 className='body-head'>WEBXR  OPEN SOURCE FELLOWSHIP</h1>
       <p className='mb-4 body-text'>
@@ -46,6 +85,7 @@ const Body = () => {
         <br></br>
       </p>
     </div>
+    </>
   );
 };
 
