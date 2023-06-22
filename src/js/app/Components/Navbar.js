@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+
 import "@styles/style.scss";
-import {DataContext, StagingDataContext } from "../Utils";
+import { DataContext, StagingDataContext } from "../utils";
 import langArr from "../assets/langData";
-// import "src/js/app/assets";
-import { Config } from "../config/config";
+import Config from "../config/config";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -13,11 +13,10 @@ const Navbar = () => {
   const [languageArr, setLanguageArr] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const { setLang } = useContext(DataContext);
-  const {stagingData} = useContext(StagingDataContext);
+  const { stagingData } = useContext(StagingDataContext);
   const base_url = Config.SITE_URL;
 
   let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
-
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
@@ -86,10 +85,13 @@ const Navbar = () => {
       <nav className="navbar">
         {/* The brand section of the Navbar */}
         <Link to="/" className="text-decoration-none">
-        <div className="navbar-brand text-white" style={{ fontFamily: "sans-serif"}}>
-        <img src="${imgBaseURL}" alt="logo"  className="logo-img" />
-        <span className="title-head">PowerSimple | XROS</span>
-        </div>
+          <div
+            className="navbar-brand text-white"
+            style={{ fontFamily: "sans-serif" }}
+          >
+            <img src={imgBaseURL} alt="logo" className="logo-img" />
+            <span className="title-head">{Config.SITE_TITLE}</span>
+          </div>
         </Link>
 
         <div className="navbar-right">

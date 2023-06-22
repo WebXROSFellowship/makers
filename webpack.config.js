@@ -7,9 +7,9 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const IgnoreEmitPlugin = require("ignore-emit-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 const ModuleResolverPlugin = require("babel-plugin-module-resolver");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const proxyUrl = "https://makers/";
+const proxyUrl = "https://webxr.local/";
 
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);
@@ -49,8 +49,11 @@ const common = {
                 "root": ["./src"],
                 "alias": {
                   // Add your module aliases here
-                  "@components": "./src/components",
-                  "@utils": "./src/utils",
+                  "@assets": "./src//js/app/assets",
+                  "@components": "./src/js/app/components",
+                  "@views": "./src/js/app/views",
+                  "@config": "./src/js/app/config",
+                  "@utils": "./src/js/app/utils",
                   "@styles": "./src/scss",
                 }
               }
