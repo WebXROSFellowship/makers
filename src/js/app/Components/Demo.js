@@ -374,37 +374,12 @@ const Demo = () => {
                           type="wrapper"
                           visible="false"
                           position="0 -0.68371 0"
-                          value={langName}
+                          value={langCode}
                           code={langCode}
                           onClick={handleButtonClick}
                         ></a-troika-text>
                       );
                     })}
-                    {/* <a-troika-text
-                      class="btn-wrapper"
-                      type="wrapper"
-                      visible="false"
-                      position="0.3 -0.68371 0"
-                      value="English"
-                      code=""
-                      onClick={handleButtonClick}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="btn-wrapper"
-                      type="wrapper"
-                      visible="false"
-                      position="0 -0.78371 0"
-                      value="Hindi"
-                      onClick={handleButtonClick}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="btn-wrapper"
-                      type="wrapper"
-                      visible="false"
-                      position="-0.3 -0.88371 0"
-                      value="German"
-                      onClick={handleButtonClick}
-                    ></a-troika-text> */}
                   </a-entity>
                 );
               }

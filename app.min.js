@@ -6160,7 +6160,15 @@ const Navbar = () => {
   }, /*#__PURE__*/react.createElement("img", {
     src: imgBaseURL,
     alt: "logo",
-    className: "logo-img"
+    className: "logo-img",
+    style: {
+      width: "50px",
+      height: "50px",
+      marginTop: "-5px",
+      borderRadius: "50%",
+      cursor: "default",
+      marginRight: "1rem"
+    }
   }), /*#__PURE__*/react.createElement("span", {
     className: "title-head"
   }, appConfig.SITE_TITLE))), /*#__PURE__*/react.createElement("div", {
@@ -6329,13 +6337,15 @@ const Home = () => {
 ;// CONCATENATED MODULE: ./src/js/app/components/Body.js
 
 
+
 const Body = () => {
+  const base_url = appConfig.SITE_URL;
   const [imageUrl, setImageUrl] = (0,react.useState)('');
   const [content, setContent] = (0,react.useState)('');
   (0,react.useEffect)(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?pages');
+        const response = await fetch(`${base_url}/wp-json/wp/v2/pages?pages`);
         const data = await response.json();
         const entry = data.find(item => item.slug === 'webxr-open-source-fellowship');
         if (entry) {
@@ -6354,14 +6364,16 @@ const Body = () => {
     };
     fetchData();
   }, []);
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", null, imageUrl ? /*#__PURE__*/react.createElement("img", {
+  return /*#__PURE__*/react.createElement("div", {
+    className: "dynamic"
+  }, imageUrl ? /*#__PURE__*/react.createElement("img", {
     src: imageUrl,
     alt: "Featured Image"
-  }) : /*#__PURE__*/react.createElement("p", null, "Loading image..."), /*#__PURE__*/react.createElement("div", {
+  }) : null, /*#__PURE__*/react.createElement("div", {
     dangerouslySetInnerHTML: {
       __html: content
     }
-  })));
+  }));
 };
 /* harmony default export */ const components_Body = (Body);
 ;// CONCATENATED MODULE: ./src/js/app/components/Profile.js
@@ -6392,7 +6404,7 @@ const Profile = () => {
       setImgLink(imageUrl);
     }).catch(error => console.log(error));
   }, [username]);
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("h1", {
+  return /*#__PURE__*/react.createElement("div", null, /*#__PURE__*/react.createElement("h1", {
     className: "profile-text"
   }, titleName), /*#__PURE__*/react.createElement("div", {
     className: "profile_container"
@@ -6439,7 +6451,6 @@ function Sidebar() {
   const handleDarkModeButtonClick = () => {
     document.body.classList.toggle('dark-mode');
   };
-  //Additional Dark Mode button for manually turing dark mode on
   const handleDyslexiaModeButtonClick = () => {
     document.body.classList.toggle('dyslexia-mode');
   };
@@ -7098,7 +7109,7 @@ const Demo = () => {
           type: "wrapper",
           visible: "false",
           position: "0 -0.68371 0",
-          value: langName,
+          value: langCode,
           code: langCode,
           onClick: handleButtonClick
         });
@@ -7219,31 +7230,10 @@ const appRouter = createBrowserRouter([{
   }]
 }]);
 const App = () => {
+  const base_url = appConfig.SITE_URL;
   const [lang, setLang] = (0,react.useState)("");
   const [menuData, setMenuData] = (0,react.useState)({});
   const [stagingData, setStagingData] = (0,react.useState)([]);
-  console.log("AppConfig...", appConfig);
-  const base_url = appConfig.SITE_URL;
-  const sendDataDump = async (lang, slug) => {
-    const url = `${base_url}/${lang}/wp-json`;
-    fetch(url).then(response => response.json()).then(data => {
-      console.log("data..", data);
-      const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
-      const formdata = new FormData();
-      formdata.append("slug", slug);
-      formdata.append("data", JSON.stringify(data));
-      const requestOptions = {
-        method: "POST",
-        body: formdata,
-        redirect: "follow"
-      };
-      fetch(apiUrl, requestOptions).then(response => response.json()).then(result => {
-        console.log("Data Dump...", result);
-      }).catch(error => console.log("Data Dump Error...", error));
-    }).catch(error => {
-      console.log("Error in Getting the Data...", error);
-    });
-  };
 
   // TODO: Optimize for dynamicity
   (0,react.useEffect)(() => {
@@ -7254,6 +7244,26 @@ const App = () => {
   (0,react.useEffect)(() => {
     fetchMenuData();
   }, [lang]);
+  const sendDataDump = async (lang, slug) => {
+    const url = `${base_url}/${lang}/wp-json`;
+    await fetch(url).then(response => response.json()).then(data => {
+      console.log("data..", data);
+      const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
+      const formdata = new FormData();
+      formdata.append("slug", slug);
+      formdata.append("data", JSON.stringify(data));
+      const payload = {
+        method: "POST",
+        body: formdata,
+        redirect: "follow"
+      };
+      fetch(apiUrl, payload).then(response => response.json()).then(result => {
+        console.log("Data Dump...", result);
+      }).catch(error => console.log("Data Dump Error...", error));
+    }).catch(error => {
+      console.log("Error in Getting the Data...", error);
+    });
+  };
   async function fetchMenuData() {
     try {
       let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
@@ -7267,7 +7277,11 @@ const App = () => {
     }
   }
   if (stagingData.length === 0) {
-    return /*#__PURE__*/react.createElement("div", null, "Loading...");
+    return /*#__PURE__*/react.createElement("div", {
+      className: "container mx-auto"
+    }, /*#__PURE__*/react.createElement("h1", {
+      className: ""
+    }, "Loading..."));
   }
   return /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
     value: {
