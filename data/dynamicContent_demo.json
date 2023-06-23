@@ -11,7 +11,7 @@
   {
     "id": "#pic3",
     "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
-    "position": "3.08108 1.272 2.682",
+    "position": "1.30148 1.49399 2.62923",
     "crossorigin": "anonymous"
   },
   {
@@ -37,8 +37,9 @@
   {
     "id": "Hedy_Lamarr-1.jpegwrapper",
     "type": "wrapper",
-    "position": "-3.81005 1.66126 -2.597",
-    "show-details-on-click": ""
+    "position": "-1.09034 1.661 -2.597",
+    "show-details-on-click": "",
+    "rotation": "0.781 2.277 1.42"
   },
   {
     "class": "name_wrapper",
