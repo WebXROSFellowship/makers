@@ -16,6 +16,11 @@ const Demo = () => {
   const [allLang, setAllLang] = useState([]);
 
   useEffect(() => {
+    getFromServer();
+  }, [lang]);
+
+  useEffect(() => {
+    getFromServer();
     // Call the checkElement function initially
     checkElement();
     getLanguages();
@@ -86,11 +91,11 @@ const Demo = () => {
     if (children) {
       var state = !children[0].getAttribute("visible");
       children[0].setAttribute("visible", state);
-      children[1].setAttribute("visible", state);
-      children[2].setAttribute("visible", state);
-      children[3].setAttribute("visible", state);
-      children[4].setAttribute("visible", state);
-      children[5].setAttribute("visible", state);
+      // children[1].setAttribute("visible", state);
+      // children[2].setAttribute("visible", state);
+      // children[3].setAttribute("visible", state);
+      // children[4].setAttribute("visible", state);
+      // children[5].setAttribute("visible", state);
     }
   }
 
@@ -267,7 +272,6 @@ const Demo = () => {
             position="0 1.6 0"
             rotation="-4.469070802020421 -84.91234523838803 0"
             look-controls="fly:true"
-            wasd-controls="fly:true; acceleration:1"
             raycaster="far: 5; objects: .clickable"
             super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
           >
@@ -279,7 +283,7 @@ const Demo = () => {
               material="shader: flat"
               raycaster="far: 5; objects: .clickable"
               visible="false"
-            ></a-entity>
+            ></a-entity> 
           </a-entity>
           <a-entity
             mixin="hand"
@@ -328,6 +332,10 @@ const Demo = () => {
               );
               var name_format = data.find((obj) => obj.class == "name_wrapper");
               var img_format = data.find((obj) => obj.class == "image_wrapper");
+
+              var btn_en = data.find((obj) => obj.class == "btn-wrapper-en");
+              var btn_hi = data.find((obj) => obj.class == "btn-wrapper-hi");
+              var btn_de = data.find((obj) => obj.class == "btn-wrapper-de");
               if (Data_from_Inspector) {
                 return (
                   <a-entity
@@ -354,57 +362,40 @@ const Demo = () => {
                       class="caption_wrapper"
                       type="wrapper"
                       value={scientist.caption}
-                      visible="false"
                       {...cap_format}
                     ></a-troika-text>
                     <a-troika-text
                       class="name_wrapper"
                       type="wrapper"
                       value={scientist.title}
-                      visible="false"
                       {...name_format}
                     ></a-troika-text>
-                    {allLang?.map((lang) => {
-                      const langName = lang.native_name;
-                      const langCode = lang.code;
-
-                      return (
-                        <a-troika-text
-                          class="btn-wrapper"
-                          type="wrapper"
-                          visible="false"
-                          position="0 -0.68371 0"
-                          value={langName}
-                          code={langCode}
-                          onClick={handleButtonClick}
-                        ></a-troika-text>
-                      );
-                    })}
-                    {/* <a-troika-text
-                      class="btn-wrapper"
+                    <a-troika-text
+                      class="btn-wrapper-en"
                       type="wrapper"
-                      visible="false"
                       position="0.3 -0.68371 0"
                       value="English"
                       code=""
                       onClick={handleButtonClick}
+                      troika-text="fontSize: 0.06"
+                      {...btn_en}
                     ></a-troika-text>
                     <a-troika-text
-                      class="btn-wrapper"
+                      class="btn-wrapper-hi"
                       type="wrapper"
-                      visible="false"
                       position="0 -0.78371 0"
                       value="Hindi"
                       onClick={handleButtonClick}
+                      {...btn_hi}
                     ></a-troika-text>
                     <a-troika-text
-                      class="btn-wrapper"
+                      class="btn-wrapper-de"
                       type="wrapper"
-                      visible="false"
                       position="-0.3 -0.88371 0"
                       value="German"
                       onClick={handleButtonClick}
-                    ></a-troika-text> */}
+                      {...btn_de}
+                    ></a-troika-text>
                   </a-entity>
                 );
               }

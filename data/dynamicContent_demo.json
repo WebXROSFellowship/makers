@@ -37,9 +37,8 @@
   {
     "id": "Hedy_Lamarr-1.jpegwrapper",
     "type": "wrapper",
-    "position": "-1.09034 1.661 -2.597",
-    "show-details-on-click": "",
-    "rotation": "0.781 2.277 1.42"
+    "position": "-3.21 1.661 -2.597",
+    "show-details-on-click": ""
   },
   {
     "class": "name_wrapper",
@@ -86,6 +85,25 @@
     "show-details-on-click": "",
     "rotation": "-180 0 -180",
     "position": "-4.93481 1.28642 2.6718"
+  },
+  {
+    "class": "btn-wrapper-en",
+    "type": "wrapper",
+    "position": "0.42111 -0.68371 0",
+    "code": "",
+    "troika-text": "fontSize: 0.06"
+  },
+  {
+    "class": "btn-wrapper-hi",
+    "type": "wrapper",
+    "position": "0 -0.684 -0.00017",
+    "troika-text": "fontSize: 0.06"
+  },
+  {
+    "class": "btn-wrapper-de",
+    "type": "wrapper",
+    "position": "-0.44 -0.681 0.005",
+    "troika-text": "fontSize: 0.06"
   },
   {
     "id": "Neil_deGrasse_Tyson-1.jpegwrapper",

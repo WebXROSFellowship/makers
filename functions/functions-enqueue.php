@@ -36,9 +36,15 @@ function theme_scripts() {
         wp_register_script('aframe-physics', 'https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js', array('jquery'),'7.0.0', true);
         wp_enqueue_script('aframe-physics');
 
-        // wp_register_script('aframe-geometry', 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r134/examples/js/deprecated/Geometry.js', array('jquery'),rand(100000,999999), true);
-        // wp_enqueue_script('aframe-geometry');
+        wp_register_script('aframe-superHands','https://unpkg.com/super-hands@^3.0.3/dist/super-hands.min.js', array('jquery'),'3.0.3', true);
+        wp_enqueue_script('aframe-superHands');
+
+        wp_register_script('aframe-teleport','https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js', array('jquery'),'', true);
+        wp_enqueue_script('aframe-teleport');
         
+
+        
+       
 }
 add_action( 'wp_enqueue_scripts', 'theme_scripts' );  
 
