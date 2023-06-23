@@ -168,7 +168,7 @@ function get_media_data_by_id($id){//this function builds the data for a lean js
 		'alt' => get_post_meta($id,"_wp_attachment_image_alt",true),
 		'caption' => wp_get_attachment_caption($id),
 		'title'=> get_the_title($id),
-		'desc' => wpautop(get_the_content($id)),
+		'desc' =>get_post($id)->post_content,
 		'path'=> $path,
 		'file' => $file,
 		'mime' => $mime,
@@ -723,11 +723,21 @@ function register_data_publish() {
 function publish_data($request) {
 	$slug = $_POST['slug'];
 	$jsonData = $_POST['data'];
+	$decodedString = stripslashes($jsonData);
+    $data =json_decode($decodedString);
 
-	$data = json_encode($jsonData, true);
-    
-	// var_dump($slug);
-	publishThis($slug,$data);
+	if (!empty($slug) && !empty($data) ){
+		publishThis($slug,$data);
+		return array(
+            'success' => true,
+			'message' => 'Data Found Successfully...',
+        );
+	} else {
+		return array(
+            'success' => false,
+			'message' => 'Something went wrong ! Data not found...',
+        );
+	}
 }
 
 ?>

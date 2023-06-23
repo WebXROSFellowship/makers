@@ -10,8 +10,8 @@ import {
   Navbar,
   Profile,
   Sidebar,
-} from "./Components";
-import { DataContext, MenuDataContext, StagingDataContext } from "./Utils";
+} from "./components";
+import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
 
 import Config from "./config/config";
 
@@ -66,6 +66,41 @@ const App = () => {
 
   console.log("configs...", Config);
   const base_url = Config.SITE_URL;
+
+  const sendDataDump = async (lang, slug) => {
+    const url = `${base_url}/${lang}/wp-json`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data..", data);
+        const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
+        const formdata = new FormData();
+        formdata.append("slug", slug);
+        formdata.append("data", JSON.stringify(data));
+        const requestOptions = {
+          method: "POST",
+          body: formdata,
+          redirect: "follow",
+        };
+
+        fetch(apiUrl, requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            console.log("Data Dump...", result);
+          })
+          .catch((error) => console.log("Data Dump Error...", error));
+      })
+      .catch((error) => {
+        console.log("Error in Getting the Data...", error);
+      });
+  };
+
+  // TODO: Optimize for dynamicity
+  useEffect(() => {
+    sendDataDump("", "data_english");
+    sendDataDump("de", "data_german");
+    sendDataDump("hi", "data_hindi");
+  }, []);
 
   useEffect(() => {
     fetchMenuData();
