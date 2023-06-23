@@ -4268,29 +4268,35 @@ const Body = () => {
   const [imageUrl, setImageUrl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [content, setContent] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    const fetchImageData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?slug=webxr-open-source-fellowship&_embed');
-        if (!response.ok) {
-          throw new Error('Failed to fetch');
-        }
+        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?pages');
         const data = await response.json();
-        const page = data[0];
-        if (page && page._embedded && page._embedded['wp:featuredmedia']) {
-          const mediaData = page._embedded['wp:featuredmedia'][0];
-          const imageUrl = mediaData.media_details.sizes.full.source_url;
-          setImageUrl(imageUrl);
+        const entry = data.find(item => item.slug === 'webxr-open-source-fellowship');
+        if (entry) {
+          const contentRendered = entry.content.rendered;
+          setContent(contentRendered);
+          if (entry._links && entry._links['wp:featuredmedia']) {
+            const mediaResponse = await fetch(entry._links['wp:featuredmedia'][0].href);
+            const mediaData = await mediaResponse.json();
+            const imageUrl = mediaData.media_details.sizes.full.source_url;
+            setImageUrl(imageUrl);
+          }
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching data:', error);
       }
     };
-    fetchImageData();
+    fetchData();
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, imageUrl ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
     src: imageUrl,
-    alt: "Image"
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Loading image...")));
+    alt: "Featured Image"
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Loading image..."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    dangerouslySetInnerHTML: {
+      __html: content
+    }
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Body);
 
