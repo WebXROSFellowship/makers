@@ -4262,15 +4262,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
+/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
+
 
 
 const Body = () => {
+  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_2__["default"].SITE_URL;
   const [imageUrl, setImageUrl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [content, setContent] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?pages');
+        const response = await fetch(`${base_url}/wp-json/wp/v2/pages?pages`);
         const data = await response.json();
         const entry = data.find(item => item.slug === 'webxr-open-source-fellowship');
         if (entry) {
@@ -4289,14 +4292,16 @@ const Body = () => {
     };
     fetchData();
   }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, imageUrl ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "dynamic"
+  }, imageUrl ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
     src: imageUrl,
     alt: "Featured Image"
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Loading image..."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     dangerouslySetInnerHTML: {
       __html: content
     }
-  })));
+  }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Body);
 
@@ -4874,7 +4879,15 @@ const Navbar = () => {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
     src: imgBaseURL,
     alt: "logo",
-    className: "logo-img"
+    className: "logo-img",
+    style: {
+      width: "50px",
+      height: "50px",
+      marginTop: "-5px",
+      borderRadius: "50%",
+      cursor: "default",
+      marginRight: "1rem"
+    }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "title-head"
   }, _config_config__WEBPACK_IMPORTED_MODULE_4__["default"].SITE_TITLE))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -5079,11 +5092,7 @@ const Profile = () => {
       setImgLink(imageUrl);
     }).catch(error => console.log(error));
   }, [username]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    style: {
-      height: "100vh"
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
     className: "profile-text"
   }, titleName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "profile_container"

@@ -1,31 +1,16 @@
 .profile-img {
-  width: 150px;
-  height: 150px;
+  width: 16%;
+  height: 16%;
   object-fit: cover;
   border-radius: 50%;
-  margin: 0 auto;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  margin-left: 40%;
 }
 
-.profile_container {
-  display: flex;
-}
 
 .profile-text {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin: 1.7% 10%;
 }
 
-.title-head {
-  margin-left: 15px;
-}
-
-.logo-img {
-  width: 60px;
-  height: 60px;
-  margin-top: -3px;
-  border-radius: 40%;
-}
 
 //Commands for Body Page
 @media only screen and (max-width: 720px) {

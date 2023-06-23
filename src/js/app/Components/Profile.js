@@ -32,7 +32,7 @@ const Profile = () => {
 
   return (
     
-    <div style={{height: "100vh" }}><h1 className="profile-text">{titleName}</h1>
+    <div><h1 className="profile-text">{titleName}</h1>
       <div className="profile_container">
         <img src={imgLink} alt={`${titleName}`} className="profile-img" />
       </div>

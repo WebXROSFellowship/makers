@@ -59,7 +59,6 @@ DO NOT EDIT IN STYLE.CSS
   opacity: 0.8;
   background-color: #00000F;
   color: #9DB2BF;
-  top: 25px;
   cursor: default;
 }
 
@@ -71,11 +70,21 @@ DO NOT EDIT IN STYLE.CSS
 .title-head {
   color: #9DB2BF;
   cursor: default;
+  font-family: sans-serif;
 }
 
 .navbar-right {
   display: flex;
   align-items: center;
+  margin-right: 1rem;
+}
+
+.logo-img {
+  width: 50px;
+  height: 50px;
+  margin-top: -5px;
+  border-radius: 50%;
+  cursor: default;
   margin-right: 1rem;
 }
 
@@ -94,6 +103,7 @@ DO NOT EDIT IN STYLE.CSS
   border: none;
   cursor: pointer;
   margin-top: -10px;
+  font-family: sans-serif;
 }
 
 .dropdown__content {
@@ -237,14 +247,6 @@ DO NOT EDIT IN STYLE.CSS
     margin-top: 0;
   }
 }
-.logo-img {
-  width: 50px;
-  height: 50px;
-  margin-top: -5px;
-  border-radius: 50%;
-  cursor: default;
-}
-
 /* Accessibility button */
 .fa-accessible-icon {
   position: fixed;
@@ -270,6 +272,7 @@ DO NOT EDIT IN STYLE.CSS
   transition: left 0.2s;
   width: 12rem;
   z-index: 10;
+  position: fixed;
 }
 
 .accessibility-panel.active {
@@ -347,10 +350,13 @@ button {
 .dark-mode .dropbtn {
   color: #27374D;
 }
-.dark-mode .mainpage h1 {
-  color: #9DB2BF;
+.dark-mode .dynamic p {
+  color: #DDE6ED;
 }
-.dark-mode .mainpage p {
+.dark-mode .dynamic b {
+  color: #DDE6ED;
+}
+.dark-mode .profile-text {
   color: #DDE6ED;
 }
 .dark-mode .navbar {
@@ -384,32 +390,15 @@ button {
   }
 }
 .profile-img {
-  width: 150px;
-  height: 150px;
+  width: 16%;
+  height: 16%;
   object-fit: cover;
   border-radius: 50%;
-  margin: 0 auto;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-}
-
-.profile_container {
-  display: flex;
+  margin-left: 40%;
 }
 
 .profile-text {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-
-.title-head {
-  margin-left: 15px;
-}
-
-.logo-img {
-  width: 60px;
-  height: 60px;
-  margin-top: -3px;
-  border-radius: 40%;
+  margin: 1.5% 10%;
 }
 
 @media only screen and (max-width: 720px) {
@@ -424,40 +413,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.mainpage {
-  height: 100%;
-  width: 100%;
-  padding: 15px;
+#root {
+  background-color: rgba(221, 230, 237, 0.9);
 }
 
-.mainpage h1 {
-  width: 100%;
-  height: 70px;
-  font-family: sans-serif;
-  font-style: Medium;
-  font-weight: 500;
-  font-size: 40px;
-  line-height: 70px;
-  text-transform: uppercase;
-  text-align: center;
-  color: #526D82;
-  padding: 40px;
+/* CSS for the featured image */
+.dynamic img {
+  width: 55%;
+  margin-left: 22%;
+  margin-top: 7%;
 }
 
-.mainpage p {
+/* CSS for the loading text */
+.dynamic p {
   width: 100%;
   height: 100%;
   font-family: sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16.2px;
-  line-height: 37px;
+  line-height: 30px;
   text-align: justify;
   text-transform: capitalize;
   color: #00000F;
-  padding: 3% 10%;
+  padding: 0.6% 7%;
 }
 
-#root {
-  background-color: rgba(221, 230, 237, 0.95);
+.dynamic b {
+  padding-left: 10%;
 }

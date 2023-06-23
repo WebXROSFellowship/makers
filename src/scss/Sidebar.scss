@@ -27,6 +27,7 @@
     transition: left 0.2s;
     width: 12rem;
     z-index: 10;
+    position: fixed;
   }
 
   .accessibility-panel.active {
@@ -107,13 +108,18 @@
     .dropbtn {
      color: #27374D;
     }
-    .mainpage h1 {
-      color: #9DB2BF;
-    }
-    .mainpage p {
+    .dynamic p {
       color: #DDE6ED;
     }
 
+    .dynamic b{
+      color: #DDE6ED;
+    }
+
+    .profile-text {
+      color: #DDE6ED;
+    }
+    
     .navbar{
       background-color: #DDE6ED;
       color:#27374D;
