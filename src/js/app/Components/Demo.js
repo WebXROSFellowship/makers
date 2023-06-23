@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
 
 // Updated Inspector API data
-import Config from "../config/config";
+import AppConfig from "../config/appConfig";
 import assets from "./../../../../data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
 import { DataContext } from "../utils";
-// import StagingData from "./../../../../data/data_english.json";
 
 const Demo = () => {
-  const base_url = Config.SITE_URL;
+  const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]);
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
   const { lang, setLang } = useContext(DataContext);
+
+  const [allLang, setAllLang] = useState([]);
 
   useEffect(() => {
     getFromServer();
@@ -22,6 +23,7 @@ const Demo = () => {
     getFromServer();
     // Call the checkElement function initially
     checkElement();
+    getLanguages();
 
     // Set up a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(checkElement);
@@ -33,6 +35,17 @@ const Demo = () => {
     // Clean up the observer on component unmount
     return () => observer.disconnect();
   }, [elementDetected]);
+
+  useEffect(() => {
+    getFromServer();
+  }, [lang]);
+
+  const getLanguages = async() => {
+    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
+    let langData = await fetch(langFetchURL);
+    let jsonLangData = await langData.json();
+    setAllLang(jsonLangData);
+  }
 
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time

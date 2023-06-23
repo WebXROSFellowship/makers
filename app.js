@@ -3875,7 +3875,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components */ "./src/js/app/components/index.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/js/app/utils/index.js");
-/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./config/config */ "./src/js/app/config/config.js");
+/* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./config/appConfig */ "./src/js/app/config/appConfig.js");
 
 
 
@@ -3910,8 +3910,8 @@ const App = () => {
   const [lang, setLang] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [menuData, setMenuData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const [stagingData, setStagingData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  console.log("configs...", _config_config__WEBPACK_IMPORTED_MODULE_3__["default"]);
-  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_URL;
+  console.log("AppConfig...", _config_appConfig__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_URL;
   const sendDataDump = async (lang, slug) => {
     const url = `${base_url}/${lang}/wp-json`;
     fetch(url).then(response => response.json()).then(data => {
@@ -3977,37 +3977,6 @@ const App = () => {
   }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
-
-/***/ }),
-
-/***/ "./src/js/app/assets/langData.js":
-/*!***************************************!*\
-  !*** ./src/js/app/assets/langData.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-let langArr = [{
-  code: "en",
-  native_name: "English",
-  is_default: true
-}, {
-  code: "hi",
-  native_name: "हिन्दी",
-  is_default: false
-}, {
-  code: "de",
-  native_name: "Deutsch",
-  is_default: false
-}, {
-  code: "fr",
-  native_name: "Français",
-  is_default: false
-}];
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (langArr);
 
 /***/ }),
 
@@ -4315,7 +4284,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
+/* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
 /* harmony import */ var _data_assets_demo_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../data/assets_demo.json */ "./data/assets_demo.json");
 /* harmony import */ var _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../../data/dynamicContent_demo.json */ "./data/dynamicContent_demo.json");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./src/js/app/utils/index.js");
@@ -4327,10 +4296,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import StagingData from "./../../../../data/data_english.json";
-
 const Demo = () => {
-  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_2__["default"].SITE_URL;
+  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_2__["default"].SITE_URL;
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true); // For asset loading
   const [scientistsData, setScientistsData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [elementDetected, setElementDetected] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false); // For inspector loaded
@@ -4338,6 +4305,7 @@ const Demo = () => {
     lang,
     setLang
   } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_5__.DataContext);
+  const [allLang, setAllLang] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     getFromServer();
   }, [lang]);
@@ -4345,6 +4313,7 @@ const Demo = () => {
     getFromServer();
     // Call the checkElement function initially
     checkElement();
+    getLanguages();
 
     // Set up a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(checkElement);
@@ -4356,6 +4325,15 @@ const Demo = () => {
     // Clean up the observer on component unmount
     return () => observer.disconnect();
   }, [elementDetected]);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    getFromServer();
+  }, [lang]);
+  const getLanguages = async () => {
+    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
+    let langData = await fetch(langFetchURL);
+    let jsonLangData = await langData.json();
+    setAllLang(jsonLangData);
+  };
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
     const ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
@@ -4794,12 +4772,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/js/app/utils/index.js");
-/* harmony import */ var _assets_langData__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/langData */ "./src/js/app/assets/langData.js");
-/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
-
+/* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
 
 
 
@@ -4817,7 +4793,7 @@ const Navbar = () => {
   const {
     stagingData
   } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_2__.StagingDataContext);
-  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_4__["default"].SITE_URL;
+  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_URL;
   let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
@@ -4856,17 +4832,10 @@ const Navbar = () => {
     setNavbarMenus(cData);
   }
   async function setLanguages() {
-    try {
-      // let langFetchURL = "";
-      // let langStagingData = await fetch(langFetchURL);
-      // let langStagingDataJSON = await langStagingData.json();
-
-      // setLanguageArr(langStagingDataJSON);
-      setLanguageArr(_assets_langData__WEBPACK_IMPORTED_MODULE_3__["default"]);
-    } catch (err) {
-      console.log("Error");
-      console.log(err);
-    }
+    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
+    let langData = await fetch(langFetchURL);
+    let jsonLangData = await langData.json();
+    setLanguageArr(jsonLangData);
   }
 
   /**
@@ -4875,7 +4844,7 @@ const Navbar = () => {
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("nav", {
     className: "navbar"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
     to: "/",
     className: "text-decoration-none"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -4889,7 +4858,7 @@ const Navbar = () => {
     className: "logo-img"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "title-head"
-  }, _config_config__WEBPACK_IMPORTED_MODULE_4__["default"].SITE_TITLE))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, _config_appConfig__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_TITLE))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "navbar-right"
   }, navbarMenus ? navbarMenus.map((currEle, i) => {
     let {
@@ -4906,7 +4875,7 @@ const Navbar = () => {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         className: "dropdown__items",
         key: i,
         onMouseEnter: () => setHoveredIndex(i),
@@ -4918,7 +4887,7 @@ const Navbar = () => {
         className: "fa-solid fa-circle-chevron-down"
       })), c && hoveredIndex === i && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
         className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+      }, nestedItems.map((cur, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
@@ -5009,7 +4978,7 @@ const Navbar = () => {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         className: "dropdown__items",
         key: i,
         onMouseEnter: () => setHoveredIndex(i),
@@ -5021,7 +4990,7 @@ const Navbar = () => {
         className: "fa-solid fa-circle-chevron-down"
       })), c && hoveredIndex === i && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
         className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+      }, nestedItems.map((cur, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
@@ -5063,7 +5032,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/js/app/utils/index.js");
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
-/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
+/* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
 
 
 
@@ -5082,7 +5051,7 @@ const Profile = () => {
   const content = cd[0]?.content || "";
   const titleName = cd[0]?.title;
   const [imgLink, setImgLink] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_URL;
+  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_URL;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetch(`${base_url}/wp-json/wp/v2/media?media`).then(response => response.json()).then(data => {
       const profileImage = data?.find(image => image?.slug === username);
@@ -5267,18 +5236,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/js/app/config/config.js":
-/*!*************************************!*\
-  !*** ./src/js/app/config/config.js ***!
-  \*************************************/
+/***/ "./src/js/app/config/appConfig.js":
+/*!****************************************!*\
+  !*** ./src/js/app/config/appConfig.js ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-const Config = configData;
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Config);
+const AppConfig = configData;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppConfig);
 
 /***/ }),
 
@@ -41245,7 +41214,7 @@ module.exports = JSON.parse('[{"id":"powersimple","type":"model","name":"powersi
   \***************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":""},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"1.30148 1.49399 2.62923","crossorigin":"anonymous"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"Hedy_Lamarr-1.jpegwrapper","type":"wrapper","position":"-1.09034 1.661 -2.597","show-details-on-click":""},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"albert-einstein-1.jpegwrapper","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"Nikola-Tesla-.pngwrapper","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"gordan-moore-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"Neil_deGrasse_Tyson-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.90005 1.97078 2.65545"}]');
+module.exports = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":""},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"1.30148 1.49399 2.62923","crossorigin":"anonymous"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"Hedy_Lamarr-1.jpegwrapper","type":"wrapper","position":"-3.21 1.661 -2.597","show-details-on-click":""},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"albert-einstein-1.jpegwrapper","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"Nikola-Tesla-.pngwrapper","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"gordan-moore-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"Neil_deGrasse_Tyson-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.90005 1.97078 2.65545"}]');
 
 /***/ }),
 
