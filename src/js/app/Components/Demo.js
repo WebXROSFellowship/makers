@@ -317,7 +317,6 @@ const Demo = () => {
               var name_format = data.find((obj) => obj.class == "name_wrapper");
               var img_format = data.find((obj) => obj.class == "image_wrapper");
               if (Data_from_Inspector) {
-                console.log("position", Data_from_Inspector.position);
                 return (
                   <a-entity
                     id={scientist.file + "wrapper"}
@@ -357,7 +356,7 @@ const Demo = () => {
                       class="btn-wrapper"
                       type="wrapper"
                       visible="false"
-                      position="0 -0.68371 0"
+                      position="0.3 -0.68371 0"
                       value="English"
                       code=""
                       onClick={handleButtonClick}
@@ -374,7 +373,7 @@ const Demo = () => {
                       class="btn-wrapper"
                       type="wrapper"
                       visible="false"
-                      position="0 -0.88371 0"
+                      position="-0.3 -0.88371 0"
                       value="German"
                       onClick={handleButtonClick}
                     ></a-troika-text>
