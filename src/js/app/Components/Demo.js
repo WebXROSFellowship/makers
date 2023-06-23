@@ -11,15 +11,7 @@ function Demo() {
   const [sci_data, setSciData] = useState([]);
   const base_url = Config.SITE_URL;
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
-  const [module, setModule] = useState(data);
 
-  const loadModule = async () => {
-    // Dynamically import the module
-    const importedModule = await import('./../../../../data/dynamicContent_demo.json');
-    console.log("importedModule:",importedModule);
-    // Set the imported module to the state
-    setModule(importedModule);
-  };
   useEffect(() => {
     // Call the checkElement function initially
     checkElement();
@@ -56,6 +48,7 @@ function Demo() {
     // Usage: Loading of all assets and subsequent render
     GetFromStaging();
     setLoading(false); // Add assets to the scene
+    
   }
 
   async function GetFromStaging() {
@@ -213,7 +206,6 @@ function Demo() {
         // Result : {success: true/false, message: "..."}
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
-        loadModule();
         window.location.reload();
         
       })
@@ -254,7 +246,7 @@ function Demo() {
         <a-assets>
           <a-asset-item
             id="room"
-            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/model01.glb"
+            src="https://cdn.glitch.me/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Fmodel.glb"
             crossOrigin="anonymous"
             key="room"
           ></a-asset-item>
@@ -264,22 +256,6 @@ function Demo() {
             crossOrigin="anonymous"
             key="navmesh"
           ></a-asset-item>
-
-          {/* {sci_data?.map((sci_info) => {
-            console.log(sci_info.file);
-            // console.log(sci_info.id,base_url+sci_info.full_path, sci_info.id);
-            if(sci_info.file == "Alan-Turing-1.png" || sci_info.file == "Hedy_Lamarr-1.jpeg")
-            return (
-              <a-asset-item
-                id={sci_info.file}
-                src={base_url + sci_info.full_path}
-                key={sci_info.id}
-                crossOrigin="anonymous"
-              >
-              </a-asset-item>
-            );
-          })
-          } */}
           {assets.map((asset) => {
             if (asset.type === "model") {
               return (
