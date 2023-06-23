@@ -342,6 +342,7 @@ const Demo = () => {
                         class="desc_wrapper"
                         type="wrapper"
                         value={scientist.data.alt}
+                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
                         visible="false"
                         {...desc_format}
                       ></a-troika-text>
@@ -349,6 +350,7 @@ const Demo = () => {
                         class="caption_wrapper"
                         type="wrapper"
                         value={scientist.data.caption}
+                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
                         visible="false"
                         {...cap_format}
                       ></a-troika-text>
@@ -356,6 +358,7 @@ const Demo = () => {
                         class="name_wrapper"
                         type="wrapper"
                         value={scientist.data.title}
+                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
                         visible="false"
                         {...name_format}
                       ></a-troika-text>
