@@ -1,10 +1,55 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from 'react';
 
 import "@styles/style.scss";
 
 const Body = () => {
+  
+  const [imageUrl, setImageUrl] = useState('');
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?pages');
+        const data = await response.json();
+
+        
+        const entry = data.find((item) => item.slug === 'webxr-open-source-fellowship');
+        if (entry) {
+          const contentRendered = entry.content.rendered;
+          setContent(contentRendered);
+
+          if (entry._links && entry._links['wp:featuredmedia']) {
+            const mediaResponse = await fetch(entry._links['wp:featuredmedia'][0].href);
+            const mediaData = await mediaResponse.json();
+            const imageUrl = mediaData.media_details.sizes.full.source_url;
+            setImageUrl(imageUrl);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <div className="mainpage">
+    <>
+    <div>
+      {imageUrl ? (
+        <img src={imageUrl} alt="Featured Image" />
+      ) : (
+        <p>Loading image...</p>
+      )}
+      <div dangerouslySetInnerHTML={{ __html: content }} />
+    </div>
+  
+
+
+
+    
+    {/* <div className="mainpage">
       <h1 className='body-head'>WEBXR  OPEN SOURCE FELLOWSHIP</h1>
       <p className='mb-4 body-text'>
         “I think it’s actually our obligation and duty to figure out on our side what can we do to make the VR platform take advantage of this trillion plus dollars of content on all of the flat screens.”
@@ -45,7 +90,8 @@ const Body = () => {
         developer, with 15 specializing in WordPress.
         <br></br>
       </p>
-    </div>
+    </div> */}
+    </>
   );
 };
 

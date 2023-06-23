@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 import "@styles/style.scss";
 import { DataContext, StagingDataContext } from "../utils";
-import langArr from "../assets/langData";
 import AppConfig from "../config/appConfig";
 
 const Navbar = () => {
@@ -63,17 +62,10 @@ const Navbar = () => {
   }
 
   async function setLanguages() {
-    try {
-      // let langFetchURL = "";
-      // let langStagingData = await fetch(langFetchURL);
-      // let langStagingDataJSON = await langStagingData.json();
-
-      // setLanguageArr(langStagingDataJSON);
-      setLanguageArr(langArr);
-    } catch (err) {
-      console.log("Error");
-      console.log(err);
-    }
+    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
+    let langData = await fetch(langFetchURL);
+    let jsonLangData = await langData.json();
+    setLanguageArr(jsonLangData);
   }
 
   /**
