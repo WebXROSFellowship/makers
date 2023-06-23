@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
 
 // Updated Inspector API data
-import Config from "../config/config";
+import AppConfig from "../config/appConfig";
 import assets from "./../../../../data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
 import { DataContext } from "../utils";
-// import StagingData from "./../../../../data/data_english.json";
 
 const Demo = () => {
-  const base_url = Config.SITE_URL;
+  const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]);
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
   const { lang, setLang } = useContext(DataContext);
 
+  const [allLang, setAllLang] = useState([]);
+
   useEffect(() => {
-    getFromServer();
     // Call the checkElement function initially
     checkElement();
+    getLanguages();
 
     // Set up a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(checkElement);
@@ -29,6 +30,17 @@ const Demo = () => {
     // Clean up the observer on component unmount
     return () => observer.disconnect();
   }, [elementDetected]);
+
+  useEffect(() => {
+    getFromServer();
+  }, [lang]);
+
+  const getLanguages = async() => {
+    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
+    let langData = await fetch(langFetchURL);
+    let jsonLangData = await langData.json();
+    setAllLang(jsonLangData);
+  }
 
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
@@ -352,7 +364,23 @@ const Demo = () => {
                       visible="false"
                       {...name_format}
                     ></a-troika-text>
-                    <a-troika-text
+                    {allLang?.map((lang) => {
+                      const langName = lang.native_name;
+                      const langCode = lang.code;
+
+                      return (
+                        <a-troika-text
+                          class="btn-wrapper"
+                          type="wrapper"
+                          visible="false"
+                          position="0 -0.68371 0"
+                          value={langName}
+                          code={langCode}
+                          onClick={handleButtonClick}
+                        ></a-troika-text>
+                      );
+                    })}
+                    {/* <a-troika-text
                       class="btn-wrapper"
                       type="wrapper"
                       visible="false"
@@ -376,7 +404,7 @@ const Demo = () => {
                       position="-0.3 -0.88371 0"
                       value="German"
                       onClick={handleButtonClick}
-                    ></a-troika-text>
+                    ></a-troika-text> */}
                   </a-entity>
                 );
               }
