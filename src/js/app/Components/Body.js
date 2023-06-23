@@ -1,18 +1,14 @@
 import React, { useEffect } from "react";
 
-import "./../../../scss/style.scss";
+import "@styles/style.scss";
 
 const Body = () => {
   return (
     <div className="mainpage">
-      {/* <ToggleVisibility>
-        <AFrame />
-      </ToggleVisibility> */}
-      <h1>WEBXR OPEN SOURCE FELLOWSHIP</h1>
-      <p style={{ marginBottom: "20px" }}>
-        “I think it’s actually our obligation and duty to figure out on our side
-        what can we do to make the VR platform take advantage of this trillion
-        plus dollars of content on all of the flat screens.” -
+      <h1 className='body-head'>WEBXR  OPEN SOURCE FELLOWSHIP</h1>
+      <p className='mb-4 body-text'>
+        “I think it’s actually our obligation and duty to figure out on our side what can we do to make the VR platform take advantage of this trillion plus dollars of content on all of the flat screens.”
+      - 
         <i> John Carmack, Meta Connect Keynote, 2021</i>
         <br></br>
         <br></br>

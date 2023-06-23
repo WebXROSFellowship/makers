@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import "./../../../scss/style.scss";
+
+import "@styles/style.scss"
 
 
 function Sidebar() {

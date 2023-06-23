@@ -1,11 +1,19 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { AFrame, Body, Demo, Home, NavSites, Navbar, Profile, Sidebar } from "./Components";
-import { DataContext, MenuDataContext } from "./Utils";
+import {
+  AFrame,
+  Body,
+  Demo,
+  Home,
+  NavSites,
+  Navbar,
+  Profile,
+  Sidebar,
+} from "./components";
+import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
 
-import { Config } from "./config/config";
-
+import Config from "./config/config";
 
 const appRouter = createBrowserRouter([
   {
@@ -13,7 +21,7 @@ const appRouter = createBrowserRouter([
     element: (
       <>
         <Navbar />
-        <Sidebar/>
+        <Sidebar />
         <Home />
       </>
     ),
@@ -45,7 +53,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/:sitename",
         element: <NavSites />,
-      }
+      },
     ],
   },
 ]);
@@ -53,11 +61,46 @@ const appRouter = createBrowserRouter([
 const App = () => {
   const [lang, setLang] = useState("");
   const [menuData, setMenuData] = useState({});
-  let data = menuData[lang] || [];
 
-  console.log("configs...", Config)
+  const [stagingData, setStagingData] = useState([]);
+
+  console.log("configs...", Config);
   const base_url = Config.SITE_URL;
 
+  const sendDataDump = async (lang, slug) => {
+    const url = `${base_url}/${lang}/wp-json`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data..", data);
+        const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
+        const formdata = new FormData();
+        formdata.append("slug", slug);
+        formdata.append("data", JSON.stringify(data));
+        const requestOptions = {
+          method: "POST",
+          body: formdata,
+          redirect: "follow",
+        };
+
+        fetch(apiUrl, requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            console.log("Data Dump...", result);
+          })
+          .catch((error) => console.log("Data Dump Error...", error));
+      })
+      .catch((error) => {
+        console.log("Error in Getting the Data...", error);
+      });
+  };
+
+  // TODO: Optimize for dynamicity
+  useEffect(() => {
+    sendDataDump("", "data_english");
+    sendDataDump("de", "data_german");
+    sendDataDump("hi", "data_hindi");
+  }, []);
 
   useEffect(() => {
     fetchMenuData();
@@ -70,24 +113,23 @@ const App = () => {
       let jsonData = await stagingData.json();
       let items = jsonData.filter((item) => item.slug == "main-menu");
       items = items[0].items;
-      setMenuData(prevData => ({
-        ...prevData,
-        [lang]: items
-      }));
+      setStagingData([...items]);
     } catch (error) {
       console.log("Error fetching staging data: ", error);
     }
   }
 
-  if (data.length === 0) {
+  if (stagingData.length === 0) {
     return <div>Loading...</div>;
   }
 
   return (
-    <DataContext.Provider value={{ lang: lang, setLang: setLang }} >
-      <MenuDataContext.Provider value={{ menuData, setMenuData }}>
-        <RouterProvider router={appRouter} />
-      </MenuDataContext.Provider>
+    <DataContext.Provider value={{ lang: lang, setLang: setLang }}>
+      <StagingDataContext.Provider value={{ stagingData, setStagingData }}>
+        <MenuDataContext.Provider value={{ menuData, setMenuData }}>
+          <RouterProvider router={appRouter} />
+        </MenuDataContext.Provider>
+      </StagingDataContext.Provider>
     </DataContext.Provider>
   );
 };

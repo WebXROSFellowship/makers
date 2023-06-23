@@ -168,7 +168,7 @@ function get_media_data_by_id($id){//this function builds the data for a lean js
 		'alt' => get_post_meta($id,"_wp_attachment_image_alt",true),
 		'caption' => wp_get_attachment_caption($id),
 		'title'=> get_the_title($id),
-		'desc' => wpautop(get_the_content($id)),
+		'desc' =>get_post($id)->post_content,
 		'path'=> $path,
 		'file' => $file,
 		'mime' => $mime,
@@ -673,5 +673,71 @@ if ( function_exists('register_sidebars') ){
     ) );
 }
 
+
+// update_VR_inspector
+
+add_action('rest_api_init', 'register_inspecter_changes');
+function register_inspecter_changes() {
+	register_rest_route('myroutes', '/update_inspecter',array(
+		'methods' => 'POST',
+		'callback' => 'update_inspecter_data',
+		'permission_callback' => '__return_true',
+	)
+	);
+}
+
+function update_inspecter_data($request) {
+	// var_dump( $request);
+	$file = $request->get_file_params();
+    $upload_dir = wp_upload_dir();
+    $file_name = 'dynamicContent_demo.json';
+	$file_type = $file["file"]["type"]; 
+	$file_tmp_name = $file["file"]['tmp_name'];
+    $file_path = get_stylesheet_directory() . '/data/' . $file_name;
+
+    if (move_uploaded_file($file_tmp_name, $file_path)) {
+	return array(
+            'success' => true,
+			'message' => 'Data Updated Successfully.',
+            // 'file_path' => $file_path,
+        );
+    } else {
+        return array(
+            'success' => false,
+            'message' => 'Data Update Failed.',
+        );
+    }}
+
+
+// getting wordpress data and pass in publish method
+add_action('rest_api_init', 'register_data_publish');
+function register_data_publish() {
+	register_rest_route('myroutes', '/data_publish',array(
+		'methods' => 'POST',
+		'callback' => 'publish_data',
+		// 'permission_callback' => '__return_true',
+	)
+	);
+}
+
+function publish_data($request) {
+	$slug = $_POST['slug'];
+	$jsonData = $_POST['data'];
+	$decodedString = stripslashes($jsonData);
+    $data =json_decode($decodedString);
+
+	if (!empty($slug) && !empty($data) ){
+		publishThis($slug,$data);
+		return array(
+            'success' => true,
+			'message' => 'Data Found Successfully...',
+        );
+	} else {
+		return array(
+            'success' => false,
+			'message' => 'Something went wrong ! Data not found...',
+        );
+	}
+}
 
 ?>
