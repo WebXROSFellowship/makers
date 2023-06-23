@@ -7,23 +7,15 @@ import data from "./../../../../data/dynamicContent_demo.json";
 import { DataContext } from "../utils";
 // import StagingData from "./../../../../data/data_english.json";
 
-
-function Demo() {
-  const [loading, setLoading] = useState(true); // For asset loading
-  const [sci_data, setSciData] = useState([]);
+const Demo = () => {
   const base_url = Config.SITE_URL;
+  const [loading, setLoading] = useState(true); // For asset loading
+  const [scientistsData, setScientistsData] = useState([]);
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
-  const [module, setModule] = useState(data);
-  const {lang, setLang} = useContext(DataContext);
+  const { lang, setLang } = useContext(DataContext);
 
-  const loadModule = async () => {
-    // Dynamically import the module
-    const importedModule = await import('./../../../../data/dynamicContent_demo.json');
-    console.log("importedModule:",importedModule);
-    // Set the imported module to the state
-    setModule(importedModule);
-  };
   useEffect(() => {
+    getFromServer();
     // Call the checkElement function initially
     checkElement();
 
@@ -38,11 +30,6 @@ function Demo() {
     return () => observer.disconnect();
   }, [elementDetected]);
 
-  useEffect(() => {
-    console.log("Lang changed");
-    startLoadingAssets();
-  }, [lang]);
-
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
     const ele = document.querySelector(
@@ -56,40 +43,27 @@ function Demo() {
     }
   };
 
-  async function startLoadingAssets() {
-    // Usage: Loading of all assets and subsequent render
-    setLoading(false); // Add assets to the scene
-    GetFromStaging();
-  }
-
-  function GetFromStaging() {
+  const getFromServer = async () => {
     // console.log("Inside get from staging");
     const url = `${base_url}/${lang}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
     console.log(url);
-    fetch(url)
+    await fetch(url)
       .then((response) => response.json())
-      .then((fetchdata) => {
-        var final_data = [];
-        fetchdata.map((oneImgData) => {
-          if (oneImgData.data.desc) {
-            final_data.push(oneImgData.data);
+      .then((result) => {
+        let data = [];
+        result.map((item) => {
+          if (item.data.desc) {
+            data.push(item.data);
+            setScientistsData(data);
+            setLoading(false);
           }
-          // console.log(oneImgData.data);
         });
-
-        // console.log("Staging Data",StagingData[3]);
-        // var final_data = data;
-        // console.log("Fetch from Staging");
-        console.log("final data", final_data);
-        setSciData(final_data);
-        // AddImages(final_data);
-        AddClickEvent(final_data);
-
-        // UpdateProperties(data);
+        AddClickEvent(data);
+      })
+      .catch((error) => {
+        console.log("Error from server...", error);
       });
-
-    console.log("sci data", sci_data);
-  }
+  };
 
   function ShowDescription(Obj, data) {
     console.log("ShowDescription");
@@ -120,7 +94,6 @@ function Demo() {
     }, 2500); // Adjust the delay as needed
   }
 
-  
   function addSaveButton() {
     setTimeout(function () {
       // Usage: Create an <a> element that is appended to the specified location in the inspector.
@@ -170,8 +143,8 @@ function Demo() {
     updateApiData(jsonString);
   }
 
-  function updateClassData(json){
-    const { value,id,visible,src, ...newJson } = json;
+  function updateClassData(json) {
+    const { value, id, visible, src, ...newJson } = json;
     return newJson;
   }
   function updateApiData(jsonString) {
@@ -179,29 +152,33 @@ function Demo() {
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
     var foundData = false;
-    var foundClassData=false;
+    var foundClassData = false;
     const updatedData = data.map((item) => {
-      if (item.class !==undefined && newData.class!==undefined && newData.class===item.class) {
+      if (
+        item.class !== undefined &&
+        newData.class !== undefined &&
+        newData.class === item.class
+      ) {
         console.log("Found Class Updation");
-        foundClassData = true
-        var alteredClassData=updateClassData(newData);
+        foundClassData = true;
+        var alteredClassData = updateClassData(newData);
         return alteredClassData;
-      }
-      else if (newData.id !== undefined && item.id === newData.id) {
+      } else if (newData.id !== undefined && item.id === newData.id) {
         console.log(newData.id);
         console.log("Found the item to update");
         foundData = true;
         return newData;
-      } else{
+      } else {
         console.log("Not the item to update");
         return item;
-      } 
+      }
     });
 
-    if (!foundData && newData.id!==undefined && newData.class===undefined) updatedData.push(newData);
-    if (newData.class !==undefined && !foundClassData){
+    if (!foundData && newData.id !== undefined && newData.class === undefined)
+      updatedData.push(newData);
+    if (newData.class !== undefined && !foundClassData) {
       console.log("New Class Data");
-      var alteredClassData=updateClassData(newData);
+      var alteredClassData = updateClassData(newData);
       updatedData.push(alteredClassData);
     }
 
@@ -228,9 +205,7 @@ function Demo() {
         // Result : {success: true/false, message: "..."}
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
-        loadModule();
         window.location.reload();
-        
       })
       .catch((error) => console.log("Error", error));
   };
@@ -268,62 +243,40 @@ function Demo() {
       <a-scene environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;">
         <a-entity
           id="rig"
-          movement-controls="constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+          movement-controls="constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch; speed:1;"
+          rotation-reader
+          thumbstick-logging
+          position="0 0 0"
         >
           <a-entity
-            camera=""
-            position="0 1.6 0"
-            rotation="-4.469070802020421 -84.91234523838803 0"
-            look-controls="pointerLockEnabled: true"
+            camera
+            look-controls="fly:true"
+            wasd-controls="fly:true; acceleration:1"
+            raycaster="far: 5; objects: .clickable"
+            position="0 1.6 -3.5"
+            rotation="0 -25 0"
           >
-            <a-cursor id="cursor" color="#FF0000"></a-cursor>
+            <a-cursor
+              id="cursor"
+              cursor="rayOrigin:mouse"
+              position="0 0 -0.2"
+              geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.003"
+              material="shader: flat; color: #FF0000"
+              raycaster="far: 5; objects: .clickable"
+            ></a-cursor>
           </a-entity>
         </a-entity>
 
+        {/* loaading assets in Aframe */}
         <a-assets>
-          <a-asset-item
-            id="room"
-            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/model01.glb"
-            crossOrigin="anonymous"
-            key="room"
-          ></a-asset-item>
-          <a-asset-item
-            id="navmesh"
-            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb"
-            crossOrigin="anonymous"
-            key="navmesh"
-          ></a-asset-item>
-
-          {sci_data?.map((sci_info) => {
-            console.log(sci_info);
-            // console.log(sci_info.id,base_url+sci_info.full_path, sci_info.id);
+          {assets.map((asset) => {
             return (
               <a-asset-item
-                id={sci_info.file}
-                src={base_url + sci_info.full_path}
-                key={sci_info.id}
-                crossOrigin="anonymous"
-              ></a-asset-item>
-            );
-          })}
-          {assets.map((asset) => {
-            if (asset.type === "model") {
-              return (
-                <a-asset-item
-                  id={asset.id}
-                  src={asset.url}
-                  key={asset.id}
-                  crossOrigin="anonymous"
-                ></a-asset-item>
-              );
-            }
-            return (
-              <img
                 id={asset.id}
                 src={asset.url}
                 key={asset.id}
                 crossOrigin="anonymous"
-              />
+              ></a-asset-item>
             );
           })}
         </a-assets>
@@ -336,43 +289,84 @@ function Demo() {
               id="#room"
               gltf-model="#room"
               crossOrigin="anonymous"
-              // position="-1.693 0 0.4"
               position="4.537 0 3.468"
             ></a-entity>
-            {/* Finally toggle visibility */}
-            { 
-              sci_data?.map((oneImg) => {
-                var Obj_id = oneImg.file+"wrapper";
-                // console.log(Obj_id);
-                // console.log(data);
-                var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
-                var desc_format = data.find(obj => obj.class== "desc_wrapper");
-                var cap_format = data.find(obj => obj.class== "caption_wrapper");
-                var name_format = data.find(obj => obj.class== "name_wrapper");
-                var img_format = data.find(obj => obj.class== "image_wrapper");
-                if(Data_from_Inspector) {
-                  console.log("position", Data_from_Inspector.position);
-                  return (
-                    <a-entity id={oneImg.file + "wrapper"} type= "wrapper" key={oneImg.id} {...Data_from_Inspector}  show-details-on-click="">
-                      <a-image
-                      src={'#'+oneImg.file}
+            {/* Load ScientistsData */}
+            {scientistsData?.map((scientist) => {
+              var Obj_id = scientist.file + "wrapper";
+              var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
+              var desc_format = data.find((obj) => obj.class == "desc_wrapper");
+              var cap_format = data.find(
+                (obj) => obj.class == "caption_wrapper"
+              );
+              var name_format = data.find((obj) => obj.class == "name_wrapper");
+              var img_format = data.find((obj) => obj.class == "image_wrapper");
+              if (Data_from_Inspector) {
+                console.log("position", Data_from_Inspector.position);
+                return (
+                  <a-entity
+                    id={scientist.file + "wrapper"}
+                    type="wrapper"
+                    key={scientist.id}
+                    {...Data_from_Inspector}
+                    show-details-on-click=""
+                  >
+                    <a-image
+                      src={base_url + scientist.full_path}
                       {...img_format}
-                      type= "wrapper"
+                      type="wrapper"
                       class="image_wrapper"
-                      >
-                      </a-image>
-                      <a-troika-text class="desc_wrapper" type= "wrapper" value={oneImg.alt} visible="false" {...desc_format} ></a-troika-text>
-                      <a-troika-text class="caption_wrapper" type= "wrapper" value={oneImg.caption} visible="false" {...cap_format} ></a-troika-text>
-                      <a-troika-text class="name_wrapper" type= "wrapper" value={oneImg.title} visible="false" {...name_format} ></a-troika-text>
-                      <a-troika-text class="btn-wrapper" type="wrapper" visible="false" position="0 -0.68371 0" value="English" code="" onClick={handleButtonClick}></a-troika-text>
-                      <a-troika-text class="btn-wrapper" type="wrapper" visible="false" position="0 -0.78371 0" value="Hindi" onClick={handleButtonClick}></a-troika-text>
-                      <a-troika-text class="btn-wrapper" type="wrapper" visible="false" position="0 -0.88371 0" value="German" onClick={handleButtonClick}></a-troika-text>
-                    </a-entity>
-                  )
-                }
-                
-              })
-            }
+                    ></a-image>
+                    <a-troika-text
+                      class="desc_wrapper"
+                      type="wrapper"
+                      value={scientist.alt}
+                      visible="false"
+                      {...desc_format}
+                    ></a-troika-text>
+                    <a-troika-text
+                      class="caption_wrapper"
+                      type="wrapper"
+                      value={scientist.caption}
+                      visible="false"
+                      {...cap_format}
+                    ></a-troika-text>
+                    <a-troika-text
+                      class="name_wrapper"
+                      type="wrapper"
+                      value={scientist.title}
+                      visible="false"
+                      {...name_format}
+                    ></a-troika-text>
+                    <a-troika-text
+                      class="btn-wrapper"
+                      type="wrapper"
+                      visible="false"
+                      position="0 -0.68371 0"
+                      value="English"
+                      code=""
+                      onClick={handleButtonClick}
+                    ></a-troika-text>
+                    <a-troika-text
+                      class="btn-wrapper"
+                      type="wrapper"
+                      visible="false"
+                      position="0 -0.78371 0"
+                      value="Hindi"
+                      onClick={handleButtonClick}
+                    ></a-troika-text>
+                    <a-troika-text
+                      class="btn-wrapper"
+                      type="wrapper"
+                      visible="false"
+                      position="0 -0.88371 0"
+                      value="German"
+                      onClick={handleButtonClick}
+                    ></a-troika-text>
+                  </a-entity>
+                );
+              }
+            })}
             <a-entity
               nav-mesh=""
               id="#navmesh"
@@ -399,9 +393,8 @@ function Demo() {
                   ></a-image>
                 );
               } else if (entity["type"] == "wrapper") {
-                  console.log("Wrapper rendered");
-              }
-              else {
+                console.log("Wrapper rendered");
+              } else {
                 return (
                   <a-entity
                     key={entity.id}
@@ -467,6 +460,6 @@ function Demo() {
       </a-scene>
     </>
   );
-}
+};
 
 export default Demo;

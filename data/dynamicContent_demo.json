@@ -49,7 +49,7 @@
   {
     "class": "caption_wrapper",
     "type": "wrapper",
-    "troika-text": "align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #d4ff00",
+    "troika-text": "align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d",
     "position": "0 -0.58371 0"
   },
   {
@@ -77,7 +77,7 @@
     "type": "wrapper",
     "show-details-on-click": "",
     "rotation": "179.9998479605043 0 179.9998479605043",
-    "position": "-2.84602 1.30415 2.68782"
+    "position": "-2.84602 1.28015 2.68782"
   },
   {
     "id": "gordan-moore-1.jpegwrapper",
@@ -91,6 +91,6 @@
     "type": "wrapper",
     "show-details-on-click": "",
     "rotation": "-179.9998479605043 0 -179.9998479605043",
-    "position": "-0.90005 1.2661 2.65545"
+    "position": "-0.90005 1.97078 2.65545"
   }
 ]

@@ -1,10 +1,49 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from 'react';
 
 import "@styles/style.scss";
 
 const Body = () => {
+  const [imageUrl, setImageUrl] = useState('');
+  const [content, setContent] = useState('');
+
+
+  useEffect(() => {
+    const fetchImageData = async () => {
+      try {
+        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?slug=webxr-open-source-fellowship&_embed');
+        if (!response.ok) {
+          throw new Error('Failed to fetch');
+        }
+
+        const data = await response.json();
+        const page = data[0];
+
+        if (page && page._embedded && page._embedded['wp:featuredmedia']) {
+          const mediaData = page._embedded['wp:featuredmedia'][0];
+          const imageUrl = mediaData.media_details.sizes.full.source_url;
+          setImageUrl(imageUrl);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchImageData();
+    
+  }, []);
+
+
   return (
-    <div className="mainpage">
+    <>
+   
+    <div>
+      {imageUrl ? (
+        <img src={imageUrl} alt="Image" />
+      ) : (
+        <p>Loading image...</p>
+      )}
+    </div>
+    
+    {/* <div className="mainpage">
       <h1 className='body-head'>WEBXR  OPEN SOURCE FELLOWSHIP</h1>
       <p className='mb-4 body-text'>
         “I think it’s actually our obligation and duty to figure out on our side what can we do to make the VR platform take advantage of this trillion plus dollars of content on all of the flat screens.”
@@ -45,7 +84,8 @@ const Body = () => {
         developer, with 15 specializing in WordPress.
         <br></br>
       </p>
-    </div>
+    </div> */}
+    </>
   );
 };
 
