@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 // Updated Inspector API data
 import Config from "../config/config";
 import assets from "./../../../../data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
+import { DataContext } from "../utils";
+// import StagingData from "./../../../../data/data_english.json";
 
-function Demo() {
-  const [loading, setLoading] = useState(true); // For asset loading
-  const [sci_data, setSciData] = useState([]);
+const Demo = () => {
   const base_url = Config.SITE_URL;
+  const [loading, setLoading] = useState(true); // For asset loading
+  const [scientistsData, setScientistsData] = useState([]);
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
+  const { lang, setLang } = useContext(DataContext);
 
   useEffect(() => {
+    getFromServer();
     // Call the checkElement function initially
     checkElement();
 
@@ -26,10 +30,6 @@ function Demo() {
     return () => observer.disconnect();
   }, [elementDetected]);
 
-  useEffect(() => {
-    startLoadingAssets();
-  }, []);
-
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
     const ele = document.querySelector(
@@ -43,35 +43,27 @@ function Demo() {
     }
   };
 
-  async function startLoadingAssets() {
-    // Usage: Loading of all assets and subsequent render
-    GetFromStaging();
-    setLoading(false); // Add assets to the scene
-  }
-
-  async function GetFromStaging() {
-    console.log("Inside get from staging");
-    const url =
-      base_url +
-      "/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1";
+  const getFromServer = async () => {
+    // console.log("Inside get from staging");
+    const url = `${base_url}/${lang}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
+    console.log(url);
     await fetch(url)
       .then((response) => response.json())
-      .then((fetchdata) => {
-        var final_data = [];
-        fetchdata.map((oneImgData) => {
-          if (oneImgData.data.desc) {
-            final_data.push(oneImgData.data);
+      .then((result) => {
+        let data = [];
+        result.map((item) => {
+          if (item.data.desc) {
+            data.push(item.data);
+            setScientistsData(data);
+            setLoading(false);
           }
-          // console.log(oneImgData.data);
         });
-        // var final_data = data;
-        // console.log("Fetch from Staging");
-        console.log("final data", final_data);
-        setSciData(final_data);
-        // AddImages(final_data);
-        AddClickEvent(final_data);
+        AddClickEvent(data);
+      })
+      .catch((error) => {
+        console.log("Error from server...", error);
       });
-  }
+  };
 
   function ShowDescription(Obj, data) {
     console.log("ShowDescription");
@@ -84,6 +76,9 @@ function Demo() {
       children[0].setAttribute("visible", state);
       children[1].setAttribute("visible", state);
       children[2].setAttribute("visible", state);
+      children[3].setAttribute("visible", state);
+      children[4].setAttribute("visible", state);
+      children[5].setAttribute("visible", state);
     }
   }
 
@@ -181,7 +176,6 @@ function Demo() {
 
     if (!foundData && newData.id !== undefined && newData.class === undefined)
       updatedData.push(newData);
-
     if (newData.class !== undefined && !foundClassData) {
       console.log("New Class Data");
       var alteredClassData = updateClassData(newData);
@@ -230,6 +224,20 @@ function Demo() {
     });
   }
 
+  const handleButtonClick = (event) => {
+    console.log("Lang changed");
+    console.log("I'm clicked");
+    const buttonText = event.target.getAttribute("value");
+
+    if (buttonText === "English") {
+      setLang("");
+    } else if (buttonText === "Hindi") {
+      setLang("hi");
+    } else if (buttonText === "German") {
+      setLang("de");
+    }
+  };
+
   return (
     <>
       <a-scene
@@ -274,37 +282,16 @@ function Demo() {
           ></a-entity>
         </a-entity>
 
+        {/* loaading assets in Aframe */}
         <a-assets>
-          <a-asset-item
-            id="room"
-            src="https://cdn.glitch.me/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Fmodel.glb"
-            crossOrigin="anonymous"
-            key="room"
-          ></a-asset-item>
-          <a-asset-item
-            id="navmesh"
-            src="https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb"
-            crossOrigin="anonymous"
-            key="navmesh"
-          ></a-asset-item>
           {assets.map((asset) => {
-            if (asset.type === "model") {
-              return (
-                <a-asset-item
-                  id={asset.id}
-                  src={asset.url}
-                  key={asset.id}
-                  crossOrigin="anonymous"
-                ></a-asset-item>
-              );
-            }
             return (
-              <img
+              <a-asset-item
                 id={asset.id}
                 src={asset.url}
                 key={asset.id}
                 crossOrigin="anonymous"
-              />
+              ></a-asset-item>
             );
           })}{" "}
         </a-assets>
@@ -317,13 +304,11 @@ function Demo() {
               id="#room"
               gltf-model="#room"
               crossOrigin="anonymous"
-              // position="-1.693 0 0.4"
               position="4.537 0 3.468"
             ></a-entity>
-            {/* Finally toggle visibility */}
-            {sci_data?.map((oneImg) => {
-              var Obj_id = oneImg.file + "wrapper";
-              console.log("ONE IMAGE VAR:", oneImg);
+            {/* Load ScientistsData */}
+            {scientistsData?.map((scientist) => {
+              var Obj_id = scientist.file + "wrapper";
               var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
               var desc_format = data.find((obj) => obj.class == "desc_wrapper");
               var cap_format = data.find(
@@ -335,14 +320,14 @@ function Demo() {
                 console.log("position", Data_from_Inspector.position);
                 return (
                   <a-entity
-                    id={oneImg.file + "wrapper"}
+                    id={scientist.file + "wrapper"}
                     type="wrapper"
-                    key={oneImg.id}
+                    key={scientist.id}
                     {...Data_from_Inspector}
                     show-details-on-click=""
                   >
                     <a-image
-                      src={base_url + oneImg.full_path}
+                      src={base_url + scientist.full_path}
                       {...img_format}
                       type="wrapper"
                       class="image_wrapper"
@@ -350,23 +335,48 @@ function Demo() {
                     <a-troika-text
                       class="desc_wrapper"
                       type="wrapper"
-                      value={oneImg.alt}
+                      value={scientist.alt}
                       visible="false"
                       {...desc_format}
                     ></a-troika-text>
                     <a-troika-text
                       class="caption_wrapper"
                       type="wrapper"
-                      value={oneImg.caption}
+                      value={scientist.caption}
                       visible="false"
                       {...cap_format}
                     ></a-troika-text>
                     <a-troika-text
                       class="name_wrapper"
                       type="wrapper"
-                      value={oneImg.title}
+                      value={scientist.title}
                       visible="false"
                       {...name_format}
+                    ></a-troika-text>
+                    <a-troika-text
+                      class="btn-wrapper"
+                      type="wrapper"
+                      visible="false"
+                      position="0 -0.68371 0"
+                      value="English"
+                      code=""
+                      onClick={handleButtonClick}
+                    ></a-troika-text>
+                    <a-troika-text
+                      class="btn-wrapper"
+                      type="wrapper"
+                      visible="false"
+                      position="0 -0.78371 0"
+                      value="Hindi"
+                      onClick={handleButtonClick}
+                    ></a-troika-text>
+                    <a-troika-text
+                      class="btn-wrapper"
+                      type="wrapper"
+                      visible="false"
+                      position="0 -0.88371 0"
+                      value="German"
+                      onClick={handleButtonClick}
                     ></a-troika-text>
                   </a-entity>
                 );
@@ -465,6 +475,6 @@ function Demo() {
       </a-scene>
     </>
   );
-}
+};
 
 export default Demo;
