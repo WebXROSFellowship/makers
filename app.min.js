@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 900:
+/***/ 231:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -6077,30 +6077,10 @@ StagingDataContext.displayName = "Staging Data";
 
 
 
-;// CONCATENATED MODULE: ./src/js/app/assets/langData.js
-let langArr = [{
-  code: "en",
-  native_name: "English",
-  is_default: true
-}, {
-  code: "hi",
-  native_name: "हिन्दी",
-  is_default: false
-}, {
-  code: "de",
-  native_name: "Deutsch",
-  is_default: false
-}, {
-  code: "fr",
-  native_name: "Français",
-  is_default: false
-}];
-/* harmony default export */ const langData = (langArr);
-;// CONCATENATED MODULE: ./src/js/app/config/config.js
-const Config = configData;
-/* harmony default export */ const config = (Config);
+;// CONCATENATED MODULE: ./src/js/app/config/appConfig.js
+const AppConfig = configData;
+/* harmony default export */ const appConfig = (AppConfig);
 ;// CONCATENATED MODULE: ./src/js/app/components/Navbar.js
-
 
 
 
@@ -6118,7 +6098,7 @@ const Navbar = () => {
   const {
     stagingData
   } = (0,react.useContext)(utils_StagingDataContext);
-  const base_url = config.SITE_URL;
+  const base_url = appConfig.SITE_URL;
   let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
@@ -6157,17 +6137,10 @@ const Navbar = () => {
     setNavbarMenus(cData);
   }
   async function setLanguages() {
-    try {
-      // let langFetchURL = "";
-      // let langStagingData = await fetch(langFetchURL);
-      // let langStagingDataJSON = await langStagingData.json();
-
-      // setLanguageArr(langStagingDataJSON);
-      setLanguageArr(langData);
-    } catch (err) {
-      console.log("Error");
-      console.log(err);
-    }
+    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
+    let langData = await fetch(langFetchURL);
+    let jsonLangData = await langData.json();
+    setLanguageArr(jsonLangData);
   }
 
   /**
@@ -6190,7 +6163,7 @@ const Navbar = () => {
     className: "logo-img"
   }), /*#__PURE__*/react.createElement("span", {
     className: "title-head"
-  }, config.SITE_TITLE))), /*#__PURE__*/react.createElement("div", {
+  }, appConfig.SITE_TITLE))), /*#__PURE__*/react.createElement("div", {
     className: "navbar-right"
   }, navbarMenus ? navbarMenus.map((currEle, i) => {
     let {
@@ -6411,7 +6384,7 @@ const Profile = () => {
   const content = ((_cd$ = cd[0]) === null || _cd$ === void 0 ? void 0 : _cd$.content) || "";
   const titleName = (_cd$2 = cd[0]) === null || _cd$2 === void 0 ? void 0 : _cd$2.title;
   const [imgLink, setImgLink] = (0,react.useState)("");
-  const base_url = config.SITE_URL;
+  const base_url = appConfig.SITE_URL;
   (0,react.useEffect)(() => {
     fetch(`${base_url}/wp-json/wp/v2/media?media`).then(response => response.json()).then(data => {
       const profileImage = data === null || data === void 0 ? void 0 : data.find(image => (image === null || image === void 0 ? void 0 : image.slug) === username);
@@ -6823,10 +6796,8 @@ const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","g
 
 
 
-// import StagingData from "./../../../../data/data_english.json";
-
 const Demo = () => {
-  const base_url = config.SITE_URL;
+  const base_url = appConfig.SITE_URL;
   const [loading, setLoading] = (0,react.useState)(true); // For asset loading
   const [scientistsData, setScientistsData] = (0,react.useState)([]);
   const [elementDetected, setElementDetected] = (0,react.useState)(false); // For inspector loaded
@@ -6834,10 +6805,11 @@ const Demo = () => {
     lang,
     setLang
   } = (0,react.useContext)(utils_DataContext);
+  const [allLang, setAllLang] = (0,react.useState)([]);
   (0,react.useEffect)(() => {
-    getFromServer();
     // Call the checkElement function initially
     checkElement();
+    getLanguages();
 
     // Set up a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(checkElement);
@@ -6849,6 +6821,15 @@ const Demo = () => {
     // Clean up the observer on component unmount
     return () => observer.disconnect();
   }, [elementDetected]);
+  (0,react.useEffect)(() => {
+    getFromServer();
+  }, [lang]);
+  const getLanguages = async () => {
+    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
+    let langData = await fetch(langFetchURL);
+    let jsonLangData = await langData.json();
+    setAllLang(jsonLangData);
+  };
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
     const ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
@@ -7099,28 +7080,18 @@ const Demo = () => {
         type: "wrapper",
         value: scientist.title,
         visible: "false"
-      }, name_format)), /*#__PURE__*/react.createElement("a-troika-text", {
-        class: "btn-wrapper",
-        type: "wrapper",
-        visible: "false",
-        position: "0 -0.68371 0",
-        value: "English",
-        code: "",
-        onClick: handleButtonClick
-      }), /*#__PURE__*/react.createElement("a-troika-text", {
-        class: "btn-wrapper",
-        type: "wrapper",
-        visible: "false",
-        position: "0 -0.78371 0",
-        value: "Hindi",
-        onClick: handleButtonClick
-      }), /*#__PURE__*/react.createElement("a-troika-text", {
-        class: "btn-wrapper",
-        type: "wrapper",
-        visible: "false",
-        position: "0 -0.88371 0",
-        value: "German",
-        onClick: handleButtonClick
+      }, name_format)), allLang === null || allLang === void 0 ? void 0 : allLang.map(lang => {
+        const langName = lang.native_name;
+        const langCode = lang.code;
+        return /*#__PURE__*/react.createElement("a-troika-text", {
+          class: "btn-wrapper",
+          type: "wrapper",
+          visible: "false",
+          position: "0 -0.68371 0",
+          value: langName,
+          code: langCode,
+          onClick: handleButtonClick
+        });
       }));
     }
   }), /*#__PURE__*/react.createElement("a-entity", {
@@ -7241,8 +7212,8 @@ const App = () => {
   const [lang, setLang] = (0,react.useState)("");
   const [menuData, setMenuData] = (0,react.useState)({});
   const [stagingData, setStagingData] = (0,react.useState)([]);
-  console.log("configs...", config);
-  const base_url = config.SITE_URL;
+  console.log("AppConfig...", appConfig);
+  const base_url = appConfig.SITE_URL;
   const sendDataDump = async (lang, slug) => {
     const url = `${base_url}/${lang}/wp-json`;
     fetch(url).then(response => response.json()).then(data => {
@@ -7316,7 +7287,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(900);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(231);
 
 
 
@@ -7877,7 +7848,7 @@ if (true) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(900);
+/******/ 	__webpack_require__(231);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()
