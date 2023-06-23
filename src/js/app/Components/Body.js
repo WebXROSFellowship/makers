@@ -3,45 +3,51 @@ import React, { useEffect, useState } from 'react';
 import "@styles/style.scss";
 
 const Body = () => {
+  
   const [imageUrl, setImageUrl] = useState('');
   const [content, setContent] = useState('');
 
-
   useEffect(() => {
-    const fetchImageData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?slug=webxr-open-source-fellowship&_embed');
-        if (!response.ok) {
-          throw new Error('Failed to fetch');
-        }
-
+        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?pages');
         const data = await response.json();
-        const page = data[0];
 
-        if (page && page._embedded && page._embedded['wp:featuredmedia']) {
-          const mediaData = page._embedded['wp:featuredmedia'][0];
-          const imageUrl = mediaData.media_details.sizes.full.source_url;
-          setImageUrl(imageUrl);
+        
+        const entry = data.find((item) => item.slug === 'webxr-open-source-fellowship');
+        if (entry) {
+          const contentRendered = entry.content.rendered;
+          setContent(contentRendered);
+
+          if (entry._links && entry._links['wp:featuredmedia']) {
+            const mediaResponse = await fetch(entry._links['wp:featuredmedia'][0].href);
+            const mediaData = await mediaResponse.json();
+            const imageUrl = mediaData.media_details.sizes.full.source_url;
+            setImageUrl(imageUrl);
+          }
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching data:', error);
       }
     };
-    fetchImageData();
-    
-  }, []);
 
+    fetchData();
+  }, []);
 
   return (
     <>
-   
     <div>
       {imageUrl ? (
-        <img src={imageUrl} alt="Image" />
+        <img src={imageUrl} alt="Featured Image" />
       ) : (
         <p>Loading image...</p>
       )}
+      <div dangerouslySetInnerHTML={{ __html: content }} />
     </div>
+  
+
+
+
     
     {/* <div className="mainpage">
       <h1 className='body-head'>WEBXR  OPEN SOURCE FELLOWSHIP</h1>
