@@ -6556,7 +6556,7 @@ const NavSites = () => {
     const langMenuData = stagingData || [];
     const filteredData = langMenuData.filter(item => item.url === curl);
     return filteredData.length > 0 ? filteredData[0].content : null;
-  }, [menuData, lang, sitename, sn]);
+  }, [stagingData, lang, sitename, sn]);
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
     dangerouslySetInnerHTML: {
       __html: filteredMenuData
@@ -6816,14 +6816,20 @@ const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","g
 
 
 
-function Demo() {
-  const [loading, setLoading] = (0,react.useState)(true); // For asset loading
-  const [sci_data, setSciData] = (0,react.useState)([]);
-  const base_url = config.SITE_URL;
-  const [elementDetected, setElementDetected] = (0,react.useState)(false); // For inspector loaded
 
+// import StagingData from "./../../../../data/data_english.json";
+
+const Demo = () => {
+  const base_url = config.SITE_URL;
+  const [loading, setLoading] = (0,react.useState)(true); // For asset loading
+  const [scientistsData, setScientistsData] = (0,react.useState)([]);
+  const [elementDetected, setElementDetected] = (0,react.useState)(false); // For inspector loaded
+  const {
+    lang,
+    setLang
+  } = (0,react.useContext)(utils_DataContext);
   (0,react.useEffect)(() => {
-    getFromStaging();
+    getFromServer();
     // Call the checkElement function initially
     checkElement();
 
@@ -6847,22 +6853,22 @@ function Demo() {
       setElementDetected(true);
     }
   };
-  const getFromStaging = async () => {
-    console.log("Inside get from staging");
-    const url = base_url + "/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1";
+  const getFromServer = async () => {
+    // console.log("Inside get from staging");
+    const url = `${base_url}/${lang}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
+    console.log(url);
     await fetch(url).then(response => response.json()).then(result => {
       let data = [];
       result.map(item => {
         if (item.data.desc) {
           data.push(item.data);
-          setSciData(data);
-          setLoading(false); // Add assets to the scene
+          setScientistsData(data);
+          setLoading(false);
         }
       });
-
       AddClickEvent(data);
     }).catch(error => {
-      console.log("error during get data from server", error);
+      console.log("Error from server...", error);
     });
   };
   function ShowDescription(Obj, data) {
@@ -6875,6 +6881,9 @@ function Demo() {
       children[0].setAttribute("visible", state);
       children[1].setAttribute("visible", state);
       children[2].setAttribute("visible", state);
+      children[3].setAttribute("visible", state);
+      children[4].setAttribute("visible", state);
+      children[5].setAttribute("visible", state);
     }
   }
   function customManipulation() {
@@ -7003,50 +7012,54 @@ function Demo() {
     });
   }
 
+  const handleButtonClick = event => {
+    console.log("Lang changed");
+    console.log("I'm clicked");
+    const buttonText = event.target.getAttribute("value");
+    if (buttonText === "English") {
+      setLang("");
+    } else if (buttonText === "Hindi") {
+      setLang("hi");
+    } else if (buttonText === "German") {
+      setLang("de");
+    }
+  };
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-scene", {
     environment: "preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
   }, /*#__PURE__*/react.createElement("a-entity", {
     id: "rig",
+    "movement-controls": "constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch; speed:1;",
     "rotation-reader": true,
     "thumbstick-logging": true,
-    "movement-controls": "constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch; speed:1;",
     position: "0 0 0"
   }, /*#__PURE__*/react.createElement("a-entity", {
     camera: true,
-    position: "0 1.6 0",
-    rotation: "-4.469070802020421 -84.91234523838803 0",
     "look-controls": "fly:true",
     "wasd-controls": "fly:true; acceleration:1",
-    raycaster: "far: 5; objects: .clickable"
+    raycaster: "far: 5; objects: .clickable",
+    position: "0 1.6 -3.5",
+    rotation: "0 -25 0"
   }, /*#__PURE__*/react.createElement("a-cursor", {
     id: "cursor",
     cursor: "rayOrigin:mouse",
-    position: "0 0 -1",
-    geometry: "primitive: ring; radiusInner: 0.02; radiusOuter: 0.03",
-    material: "color: #FF0000; shader: flat"
+    position: "0 0 -0.2",
+    geometry: "primitive: ring; radiusInner: 0.002; radiusOuter: 0.003",
+    material: "shader: flat; color: #FF0000",
+    raycaster: "far: 5; objects: .clickable"
   }))), /*#__PURE__*/react.createElement("a-assets", null, assets_demo_namespaceObject.map(asset => {
     return /*#__PURE__*/react.createElement("a-asset-item", {
       id: asset.id,
-      key: asset.id,
       src: asset.url,
-      crossOrigin: asset.crossOrigin
+      key: asset.id,
+      crossOrigin: "anonymous"
     });
   })), loading ? /*#__PURE__*/react.createElement("p", null, "Loading...") : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
     id: "#room",
     "gltf-model": "#room",
     crossOrigin: "anonymous",
     position: "4.537 0 3.468"
-  }), sci_data === null || sci_data === void 0 ? void 0 : sci_data.map(oneImg => {
-    var Obj_id = oneImg.file + "wrapper";
-    // console.log(Obj_id);
-    // console.log(data);
-    var desc_props = dynamicContent_demo_namespaceObject.find(obj => obj.type == "desc");
-    if (desc_props) {
-      // console.log("color",desc_props);
-      desc_props = desc_props["troika-text"];
-      // console.log("troika",desc_props);
-    }
-
+  }), scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
+    var Obj_id = scientist.file + "wrapper";
     var Data_from_Inspector = dynamicContent_demo_namespaceObject.find(obj => obj.id == Obj_id);
     var desc_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "desc_wrapper");
     var cap_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "caption_wrapper");
@@ -7055,35 +7068,57 @@ function Demo() {
     if (Data_from_Inspector) {
       console.log("position", Data_from_Inspector.position);
       return /*#__PURE__*/react.createElement("a-entity", extends_extends({
-        id: oneImg.file + "wrapper",
+        id: scientist.file + "wrapper",
         type: "wrapper",
-        key: oneImg.id
+        key: scientist.id
       }, Data_from_Inspector, {
         "show-details-on-click": ""
       }), /*#__PURE__*/react.createElement("a-image", extends_extends({
-        src: base_url + oneImg.full_path
+        src: base_url + scientist.full_path
       }, img_format, {
         type: "wrapper",
         class: "image_wrapper"
       })), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
         class: "desc_wrapper",
         type: "wrapper",
-        value: oneImg.alt,
+        value: scientist.alt,
         visible: "false"
       }, desc_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
         class: "caption_wrapper",
         type: "wrapper",
-        value: oneImg.caption,
+        value: scientist.caption,
         visible: "false"
       }, cap_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
         class: "name_wrapper",
         type: "wrapper",
-        value: oneImg.title,
+        value: scientist.title,
         visible: "false"
-      }, name_format)));
+      }, name_format)), /*#__PURE__*/react.createElement("a-troika-text", {
+        class: "btn-wrapper",
+        type: "wrapper",
+        visible: "false",
+        position: "0 -0.68371 0",
+        value: "English",
+        code: "",
+        onClick: handleButtonClick
+      }), /*#__PURE__*/react.createElement("a-troika-text", {
+        class: "btn-wrapper",
+        type: "wrapper",
+        visible: "false",
+        position: "0 -0.78371 0",
+        value: "Hindi",
+        onClick: handleButtonClick
+      }), /*#__PURE__*/react.createElement("a-troika-text", {
+        class: "btn-wrapper",
+        type: "wrapper",
+        visible: "false",
+        position: "0 -0.88371 0",
+        value: "German",
+        onClick: handleButtonClick
+      }));
     }
   }), /*#__PURE__*/react.createElement("a-entity", {
-    "nav-mesh": true,
+    "nav-mesh": "",
     id: "#navmesh",
     "gltf-model": "#navmesh",
     crossOrigin: "anonymous",
@@ -7153,7 +7188,7 @@ function Demo() {
     color: "#7BC8A4",
     scale: "6 2 2"
   })));
-}
+};
 /* harmony default export */ const components_Demo = (Demo);
 ;// CONCATENATED MODULE: ./src/js/app/components/index.js
 
