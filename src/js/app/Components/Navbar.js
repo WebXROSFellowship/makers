@@ -16,7 +16,7 @@ const Navbar = () => {
   const { stagingData } = useContext(StagingDataContext);
   const base_url = Config.SITE_URL;
 
-  // let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
+  let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {

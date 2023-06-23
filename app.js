@@ -4268,29 +4268,35 @@ const Body = () => {
   const [imageUrl, setImageUrl] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   const [content, setContent] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    const fetchImageData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?slug=webxr-open-source-fellowship&_embed');
-        if (!response.ok) {
-          throw new Error('Failed to fetch');
-        }
+        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?pages');
         const data = await response.json();
-        const page = data[0];
-        if (page && page._embedded && page._embedded['wp:featuredmedia']) {
-          const mediaData = page._embedded['wp:featuredmedia'][0];
-          const imageUrl = mediaData.media_details.sizes.full.source_url;
-          setImageUrl(imageUrl);
+        const entry = data.find(item => item.slug === 'webxr-open-source-fellowship');
+        if (entry) {
+          const contentRendered = entry.content.rendered;
+          setContent(contentRendered);
+          if (entry._links && entry._links['wp:featuredmedia']) {
+            const mediaResponse = await fetch(entry._links['wp:featuredmedia'][0].href);
+            const mediaData = await mediaResponse.json();
+            const imageUrl = mediaData.media_details.sizes.full.source_url;
+            setImageUrl(imageUrl);
+          }
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching data:', error);
       }
     };
-    fetchImageData();
+    fetchData();
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, imageUrl ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
     src: imageUrl,
-    alt: "Image"
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Loading image...")));
+    alt: "Featured Image"
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Loading image..."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    dangerouslySetInnerHTML: {
+      __html: content
+    }
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Body);
 
@@ -4312,6 +4318,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/config */ "./src/js/app/config/config.js");
 /* harmony import */ var _data_assets_demo_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../data/assets_demo.json */ "./data/assets_demo.json");
 /* harmony import */ var _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../../data/dynamicContent_demo.json */ "./data/dynamicContent_demo.json");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./src/js/app/utils/index.js");
 
 
 
@@ -4319,13 +4326,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function Demo() {
-  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true); // For asset loading
-  const [sci_data, setSciData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
-  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_2__["default"].SITE_URL;
-  const [elementDetected, setElementDetected] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false); // For inspector loaded
 
+// import StagingData from "./../../../../data/data_english.json";
+
+const Demo = () => {
+  const base_url = _config_config__WEBPACK_IMPORTED_MODULE_2__["default"].SITE_URL;
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true); // For asset loading
+  const [scientistsData, setScientistsData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [elementDetected, setElementDetected] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false); // For inspector loaded
+  const {
+    lang,
+    setLang
+  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_5__.DataContext);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    getFromServer();
     // Call the checkElement function initially
     checkElement();
 
@@ -4339,9 +4353,6 @@ function Demo() {
     // Clean up the observer on component unmount
     return () => observer.disconnect();
   }, [elementDetected]);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    startLoadingAssets();
-  }, []);
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
     const ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
@@ -4352,31 +4363,24 @@ function Demo() {
       setElementDetected(true);
     }
   };
-  async function startLoadingAssets() {
-    // Usage: Loading of all assets and subsequent render
-    GetFromStaging();
-    setLoading(false); // Add assets to the scene
-  }
-
-  async function GetFromStaging() {
-    console.log("Inside get from staging");
-    const url = base_url + "/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1";
-    await fetch(url).then(response => response.json()).then(fetchdata => {
-      var final_data = [];
-      fetchdata.map(oneImgData => {
-        if (oneImgData.data.desc) {
-          final_data.push(oneImgData.data);
+  const getFromServer = async () => {
+    // console.log("Inside get from staging");
+    const url = `${base_url}/${lang}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
+    console.log(url);
+    await fetch(url).then(response => response.json()).then(result => {
+      let data = [];
+      result.map(item => {
+        if (item.data.desc) {
+          data.push(item.data);
+          setScientistsData(data);
+          setLoading(false);
         }
-        // console.log(oneImgData.data);
       });
-      // var final_data = data;
-      // console.log("Fetch from Staging");
-      console.log("final data", final_data);
-      setSciData(final_data);
-      // AddImages(final_data);
-      AddClickEvent(final_data);
+      AddClickEvent(data);
+    }).catch(error => {
+      console.log("Error from server...", error);
     });
-  }
+  };
   function ShowDescription(Obj, data) {
     console.log("ShowDescription");
     console.log(Obj);
@@ -4387,6 +4391,9 @@ function Demo() {
       children[0].setAttribute("visible", state);
       children[1].setAttribute("visible", state);
       children[2].setAttribute("visible", state);
+      children[3].setAttribute("visible", state);
+      children[4].setAttribute("visible", state);
+      children[5].setAttribute("visible", state);
     }
   }
   function customManipulation() {
@@ -4515,39 +4522,42 @@ function Demo() {
     });
   }
 
+  const handleButtonClick = event => {
+    console.log("Lang changed");
+    console.log("I'm clicked");
+    const buttonText = event.target.getAttribute("value");
+    if (buttonText === "English") {
+      setLang("");
+    } else if (buttonText === "Hindi") {
+      setLang("hi");
+    } else if (buttonText === "German") {
+      setLang("de");
+    }
+  };
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-scene", {
     environment: "preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
     id: "rig",
-    "movement-controls": "constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+    "movement-controls": "constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch; speed:1;",
+    "rotation-reader": true,
+    "thumbstick-logging": true,
+    position: "0 0 0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
-    camera: "",
-    position: "0 1.6 0",
-    rotation: "-4.469070802020421 -84.91234523838803 0",
-    "look-controls": "pointerLockEnabled: true"
+    camera: true,
+    "look-controls": "fly:true",
+    "wasd-controls": "fly:true; acceleration:1",
+    raycaster: "far: 5; objects: .clickable",
+    position: "0 1.6 -3.5",
+    rotation: "0 -25 0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-cursor", {
     id: "cursor",
-    color: "#FF0000"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-assets", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
-    id: "room",
-    src: "https://cdn.glitch.me/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Fmodel.glb",
-    crossOrigin: "anonymous",
-    key: "room"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
-    id: "navmesh",
-    src: "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb",
-    crossOrigin: "anonymous",
-    key: "navmesh"
-  }), _data_assets_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(asset => {
-    if (asset.type === "model") {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
-        id: asset.id,
-        src: asset.url,
-        key: asset.id,
-        crossOrigin: "anonymous"
-      });
-    }
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("img", {
+    cursor: "rayOrigin:mouse",
+    position: "0 0 -0.2",
+    geometry: "primitive: ring; radiusInner: 0.002; radiusOuter: 0.003",
+    material: "shader: flat; color: #FF0000",
+    raycaster: "far: 5; objects: .clickable"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-assets", null, _data_assets_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(asset => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
       id: asset.id,
       src: asset.url,
       key: asset.id,
@@ -4556,21 +4566,10 @@ function Demo() {
   })), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
     id: "#room",
     "gltf-model": "#room",
-    crossOrigin: "anonymous"
-    // position="-1.693 0 0.4"
-    ,
+    crossOrigin: "anonymous",
     position: "4.537 0 3.468"
-  }), sci_data === null || sci_data === void 0 ? void 0 : sci_data.map(oneImg => {
-    var Obj_id = oneImg.file + "wrapper";
-    // console.log(Obj_id);
-    // console.log(data);
-    var desc_props = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.type == "desc");
-    if (desc_props) {
-      // console.log("color",desc_props);
-      desc_props = desc_props["troika-text"];
-      // console.log("troika",desc_props);
-    }
-
+  }), scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
+    var Obj_id = scientist.file + "wrapper";
     var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.id == Obj_id);
     var desc_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "desc_wrapper");
     var cap_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "caption_wrapper");
@@ -4579,32 +4578,54 @@ function Demo() {
     if (Data_from_Inspector) {
       console.log("position", Data_from_Inspector.position);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-        id: oneImg.file + "wrapper",
+        id: scientist.file + "wrapper",
         type: "wrapper",
-        key: oneImg.id
+        key: scientist.id
       }, Data_from_Inspector, {
         "show-details-on-click": ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-image", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-        src: base_url + oneImg.full_path
+        src: base_url + scientist.full_path
       }, img_format, {
         type: "wrapper",
         class: "image_wrapper"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         class: "desc_wrapper",
         type: "wrapper",
-        value: oneImg.alt,
+        value: scientist.alt,
         visible: "false"
       }, desc_format)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         class: "caption_wrapper",
         type: "wrapper",
-        value: oneImg.caption,
+        value: scientist.caption,
         visible: "false"
       }, cap_format)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         class: "name_wrapper",
         type: "wrapper",
-        value: oneImg.title,
+        value: scientist.title,
         visible: "false"
-      }, name_format)));
+      }, name_format)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", {
+        class: "btn-wrapper",
+        type: "wrapper",
+        visible: "false",
+        position: "0 -0.68371 0",
+        value: "English",
+        code: "",
+        onClick: handleButtonClick
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", {
+        class: "btn-wrapper",
+        type: "wrapper",
+        visible: "false",
+        position: "0 -0.78371 0",
+        value: "Hindi",
+        onClick: handleButtonClick
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", {
+        class: "btn-wrapper",
+        type: "wrapper",
+        visible: "false",
+        position: "0 -0.88371 0",
+        value: "German",
+        onClick: handleButtonClick
+      }));
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
     "nav-mesh": "",
@@ -4677,7 +4698,7 @@ function Demo() {
     color: "#7BC8A4",
     scale: "6 2 2"
   })));
-}
+};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Demo);
 
 /***/ }),
@@ -4738,7 +4759,7 @@ const NavSites = () => {
     const langMenuData = stagingData || [];
     const filteredData = langMenuData.filter(item => item.url === curl);
     return filteredData.length > 0 ? filteredData[0].content : null;
-  }, [menuData, lang, sitename, sn]);
+  }, [stagingData, lang, sitename, sn]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     dangerouslySetInnerHTML: {
       __html: filteredMenuData
@@ -4785,8 +4806,7 @@ const Navbar = () => {
     stagingData
   } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_2__.StagingDataContext);
   const base_url = _config_config__WEBPACK_IMPORTED_MODULE_4__["default"].SITE_URL;
-
-  // let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
+  let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -5059,7 +5079,11 @@ const Profile = () => {
       setImgLink(imageUrl);
     }).catch(error => console.log(error));
   }, [username]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    style: {
+      height: "100vh"
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
     className: "profile-text"
   }, titleName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "profile_container"
@@ -36459,502 +36483,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-;// CONCATENATED MODULE: ./src/js/app/assets/langData.js
-let langArr = [{
-  code: "en",
-  native_name: "English",
-  is_default: true
-}, {
-  code: "hi",
-  native_name: "हिन्दी",
-  is_default: false
-}, {
-  code: "de",
-  native_name: "Deutsch",
-  is_default: false
-}, {
-  code: "fr",
-  native_name: "Français",
-  is_default: false
-}];
-/* harmony default export */ const langData = (langArr);
-;// CONCATENATED MODULE: ./src/js/app/config/config.js
-const Config = configData;
-/* harmony default export */ const config = (Config);
-;// CONCATENATED MODULE: ./src/js/app/components/Navbar.js
-
-
-
-
-
-
-const Navbar = () => {
-  const [showMenu, setShowMenu] = (0,react.useState)(false);
-  const [navbarMenus, setNavbarMenus] = (0,react.useState)([]);
-  const [c2IDs, setC2IDs] = (0,react.useState)([]);
-  const [languageArr, setLanguageArr] = (0,react.useState)([]);
-  const [hoveredIndex, setHoveredIndex] = (0,react.useState)(-1);
-  const {
-    setLang
-  } = (0,react.useContext)(utils_DataContext);
-  const {
-    stagingData
-  } = (0,react.useContext)(utils_StagingDataContext);
-  const base_url = config.SITE_URL;
-  let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
-
-  // The useEffect hook is used to call the getData function once when the component is mounted.
-  (0,react.useEffect)(() => {
-    settingMenuData();
-    setLanguages();
-  }, [stagingData]);
-  function formatNames(name) {
-    let allWords = name.toLowerCase().split(" ");
-    for (let i = 0; i < allWords.length; i++) {
-      allWords[i] = allWords[i][0].toUpperCase() + allWords[i].substr(1);
-    }
-    let formattedName = allWords.join(" ");
-    return formattedName;
-  }
-  function settingMenuData() {
-    let items = stagingData;
-    let head = items.filter(e => e.menu_item_parent === "0")[0];
-    let childItems = items.filter(e => parseInt(e.menu_item_parent) === head.ID);
-    let nestedItems = [];
-    let currIDs = [];
-    for (let i = 0; i < childItems.length; i++) {
-      let currChild = childItems[i];
-      let allNestedChild = items.filter(e => parseInt(e.menu_item_parent) === currChild.ID);
-      if (allNestedChild.length > 0) {
-        currIDs.push(currChild.ID);
-        allNestedChild.map(ele => nestedItems.push(ele));
-      }
-    }
-    setC2IDs(currIDs);
-    let cData = [{
-      head,
-      childItems,
-      nestedItems
-    }];
-    setNavbarMenus(cData);
-  }
-  async function setLanguages() {
-    try {
-      // let langFetchURL = "";
-      // let langStagingData = await fetch(langFetchURL);
-      // let langStagingDataJSON = await langStagingData.json();
-
-      // setLanguageArr(langStagingDataJSON);
-      setLanguageArr(langData);
-    } catch (err) {
-      console.log("Error");
-      console.log(err);
-    }
-  }
-
-  /**
-   * This is a functional React component that returns a Navbar.
-   */
-
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("nav", {
-    className: "navbar"
-  }, /*#__PURE__*/react.createElement(Link, {
-    to: "/",
-    className: "text-decoration-none"
-  }, /*#__PURE__*/react.createElement("div", {
-    className: "navbar-brand text-white",
-    style: {
-      fontFamily: "sans-serif"
-    }
-  }, /*#__PURE__*/react.createElement("img", {
-    src: imgBaseURL,
-    alt: "logo",
-    className: "logo-img"
-  }), /*#__PURE__*/react.createElement("span", {
-    className: "title-head"
-  }, config.SITE_TITLE))), /*#__PURE__*/react.createElement("div", {
-    className: "navbar-right"
-  }, navbarMenus ? navbarMenus.map((currEle, i) => {
-    let {
-      head,
-      childItems,
-      nestedItems
-    } = currEle;
-    return /*#__PURE__*/react.createElement("div", {
-      className: "dropdown",
-      key: i
-    }, /*#__PURE__*/react.createElement("button", {
-      className: "dropbtn"
-    }, head.title), /*#__PURE__*/react.createElement("div", {
-      className: "dropdown__content"
-    }, childItems.map((menu, i) => {
-      const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/react.createElement(Link, {
-        className: "dropdown__items",
-        key: i,
-        onMouseEnter: () => setHoveredIndex(i),
-        onMouseLeave: () => setHoveredIndex(-1),
-        to: menu.url
-      }, formatNames(menu.title), c && /*#__PURE__*/react.createElement("span", {
-        className: "n2-drop"
-      }, /*#__PURE__*/react.createElement("i", {
-        className: "fa-solid fa-circle-chevron-down"
-      })), c && hoveredIndex === i && /*#__PURE__*/react.createElement("div", {
-        className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(Link, {
-        to: cur.url,
-        className: "dropdown__items d2",
-        key: i
-      }, cur.title))));
-    })));
-  }) : /*#__PURE__*/react.createElement(react.Fragment, null), /*#__PURE__*/react.createElement("div", {
-    className: "dropdown"
-  }, /*#__PURE__*/react.createElement("button", {
-    className: "dropbtn"
-  }, " Languages "), /*#__PURE__*/react.createElement("div", {
-    className: "dropdown__content"
-  }, languageArr.map(currLang => {
-    let cLang = currLang.native_name;
-    let code = currLang.code;
-    if (code == "en") {
-      code = "";
-    }
-    return /*#__PURE__*/react.createElement("span", {
-      onClick: () => setLang(`${code}`),
-      key: code,
-      className: "dropdown__items"
-    }, cLang);
-  }))), /*#__PURE__*/react.createElement("div", {
-    className: "dropdown dropdown--logos dropdown__socials"
-  }, /*#__PURE__*/react.createElement("a", {
-    href: "https://twitter.com/webxrawards",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-twitter fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://www.instagram.com/webxrawards/",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-instagram fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://www.facebook.com/groups/webxrawards",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-facebook fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://www.linkedin.com/company/the-polys/",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-linkedin fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://discord.gg/T5vRuM5cDS",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-discord fa-xl"
-  })))), /*#__PURE__*/react.createElement("div", {
-    className: "hamburger"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "hamburger__logo",
-    onClick: () => {
-      setShowMenu(!showMenu);
-    }
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-solid fa-bars fa-xl"
-  }))), showMenu === true ? /*#__PURE__*/react.createElement("div", {
-    className: "sideMenu"
-  }, navbarMenus ? navbarMenus.map((currEle, i) => {
-    let {
-      head,
-      childItems,
-      nestedItems
-    } = currEle;
-    return /*#__PURE__*/react.createElement("div", {
-      className: "dropdown2",
-      key: i
-    }, /*#__PURE__*/react.createElement("button", {
-      className: "dropbtn"
-    }, head.title), /*#__PURE__*/react.createElement("div", {
-      className: "dropdown__content"
-    }, childItems.map((menu, i) => {
-      const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/react.createElement(Link, {
-        className: "dropdown__items",
-        key: i,
-        onMouseEnter: () => setHoveredIndex(i),
-        onMouseLeave: () => setHoveredIndex(-1),
-        to: menu.url
-      }, formatNames(menu.title), c && /*#__PURE__*/react.createElement("span", {
-        className: "n2-drop"
-      }, /*#__PURE__*/react.createElement("i", {
-        className: "fa-solid fa-circle-chevron-down"
-      })), c && hoveredIndex === i && /*#__PURE__*/react.createElement("div", {
-        className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(Link, {
-        to: cur.url,
-        className: "dropdown__items d2",
-        key: i
-      }, cur.title))));
-    })));
-  }) : /*#__PURE__*/react.createElement(react.Fragment, null), /*#__PURE__*/react.createElement("div", {
-    className: "dropdown2"
-  }, /*#__PURE__*/react.createElement("button", {
-    className: "dropbtn"
-  }, " Languages "), /*#__PURE__*/react.createElement("div", {
-    className: "dropdown__content"
-  }, /*#__PURE__*/react.createElement("span", {
-    onClick: () => setLang(""),
-    className: "dropdown__items"
-  }, "English"), /*#__PURE__*/react.createElement("span", {
-    onClick: () => setLang("hi"),
-    className: "dropdown__items"
-  }, "Hindi"), /*#__PURE__*/react.createElement("span", {
-    onClick: () => setLang("de"),
-    className: "dropdown__items"
-  }, "German")))) : /*#__PURE__*/react.createElement(react.Fragment, null))));
-};
-/* harmony default export */ const components_Navbar = (Navbar);
-;// CONCATENATED MODULE: ./src/js/app/components/Home.js
-
-
-const Home = () => {
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Outlet, null));
-};
-/* harmony default export */ const components_Home = (Home);
-;// CONCATENATED MODULE: ./src/js/app/components/Body.js
-
-
-const Body = () => {
-  const [imageUrl, setImageUrl] = (0,react.useState)('');
-  const [content, setContent] = (0,react.useState)('');
-  (0,react.useEffect)(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://staging.webxr.link/wp-json/wp/v2/pages?pages');
-        const data = await response.json();
-        const entry = data.find(item => item.slug === 'webxr-open-source-fellowship');
-        if (entry) {
-          const contentRendered = entry.content.rendered;
-          setContent(contentRendered);
-          if (entry._links && entry._links['wp:featuredmedia']) {
-            const mediaResponse = await fetch(entry._links['wp:featuredmedia'][0].href);
-            const mediaData = await mediaResponse.json();
-            const imageUrl = mediaData.media_details.sizes.full.source_url;
-            setImageUrl(imageUrl);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", null, imageUrl ? /*#__PURE__*/react.createElement("img", {
-    src: imageUrl,
-    alt: "Featured Image"
-  }) : /*#__PURE__*/react.createElement("p", null, "Loading image..."), /*#__PURE__*/react.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: content
-    }
-  })));
-};
-/* harmony default export */ const components_Body = (Body);
-;// CONCATENATED MODULE: ./src/js/app/components/Profile.js
-
-
-
-
-
-const Profile = () => {
-  var _cd$, _cd$2;
-  const {
-    username
-  } = useParams();
-  const {
-    stagingData
-  } = (0,react.useContext)(utils_StagingDataContext);
-  const curl = "/profile/" + username + "/";
-  const data = stagingData;
-  const cd = data === null || data === void 0 ? void 0 : data.filter(e => (e === null || e === void 0 ? void 0 : e.url) === curl);
-  const content = ((_cd$ = cd[0]) === null || _cd$ === void 0 ? void 0 : _cd$.content) || "";
-  const titleName = (_cd$2 = cd[0]) === null || _cd$2 === void 0 ? void 0 : _cd$2.title;
-  const [imgLink, setImgLink] = (0,react.useState)("");
-  const base_url = config.SITE_URL;
-  (0,react.useEffect)(() => {
-    fetch(`${base_url}/wp-json/wp/v2/media?media`).then(response => response.json()).then(data => {
-      const profileImage = data === null || data === void 0 ? void 0 : data.find(image => (image === null || image === void 0 ? void 0 : image.slug) === username);
-      const imageUrl = profileImage ? profileImage.guid.rendered : "";
-      setImgLink(imageUrl);
-    }).catch(error => console.log(error));
-  }, [username]);
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("h1", {
-    className: "profile-text"
-  }, titleName), /*#__PURE__*/react.createElement("div", {
-    className: "profile_container"
-  }, /*#__PURE__*/react.createElement("img", {
-    src: imgLink,
-    alt: `${titleName}`,
-    className: "profile-img"
-  })), /*#__PURE__*/react.createElement("div", {
-    className: "profile-text",
-    dangerouslySetInnerHTML: {
-      __html: content
-    }
-  }));
-};
-/* harmony default export */ const components_Profile = (Profile);
-;// CONCATENATED MODULE: ./src/js/app/components/Sidebar.js
-
-
-function Sidebar() {
-  const [showAccessibilityPanel, setShowAccessibilityPanel] = (0,react.useState)(false);
-  const handleAccessibilityButtonClick = () => {
-    setShowAccessibilityPanel(true);
-  };
-  const handleAccessibilityCloseButtonClick = () => {
-    setShowAccessibilityPanel(false);
-  };
-  const handleHighContrastButtonClick = () => {
-    document.body.classList.toggle('high-contrast');
-  };
-  const handleGreyscaleButtonClick = () => {
-    document.body.classList.toggle('greyscale');
-  };
-  const handleIncreaseFontSizeButtonClick = () => {
-    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    document.documentElement.style.fontSize = currentFontSize + 1 + 'px';
-  };
-  const handleDecreaseFontSizeButtonClick = () => {
-    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    document.documentElement.style.fontSize = currentFontSize - 1 + 'px';
-  };
-  const handleLightModeButtonClick = () => {
-    document.body.classList.toggle('light-mode');
-  };
-  const handleDarkModeButtonClick = () => {
-    document.body.classList.toggle('dark-mode');
-  };
-  //Additional Dark Mode button for manually turing dark mode on
-  const handleDyslexiaModeButtonClick = () => {
-    document.body.classList.toggle('dyslexia-mode');
-  };
-  const handleIncreaseWordSpaceButtonClick = () => {
-    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
-    document.documentElement.style.wordSpacing = currentWordSpacing + 1 + 'px';
-  };
-  const handleDecreaseWordSpaceButtonClick = () => {
-    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
-    document.documentElement.style.wordSpacing = currentWordSpacing - 1 + 'px';
-  };
-  const handleFocusModeButtonClick = () => {
-    document.body.classList.toggle('focus-mode');
-  };
-  const handleResetButtonClick = () => {
-    // Reset body classList
-    document.body.classList.remove('high-contrast');
-    document.body.classList.remove('greyscale');
-    document.body.classList.remove('light-mode');
-    document.body.classList.remove('dyslexia-mode');
-    document.body.classList.remove('dark-mode');
-
-    // Reset font size and word spacing
-    document.documentElement.style.fontSize = '';
-    document.documentElement.style.wordSpacing = '';
-  };
-  return /*#__PURE__*/react.createElement("div", {
-    className: "App"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-accessible-icon",
-    onClick: handleAccessibilityButtonClick
-  }), showAccessibilityPanel && /*#__PURE__*/react.createElement("div", {
-    className: `accessibility-panel ${showAccessibilityPanel ? 'active' : ''}`
-  }, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-close-button",
-    "aria-label": "Close Accessibility Menu",
-    onClick: handleAccessibilityCloseButtonClick
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "accessibility-close-icon"
-  })), /*#__PURE__*/react.createElement("div", {
-    className: "accessibility-options"
-  }, /*#__PURE__*/react.createElement("ul", null, /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-high-contrast-button",
-    onClick: handleHighContrastButtonClick
-  }, "High Contrast")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-greyscale-button",
-    onClick: handleGreyscaleButtonClick
-  }, "Greyscale")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-increase-font-size-button",
-    onClick: handleIncreaseFontSizeButtonClick
-  }, "Increase Font Size"), /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-decrease-font-size-button",
-    onClick: handleDecreaseFontSizeButtonClick
-  }, "Decrease Font Size")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-dark-mode-button",
-    onClick: handleDarkModeButtonClick
-  }, "Dark Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-dyslexia-mode-button",
-    onClick: handleDyslexiaModeButtonClick
-  }, "Dyslexia Friendly Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-increase-word-space-button",
-    onClick: handleIncreaseWordSpaceButtonClick
-  }, "Increase Word Space"), /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-decrease-word-space-button",
-    onClick: handleDecreaseWordSpaceButtonClick
-  }, "Decrease Word Space")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-focus-mode-button",
-    onClick: handleFocusModeButtonClick
-  }, "Focus Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
-    className: "accessibility-reset-button",
-    onClick: handleResetButtonClick
-  }, "Reset"))))));
-}
-/* harmony default export */ const components_Sidebar = (Sidebar);
-;// CONCATENATED MODULE: ./src/js/app/components/NavSites.js
-
-
-
-const NavSites = () => {
-  const {
-    sitename,
-    sn
-  } = useParams();
-  const {
-    lang
-  } = (0,react.useContext)(utils_DataContext);
-  // const { menuData } = useContext(MenuDataContext);
-  const {
-    stagingData
-  } = (0,react.useContext)(utils_StagingDataContext);
-  const filteredMenuData = (0,react.useMemo)(() => {
-    const curl = "/" + sitename + "/" + (sn != undefined ? sn + "/" : "");
-    const langMenuData = stagingData || [];
-    const filteredData = langMenuData.filter(item => item.url === curl);
-    return filteredData.length > 0 ? filteredData[0].content : null;
-  }, [stagingData, lang, sitename, sn]);
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: filteredMenuData
-    }
-  }));
-};
-/* harmony default export */ const components_NavSites = (NavSites);
-;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-function extends_extends() {
-  extends_extends = Object.assign ? Object.assign.bind() : function (target) {
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
       for (var key in source) {
@@ -36967,749 +36497,6 @@ function extends_extends() {
   };
   return _extends.apply(this, arguments);
 }
-;// CONCATENATED MODULE: ./data/assets.json
-const assets_namespaceObject = JSON.parse('[{"id":"marvel","type":"model","name":"astra","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb"},{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"astra","type":"model","name":"marvel","url":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb"},{"id":"bg","type":"image","name":"background","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/bg.jpg"}]');
-;// CONCATENATED MODULE: ./data/dynamicContent_old.json
-const dynamicContent_old_namespaceObject = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 1.93968 -3","crossorigin":"anonymous"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"1.27063 1.34902 1","visible":"","rotation":"1 0 0"},{"id":"#marvel","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb","position":"1.91177 0.75 -3","scale":"3 3 3","crossorigin":"anonymous"}]');
-;// CONCATENATED MODULE: ./src/js/app/components/AFrame.js
-
-
-
-
-// have used native file system till endpoints unavailable
-
-function AFrame() {
-  const [loading, setLoading] = (0,react.useState)(true);
-  const color = new URLSearchParams(document.location.search).get("color");
-  // Default Black color for the plane
-  var gcolor = "#000000";
-  // Check if the color is passed as a query parameter, facilitate both hex and string
-  if (color) {
-    if (/^[a-zA-Z]+$/.test(color)) {
-      gcolor = color.toLowerCase();
-    } else {
-      gcolor = "#" + color;
-    }
-  }
-  (0,react.useEffect)(() => {
-    // loading inspector
-    function loadAndGet() {
-      var sceneEl = document.querySelector("a-scene");
-      sceneEl.addEventListener("loaded", function () {
-        sceneEl.components.inspector.openInspector();
-      });
-    }
-    // creating new button for getting all the data for the entity
-    function addMani() {
-      setTimeout(function () {
-        var ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
-        console.log(ele);
-        ele.click();
-        console.log("Clicked");
-        // Create the <a> element
-        var link = document.createElement("a");
-        link.href = "#";
-        link.title = "send data";
-        link.setAttribute("data-action", "copy-entity-to-clipboard");
-        link.classList.add("button", "fa", "fa-bookmark");
-
-        // Append the <a> element to the specified location
-        var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
-        console.log("!!!!!!!!!!!!got the parent element");
-        console.log(parentElement);
-        parentElement.appendChild(link);
-        dataToConsole();
-      }, 10000); // Adjust the delay as needed
-    }
-
-    // getting data from the clipboard to console
-    function dataToConsole() {
-      var element = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-bookmark");
-
-      // Add the onclick function
-      element.onclick = function () {
-        // Access the data from the clipboard
-        navigator.clipboard.readText().then(function (clipboardData) {
-          // Print the clipboard data to the console
-          console.log(clipboardData);
-          storeData(clipboardData);
-        });
-      };
-    }
-    function storeData(entityString) {
-      // Create a temporary element to parse the string
-      var tempElement = document.createElement("div");
-      tempElement.innerHTML = entityString;
-
-      // Get the attributes of the <a-entity> element
-      var entityAttributes = tempElement.firstChild.attributes;
-
-      // Convert the attributes into an object
-      var entityObject = {};
-      for (var i = 0; i < entityAttributes.length; i++) {
-        var attr = entityAttributes[i];
-        entityObject[attr.name] = attr.value;
-      }
-
-      // Convert the object to JSON string
-      var jsonString = JSON.stringify(entityObject);
-      console.log("!!!!!!!!!!!!!!!!!");
-      console.log(jsonString);
-      updateDataFile(jsonString);
-    }
-    function updateDataFile(jsonString) {
-      const newData = JSON.parse(jsonString);
-      var foundData = false;
-      const updatedData = dynamicContent_old_namespaceObject.map(item => {
-        if (item.id === newData.id) {
-          console.log("Found the item to update");
-          foundData = true;
-          return newData;
-        } else {
-          console.log("Not the item to update");
-          return item;
-        }
-      });
-      if (!foundData) updatedData.push(newData);
-      const updatedJsonString = JSON.stringify(updatedData, null, 2);
-      console.log('Updated data:', updatedData);
-      const fileName = 'dynamicContent.json';
-      saveJsonAsBlob(updatedJsonString, fileName);
-    }
-    function saveJsonAsBlob(updatedData, fileName) {
-      const blob = new Blob([updatedData], {
-        type: 'application/json'
-      });
-      const url = URL.createObjectURL(blob);
-
-      // Create a temporary link element
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = fileName;
-
-      // Append the link to the document body and click it programmatically
-      document.body.appendChild(link);
-      link.click();
-
-      // Clean up by removing the link and revoking the URL
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }
-
-    // Event listener for color change
-    function changeColor() {
-      AFRAME.registerComponent("change-color-on-hover", {
-        schema: {
-          color: {
-            default: "red"
-          }
-        },
-        init: function () {
-          var data = this.data;
-          var el = this.el;
-          el.addEventListener("mouseenter", function () {
-            el.setAttribute("material", "color", data.color);
-          });
-          el.addEventListener("mouseleave", function () {
-            el.setAttribute("material", "color", "pink");
-          });
-        }
-      });
-    }
-
-    // Below mentioned event gets activated after click
-    function AddClickEvent() {
-      AFRAME.registerComponent("show-details-on-click", {
-        init: function () {
-          var el = this.el;
-          el.addEventListener("click", function () {
-            el.setAttribute("material", "color", "lightblue");
-            var details_box = document.querySelector('#details-box');
-            var current_state = details_box.getAttribute('visible');
-            if (current_state == false) details_box.setAttribute("visible", "true");else details_box.setAttribute("visible", "false");
-          });
-        }
-      });
-    }
-
-    // Heavy models take time to load, hence wait for a while
-    setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
-
-    AddClickEvent();
-    changeColor();
-    loadAndGet();
-    addMani();
-  }, []);
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-scene", null, /*#__PURE__*/react.createElement("a-camera", {
-    position: "0 1.2 0",
-    rotation: "0 -45 0"
-  }, /*#__PURE__*/react.createElement("a-cursor", {
-    id: "cursor",
-    color: "#FF0000"
-  })), /*#__PURE__*/react.createElement("a-assets", null, assets_namespaceObject.map(asset => {
-    if (asset.type === "model") {
-      return /*#__PURE__*/react.createElement("a-asset-item", {
-        id: asset.id,
-        src: asset.url,
-        key: asset.id,
-        crossOrigin: "anonymous"
-      });
-    }
-    return /*#__PURE__*/react.createElement("img", {
-      id: asset.id,
-      src: asset.url,
-      key: asset.id,
-      crossOrigin: "anonymous"
-    });
-  })), loading ? /*#__PURE__*/react.createElement("p", null, "Loading...") : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
-    id: "#powersimple",
-    "gltf-model": "#powersimple",
-    position: "0 0.75 -3",
-    radius: "0.5",
-    height: "1.5",
-    crossOrigin: "anonymous"
-  }), dynamicContent_old_namespaceObject.map(entity => /*#__PURE__*/react.createElement("a-entity", extends_extends({
-    key: entity.id
-  }, entity)))), /*#__PURE__*/react.createElement("a-sphere", {
-    position: "0 0.7 -7",
-    radius: "2.25",
-    "change-color-on-hover": "color:#FFFFFF",
-    "show-details-on-click": true
-  }), /*#__PURE__*/react.createElement("a-box", {
-    id: "details-box",
-    position: "1 2 -2",
-    color: "lightgreen",
-    visible: "false"
-  }), /*#__PURE__*/react.createElement("a-plane", {
-    rotation: "-90 0 0",
-    position: "0 -2 -10",
-    width: "10",
-    height: "10",
-    color: gcolor,
-    shadow: true
-  }), /*#__PURE__*/react.createElement("a-sky", {
-    src: "#bg"
-  })));
-}
-/* harmony default export */ const components_AFrame = (AFrame);
-;// CONCATENATED MODULE: ./data/assets_demo.json
-const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossOrigin":"anonymous"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","crossOrigin":"anonymous"},{"id":"sofa","type":"model","name":"sofa","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","crossOrigin":"anonymous"},{"id":"clock","type":"model","name":"clock","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","crossOrigin":"anonymous"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.me/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Fmodel.glb","crossOrigin":"anonymous"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb","crossOrigin":"anonymous"}]');
-;// CONCATENATED MODULE: ./data/dynamicContent_demo.json
-const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":""},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"3.08108 1.272 2.682","crossorigin":"anonymous"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"Hedy_Lamarr-1.jpegwrapper","type":"wrapper","position":"-3.81005 1.66126 -2.597","show-details-on-click":""},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"albert-einstein-1.jpegwrapper","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"Nikola-Tesla-.pngwrapper","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"gordan-moore-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"id":"Neil_deGrasse_Tyson-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.90005 1.97078 2.65545"}]');
-;// CONCATENATED MODULE: ./src/js/app/components/Demo.js
-
-
-
-// Updated Inspector API data
-
-
-
-
-// import StagingData from "./../../../../data/data_english.json";
-
-const Demo = () => {
-  const base_url = config.SITE_URL;
-  const [loading, setLoading] = (0,react.useState)(true); // For asset loading
-  const [scientistsData, setScientistsData] = (0,react.useState)([]);
-  const [elementDetected, setElementDetected] = (0,react.useState)(false); // For inspector loaded
-  const {
-    lang,
-    setLang
-  } = (0,react.useContext)(utils_DataContext);
-  (0,react.useEffect)(() => {
-    getFromServer();
-    // Call the checkElement function initially
-    checkElement();
-
-    // Set up a MutationObserver to monitor changes in the DOM
-    const observer = new MutationObserver(checkElement);
-    observer.observe(document.body, {
-      subtree: true,
-      childList: true
-    });
-
-    // Clean up the observer on component unmount
-    return () => observer.disconnect();
-  }, [elementDetected]);
-  const checkElement = () => {
-    // Usage: Checks if the inspector has been opened for the first time
-    const ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
-    if (ele !== null && !elementDetected) {
-      console.log("Inspector has been opened for the first time");
-      customManipulation();
-      // Update the state to indicate that the element has been detected
-      setElementDetected(true);
-    }
-  };
-  const getFromServer = async () => {
-    // console.log("Inside get from staging");
-    const url = `${base_url}/${lang}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
-    console.log(url);
-    await fetch(url).then(response => response.json()).then(result => {
-      let data = [];
-      result.map(item => {
-        if (item.data.desc) {
-          data.push(item.data);
-          setScientistsData(data);
-          setLoading(false);
-        }
-      });
-      AddClickEvent(data);
-    }).catch(error => {
-      console.log("Error from server...", error);
-    });
-  };
-  function ShowDescription(Obj, data) {
-    console.log("ShowDescription");
-    console.log(Obj);
-    var children = Obj.querySelectorAll("a-troika-text");
-    // console.log("childeern", children);
-    if (children) {
-      var state = !children[0].getAttribute("visible");
-      children[0].setAttribute("visible", state);
-      children[1].setAttribute("visible", state);
-      children[2].setAttribute("visible", state);
-      children[3].setAttribute("visible", state);
-      children[4].setAttribute("visible", state);
-      children[5].setAttribute("visible", state);
-    }
-  }
-  function customManipulation() {
-    setTimeout(function RightPaneOpen() {
-      // Usage: Opens the Right Pane to add custom button
-      var ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
-      ele.click();
-      console.log("Right Pane Opened");
-      addSaveButton();
-    }, 2500); // Adjust the delay as needed
-  }
-
-  function addSaveButton() {
-    setTimeout(function () {
-      // Usage: Create an <a> element that is appended to the specified location in the inspector.
-      // Properties: "copy-entity-to-clipboard" consolidates element attributes into string and copies to clipboard.
-      var link = document.createElement("a");
-      link.href = "#";
-      link.title = "Send Element Data";
-      link.setAttribute("data-action", "copy-entity-to-clipboard");
-      link.classList.add("button", "fa", "fa-floppy-disk");
-      var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
-      parentElement.appendChild(link);
-      console.log("Save Button Added");
-      fetchDataClipboard();
-    }, 1500); // Adjust the delay as needed
-  }
-
-  function fetchDataClipboard() {
-    // Usage: Fetches the data from the clipboard and stores it in a variable
-    var element = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-floppy-disk");
-    element.onclick = function () {
-      // Usage: Access the data from the clipboard and store it in a variable "clipboardData"
-      navigator.clipboard.readText().then(function (clipboardData) {
-        console.log("Clipboard Data as fetched : ", clipboardData);
-        createJsonSting(clipboardData);
-      });
-    };
-  }
-  function createJsonSting(entityString) {
-    // Usage: Creates a JSON string from the data fetched from the clipboard.
-    var tempElement = document.createElement("div"); // Create a temporary element to parse the string
-    tempElement.innerHTML = entityString;
-    var entityAttributes = tempElement.firstChild.attributes;
-    // Convert the attributes into an object
-    var entityObject = {};
-    for (var i = 0; i < entityAttributes.length; i++) {
-      var attr = entityAttributes[i];
-      entityObject[attr.name] = attr.value;
-    }
-    // Convert the object to JSON string
-    var jsonString = JSON.stringify(entityObject);
-    console.log("JSON element: ", jsonString);
-    updateApiData(jsonString);
-  }
-  function updateClassData(json) {
-    const {
-      value,
-      id,
-      visible,
-      src,
-      ...newJson
-    } = json;
-    return newJson;
-  }
-  function updateApiData(jsonString) {
-    // Usage: Updates the API data with the new JSON string
-    // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
-    const newData = JSON.parse(jsonString);
-    var foundData = false;
-    var foundClassData = false;
-    const updatedData = dynamicContent_demo_namespaceObject.map(item => {
-      if (item.class !== undefined && newData.class !== undefined && newData.class === item.class) {
-        console.log("Found Class Updation");
-        foundClassData = true;
-        var alteredClassData = updateClassData(newData);
-        return alteredClassData;
-      } else if (newData.id !== undefined && item.id === newData.id) {
-        console.log(newData.id);
-        console.log("Found the item to update");
-        foundData = true;
-        return newData;
-      } else {
-        console.log("Not the item to update");
-        return item;
-      }
-    });
-    if (!foundData && newData.id !== undefined && newData.class === undefined) updatedData.push(newData);
-    if (newData.class !== undefined && !foundClassData) {
-      console.log("New Class Data");
-      var alteredClassData = updateClassData(newData);
-      updatedData.push(alteredClassData);
-    }
-    const updatedJsonString = JSON.stringify(updatedData, null, 2);
-    console.log("Updated data:", updatedData);
-    sendApiRequest(updatedJsonString);
-  }
-  const sendApiRequest = async data => {
-    // Usage: Sends the updated data to the API
-    const url = `${base_url}/wp-json/myroutes/update_inspecter`;
-    var formdata = new FormData();
-    formdata.append("file", new Blob([data]));
-    var requestOptions = {
-      method: "POST",
-      body: formdata,
-      redirect: "follow"
-    };
-    await fetch(url, requestOptions).then(response => response.text()).then(result => {
-      // Result : {success: true/false, message: "..."}
-      const dataResp = JSON.parse(result);
-      alert(dataResp.message);
-      window.location.reload();
-    }).catch(error => console.log("Error", error));
-  };
-  function AddClickEvent(fdata) {
-    console.log("In add click event", fdata);
-    AFRAME.registerComponent("show-details-on-click", {
-      init: function () {
-        var el = this.el;
-        el.addEventListener("click", function () {
-          ShowDescription(el, fdata);
-          // UpdateProperties(data)
-          // console.log("Click detected");
-        });
-      }
-    });
-  }
-
-  const handleButtonClick = event => {
-    console.log("Lang changed");
-    console.log("I'm clicked");
-    const buttonText = event.target.getAttribute("value");
-    if (buttonText === "English") {
-      setLang("");
-    } else if (buttonText === "Hindi") {
-      setLang("hi");
-    } else if (buttonText === "German") {
-      setLang("de");
-    }
-  };
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-scene", {
-    environment: "preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
-  }, /*#__PURE__*/react.createElement("a-entity", {
-    id: "rig",
-    "movement-controls": "constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch; speed:1;",
-    "rotation-reader": true,
-    "thumbstick-logging": true,
-    position: "0 0 0"
-  }, /*#__PURE__*/react.createElement("a-entity", {
-    camera: true,
-    "look-controls": "fly:true",
-    "wasd-controls": "fly:true; acceleration:1",
-    raycaster: "far: 5; objects: .clickable",
-    position: "0 1.6 -3.5",
-    rotation: "0 -25 0"
-  }, /*#__PURE__*/react.createElement("a-cursor", {
-    id: "cursor",
-    cursor: "rayOrigin:mouse",
-    position: "0 0 -0.2",
-    geometry: "primitive: ring; radiusInner: 0.002; radiusOuter: 0.003",
-    material: "shader: flat; color: #FF0000",
-    raycaster: "far: 5; objects: .clickable"
-  }))), /*#__PURE__*/react.createElement("a-assets", null, assets_demo_namespaceObject.map(asset => {
-    return /*#__PURE__*/react.createElement("a-asset-item", {
-      id: asset.id,
-      src: asset.url,
-      key: asset.id,
-      crossOrigin: "anonymous"
-    });
-  })), loading ? /*#__PURE__*/react.createElement("p", null, "Loading...") : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
-    id: "#room",
-    "gltf-model": "#room",
-    crossOrigin: "anonymous",
-    position: "4.537 0 3.468"
-  }), scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
-    var Obj_id = scientist.file + "wrapper";
-    var Data_from_Inspector = dynamicContent_demo_namespaceObject.find(obj => obj.id == Obj_id);
-    var desc_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "desc_wrapper");
-    var cap_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "caption_wrapper");
-    var name_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "name_wrapper");
-    var img_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "image_wrapper");
-    if (Data_from_Inspector) {
-      console.log("position", Data_from_Inspector.position);
-      return /*#__PURE__*/react.createElement("a-entity", extends_extends({
-        id: scientist.file + "wrapper",
-        type: "wrapper",
-        key: scientist.id
-      }, Data_from_Inspector, {
-        "show-details-on-click": ""
-      }), /*#__PURE__*/react.createElement("a-image", extends_extends({
-        src: base_url + scientist.full_path
-      }, img_format, {
-        type: "wrapper",
-        class: "image_wrapper"
-      })), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
-        class: "desc_wrapper",
-        type: "wrapper",
-        value: scientist.alt,
-        visible: "false"
-      }, desc_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
-        class: "caption_wrapper",
-        type: "wrapper",
-        value: scientist.caption,
-        visible: "false"
-      }, cap_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
-        class: "name_wrapper",
-        type: "wrapper",
-        value: scientist.title,
-        visible: "false"
-      }, name_format)), /*#__PURE__*/react.createElement("a-troika-text", {
-        class: "btn-wrapper",
-        type: "wrapper",
-        visible: "false",
-        position: "0 -0.68371 0",
-        value: "English",
-        code: "",
-        onClick: handleButtonClick
-      }), /*#__PURE__*/react.createElement("a-troika-text", {
-        class: "btn-wrapper",
-        type: "wrapper",
-        visible: "false",
-        position: "0 -0.78371 0",
-        value: "Hindi",
-        onClick: handleButtonClick
-      }), /*#__PURE__*/react.createElement("a-troika-text", {
-        class: "btn-wrapper",
-        type: "wrapper",
-        visible: "false",
-        position: "0 -0.88371 0",
-        value: "German",
-        onClick: handleButtonClick
-      }));
-    }
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    "nav-mesh": "",
-    id: "#navmesh",
-    "gltf-model": "#navmesh",
-    crossOrigin: "anonymous",
-    visible: "false",
-    position: "4.762 0 3.739"
-  }), dynamicContent_demo_namespaceObject.map(entity => {
-    if (entity["gltf-model"]) {
-      return /*#__PURE__*/react.createElement("a-entity", extends_extends({
-        key: entity.id
-      }, entity, {
-        crossOrigin: "anonymous"
-      }));
-    } else if (entity["type"] == "img") {
-      return /*#__PURE__*/react.createElement("a-image", extends_extends({
-        key: entity.id
-      }, entity, {
-        crossOrigin: "anonymous"
-      }));
-    } else if (entity["type"] == "wrapper") {
-      console.log("Wrapper rendered");
-    } else {
-      return /*#__PURE__*/react.createElement("a-entity", extends_extends({
-        key: entity.id
-      }, entity, {
-        crossOrigin: "anonymous"
-      }));
-    }
-  }), " "), /*#__PURE__*/react.createElement("a-light", {
-    type: "directional",
-    color: "#35227A",
-    intensity: "0.60",
-    position: "4.40664 0.98434 0.05053",
-    light: "type: point; angle: 180",
-    rotation: "-0.3 50.509 147.30229250797848",
-    id: "bulb"
-  }), /*#__PURE__*/react.createElement("a-light", {
-    type: "directional",
-    color: "#FFFFBC",
-    intensity: "0.50",
-    position: "3.94786 -1.28516 -0.54807",
-    light: "type: hemisphere; angle: 90; color: #8778bf",
-    rotation: "-0.3 50.509 147.30229250797848",
-    id: "bulb-3"
-  }), /*#__PURE__*/react.createElement("a-light", {
-    type: "directional",
-    color: "#FF4400",
-    intensity: "2",
-    position: "20.45283 -2.62394 -5.68868",
-    light: "type: ambient; intensity: 0.3; angle: 180; color: #7156d2",
-    rotation: "-0.3 50.509 147.30229250797848",
-    id: "bulb-4"
-  }), /*#__PURE__*/react.createElement("a-light", {
-    type: "directional",
-    color: "#FFFFBC",
-    intensity: "0.50",
-    position: "-0.21291 -0.99888 0.00254",
-    light: "type: hemisphere; color: #ffffff; angle: 90",
-    rotation: "-0.3 50.509 147.30229250797848",
-    id: "bulb-5"
-  }), /*#__PURE__*/react.createElement("a-plane", {
-    "static-body": "shape:  mesh",
-    position: "0 0 -4",
-    visible: "false",
-    rotation: "-90 0 0",
-    width: "4",
-    height: "4",
-    color: "#7BC8A4",
-    scale: "6 2 2"
-  })));
-};
-/* harmony default export */ const components_Demo = (Demo);
-;// CONCATENATED MODULE: ./src/js/app/components/index.js
-
-
-
-
-
-
-
-
-
-;// CONCATENATED MODULE: ./src/js/app/app.js
-
-
-
-
-
-const appRouter = createBrowserRouter([{
-  path: "/",
-  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(components_Navbar, null), /*#__PURE__*/react.createElement(components_Sidebar, null), /*#__PURE__*/react.createElement(components_Home, null)),
-  children: [{
-    path: "/",
-    element: /*#__PURE__*/react.createElement(components_Body, null)
-  }, {
-    path: "aframe_demo",
-    element: /*#__PURE__*/react.createElement(components_Demo, null)
-  }, {
-    path: "aframe",
-    element: /*#__PURE__*/react.createElement(components_AFrame, null)
-  }, {
-    path: "profile/:username",
-    element: /*#__PURE__*/react.createElement(components_Profile, null)
-  }, {
-    path: "/:sitename/:sn",
-    element: /*#__PURE__*/react.createElement(react.Suspense, {
-      fallback: /*#__PURE__*/react.createElement("h1", null, "Loadinggg...")
-    }, /*#__PURE__*/react.createElement(components_NavSites, null))
-  }, {
-    path: "/:sitename",
-    element: /*#__PURE__*/react.createElement(components_NavSites, null)
-  }]
-}]);
-const App = () => {
-  const [lang, setLang] = (0,react.useState)("");
-  const [menuData, setMenuData] = (0,react.useState)({});
-  const [stagingData, setStagingData] = (0,react.useState)([]);
-  console.log("configs...", config);
-  const base_url = config.SITE_URL;
-  const sendDataDump = async (lang, slug) => {
-    const url = `${base_url}/${lang}/wp-json`;
-    fetch(url).then(response => response.json()).then(data => {
-      console.log("data..", data);
-      const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
-      const formdata = new FormData();
-      formdata.append("slug", slug);
-      formdata.append("data", JSON.stringify(data));
-      const requestOptions = {
-        method: "POST",
-        body: formdata,
-        redirect: "follow"
-      };
-      fetch(apiUrl, requestOptions).then(response => response.json()).then(result => {
-        console.log("Data Dump...", result);
-      }).catch(error => console.log("Data Dump Error...", error));
-    }).catch(error => {
-      console.log("Error in Getting the Data...", error);
-    });
-  };
-
-  // TODO: Optimize for dynamicity
-  (0,react.useEffect)(() => {
-    sendDataDump("", "data_english");
-    sendDataDump("de", "data_german");
-    sendDataDump("hi", "data_hindi");
-  }, []);
-  (0,react.useEffect)(() => {
-    fetchMenuData();
-  }, [lang]);
-  async function fetchMenuData() {
-    try {
-      let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
-      let stagingData = await fetch(fetchURL);
-      let jsonData = await stagingData.json();
-      let items = jsonData.filter(item => item.slug == "main-menu");
-      items = items[0].items;
-      setStagingData([...items]);
-    } catch (error) {
-      console.log("Error fetching staging data: ", error);
-    }
-  }
-  if (stagingData.length === 0) {
-    return /*#__PURE__*/react.createElement("div", null, "Loading...");
-  }
-  return /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
-    value: {
-      lang: lang,
-      setLang: setLang
-    }
-  }, /*#__PURE__*/react.createElement(utils_StagingDataContext.Provider, {
-    value: {
-      stagingData,
-      setStagingData
-    }
-  }, /*#__PURE__*/react.createElement(utils_MenuDataContext.Provider, {
-    value: {
-      menuData,
-      setMenuData
-    }
-  }, /*#__PURE__*/react.createElement(RouterProvider, {
-    router: appRouter
-  }))));
-};
-/* harmony default export */ const app = (App);
-
-/***/ }),
-
-/***/ 46:
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
-/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(900);
-
-
-
-
-const root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(document.getElementById("root"));
-root.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_app__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z, null)));
-
-/***/ }),
-
-/***/ 448:
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 /**
   Not a true "polyfill" since we guard via the feature flag at runtime,
