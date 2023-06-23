@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { StagingDataContext } from "../utils";
 import "@styles/style.scss";
 
-import Config from "../config/config";
+import AppConfig from "../config/appConfig";
 
 const Profile = () => {
   const { username } = useParams();
@@ -17,7 +17,7 @@ const Profile = () => {
   const titleName = cd[0]?.title;
   const [imgLink, setImgLink] = useState("");
 
-  const base_url = Config.SITE_URL;
+  const base_url = AppConfig.SITE_URL;
 
   useEffect(() => {
     fetch(`${base_url}/wp-json/wp/v2/media?media`)

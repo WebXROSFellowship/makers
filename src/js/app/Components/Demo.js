@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
 
 // Updated Inspector API data
-import Config from "../config/config";
+import AppConfig from "../config/appConfig";
 import assets from "./../../../../data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
 import { DataContext } from "../utils";
-// import StagingData from "./../../../../data/data_english.json";
 
 const Demo = () => {
-  const base_url = Config.SITE_URL;
+  const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]);
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
   const { lang, setLang } = useContext(DataContext);
 
+  const [allLang, setAllLang] = useState([]);
+
   useEffect(() => {
-    getFromServer();
     // Call the checkElement function initially
     checkElement();
+    getLanguages();
 
     // Set up a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(checkElement);
@@ -29,6 +30,17 @@ const Demo = () => {
     // Clean up the observer on component unmount
     return () => observer.disconnect();
   }, [elementDetected]);
+
+  useEffect(() => {
+    getFromServer();
+  }, [lang]);
+
+  const getLanguages = async() => {
+    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
+    let langData = await fetch(langFetchURL);
+    let jsonLangData = await langData.json();
+    setAllLang(jsonLangData);
+  }
 
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
@@ -205,7 +217,7 @@ const Demo = () => {
         // Result : {success: true/false, message: "..."}
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((error) => console.log("Error", error));
   };
@@ -240,31 +252,46 @@ const Demo = () => {
 
   return (
     <>
-      <a-scene environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;">
+      <a-scene
+        environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
+        cursor="rayOrigin: mouse"
+      >
         <a-entity
           id="rig"
-          movement-controls="constrainToNavMesh: true;controls: checkpoint, gamepad, trackpad, keyboard, touch; speed:1;"
           rotation-reader
           thumbstick-logging
-          position="0 0 0"
+          movement-controls="constrainToNavMesh: true; speed:1; controls: checkpoint, gamepad, trackpad, keyboard, touch;"
         >
           <a-entity
-            camera
+            camera=""
+            position="0 1.6 0"
+            rotation="-4.469070802020421 -84.91234523838803 0"
             look-controls="fly:true"
             wasd-controls="fly:true; acceleration:1"
             raycaster="far: 5; objects: .clickable"
-            position="0 1.6 -3.5"
-            rotation="0 -25 0"
+            super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
           >
-            <a-cursor
-              id="cursor"
+            <a-entity
+              id="crosshair"
               cursor="rayOrigin:mouse"
               position="0 0 -0.2"
               geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.003"
-              material="shader: flat; color: #FF0000"
+              material="shader: flat"
               raycaster="far: 5; objects: .clickable"
-            ></a-cursor>
+              visible="false"
+            ></a-entity>
           </a-entity>
+          <a-entity
+            mixin="hand"
+            oculus-touch-controls="hand: left"
+            hand-controls="hand: left; handModelStyle: highPoly; color: #0055ff"
+          ></a-entity>
+          <a-entity
+            mixin="hand"
+            oculus-touch-controls="hand: right"
+            hand-controls="hand: right; handModelStyle: highPoly; color: #0055ff"
+            blink-controls="cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
+          ></a-entity>
         </a-entity>
 
         {/* loaading assets in Aframe */}
@@ -278,7 +305,7 @@ const Demo = () => {
                 crossOrigin="anonymous"
               ></a-asset-item>
             );
-          })}
+          })}{" "}
         </a-assets>
 
         {loading ? (
@@ -302,7 +329,6 @@ const Demo = () => {
               var name_format = data.find((obj) => obj.class == "name_wrapper");
               var img_format = data.find((obj) => obj.class == "image_wrapper");
               if (Data_from_Inspector) {
-                console.log("position", Data_from_Inspector.position);
                 return (
                   <a-entity
                     id={scientist.file + "wrapper"}
@@ -338,31 +364,22 @@ const Demo = () => {
                       visible="false"
                       {...name_format}
                     ></a-troika-text>
-                    <a-troika-text
-                      class="btn-wrapper"
-                      type="wrapper"
-                      visible="false"
-                      position="0 -0.68371 0"
-                      value="English"
-                      code=""
-                      onClick={handleButtonClick}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="btn-wrapper"
-                      type="wrapper"
-                      visible="false"
-                      position="0 -0.78371 0"
-                      value="Hindi"
-                      onClick={handleButtonClick}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="btn-wrapper"
-                      type="wrapper"
-                      visible="false"
-                      position="0 -0.88371 0"
-                      value="German"
-                      onClick={handleButtonClick}
-                    ></a-troika-text>
+                    {allLang?.map((lang) => {
+                      const langName = lang.native_name;
+                      const langCode = lang.code;
+
+                      return (
+                        <a-troika-text
+                          class="btn-wrapper"
+                          type="wrapper"
+                          visible="false"
+                          position="0 -0.68371 0"
+                          value={langCode}
+                          code={langCode}
+                          onClick={handleButtonClick}
+                        ></a-troika-text>
+                      );
+                    })}
                   </a-entity>
                 );
               }

@@ -1,5 +1,6 @@
 <?php
-add_theme_support( 'post-thumbnails' );
+add_theme_support('post-thumbnails');
+
 
 require_once ("functions/functions-enqueue.php");
 require_once ("functions/functions-custom.php");
