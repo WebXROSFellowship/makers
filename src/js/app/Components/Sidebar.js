@@ -43,7 +43,8 @@ function Sidebar() {
   const handleDarkModeButtonClick = () => {
     document.body.classList.toggle('dark-mode');
   };
-//Additional Dark Mode button for manually turing dark mode on
+
+
   const handleDyslexiaModeButtonClick = () => {
     document.body.classList.toggle('dyslexia-mode');
   };

@@ -89,7 +89,20 @@ const Navbar = () => {
             className="navbar-brand text-white"
             style={{ fontFamily: "sans-serif" }}
           >
-            <img src={imgBaseURL} alt="logo" className="logo-img" />
+            <img
+  src={imgBaseURL}
+  alt="logo"
+  className="logo-img"
+  style={{
+    width: "50px",
+    height: "50px",
+    marginTop: "-5px",
+    borderRadius: "50%",
+    cursor:"default",
+    marginRight: "1rem"
+  }}
+/>
+
             <span className="title-head">{Config.SITE_TITLE}</span>
           </div>
         </Link>
@@ -275,7 +288,7 @@ const Navbar = () => {
                 <></>
               )}
               <div className="dropdown2">
-                <button className="dropbtn"> Languages </button>
+                <button className="dropbtn"> Languages  </button>
                 <div className="dropdown__content">
                   <span onClick={() => setLang("")} className="dropdown__items">
                     English

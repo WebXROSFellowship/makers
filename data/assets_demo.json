@@ -3,24 +3,42 @@
     "id": "powersimple",
     "type": "model",
     "name": "powersimple",
-    "url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"
+    "url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb",
+    "crossOrigin": "anonymous"
   },
   {
     "id": "photos2",
     "type": "model",
     "name": "photos2",
-    "url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb"
+    "url": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
+    "crossOrigin": "anonymous"
   },
   {
     "id": "sofa",
     "type": "model",
     "name": "sofa",
-    "url": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb"
+    "url": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb",
+    "crossOrigin": "anonymous"
   },
   {
     "id": "clock",
     "type": "model",
     "name": "clock",
-    "url": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb"
+    "url": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb",
+    "crossOrigin": "anonymous"
+  },
+  {
+    "id":"room",
+    "type": "model",
+    "name": "room",
+    "url": "https://cdn.glitch.me/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Fmodel.glb",
+    "crossOrigin": "anonymous"
+  },
+  {
+    "id":"navmesh",
+    "type": "model",
+    "name": "navmesh",
+    "url": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb",
+    "crossOrigin": "anonymous"
   }
 ]
