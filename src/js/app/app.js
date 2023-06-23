@@ -13,7 +13,7 @@ import {
 } from "./components";
 import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
 
-import Config from "./config/config";
+import AppConfig from "./config/appConfig";
 
 const appRouter = createBrowserRouter([
   {
@@ -64,8 +64,8 @@ const App = () => {
 
   const [stagingData, setStagingData] = useState([]);
 
-  console.log("configs...", Config);
-  const base_url = Config.SITE_URL;
+  console.log("AppConfig...", AppConfig);
+  const base_url = AppConfig.SITE_URL;
 
   const sendDataDump = async (lang, slug) => {
     const url = `${base_url}/${lang}/wp-json`;
