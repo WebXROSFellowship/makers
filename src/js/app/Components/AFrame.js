@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import assets from "./../psudo_data/assets.json";
-import data from "./dynamicContent.json";
+import assets from "./../../../../data/assets.json";
+import data from "./../../../../data/dynamicContent_old.json";
 // have used native file system till endpoints unavailable
 
 

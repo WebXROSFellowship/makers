@@ -6,100 +6,13 @@
     "position": "-7.14106 1.426 2.65764",
     "rotation": "0 -180 0",
     "scale": "0.2 0.2 0.2",
-    "show-details-on-click": "true"
-  },
-  {
-    "troika-text": "strokeColor: #fffafa; value: Text is here",
-    "id": "#text",
-    "position": "3.66571 1.34902 -0.37157",
-    "visible": "",
-    "rotation": "0.9998113525032866 -89.45590055377542 0"
+    "show-details-on-click": ""
   },
   {
     "id": "#pic3",
     "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
-    "position": "3.04421 1.272 2.682",
+    "position": "3.08108 1.272 2.682",
     "crossorigin": "anonymous"
-  },
-  {
-    "id": "tesla-image",
-    "type": "img",
-    "name": "Nikola Tesla",
-    "caption": "Visionary inventor and electrical engineer",
-    "description": "A Serbian-American inventor, electrical engineer, mechanical engineer, and futurist best known for his contributions to the design of the modern alternating current electricity supply system.",
-    "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/TeslaImage.jpeg",
-    "position": "-3.846 1.426 2.596",
-    "rotation": "0 180 0",
-    "width": "0.7",
-    "height": "0.9",
-    "show-details-on-click": "true"
-  },
-  {
-    "id": "heddy-image",
-    "name": "Hedy Lamarr",
-    "caption": "Actress turned inventor who revolutionized wireless communication.",
-    "description": "An Austrian-American actress and inventor who pioneered the technology that would one day form the basis for today’s WiFi, GPS, and Bluetooth communication systems. As a natural beauty seen widely on the big screen in films like Samson and Delilah and White Cargo, society has long ignored her inventive genius.",
-    "type": "img",
-    "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Hedy-Lamarr.jpeg",
-    "position": "-2.34299 1.426 -2.59",
-    "width": "0.7",
-    "height": "0.9",
-    "show-details-on-click": "",
-    "crossorigin": "anonymous",
-    "material": "",
-    "geometry": ""
-  },
-  {
-    "id": "einstein-image",
-    "name": "Albert Einstein",
-    "caption": "a brilliant physicist, gave theory of relativity",
-    "description": "Albert Einstein was a German-born theoretical physicist. Best known for developing the theory of relativity, he also made important contributions to the development of the theory of quantum mechanics, and thus to modern physics.",
-    "type": "img",
-    "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Albert-Einstein.jpeg",
-    "position": "-2.482 1.426 2.659",
-    "rotation": "0 180 0",
-    "width": "0.7",
-    "height": "0.9",
-    "show-details-on-click": ""
-  },
-  {
-    "id": "NeilTyson-image",
-    "name": "Neil deGrasse Tyson",
-    "caption": "Astrophysicist, author, and science communicator",
-    "description": "Neil deGrasse Tyson is an American astrophysicist, author, and science communicator. Tyson studied at Harvard University, the University of Texas at Austin, and Columbia University. From 1991 to 1994, he was a postdoctoral research associate at Princeton University.",
-    "type": "img",
-    "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Neil-Tyson.jpeg",
-    "position": "-5.474 1.390 2.642",
-    "rotation": "0 180 0",
-    "width": "0.7",
-    "height": "0.9",
-    "show-details-on-click": ""
-  },
-  {
-    "id": "GordonMoore-image",
-    "name": "Gordon Moore",
-    "caption": "co-founder and emeritus chairman of Intel Corporation",
-    "description": "An American engineer, businessman, and co-founder of Intel Corporation. He is known for his observation, known as Moore's Law, which states that the number of transistors on a microchip doubles approximately every two years, leading to a rapid advancement in computing power.",
-    "type": "img",
-    "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Gordon-Moore.jpeg",
-    "position": "-3.954 1.426 -2.546",
-    "rotation": "0 0 0",
-    "width": "0.7",
-    "height": "0.9",
-    "show-details-on-click": ""
-  },
-  {
-    "id": "TimLee-image",
-    "name": "Tim Berners-Lee",
-    "caption": "computer scientist known as the inventor of the World Wide Web.",
-    "description": "Berners-Lee studied physics at the Queen's College, Oxford, and later pursued a career in software engineering. He proposed the concept of a global hypertext system that would allow information to be shared and accessed across different computers. This system became the World Wide Web.",
-    "type": "img",
-    "src": "https://cdn.glitch.global/92b17bac-d924-4d73-8031-00683e77adb2/Tim-Lee.jpeg",
-    "position": "-5.483 1.426 -2.600",
-    "rotation": "0 0 0",
-    "width": "0.7",
-    "height": "0.9",
-    "show-details-on-click": ""
   },
   {
     "id": "#sofa",
@@ -113,5 +26,71 @@
     "gltf-model": "https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb",
     "rotation": "0 90 0",
     "position": "0 0.578 2.996"
+  },
+  {
+    "id": "Alan-Turing-1.pngwrapper",
+    "type": "wrapper",
+    "show-details-on-click": "",
+    "position": "-5.82625 1.67077 -2.55294",
+    "rotation": "0.1 0 0"
+  },
+  {
+    "id": "Hedy_Lamarr-1.jpegwrapper",
+    "type": "wrapper",
+    "position": "-3.81005 1.66126 -2.597",
+    "show-details-on-click": ""
+  },
+  {
+    "class": "name_wrapper",
+    "type": "wrapper",
+    "troika-text": "color: #ffffff; align: center; fontSize: 0.08",
+    "position": "0 -0.4706 0"
+  },
+  {
+    "class": "caption_wrapper",
+    "type": "wrapper",
+    "troika-text": "align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d",
+    "position": "0 -0.58371 0"
+  },
+  {
+    "class": "desc_wrapper",
+    "type": "wrapper",
+    "troika-text": "color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2",
+    "position": "1.057 0 0"
+  },
+  {
+    "class": "image_wrapper",
+    "material": "",
+    "geometry": "",
+    "type": "wrapper",
+    "position": "",
+    "scale": "0.718 0.762 1"
+  },
+  {
+    "id": "albert-einstein-1.jpegwrapper",
+    "type": "wrapper",
+    "show-details-on-click": "",
+    "position": "-7.63777 1.653 -2.59869"
+  },
+  {
+    "id": "Nikola-Tesla-.pngwrapper",
+    "type": "wrapper",
+    "show-details-on-click": "",
+    "rotation": "179.9998479605043 0 179.9998479605043",
+    "position": "-2.84602 1.28015 2.68782"
+  },
+  {
+    "id": "gordan-moore-1.jpegwrapper",
+    "type": "wrapper",
+    "show-details-on-click": "",
+    "rotation": "-180 0 -180",
+    "position": "-4.93481 1.28642 2.6718"
+  },
+  {
+    "id": "Neil_deGrasse_Tyson-1.jpegwrapper",
+    "type": "wrapper",
+    "show-details-on-click": "",
+    "rotation": "-179.9998479605043 0 -179.9998479605043",
+    "position": "-0.90005 1.97078 2.65545"
   }
 ]

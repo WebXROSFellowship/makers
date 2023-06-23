@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+
 import "@styles/style.scss";
-import { DataContext, StagingDataContext } from "../Utils";
+import { DataContext, StagingDataContext } from "../utils";
 import langArr from "../assets/langData";
-// import "src/js/app/assets";
 import Config from "../config/config";
 
 const Navbar = () => {
@@ -89,8 +89,8 @@ const Navbar = () => {
             className="navbar-brand text-white"
             style={{ fontFamily: "sans-serif" }}
           >
-            <img src="https://staging.webxr.link/wp-content/uploads/2023/05/webxros.png" alt="logo" className="logo-img" />
-            <span className="title-head">PowerSimple | XROS</span>
+            <img src={imgBaseURL} alt="logo" className="logo-img" />
+            <span className="title-head">{Config.SITE_TITLE}</span>
           </div>
         </Link>
 
