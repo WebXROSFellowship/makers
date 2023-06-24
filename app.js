@@ -6797,7 +6797,7 @@ function AFrame() {
 ;// CONCATENATED MODULE: ./data/assets_demo.json
 const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossOrigin":"anonymous"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","crossOrigin":"anonymous"},{"id":"sofa","type":"model","name":"sofa","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","crossOrigin":"anonymous"},{"id":"clock","type":"model","name":"clock","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","crossOrigin":"anonymous"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.me/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Fmodel.glb","crossOrigin":"anonymous"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb","crossOrigin":"anonymous"}]');
 ;// CONCATENATED MODULE: ./data/dynamicContent_demo.json
-const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":""},{"id":"#pic3","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"1.30148 1.49399 2.62923","crossorigin":"anonymous"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"Hedy_Lamarr-1.jpegwrapper","type":"wrapper","position":"-1.09034 1.661 -2.597","show-details-on-click":"","rotation":"0.781 2.277 1.42"},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"albert-einstein-1.jpegwrapper","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"Nikola-Tesla-.pngwrapper","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"gordan-moore-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"id":"Neil_deGrasse_Tyson-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.90005 1.97078 2.65545"}]');
+const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":""},{"id":"#hanging_picture","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"1.30148 1.49399 2.62923","crossorigin":"anonymous"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"Hedy_Lamarr-1.jpegwrapper","type":"wrapper","position":"-3.21 1.661 -2.597","show-details-on-click":""},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"albert-einstein-1.jpegwrapper","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"Nikola-Tesla-.pngwrapper","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"gordan-moore-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"Neil_deGrasse_Tyson-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.90005 1.97078 2.65545"}]');
 ;// CONCATENATED MODULE: ./src/js/app/components/Demo.js
 
 
@@ -6818,6 +6818,10 @@ const Demo = () => {
   } = (0,react.useContext)(utils_DataContext);
   const [allLang, setAllLang] = (0,react.useState)([]);
   (0,react.useEffect)(() => {
+    getFromServer();
+  }, [lang]);
+  (0,react.useEffect)(() => {
+    getFromServer();
     // Call the checkElement function initially
     checkElement();
     getLanguages();
@@ -6877,13 +6881,14 @@ const Demo = () => {
     if (children) {
       var state = !children[0].getAttribute("visible");
       children[0].setAttribute("visible", state);
-      children[1].setAttribute("visible", state);
-      children[2].setAttribute("visible", state);
-      children[3].setAttribute("visible", state);
-      children[4].setAttribute("visible", state);
-      children[5].setAttribute("visible", state);
+      // children[1].setAttribute("visible", state);
+      // children[2].setAttribute("visible", state);
+      // children[3].setAttribute("visible", state);
+      // children[4].setAttribute("visible", state);
+      // children[5].setAttribute("visible", state);
     }
   }
+
   function customManipulation() {
     setTimeout(function RightPaneOpen() {
       // Usage: Opens the Right Pane to add custom button
@@ -7035,7 +7040,6 @@ const Demo = () => {
     position: "0 1.6 0",
     rotation: "-4.469070802020421 -84.91234523838803 0",
     "look-controls": "fly:true",
-    "wasd-controls": "fly:true; acceleration:1",
     raycaster: "far: 5; objects: .clickable",
     "super-hands": "colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
   }, /*#__PURE__*/react.createElement("a-entity", {
@@ -7060,9 +7064,13 @@ const Demo = () => {
       id: asset.id,
       src: asset.url,
       key: asset.id,
-      crossOrigin: "anonymous"
+      crossOrigin: asset.crossOrigin
     });
-  }), " "), loading ? /*#__PURE__*/react.createElement("p", null, "Loading...") : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
+  }), " "), loading ? /*#__PURE__*/react.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/react.createElement("h1", {
+    className: "h1"
+  }, "Loading...")) : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
     id: "#room",
     "gltf-model": "#room",
     crossOrigin: "anonymous",
@@ -7074,6 +7082,9 @@ const Demo = () => {
     var cap_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "caption_wrapper");
     var name_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "name_wrapper");
     var img_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "image_wrapper");
+    var btn_en = dynamicContent_demo_namespaceObject.find(obj => obj.class == "btn-wrapper-en");
+    var btn_hi = dynamicContent_demo_namespaceObject.find(obj => obj.class == "btn-wrapper-hi");
+    var btn_de = dynamicContent_demo_namespaceObject.find(obj => obj.class == "btn-wrapper-de");
     if (Data_from_Inspector) {
       return /*#__PURE__*/react.createElement("a-entity", extends_extends({
         id: scientist.file + "wrapper",
@@ -7094,23 +7105,19 @@ const Demo = () => {
       }, desc_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
         class: "caption_wrapper",
         type: "wrapper",
-        value: scientist.caption,
-        visible: "false"
+        value: scientist.caption
       }, cap_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
         class: "name_wrapper",
         type: "wrapper",
-        value: scientist.title,
-        visible: "false"
+        value: scientist.title
       }, name_format)), allLang === null || allLang === void 0 ? void 0 : allLang.map(lang => {
-        const langName = lang.native_name;
-        const langCode = lang.code;
         return /*#__PURE__*/react.createElement("a-troika-text", {
           class: "btn-wrapper",
           type: "wrapper",
-          visible: "false",
+          visible: "true",
           position: "0 -0.68371 0",
-          value: langCode,
-          code: langCode,
+          value: lang.code,
+          code: lang.code,
           onClick: handleButtonClick
         });
       }));
@@ -7144,7 +7151,7 @@ const Demo = () => {
         crossOrigin: "anonymous"
       }));
     }
-  }), " "), /*#__PURE__*/react.createElement("a-light", {
+  })), /*#__PURE__*/react.createElement("a-light", {
     type: "directional",
     color: "#35227A",
     intensity: "0.60",
