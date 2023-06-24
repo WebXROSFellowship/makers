@@ -62,7 +62,6 @@ const Demo = () => {
   const getFromServer = async () => {
     // console.log("Inside get from staging");
     const url =`${base_url}/${lang}/wp-json/wp/v2/media?fields=id,slug,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
-    // const url =`${base_url}/hi/wp-json/wp/v2/media?fields=id,slug,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
     console.log(url);
     await fetch(url)
       .then((response) => response.json())
@@ -328,12 +327,12 @@ const Demo = () => {
               if(scientist.data.file.slice(-3)=='glb') {
                 // console.log("Rendering glb");
 
-                var Obj_id = scientist.slug;
+                var Obj_id = scientist.data.file;
                 var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
                 if(Data_from_Inspector) {
                   return (
                     <a-entity 
-                      id={scientist.slug} 
+                      id={scientist.data.file} 
                       gltf-model={base_url + scientist.data.full_path} 
                       type="model" key={scientist.data.id} 
                       position={Data_from_Inspector.position} 
@@ -344,7 +343,7 @@ const Demo = () => {
                 }
               }
               else {
-                var Obj_id = scientist.slug + "wrapper";
+                var Obj_id = scientist.data.file + "wrapper";
                 var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
                 var desc_format = data.find((obj) => obj.class == "desc_wrapper");
                 var cap_format = data.find(
@@ -357,7 +356,7 @@ const Demo = () => {
                   // console.log("position", Data_from_Inspector.position);
                   return (
                     <a-entity
-                      id={scientist.slug + "wrapper"}
+                      id={scientist.data.file + "wrapper"}
                       type="wrapper"
                       key={scientist.data.id}
                       {...Data_from_Inspector}

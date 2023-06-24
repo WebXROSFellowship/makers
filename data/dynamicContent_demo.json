@@ -1,13 +1,13 @@
 [
   {
-    "id": "alan-turing-1wrapper",
+    "id": "Alan-Turing-1.pngwrapper",
     "type": "wrapper",
     "show-details-on-click": "",
     "position": "-5.82625 1.67077 -2.55294",
     "rotation": "0.1 0 0"
   },
   {
-    "id": "hedy_lamarr-1wrapper",
+    "id": "Hedy_Lamarr-1.jpegwrapper",
     "type": "wrapper",
     "position": "-3.21 1.661 -2.597",
     "show-details-on-click": ""
@@ -39,47 +39,47 @@
     "scale": "0.718 0.762 1"
   },
   {
-    "id": "albert-einstein-1wrapper",
+    "id": "albert-einstein-1.jpegwrapper",
     "type": "wrapper",
     "show-details-on-click": "",
     "position": "-7.63777 1.653 -2.59869"
   },
   {
-    "id": "nikola-teslawrapper",
+    "id": "Nikola-Tesla-.pngwrapper",
     "type": "wrapper",
     "show-details-on-click": "",
     "rotation": "179.9998479605043 0 179.9998479605043",
     "position": "-2.84602 1.28015 2.68782"
   },
   {
-    "id": "gordan-moore-1wrapper",
+    "id": "gordan-moore-1.jpegwrapper",
     "type": "wrapper",
     "show-details-on-click": "",
     "rotation": "-180 0 -180",
     "position": "-4.93481 1.28642 2.6718"
   },
   {
-    "id": "neil_degrasse_tyson-1wrapper",
+    "id": "Neil_deGrasse_Tyson-1.jpegwrapper",
     "type": "wrapper",
     "show-details-on-click": "",
     "rotation": "-179.9998479605043 0 -179.9998479605043",
     "position": "-0.9 1.292 2.655"
   },
   {
-    "id": "clock",
+    "id": "clock.glb",
     "gltf-model": "http://localhost:8888/wordpress/wp-content/uploads/2023/06/clock.glb",
     "type": "model",
     "rotation": "0 90 0",
     "position": "0 0.578 2.996"
   },
   {
-    "id": "sofa",
+    "id": "sofa.glb",
     "gltf-model": "http://localhost:8888/wordpress/wp-content/uploads/2023/06/sofa.glb",
     "type": "model",
     "position": "-7.87609 0.002 -0.59439"
   },
   {
-    "id": "room-1",
+    "id": "room-1.glb",
     "type": "model",
     "crossorigin": "anonymous",
     "position": "4.537 -0.01 3.468"
@@ -104,7 +104,7 @@
     "troika-text": "fontSize: 0.06"
   },
   {
-    "id": "powersimple",
+    "id": "powersimple.glb",
     "gltf-model": "http://localhost:8888/wordpress/wp-content/uploads/2023/06/powersimple.glb",
     "type": "model",
     "position": "-7.141 1.416 2.658",

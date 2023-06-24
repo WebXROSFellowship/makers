@@ -4355,7 +4355,6 @@ const Demo = () => {
   const getFromServer = async () => {
     // console.log("Inside get from staging");
     const url = `${base_url}/${lang}/wp-json/wp/v2/media?fields=id,slug,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
-    // const url =`${base_url}/hi/wp-json/wp/v2/media?fields=id,slug,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
     console.log(url);
     await fetch(url).then(response => response.json()).then(result => {
       let data = [];
@@ -4572,11 +4571,11 @@ const Demo = () => {
     if (scientist.data.file.slice(-3) == 'glb') {
       // console.log("Rendering glb");
 
-      var Obj_id = scientist.slug;
+      var Obj_id = scientist.data.file;
       var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.id == Obj_id);
       if (Data_from_Inspector) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
-          id: scientist.slug,
+          id: scientist.data.file,
           "gltf-model": base_url + scientist.data.full_path,
           type: "model",
           key: scientist.data.id,
@@ -4586,7 +4585,7 @@ const Demo = () => {
         });
       }
     } else {
-      var Obj_id = scientist.slug + "wrapper";
+      var Obj_id = scientist.data.file + "wrapper";
       var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.id == Obj_id);
       var desc_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "desc_wrapper");
       var cap_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "caption_wrapper");
@@ -4596,7 +4595,7 @@ const Demo = () => {
       if (Data_from_Inspector) {
         // console.log("position", Data_from_Inspector.position);
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-          id: scientist.slug + "wrapper",
+          id: scientist.data.file + "wrapper",
           type: "wrapper",
           key: scientist.data.id
         }, Data_from_Inspector, {
@@ -41219,7 +41218,7 @@ module.exports = JSON.parse('[{"id":"powersimple","type":"model","name":"powersi
   \***************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"alan-turing-1wrapper","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"hedy_lamarr-1wrapper","type":"wrapper","position":"-3.21 1.661 -2.597","show-details-on-click":""},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"albert-einstein-1wrapper","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"nikola-teslawrapper","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"gordan-moore-1wrapper","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"id":"neil_degrasse_tyson-1wrapper","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.9 1.292 2.655"},{"id":"clock","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/clock.glb","type":"model","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"sofa","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/sofa.glb","type":"model","position":"-7.87609 0.002 -0.59439"},{"id":"room-1","type":"model","crossorigin":"anonymous","position":"4.537 -0.01 3.468"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"powersimple","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/powersimple.glb","type":"model","position":"-7.141 1.416 2.658","rotation":"0 180 0","scale":"0.25 0.25 0.25"}]');
+module.exports = JSON.parse('[{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"Hedy_Lamarr-1.jpegwrapper","type":"wrapper","position":"-3.21 1.661 -2.597","show-details-on-click":""},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"albert-einstein-1.jpegwrapper","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"Nikola-Tesla-.pngwrapper","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"gordan-moore-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"id":"Neil_deGrasse_Tyson-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.9 1.292 2.655"},{"id":"clock.glb","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/clock.glb","type":"model","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"sofa.glb","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/sofa.glb","type":"model","position":"-7.87609 0.002 -0.59439"},{"id":"room-1.glb","type":"model","crossorigin":"anonymous","position":"4.537 -0.01 3.468"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"powersimple.glb","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/powersimple.glb","type":"model","position":"-7.141 1.416 2.658","rotation":"0 180 0","scale":"0.25 0.25 0.25"}]');
 
 /***/ }),
 
