@@ -9,7 +9,7 @@
     "show-details-on-click": ""
   },
   {
-    "id": "#pic3",
+    "id": "#hanging_picture",
     "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
     "position": "1.30148 1.49399 2.62923",
     "crossorigin": "anonymous"

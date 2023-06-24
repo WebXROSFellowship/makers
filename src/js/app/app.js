@@ -12,7 +12,6 @@ import {
   Sidebar,
 } from "./components";
 import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
-
 import AppConfig from "./config/appConfig";
 
 const appRouter = createBrowserRouter([
@@ -59,42 +58,12 @@ const appRouter = createBrowserRouter([
 ]);
 
 const App = () => {
+  const base_url = AppConfig.SITE_URL;
   const [lang, setLang] = useState("");
   const [menuData, setMenuData] = useState({});
-
   const [stagingData, setStagingData] = useState([]);
 
-  console.log("AppConfig...", AppConfig);
-  const base_url = AppConfig.SITE_URL;
-
-  const sendDataDump = async (lang, slug) => {
-    const url = `${base_url}/${lang}/wp-json`;
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("data..", data);
-        const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
-        const formdata = new FormData();
-        formdata.append("slug", slug);
-        formdata.append("data", JSON.stringify(data));
-        const requestOptions = {
-          method: "POST",
-          body: formdata,
-          redirect: "follow",
-        };
-
-        fetch(apiUrl, requestOptions)
-          .then((response) => response.json())
-          .then((result) => {
-            console.log("Data Dump...", result);
-          })
-          .catch((error) => console.log("Data Dump Error...", error));
-      })
-      .catch((error) => {
-        console.log("Error in Getting the Data...", error);
-      });
-  };
-
+  
   // TODO: Optimize for dynamicity
   useEffect(() => {
     sendDataDump("", "data_english");
@@ -105,6 +74,35 @@ const App = () => {
   useEffect(() => {
     fetchMenuData();
   }, [lang]);
+
+
+  const sendDataDump = async (lang, slug) => {
+    const url = `${base_url}/${lang}/wp-json`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data..", data);
+        const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
+        const formdata = new FormData();
+        formdata.append("slug", slug);
+        formdata.append("data", JSON.stringify(data));
+        const payload = {
+          method: "POST",
+          body: formdata,
+          redirect: "follow",
+        };
+
+        fetch(apiUrl, payload)
+          .then((response) => response.json())
+          .then((result) => {
+            console.log("Data Dump...", result);
+          })
+          .catch((error) => console.log("Data Dump Error...", error));
+      })
+      .catch((error) => {
+        console.log("Error in Getting the Data...", error);
+      });
+  };
 
   async function fetchMenuData() {
     try {
@@ -120,7 +118,11 @@ const App = () => {
   }
 
   if (stagingData.length === 0) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container mx-auto">
+        <h1 className="">Loading...</h1>
+      </div>
+    );
   }
 
   return (

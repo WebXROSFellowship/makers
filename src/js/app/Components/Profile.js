@@ -31,16 +31,16 @@ const Profile = () => {
   }, [username]);
 
   return (
-    <>
-      <h1 className="profile-text">{titleName}</h1>
+    
+    <div><h1 className="profile-text">{titleName}</h1>
       <div className="profile_container">
         <img src={imgLink} alt={`${titleName}`} className="profile-img" />
       </div>
       <div
         className="profile-text"
         dangerouslySetInnerHTML={{ __html: content }}
-      />
-    </>
+      /></div>
+
   );
 };
 

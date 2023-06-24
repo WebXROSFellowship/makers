@@ -40,12 +40,12 @@ const Demo = () => {
     getFromServer();
   }, [lang]);
 
-  const getLanguages = async() => {
+  const getLanguages = async () => {
     const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
     let langData = await fetch(langFetchURL);
     let jsonLangData = await langData.json();
     setAllLang(jsonLangData);
-  }
+  };
 
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
@@ -283,7 +283,7 @@ const Demo = () => {
               material="shader: flat"
               raycaster="far: 5; objects: .clickable"
               visible="false"
-            ></a-entity> 
+            ></a-entity>
           </a-entity>
           <a-entity
             mixin="hand"
@@ -306,14 +306,16 @@ const Demo = () => {
                 id={asset.id}
                 src={asset.url}
                 key={asset.id}
-                crossOrigin="anonymous"
+                crossOrigin={asset.crossOrigin}
               ></a-asset-item>
             );
           })}{" "}
         </a-assets>
 
         {loading ? (
-          <p>Loading...</p>
+          <div className="container">
+            <h1 className="h1">Loading...</h1>
+          </div>
         ) : (
           <>
             <a-entity
@@ -370,32 +372,19 @@ const Demo = () => {
                       value={scientist.title}
                       {...name_format}
                     ></a-troika-text>
-                    <a-troika-text
-                      class="btn-wrapper-en"
-                      type="wrapper"
-                      position="0.3 -0.68371 0"
-                      value="English"
-                      code=""
-                      onClick={handleButtonClick}
-                      troika-text="fontSize: 0.06"
-                      {...btn_en}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="btn-wrapper-hi"
-                      type="wrapper"
-                      position="0 -0.78371 0"
-                      value="Hindi"
-                      onClick={handleButtonClick}
-                      {...btn_hi}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="btn-wrapper-de"
-                      type="wrapper"
-                      position="-0.3 -0.88371 0"
-                      value="German"
-                      onClick={handleButtonClick}
-                      {...btn_de}
-                    ></a-troika-text>
+                    {allLang?.map((lang) => {
+                      return (
+                        <a-troika-text
+                          class="btn-wrapper"
+                          type="wrapper"
+                          visible="true"
+                          position="0 -0.68371 0"
+                          value={lang.code}
+                          code={lang.code}
+                          onClick={handleButtonClick}
+                        ></a-troika-text>
+                      );
+                    })}
                   </a-entity>
                 );
               }
@@ -436,7 +425,7 @@ const Demo = () => {
                   ></a-entity>
                 );
               }
-            })}{" "}
+            })}
           </>
         )}
 
