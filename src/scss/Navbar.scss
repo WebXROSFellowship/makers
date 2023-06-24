@@ -1,9 +1,11 @@
 .navbar {
-  height: 70px;
+  padding-top: 20px;;
+  height: 65px;
   width: 100%;
   opacity: 0.8;
-  background-color: #0C134F;
-  color: #ffffff;
+  background-color: #00000F;
+  color: #9DB2BF;
+  cursor: default;
 }
 
 .navbar-brand {
@@ -11,9 +13,27 @@
   margin-left: 1rem;
 }
 
+.title-head{
+  color: #9DB2BF;
+  cursor: default;
+  font-family: sans-serif;
+}
+
+
+
 .navbar-right {
   display: flex;
   align-items: center;
+  margin-right: 1rem;
+}
+
+
+.logo-img {
+  width: 50px;
+  height: 50px;
+  margin-top: -5px;
+  border-radius: 50%;
+  cursor: default;
   margin-right: 1rem;
 }
 
@@ -26,13 +46,15 @@
 }
 
 .dropbtn {
-  background-color: #0C134F;
-  color: $white;
+  background-color: #00000F;
+  color: #9DB2BF;
   font-size: 1.1rem;
   border: none;
   cursor: pointer;
   margin-top: -10px;
+  font-family: sans-serif;
 }
+
 
 .dropdown__content {
   display: none;
@@ -173,7 +195,7 @@
   }
 }
 
-.navbar text-white {
-  color: white;
-}
+// .navbar text-white {
+//   color: white;
+// }
 

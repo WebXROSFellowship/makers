@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 
 import "@styles/style.scss";
 import { DataContext, StagingDataContext } from "../utils";
-import langArr from "../assets/langData";
-import Config from "../config/config";
+import AppConfig from "../config/appConfig";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -14,7 +13,7 @@ const Navbar = () => {
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const { setLang } = useContext(DataContext);
   const { stagingData } = useContext(StagingDataContext);
-  const base_url = Config.SITE_URL;
+  const base_url = AppConfig.SITE_URL;
 
   let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
@@ -63,17 +62,10 @@ const Navbar = () => {
   }
 
   async function setLanguages() {
-    try {
-      // let langFetchURL = "";
-      // let langStagingData = await fetch(langFetchURL);
-      // let langStagingDataJSON = await langStagingData.json();
-
-      // setLanguageArr(langStagingDataJSON);
-      setLanguageArr(langArr);
-    } catch (err) {
-      console.log("Error");
-      console.log(err);
-    }
+    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
+    let langData = await fetch(langFetchURL);
+    let jsonLangData = await langData.json();
+    setLanguageArr(jsonLangData);
   }
 
   /**
@@ -89,8 +81,20 @@ const Navbar = () => {
             className="navbar-brand text-white"
             style={{ fontFamily: "sans-serif" }}
           >
-            <img src={imgBaseURL} alt="logo" className="logo-img" />
-            <span className="title-head">{Config.SITE_TITLE}</span>
+            <img
+              src={imgBaseURL}
+              alt="logo"
+              className="logo-img"
+              style={{
+                width: "50px",
+                height: "50px",
+                marginTop: "-5px",
+                borderRadius: "50%",
+                cursor: "default",
+                marginRight: "1rem",
+              }}
+            />
+            <span className="title-head">{AppConfig.SITE_TITLE}</span>
           </div>
         </Link>
 

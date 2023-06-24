@@ -9,7 +9,7 @@
   {
     "id": "hedy_lamarr-1wrapper",
     "type": "wrapper",
-    "position": "-3.81005 1.66126 -2.597",
+    "position": "-3.21 1.661 -2.597",
     "show-details-on-click": ""
   },
   {
@@ -39,7 +39,7 @@
     "scale": "0.718 0.762 1"
   },
   {
-    "id": "albert-einsteinwrapper",
+    "id": "albert-einstein-1wrapper",
     "type": "wrapper",
     "show-details-on-click": "",
     "position": "-7.63777 1.653 -2.59869"
@@ -63,7 +63,7 @@
     "type": "wrapper",
     "show-details-on-click": "",
     "rotation": "-179.9998479605043 0 -179.9998479605043",
-    "position": "-0.90005 1.97078 2.65545"
+    "position": "-0.9 1.292 2.655"
   },
   {
     "id": "clock",
@@ -79,10 +79,29 @@
     "position": "-7.87609 0.002 -0.59439"
   },
   {
-    "id": "room-2",
+    "id": "room-1",
     "type": "model",
     "crossorigin": "anonymous",
     "position": "4.537 -0.01 3.468"
+  },
+  {
+    "class": "btn-wrapper-en",
+    "type": "wrapper",
+    "position": "0.42111 -0.68371 0",
+    "code": "",
+    "troika-text": "fontSize: 0.06"
+  },
+  {
+    "class": "btn-wrapper-hi",
+    "type": "wrapper",
+    "position": "0 -0.684 -0.00017",
+    "troika-text": "fontSize: 0.06"
+  },
+  {
+    "class": "btn-wrapper-de",
+    "type": "wrapper",
+    "position": "-0.44 -0.681 0.005",
+    "troika-text": "fontSize: 0.06"
   },
   {
     "id": "powersimple",

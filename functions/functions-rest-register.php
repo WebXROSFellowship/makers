@@ -168,6 +168,7 @@ function get_media_data_by_id($id){//this function builds the data for a lean js
 		'alt' => get_post_meta($id,"_wp_attachment_image_alt",true),
 		'caption' => wp_get_attachment_caption($id),
 		'title'=> get_the_title($id),
+		'slug'=> get_post($id)->post_name,
 		'desc' =>get_post($id)->post_content,
 		'path'=> $path,
 		'file' => $file,
@@ -295,6 +296,8 @@ function get_screen_images( $object ) {
 
  return get_post_meta($object['id'],"screen_image") ;//from functions.php,
 }
+
+
 
 
 /* 
