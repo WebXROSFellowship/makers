@@ -36,14 +36,13 @@ const Demo = () => {
     return () => observer.disconnect();
   }, [elementDetected]);
 
-  useEffect(() => {
-    getFromServer();
-  }, [lang]);
 
   const getLanguages = async () => {
     const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
     let langData = await fetch(langFetchURL);
     let jsonLangData = await langData.json();
+    console.log("ALL  RESPONSE", langData);
+    console.log("ALL LANG", jsonLangData);
     setAllLang(jsonLangData);
   };
 
@@ -334,10 +333,6 @@ const Demo = () => {
               );
               var name_format = data.find((obj) => obj.class == "name_wrapper");
               var img_format = data.find((obj) => obj.class == "image_wrapper");
-
-              var btn_en = data.find((obj) => obj.class == "btn-wrapper-en");
-              var btn_hi = data.find((obj) => obj.class == "btn-wrapper-hi");
-              var btn_de = data.find((obj) => obj.class == "btn-wrapper-de");
               if (Data_from_Inspector) {
                 return (
                   <a-entity
@@ -373,15 +368,18 @@ const Demo = () => {
                       {...name_format}
                     ></a-troika-text>
                     {allLang?.map((lang) => {
+                      var classname="btn-wrapper-"+lang.code;
+                      var insData=data.find((obj) => obj.class == classname);
                       return (
                         <a-troika-text
-                          class="btn-wrapper"
+                          class={classname}
                           type="wrapper"
                           visible="true"
-                          position="0 -0.68371 0"
+                          key={classname}
                           value={lang.code}
                           code={lang.code}
                           onClick={handleButtonClick}
+                          {...insData}
                         ></a-troika-text>
                       );
                     })}
