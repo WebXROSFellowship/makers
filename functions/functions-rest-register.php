@@ -122,6 +122,48 @@ add_action( 'rest_api_init', 'register_media_data' );
 	);
 }
 
+function get_translation_data($id){
+	
+$translation_array = [];
+$type = apply_filters( 'wpml_element_type', get_post_type( $id ) );
+$trid = apply_filters( 'wpml_element_trid', false, $id, $type );
+  
+$translations = apply_filters( 'wpml_get_element_translations', array(), $trid, $type );
+$translations = apply_filters( 'wpml_get_element_translations', array(), $trid, $type );
+	/*
+	translation_id: "3526",
+language_code: "zh-hans",
+element_id: "3525",
+source_language_code: "en",
+element_type: "post_attachment",
+original: "0",
+post_title: "48 Hours in the Metaverse",
+post_status: "inherit"*/
+foreach ( $translations as $lang => $translation ) {
+	$translation_array[$lang] =  [
+								  'translation_id'=>$translation->translation_id,
+								  
+							'alt' => get_post_meta($translation->element_id,"_wp_attachment_image_alt",true),
+	'caption' => wp_get_attachment_caption($translation->element_id),
+		'title'=> get_the_title($translation->element_id),
+		'slug'=> get_post($translation->element_id)->post_name,
+		'desc' =>get_post($translation->element_id)->post_content,
+								 
+								 
+								 
+								 
+								 ];	
+    
+}
+	
+	
+	return $translation_array;
+	
+	
+	
+	
+}
+
 function get_media_data_by_id($id){//this function builds the data for a lean json packet of media
 		$data = array();  
 	$id = $id;
@@ -163,6 +205,7 @@ function get_media_data_by_id($id){//this function builds the data for a lean js
 		//let non image mimetypes pass their full metadata
 		$meta_data = $meta;
 	}
+	
 	$data = array(
 		'id' => $id,
 		'alt' => get_post_meta($id,"_wp_attachment_image_alt",true),
@@ -174,7 +217,9 @@ function get_media_data_by_id($id){//this function builds the data for a lean js
 		'file' => $file,
 		'mime' => $mime,
 		'meta' => $meta_data,
-		'full_path' => "/wp-content/uploads/".$path.$file
+		'full_path' => "/wp-content/uploads/".$path.$file,
+		'default_lang'=>@$default_lang,
+		'trans'=>get_translation_data($id)
 		
 	);
 
