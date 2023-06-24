@@ -9,9 +9,9 @@
     "show-details-on-click": ""
   },
   {
-    "id": "#pic3",
+    "id": "#hanging_picture",
     "gltf-model": "https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb",
-    "position": "3.08108 1.272 2.682",
+    "position": "1.30148 1.49399 2.62923",
     "crossorigin": "anonymous"
   },
   {
@@ -37,7 +37,7 @@
   {
     "id": "Hedy_Lamarr-1.jpegwrapper",
     "type": "wrapper",
-    "position": "-3.81005 1.66126 -2.597",
+    "position": "-3.21 1.661 -2.597",
     "show-details-on-click": ""
   },
   {
@@ -85,6 +85,25 @@
     "show-details-on-click": "",
     "rotation": "-180 0 -180",
     "position": "-4.93481 1.28642 2.6718"
+  },
+  {
+    "class": "btn-wrapper-en",
+    "type": "wrapper",
+    "position": "0.42111 -0.68371 0",
+    "code": "",
+    "troika-text": "fontSize: 0.06"
+  },
+  {
+    "class": "btn-wrapper-hi",
+    "type": "wrapper",
+    "position": "0 -0.684 -0.00017",
+    "troika-text": "fontSize: 0.06"
+  },
+  {
+    "class": "btn-wrapper-de",
+    "type": "wrapper",
+    "position": "-0.44 -0.681 0.005",
+    "troika-text": "fontSize: 0.06"
   },
   {
     "id": "Neil_deGrasse_Tyson-1.jpegwrapper",
