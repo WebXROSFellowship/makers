@@ -61,15 +61,15 @@ const Demo = () => {
 
   const getFromServer = async () => {
     // console.log("Inside get from staging");
-    const url = `${base_url}/${lang}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
+    const url =`${base_url}/${lang}/wp-json/wp/v2/media?fields=id,slug,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
     console.log(url);
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
         let data = [];
         result.map((item) => {
-          if (item.data.desc) {
-            data.push(item.data);
+          if (item.data) {
+            data.push(item);
             setScientistsData(data);
             setLoading(false);
           }
@@ -310,64 +310,89 @@ const Demo = () => {
             );
           })}{" "}
         </a-assets>
-
         {loading ? (
           <div className="container">
             <h1 className="h1">Loading...</h1>
           </div>
         ) : (
           <>
-            <a-entity
+            {/* <a-entity
               id="#room"
               gltf-model="#room"
               crossOrigin="anonymous"
               position="4.537 0 3.468"
-            ></a-entity>
+            ></a-entity> */}
             {/* Load ScientistsData */}
             {scientistsData?.map((scientist) => {
-              var Obj_id = scientist.file + "wrapper";
-              var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
-              var desc_format = data.find((obj) => obj.class == "desc_wrapper");
-              var cap_format = data.find(
-                (obj) => obj.class == "caption_wrapper"
-              );
-              var name_format = data.find((obj) => obj.class == "name_wrapper");
-              var img_format = data.find((obj) => obj.class == "image_wrapper");
-              if (Data_from_Inspector) {
-                return (
-                  <a-entity
-                    id={scientist.file + "wrapper"}
-                    type="wrapper"
-                    key={scientist.id}
-                    {...Data_from_Inspector}
-                    show-details-on-click=""
-                  >
-                    <a-image
-                      src={base_url + scientist.full_path}
-                      {...img_format}
+              if(scientist.data.file.slice(-3)=='glb') {
+                // console.log("Rendering glb");
+
+                var Obj_id = scientist.data.file;
+                var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
+                if(Data_from_Inspector) {
+                  return (
+                    <a-entity 
+                      id={scientist.data.file} 
+                      gltf-model={base_url + scientist.data.full_path} 
+                      type="model" key={scientist.data.id} 
+                      position={Data_from_Inspector.position} 
+                      rotation={Data_from_Inspector.rotation} 
+                      scale={Data_from_Inspector.scale}>
+                    </a-entity>
+                  )
+                }
+              }
+              else {
+                var Obj_id = scientist.data.file + "wrapper";
+                var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
+                var desc_format = data.find((obj) => obj.class == "desc_wrapper");
+                var cap_format = data.find(
+                  (obj) => obj.class == "caption_wrapper"
+                );
+                var name_format = data.find((obj) => obj.class == "name_wrapper");
+                var img_format = data.find((obj) => obj.class == "image_wrapper");
+                console.log("CHECK",scientist);
+                if (Data_from_Inspector) {
+                  // console.log("position", Data_from_Inspector.position);
+                  return (
+                    <a-entity
+                      id={scientist.data.file + "wrapper"}
                       type="wrapper"
-                      class="image_wrapper"
-                    ></a-image>
-                    <a-troika-text
-                      class="desc_wrapper"
-                      type="wrapper"
-                      value={scientist.alt}
-                      visible="false"
-                      {...desc_format}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="caption_wrapper"
-                      type="wrapper"
-                      value={scientist.caption}
-                      {...cap_format}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="name_wrapper"
-                      type="wrapper"
-                      value={scientist.title}
-                      {...name_format}
-                    ></a-troika-text>
-                    {allLang?.map((lang) => {
+                      key={scientist.data.id}
+                      {...Data_from_Inspector}
+                      show-details-on-click=""
+                    >
+                      <a-image
+                        src={base_url + scientist.data.full_path}
+                        {...img_format}
+                        type="wrapper"
+                        class="image_wrapper"
+                      ></a-image>
+                      <a-troika-text
+                        class="desc_wrapper"
+                        type="wrapper"
+                        value={scientist.data.alt}
+                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
+                        visible="false"
+                        {...desc_format}
+                      ></a-troika-text>
+                      <a-troika-text
+                        class="caption_wrapper"
+                        type="wrapper"
+                        value={scientist.data.caption}
+                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
+                       
+                        {...cap_format}
+                      ></a-troika-text>
+                      <a-troika-text
+                        class="name_wrapper"
+                        type="wrapper"
+                        value={scientist.data.title}
+                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
+                      
+                        {...name_format}
+                      ></a-troika-text>
+                      {allLang?.map((lang) => {
                       var classname="btn-wrapper-"+lang.code;
                       var insData=data.find((obj) => obj.class == classname);
                       return (
@@ -383,8 +408,9 @@ const Demo = () => {
                         ></a-troika-text>
                       );
                     })}
-                  </a-entity>
-                );
+                    </a-entity>
+                  );
+                }
               }
             })}
             <a-entity
@@ -395,35 +421,6 @@ const Demo = () => {
               visible="false"
               position="4.762 0 3.739"
             ></a-entity>
-            {data.map((entity) => {
-              if (entity["gltf-model"]) {
-                return (
-                  <a-entity
-                    key={entity.id}
-                    {...entity}
-                    crossOrigin="anonymous"
-                  ></a-entity>
-                );
-              } else if (entity["type"] == "img") {
-                return (
-                  <a-image
-                    key={entity.id}
-                    {...entity}
-                    crossOrigin="anonymous"
-                  ></a-image>
-                );
-              } else if (entity["type"] == "wrapper") {
-                console.log("Wrapper rendered");
-              } else {
-                return (
-                  <a-entity
-                    key={entity.id}
-                    {...entity}
-                    crossOrigin="anonymous"
-                  ></a-entity>
-                );
-              }
-            })}
           </>
         )}
 
