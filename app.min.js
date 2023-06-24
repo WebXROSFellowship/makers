@@ -6807,7 +6807,7 @@ function AFrame() {
 ;// CONCATENATED MODULE: ./data/assets_demo.json
 const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossOrigin":"anonymous"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","crossOrigin":"anonymous"},{"id":"sofa","type":"model","name":"sofa","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","crossOrigin":"anonymous"},{"id":"clock","type":"model","name":"clock","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","crossOrigin":"anonymous"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.me/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Fmodel.glb","crossOrigin":"anonymous"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb","crossOrigin":"anonymous"}]');
 ;// CONCATENATED MODULE: ./data/dynamicContent_demo.json
-const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"#powersimple","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossorigin":"anonymous","position":"-7.14106 1.426 2.65764","rotation":"0 -180 0","scale":"0.2 0.2 0.2","show-details-on-click":""},{"id":"#hanging_picture","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","position":"1.30148 1.49399 2.62923","crossorigin":"anonymous"},{"id":"#sofa","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","rotation":"0 -3.50077212824933 0","position":"-7.87609 0.002 -0.59439","crossorigin":"anonymous"},{"id":"#clock","gltf-model":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"Hedy_Lamarr-1.jpegwrapper","type":"wrapper","position":"-3.21 1.661 -2.597","show-details-on-click":""},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"albert-einstein-1.jpegwrapper","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"Nikola-Tesla-.pngwrapper","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"gordan-moore-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"Neil_deGrasse_Tyson-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.90005 1.97078 2.65545"}]');
+const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"Hedy_Lamarr-1.jpegwrapper","type":"wrapper","position":"-3.21 1.661 -2.597","show-details-on-click":""},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"albert-einstein-1.jpegwrapper","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"Nikola-Tesla-.pngwrapper","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"gordan-moore-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"id":"Neil_deGrasse_Tyson-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.9 1.292 2.655"},{"id":"clock.glb","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/clock.glb","type":"model","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"sofa.glb","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/sofa.glb","type":"model","position":"-7.87609 0.002 -0.59439"},{"id":"room-1.glb","type":"model","crossorigin":"anonymous","position":"4.537 -0.01 3.468"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"powersimple.glb","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/powersimple.glb","type":"model","position":"-7.141 1.416 2.658","rotation":"0 180 0","scale":"0.25 0.25 0.25"}]');
 ;// CONCATENATED MODULE: ./src/js/app/components/Demo.js
 
 
@@ -6866,13 +6866,13 @@ const Demo = () => {
   };
   const getFromServer = async () => {
     // console.log("Inside get from staging");
-    const url = `${base_url}/${lang}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
+    const url = `${base_url}/${lang}/wp-json/wp/v2/media?fields=id,slug,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
     console.log(url);
     await fetch(url).then(response => response.json()).then(result => {
       let data = [];
       result.map(item => {
-        if (item.data.desc) {
-          data.push(item.data);
+        if (item.data) {
+          data.push(item);
           setScientistsData(data);
           setLoading(false);
         }
@@ -7079,56 +7079,74 @@ const Demo = () => {
     className: "container"
   }, /*#__PURE__*/react.createElement("h1", {
     className: "h1"
-  }, "Loading...")) : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
-    id: "#room",
-    "gltf-model": "#room",
-    crossOrigin: "anonymous",
-    position: "4.537 0 3.468"
-  }), scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
-    var Obj_id = scientist.file + "wrapper";
-    var Data_from_Inspector = dynamicContent_demo_namespaceObject.find(obj => obj.id == Obj_id);
-    var desc_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "desc_wrapper");
-    var cap_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "caption_wrapper");
-    var name_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "name_wrapper");
-    var img_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "image_wrapper");
-    if (Data_from_Inspector) {
-      return /*#__PURE__*/react.createElement("a-entity", extends_extends({
-        id: scientist.file + "wrapper",
-        type: "wrapper",
-        key: scientist.id
-      }, Data_from_Inspector, {
-        "show-details-on-click": ""
-      }), /*#__PURE__*/react.createElement("a-image", extends_extends({
-        src: base_url + scientist.full_path
-      }, img_format, {
-        type: "wrapper",
-        class: "image_wrapper"
-      })), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
-        class: "desc_wrapper",
-        type: "wrapper",
-        value: scientist.alt,
-        visible: "false"
-      }, desc_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
-        class: "caption_wrapper",
-        type: "wrapper",
-        value: scientist.caption
-      }, cap_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
-        class: "name_wrapper",
-        type: "wrapper",
-        value: scientist.title
-      }, name_format)), allLang === null || allLang === void 0 ? void 0 : allLang.map(lang => {
-        var classname = "btn-wrapper-" + lang.code;
-        var insData = dynamicContent_demo_namespaceObject.find(obj => obj.class == classname);
-        return /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
-          class: classname,
+  }, "Loading...")) : /*#__PURE__*/react.createElement(react.Fragment, null, scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
+    if (scientist.data.file.slice(-3) == 'glb') {
+      // console.log("Rendering glb");
+
+      var Obj_id = scientist.data.file;
+      var Data_from_Inspector = dynamicContent_demo_namespaceObject.find(obj => obj.id == Obj_id);
+      if (Data_from_Inspector) {
+        return /*#__PURE__*/react.createElement("a-entity", {
+          id: scientist.data.file,
+          "gltf-model": base_url + scientist.data.full_path,
+          type: "model",
+          key: scientist.data.id,
+          position: Data_from_Inspector.position,
+          rotation: Data_from_Inspector.rotation,
+          scale: Data_from_Inspector.scale
+        });
+      }
+    } else {
+      var Obj_id = scientist.data.file + "wrapper";
+      var Data_from_Inspector = dynamicContent_demo_namespaceObject.find(obj => obj.id == Obj_id);
+      var desc_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "desc_wrapper");
+      var cap_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "caption_wrapper");
+      var name_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "name_wrapper");
+      var img_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "image_wrapper");
+      console.log("CHECK", scientist);
+      if (Data_from_Inspector) {
+        // console.log("position", Data_from_Inspector.position);
+        return /*#__PURE__*/react.createElement("a-entity", extends_extends({
+          id: scientist.data.file + "wrapper",
           type: "wrapper",
-          visible: "true",
-          key: classname,
-          value: lang.code,
-          code: lang.code,
-          onClick: handleButtonClick
-        }, insData));
-      }));
+          key: scientist.data.id
+        }, Data_from_Inspector, {
+          "show-details-on-click": ""
+        }), /*#__PURE__*/react.createElement("a-image", extends_extends({
+          src: base_url + scientist.data.full_path
+        }, img_format, {
+          type: "wrapper",
+          class: "image_wrapper"
+        })), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+          class: "desc_wrapper",
+          type: "wrapper",
+          value: scientist.data.alt,
+          font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf",
+          visible: "false"
+        }, desc_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+          class: "caption_wrapper",
+          type: "wrapper",
+          value: scientist.data.caption,
+          font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"
+        }, cap_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+          class: "name_wrapper",
+          type: "wrapper",
+          value: scientist.data.title,
+          font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"
+        }, name_format)), allLang === null || allLang === void 0 ? void 0 : allLang.map(lang => {
+          var classname = "btn-wrapper-" + lang.code;
+          var insData = dynamicContent_demo_namespaceObject.find(obj => obj.class == classname);
+          return /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+            class: classname,
+            type: "wrapper",
+            visible: "true",
+            key: classname,
+            value: lang.code,
+            code: lang.code,
+            onClick: handleButtonClick
+          }, insData));
+        }));
+      }
     }
   }), /*#__PURE__*/react.createElement("a-entity", {
     "nav-mesh": "",
@@ -7137,28 +7155,6 @@ const Demo = () => {
     crossOrigin: "anonymous",
     visible: "false",
     position: "4.762 0 3.739"
-  }), dynamicContent_demo_namespaceObject.map(entity => {
-    if (entity["gltf-model"]) {
-      return /*#__PURE__*/react.createElement("a-entity", extends_extends({
-        key: entity.id
-      }, entity, {
-        crossOrigin: "anonymous"
-      }));
-    } else if (entity["type"] == "img") {
-      return /*#__PURE__*/react.createElement("a-image", extends_extends({
-        key: entity.id
-      }, entity, {
-        crossOrigin: "anonymous"
-      }));
-    } else if (entity["type"] == "wrapper") {
-      console.log("Wrapper rendered");
-    } else {
-      return /*#__PURE__*/react.createElement("a-entity", extends_extends({
-        key: entity.id
-      }, entity, {
-        crossOrigin: "anonymous"
-      }));
-    }
   })), /*#__PURE__*/react.createElement("a-light", {
     type: "directional",
     color: "#35227A",
