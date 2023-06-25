@@ -4089,6 +4089,7 @@ const App = () => {
   async function fetchMenuData() {
     try {
       let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
+      console.log(fetchURL);
       let stagingData = await fetch(fetchURL);
       let jsonData = await stagingData.json();
       let items = jsonData.filter(item => item.slug == "main-menu");
@@ -4480,7 +4481,6 @@ const Demo = () => {
     getFromServer();
   }, [lang]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    getFromServer();
     // Call the checkElement function initially
     checkElement();
     getLanguages();
@@ -4537,6 +4537,7 @@ const Demo = () => {
       setFurnitureData(furniture);
       setWorldData(world);
       setMeshData(navmesh);
+      console.log("Page contents as in", pagecontents);
       setScientistsData(pagecontents);
       setLoading(false);
       AddClickEvent(pagecontents);
@@ -4768,6 +4769,8 @@ const Demo = () => {
     }, Data_from_Inspector));
   }), scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
     var Obj_id = scientist.id;
+    console.log(Obj_id);
+    console.log(_data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__);
     var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.id == Obj_id);
     var desc_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "desc_wrapper");
     var cap_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "caption_wrapper");
@@ -4818,7 +4821,13 @@ const Demo = () => {
         key: classname,
         value: key,
         code: key,
-        onClick: handleButtonClick
+        onClick: e => {
+          console.log("Lang changed");
+          let langCode = e.target.getAttribute("value");
+          langCode == "en" ? "" : langCode;
+          console.log("Setting lang as, ", langCode);
+          setLang(langCode);
+        }
       }, insData));
     }));
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
@@ -4969,11 +4978,13 @@ const Navbar = () => {
     stagingData
   } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_2__.StagingDataContext);
   const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_URL;
+  const [navbarData, setNavbarData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    settingMenuData();
+    settingMenuData2();
+    // settingMenuData();
     setLanguages();
   }, [stagingData]);
   function formatNames(name) {
@@ -4984,28 +4995,72 @@ const Navbar = () => {
     let formattedName = allWords.join(" ");
     return formattedName;
   }
-  function settingMenuData() {
+  function settingMenuData2() {
     let items = stagingData;
-    let head = items.filter(e => e.menu_item_parent === "0")[0];
-    let childItems = items.filter(e => parseInt(e.menu_item_parent) === head.ID);
-    let nestedItems = [];
-    let currIDs = [];
-    for (let i = 0; i < childItems.length; i++) {
-      let currChild = childItems[i];
-      let allNestedChild = items.filter(e => parseInt(e.menu_item_parent) === currChild.ID);
-      if (allNestedChild.length > 0) {
-        currIDs.push(currChild.ID);
-        allNestedChild.map(ele => nestedItems.push(ele));
+    console.log("Printing Items", items);
+    const parents = {};
+    const children = [];
+    items.forEach(item => {
+      const {
+        ID,
+        menu_item_parent,
+        title,
+        content,
+        url
+      } = item;
+      if (menu_item_parent === "0") {
+        parents[ID] = {
+          ...item,
+          childItems: []
+        };
+      } else {
+        children.push(item);
       }
-    }
-    setC2IDs(currIDs);
-    let cData = [{
-      head,
-      childItems,
-      nestedItems
-    }];
-    setNavbarMenus(cData);
+    });
+    children.forEach(child => {
+      const {
+        menu_item_parent
+      } = child;
+      if (parents[menu_item_parent]) {
+        parents[menu_item_parent].childItems.push(child);
+      }
+    });
+    console.log("Settingggg");
+    console.log(parents);
+    let navbarData2 = Object.values(parents);
+    console.log("Printing values", navbarData2);
+    setNavbarData(navbarData2);
   }
+
+  // function settingMenuData() {
+  //   let items = stagingData;
+  //   let head = items.filter((e) => e.menu_item_parent === "0")[0];
+  //   let childItems = items.filter(
+  //     (e) => parseInt(e.menu_item_parent) === head.ID
+  //   );
+  //   let nestedItems = [];
+  //   let currIDs = [];
+  //   for (let i = 0; i < childItems.length; i++) {
+  //     let currChild = childItems[i];
+  //     let allNestedChild = items.filter(
+  //       (e) => parseInt(e.menu_item_parent) === currChild.ID
+  //     );
+  //     if (allNestedChild.length > 0) {
+  //       currIDs.push(currChild.ID);
+  //       allNestedChild.map((ele) => nestedItems.push(ele));
+  //     }
+  //   }
+  //   setC2IDs(currIDs);
+  //   let cData = [
+  //     {
+  //       head,
+  //       childItems,
+  //       nestedItems,
+  //     },
+  //   ];
+  //   setNavbarMenus(cData);
+  // }
+
   async function setLanguages() {
     const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
     let langData = await fetch(langFetchURL);
@@ -5043,38 +5098,26 @@ const Navbar = () => {
     className: "title-head"
   }, _config_appConfig__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_TITLE))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "navbar-right"
-  }, navbarMenus ? navbarMenus.map((currEle, i) => {
-    let {
-      head,
-      childItems,
-      nestedItems
-    } = currEle;
+  }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map((currNavBarItem, i) => {
+    let title = currNavBarItem.title;
+    let childItems = currNavBarItem.childItems;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "dropdown",
       key: i
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       className: "dropbtn"
-    }, head.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
-      const c = c2IDs.includes(menu.ID);
+      const {
+        title,
+        url
+      } = menu;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         className: "dropdown__items",
         key: i,
-        onMouseEnter: () => setHoveredIndex(i),
-        onMouseLeave: () => setHoveredIndex(-1),
-        to: menu.url
-      }, formatNames(menu.title), c && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-        className: "n2-drop"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-        className: "fa-solid fa-circle-chevron-down"
-      })), c && hoveredIndex === i && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-        className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
-        to: cur.url,
-        className: "dropdown__items d2",
-        key: i
-      }, cur.title))));
+        to: url
+      }, formatNames(title));
     })));
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dropdown"
@@ -5146,7 +5189,28 @@ const Navbar = () => {
     className: "fa-solid fa-bars fa-xl"
   }))), showMenu === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "sideMenu"
-  }, navbarMenus ? navbarMenus.map((currEle, i) => {
+  }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map(currNavBarItem => {
+    let title = currNavBarItem.title;
+    let childItems = currNavBarItem.childItems;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "dropdown2",
+      key: currNavBarItem
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      className: "dropbtn"
+    }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "dropdown__content"
+    }, childItems.map((menu, i) => {
+      const {
+        title,
+        url
+      } = menu;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+        className: "dropdown__items",
+        key: title,
+        to: url
+      }, formatNames(title));
+    })));
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null), navbarMenus ? navbarMenus.map((currEle, i) => {
     let {
       head,
       childItems,
@@ -5185,16 +5249,18 @@ const Navbar = () => {
     className: "dropbtn"
   }, " Languages "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dropdown__content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    onClick: () => setLang(""),
-    className: "dropdown__items"
-  }, "English"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    onClick: () => setLang("hi"),
-    className: "dropdown__items"
-  }, "Hindi"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    onClick: () => setLang("de"),
-    className: "dropdown__items"
-  }, "German")))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null))));
+  }, languageArr.map(currLang => {
+    let cLang = currLang.native_name;
+    let code = currLang.code;
+    if (code == "en") {
+      code = "";
+    }
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+      onClick: () => setLang(`${code}`),
+      key: code,
+      className: "dropdown__items"
+    }, cLang);
+  })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Navbar);
 
