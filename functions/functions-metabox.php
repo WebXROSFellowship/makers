@@ -657,6 +657,7 @@ function selectScreenImage( $meta_boxes ) {
 }
 add_filter( 'rwmb_meta_boxes', 'selectScreenImage' );
 
+
 function siteProperties3D( $meta_boxes ) {
 	$prefix = '';
 
@@ -683,6 +684,17 @@ function siteProperties3D( $meta_boxes ) {
 				'options' => array(),
 				'attributes' => array(),
 			),
+			array(
+				'id' => 'world_model',
+				'type' => 'image_advanced',
+				'name' => esc_html__( 'World Model', 'metabox-online-generator' ), 
+				'desc' => esc_html__( 'World Model', 'metabox-online-generator' ),
+				'force_delete' => true,
+				'max_file_uploads' => '1',
+				'options' => array(),
+				'attributes' => array(),
+			),
+			
 			array(
 				'id' => 'logo_3D',
 				'type' => 'image_advanced',
@@ -713,6 +725,17 @@ function siteProperties3D( $meta_boxes ) {
 				'options' => array(),
 				'attributes' => array(),
 			),
+			array(
+				'id' => 'furniture',
+				'type' => 'image_advanced',
+				'name' => esc_html__( 'Furniture (other 3d Models)', 'metabox-online-generator' ), 
+				'desc' => esc_html__( 'This is to upload additional 3D Models', 'metabox-online-generator' ),
+				'force_delete' => true,
+				'max_file_uploads' => '20',
+				'options' => array(),
+				'attributes' => array(),
+			),
+			
 
 
 
