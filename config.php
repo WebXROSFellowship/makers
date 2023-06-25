@@ -19,7 +19,7 @@
       );
   
 
-    wp_register_script('config-script', get_template_directory_uri() . './src/js/app/config/config.js', array( 'jquery' ), '', true);
+    wp_register_script('config-script', get_template_directory_uri() . '/src/js/app/config/appConfig.js', array( 'jquery' ), '', true);
     wp_localize_script('config-script', 'configData', $array);
     wp_enqueue_script('config-script');
 
