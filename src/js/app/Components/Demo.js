@@ -14,6 +14,9 @@ const Demo = () => {
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
   const { lang, setLang } = useContext(DataContext);
   const [allLang, setAllLang] = useState([]);
+  const [furnitureData, setFurnitureData] = useState([]);
+  const [worldData, setWorldData] = useState([]);
+  const [meshData, setMeshData] = useState([]);
 
   useEffect(() => {
     getFromServer();
@@ -66,19 +69,28 @@ const Demo = () => {
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
-        let data = [];
         console.log("!!!!!!!!!!!!!!!!!!!result", result);
         var pagecontents = [];
+        var furniture=[];
+        var world=[];
+        var navmesh=[];
         result.map((item) => {
           if (item.slug === PAGE_SLUG) {  
            pagecontents = item.post_media.screen_image;
+            furniture=item.properties_3D.furniture;
+            console.log("furniture",furniture);
+            world=item.properties_3D.world_model;
+            console.log("world",world);
+            navmesh=item.properties_3D.nav_mesh;
+            console.log("navmesh",navmesh);
           }
         });
-       
+        setFurnitureData(furniture);
+        setWorldData(world);
+        setMeshData(navmesh);
         setScientistsData(pagecontents);
         setLoading(false);
-        console.log("!!!!!!!!!!!!!!!!!!!data", data);
-        AddClickEvent(data);
+        AddClickEvent(pagecontents);
       })
       .catch((error) => {
         console.log("Error from server...", error);
@@ -320,34 +332,45 @@ const Demo = () => {
           </div>
         ) : (
           <>
-            {/* <a-entity
-              id="#room"
-              gltf-model="#room"
-              crossOrigin="anonymous"
-              position="4.537 0 3.468"
-            ></a-entity> */}
-            {/* Load ScientistsData */}
-            {scientistsData?.map((scientist) => {
-              if(scientist.file.slice(-3)=='glb') {
-                // console.log("Rendering glb");
+            
+             <a-entity 
+                id={worldData.id}
+                gltf-model={base_url +"/wp-content/uploads/"+ worldData.src} 
+                key={worldData.id}
+                position="4.537 0 3.468"
+              >
+             </a-entity>
 
-                var Obj_id = scientist.slug;
-                var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
-                if(Data_from_Inspector) {
+              <a-entity
+              nav-mesh=""
+              id={meshData.id}
+              gltf-model={base_url + "/wp-content/uploads/" + meshData.src}
+              key={meshData.id}
+              visible="false"
+              position="4.762 0 3.739"
+              ></a-entity>
+
+              {
+                furnitureData?.map((furniture) => {
+                var Obj_id = furniture.id;
+                var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
+                  if (!Data_from_Inspector) {
+                    Data_from_Inspector={
+                      position: "0 0 0",
+                    }
+                  }
                   return (
-                    <a-entity 
-                      id={scientist.slug+"_wrapper"}
-                      gltf-model={base_url + scientist.full_path} 
-                      type="model" key={scientist.id} 
-                      position={Data_from_Inspector.position} 
-                      rotation={Data_from_Inspector.rotation} 
-                      scale={Data_from_Inspector.scale}>
-                    </a-entity>
-                  )
-                }
+                    <a-entity
+                      id={furniture.id}
+                      gltf-model={base_url + furniture.full_path}
+                      key={furniture.id}
+                      {...Data_from_Inspector}
+                    ></a-entity>)
+                })
               }
-              else {
-                var Obj_id = scientist.slug + "_wrapper";
+            {scientistsData?.map((scientist) => {
+             
+                var Obj_id = scientist.id;
                 var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
                 var desc_format = data.find((obj) => obj.class == "desc_wrapper");
                 var cap_format = data.find(
@@ -355,7 +378,7 @@ const Demo = () => {
                 );
                 var name_format = data.find((obj) => obj.class == "name_wrapper");
                 var img_format = data.find((obj) => obj.class == "image_wrapper");
-                console.log("CHECK",scientist);
+                // console.log("CHECK",scientist);
                   if (!Data_from_Inspector) {
                     Data_from_Inspector={
                       position: "0 0 0",
@@ -364,7 +387,7 @@ const Demo = () => {
                   // console.log("position", Data_from_Inspector.position);
                   return (
                     <a-entity
-                      id={scientist.slug + "_wrapper"}
+                      id={scientist.id}
                       type="wrapper"
                       key={scientist.id}
                       {...Data_from_Inspector}
@@ -402,7 +425,7 @@ const Demo = () => {
                       ></a-troika-text>
                       {
                         Object.keys(scientist.trans).map((key)=>{
-                          console.log("key",scientist.trans[key]);
+                          // console.log("key",scientist.trans[key]);
                           var classname="btn-wrapper-"+key;
                           var insData=data.find((obj) => obj.class == classname);
                           return (
@@ -439,15 +462,7 @@ const Demo = () => {
                   );
                 
               }
-            })}
-            <a-entity
-              nav-mesh=""
-              id="#navmesh"
-              gltf-model="#navmesh"
-              crossOrigin="anonymous"
-              visible="false"
-              position="4.762 0 3.739"
-            ></a-entity>
+            )}
           </>
         )}
 

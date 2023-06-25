@@ -373,43 +373,65 @@ function get_attachment_path($id){
 }
 
 
+function add_3D_media_property($properties_3D,$post_id,$property){
+	$id = get_post_meta($post_id,$property,true);
+	$src = get_attachment_path($id);
+	$props = get_post_meta($post_id,"properties",true);
+	
+	if($id !=''){	
+		$properties_3D[$property] = ['id'=>$id,'src'=>$src,'props'=>$props];
+	}
+
+
+	return $properties_3D;
+
+}
+
+
+
 function get_properties_3D( $object ) {
 	$post_id = $object['id'];
 	$use_aframe = get_post_meta($post_id,"use_aframe",true);
 	$url = wp_upload_dir();
 	$path = $url['baseurl']."/";
 	
+	$properties_3D = [];
+	if(@$use_aframe){
+		$properties_3D['use_aframe'] = @$use_aframe;
+	}
+	// this gets the metadata for these models
 
-	// 3d skybox 
-	$skybox_id = get_post_meta($post_id,"skybox",true);
-	$skybox_src = get_attachment_path($skybox_id);
+	$properties_3D= add_3D_media_property($properties_3D,$post_id,"skybox");
+	$properties_3D= add_3D_media_property($properties_3D,$post_id,"logo_3d");
+	$properties_3D= add_3D_media_property($properties_3D,$post_id,"logo_wide_3D");
+	$properties_3D= add_3D_media_property($properties_3D,$post_id,"button_3D");
+	$properties_3D= add_3D_media_property($properties_3D,$post_id,"world_model");
+	$properties_3D= add_3D_media_property($properties_3D,$post_id,"nav_mesh");
 
-	// 3d logo wide 
-	$logo_3D_id =get_post_meta($post_id,"logo_3D",true);
-	$logo_3D_src = get_attachment_path($logo_3D_id);
+	$furniture = get_post_meta($post_id,"furniture");
+	
+	$furniture_array = array();
+	if(is_array($furniture)){
+	
+		foreach($furniture as $key => $value){
 
-	// 3d logo wide 
-	$logo_wide_3D_id =get_post_meta($post_id,"logo_wide_3D",true);
-	$logo_wide_3D_src =get_attachment_path($logo_wide_3D_id);
-
-	// 3d trigger
-	$button_3D_id =get_post_meta($post_id,"button_3D",true);
-	$button_3D_src = get_attachment_path($button_3D_id);
+			$meta_data = get_media_data_by_id($value);
 
 
-		$properties_3D = array(
-			"use_aframe"=>$use_aframe,
-			//"path"=>$path,
+
+			array_push($furniture_array,$meta_data);
 			
-			"skybox_src"=>$skybox_src,
-			"logo_3D_src"=>$logo_3D_src,
-			"logo_wide_3D_src" =>$logo_wide_3D_src,
-			"button_3D"=>$button_3D_src,
-		);
+		}
+	
+	}
+	$properties_3D['furniture'] = $furniture_array;
 
 
+	
 	return @$properties_3D;//from functions.php,
 }
+
+
 
 
 /* 
