@@ -1,13 +1,13 @@
 [
   {
-    "id": "Alan-Turing-1.pngwrapper",
+    "id": "alan-turing-1_wrapper",
     "type": "wrapper",
     "show-details-on-click": "",
     "position": "-5.82625 1.67077 -2.55294",
     "rotation": "0.1 0 0"
   },
   {
-    "id": "Hedy_Lamarr-1.jpegwrapper",
+    "id": "hedy_lamarr-1_wrapper",
     "type": "wrapper",
     "position": "-3.21 1.661 -2.597",
     "show-details-on-click": ""
@@ -39,27 +39,27 @@
     "scale": "0.718 0.762 1"
   },
   {
-    "id": "albert-einstein-1.jpegwrapper",
+    "id": "albert-einstein-1_wrapper",
     "type": "wrapper",
     "show-details-on-click": "",
     "position": "-7.63777 1.653 -2.59869"
   },
   {
-    "id": "Nikola-Tesla-.pngwrapper",
+    "id": "nikola-tesla_wrapper",
     "type": "wrapper",
     "show-details-on-click": "",
     "rotation": "179.9998479605043 0 179.9998479605043",
     "position": "-2.84602 1.28015 2.68782"
   },
   {
-    "id": "gordan-moore-1.jpegwrapper",
+    "id": "gordan-moore-1_wrapper",
     "type": "wrapper",
     "show-details-on-click": "",
     "rotation": "-180 0 -180",
     "position": "-4.93481 1.28642 2.6718"
   },
   {
-    "id": "Neil_deGrasse_Tyson-1.jpegwrapper",
+    "id": "neil_degrasse_tyson-1_wrapper",
     "type": "wrapper",
     "show-details-on-click": "",
     "rotation": "-179.9998479605043 0 -179.9998479605043",
@@ -67,10 +67,10 @@
   },
   {
     "id": "clock.glb",
-    "gltf-model": "http://localhost:8888/wordpress/wp-content/uploads/2023/06/clock.glb",
+    "gltf-model": "https://localhost:3000/wp-content/uploads/2023/06/clock.glb",
     "type": "model",
-    "rotation": "0 90 0",
-    "position": "0 0.578 2.996"
+    "position": "1.17248 0.578 2.996",
+    "rotation": "0 90 0"
   },
   {
     "id": "sofa.glb",

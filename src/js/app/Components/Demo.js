@@ -7,12 +7,12 @@ import data from "./../../../../data/dynamicContent_demo.json";
 import { DataContext } from "../utils";
 
 const Demo = () => {
+  const PAGE_SLUG="webxros-a-frame-demo";
   const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]);
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
   const { lang, setLang } = useContext(DataContext);
-
   const [allLang, setAllLang] = useState([]);
 
   useEffect(() => {
@@ -61,19 +61,23 @@ const Demo = () => {
 
   const getFromServer = async () => {
     // console.log("Inside get from staging");
-    const url =`${base_url}/${lang}/wp-json/wp/v2/media?fields=id,slug,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
+    const url =`${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     console.log(url);
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
         let data = [];
+        console.log("!!!!!!!!!!!!!!!!!!!result", result);
+        var pagecontents = [];
         result.map((item) => {
-          if (item.data) {
-            data.push(item);
-            setScientistsData(data);
-            setLoading(false);
+          if (item.slug === PAGE_SLUG) {  
+           pagecontents = item.post_media.screen_image;
           }
         });
+       
+        setScientistsData(pagecontents);
+        setLoading(false);
+        console.log("!!!!!!!!!!!!!!!!!!!data", data);
         AddClickEvent(data);
       })
       .catch((error) => {
@@ -324,17 +328,17 @@ const Demo = () => {
             ></a-entity> */}
             {/* Load ScientistsData */}
             {scientistsData?.map((scientist) => {
-              if(scientist.data.file.slice(-3)=='glb') {
+              if(scientist.file.slice(-3)=='glb') {
                 // console.log("Rendering glb");
 
-                var Obj_id = scientist.data.file;
+                var Obj_id = scientist.slug;
                 var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
                 if(Data_from_Inspector) {
                   return (
                     <a-entity 
-                      id={scientist.data.file} 
-                      gltf-model={base_url + scientist.data.full_path} 
-                      type="model" key={scientist.data.id} 
+                      id={scientist.slug+"_wrapper"}
+                      gltf-model={base_url + scientist.full_path} 
+                      type="model" key={scientist.id} 
                       position={Data_from_Inspector.position} 
                       rotation={Data_from_Inspector.rotation} 
                       scale={Data_from_Inspector.scale}>
@@ -343,7 +347,7 @@ const Demo = () => {
                 }
               }
               else {
-                var Obj_id = scientist.data.file + "wrapper";
+                var Obj_id = scientist.slug + "_wrapper";
                 var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
                 var desc_format = data.find((obj) => obj.class == "desc_wrapper");
                 var cap_format = data.find(
@@ -352,18 +356,22 @@ const Demo = () => {
                 var name_format = data.find((obj) => obj.class == "name_wrapper");
                 var img_format = data.find((obj) => obj.class == "image_wrapper");
                 console.log("CHECK",scientist);
-                if (Data_from_Inspector) {
+                  if (!Data_from_Inspector) {
+                    Data_from_Inspector={
+                      position: "0 0 0",
+                    }
+                  }
                   // console.log("position", Data_from_Inspector.position);
                   return (
                     <a-entity
-                      id={scientist.data.file + "wrapper"}
+                      id={scientist.slug + "_wrapper"}
                       type="wrapper"
-                      key={scientist.data.id}
+                      key={scientist.id}
                       {...Data_from_Inspector}
                       show-details-on-click=""
                     >
                       <a-image
-                        src={base_url + scientist.data.full_path}
+                        src={base_url + scientist.full_path}
                         {...img_format}
                         type="wrapper"
                         class="image_wrapper"
@@ -371,7 +379,7 @@ const Demo = () => {
                       <a-troika-text
                         class="desc_wrapper"
                         type="wrapper"
-                        value={scientist.data.alt}
+                        value={scientist.alt}
                         font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
                         visible="false"
                         {...desc_format}
@@ -379,7 +387,7 @@ const Demo = () => {
                       <a-troika-text
                         class="caption_wrapper"
                         type="wrapper"
-                        value={scientist.data.caption}
+                        value={scientist.caption}
                         font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
                        
                         {...cap_format}
@@ -387,12 +395,31 @@ const Demo = () => {
                       <a-troika-text
                         class="name_wrapper"
                         type="wrapper"
-                        value={scientist.data.title}
+                        value={scientist.title}
                         font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
                       
                         {...name_format}
                       ></a-troika-text>
-                      {allLang?.map((lang) => {
+                      {
+                        Object.keys(scientist.trans).map((key)=>{
+                          console.log("key",scientist.trans[key]);
+                          var classname="btn-wrapper-"+key;
+                          var insData=data.find((obj) => obj.class == classname);
+                          return (
+                            <a-troika-text
+                              class={classname}
+                              type="wrapper"
+                              visible="true"
+                              key={classname}
+                              value={key}
+                              code={key}
+                              onClick={handleButtonClick}
+                              {...insData}
+                            ></a-troika-text>
+                          );
+                        })
+                      }
+                      {/* {allLang?.map((lang) => {
                       var classname="btn-wrapper-"+lang.code;
                       var insData=data.find((obj) => obj.class == classname);
                       return (
@@ -407,10 +434,10 @@ const Demo = () => {
                           {...insData}
                         ></a-troika-text>
                       );
-                    })}
+                    })} */}
                     </a-entity>
                   );
-                }
+                
               }
             })}
             <a-entity
