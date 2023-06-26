@@ -2,9 +2,8 @@ import React, { useState, useEffect ,useRef } from "react";
 
 // Updated Inspector API data
 import { AppConfig } from "../config/appConfig";
-import assets from "./../../../../data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
-// import { DataContext } from "../utils";
+
 
 const Demo = () => {
   const PAGE_SLUG = "webxros-a-frame-demo";
@@ -12,7 +11,6 @@ const Demo = () => {
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]);
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
-  // const {lang, setLang } = useContext(DataContext);
   const langRef = useRef("en");
   const [allLang, setAllLang] = useState([]);
   const [furnitureData, setFurnitureData] = useState([]);
@@ -44,13 +42,12 @@ const Demo = () => {
     console.log("ALL LANG", jsonLangData);
     setAllLang(jsonLangData);
   };
+
   const handleButtonClick = (event) => {
 
     console.log("Lang changed");
-    
     console.log("I'm clicked");
     console.log("EVENTT",event);
-
     const buttonText =event.target.getAttribute("value");
    
     console.log( "buttonText",buttonText);
@@ -110,31 +107,21 @@ const Demo = () => {
     console.log(Obj);
     var children_lang = Obj.querySelectorAll("a-entity");
     console.log("children_lang", children_lang);
-    children_lang?.forEach((item) => {
-      console.log("item", item);
-      console.log(langRef.current);
-      console.log(item.getAttribute("id"));
-      if (item.getAttribute("id") === langRef.current) {
-        var state = !item.getAttribute("visible");
-        console.log("!!!!!!!!!!!!item", langRef.current)
-        console.log("!!!!!!!!!!!!item", item)
-        item.setAttribute("visible", "true");
+
+    for (var i = 0; i < children_lang.length; i+=2) { 
+      if (children_lang[i].getAttribute("id") === langRef.current) {
+        children_lang[i].setAttribute("visible", "true");
+        var state = !children_lang[i+1].getAttribute("visible");
+        children_lang[i+1].setAttribute("visible", state);
       }
-      else {
-      item.setAttribute("visible", "false");
+      else
+      {
+        children_lang[i].setAttribute("visible", "false");
+        var state = !children_lang[i+1].getAttribute("visible");
+        children_lang[i+1].setAttribute("visible", state);
       }
-    });
-    // var children = Obj.querySelectorAll("a-troika-text");
-    // // console.log("childeern", children);
-    // // if (children) {
-    //   // var state = !children[0].getAttribute("visible");
-    //   // children[0].setAttribute("visible", state);
-    //   // children[1].setAttribute("visible", state);
-    //   // children[2].setAttribute("visible", state);
-    //   // children[3].setAttribute("visible", state);
-    //   // children[4].setAttribute("visible", state);
-    //   // children[5].setAttribute("visible", state);
-    // // }
+    }
+  
   }
 
   function customManipulation() {
@@ -325,20 +312,7 @@ const Demo = () => {
           ></a-entity>
         </a-entity>
 
-        {/* loaading assets in Aframe */}
-        <a-assets>
-          {" "}
-          {assets.map((asset) => {
-            return (
-              <a-asset-item
-                id={asset.id}
-                src={asset.url}
-                key={asset.id}
-                crossOrigin={asset.crossOrigin}
-              ></a-asset-item>
-            );
-          })}{" "}
-        </a-assets>
+       
         {loading ? (
           <div className="container">
             <h1 className="h1">Loading...</h1>
@@ -393,6 +367,7 @@ const Demo = () => {
               }
               delete Data_from_Inspector["show-details-on-click"];
               // console.log("position", Data_from_Inspector.position);
+              
               return (
                 <a-entity
                   id={scientist.id}
@@ -408,15 +383,19 @@ const Demo = () => {
                     class="image_wrapper"
                   ></a-image>
                   {allLang?.map((lang) => {
+                    var font=base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
+                    if(lang.code=="zh-hans"){
+                      font=base_url + "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
+                    }
                   return (
                   <a-entity key={lang.code} id={lang.code} visible="false">
+                    <a-entity id="toggle" visible="false">
                     <a-troika-text
                       class="desc_wrapper"
                       type="wrapper"
                       value={scientist.trans[lang.code].alt}
                       font={
-                        base_url +
-                        "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"
+                        font
                       }
                       visible="true"
                       {...desc_format}
@@ -425,9 +404,7 @@ const Demo = () => {
                       class="caption_wrapper"
                       type="wrapper"
                       value={scientist.trans[lang.code].caption}
-                      font={
-                        base_url +
-                        "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"
+                      font={font
                       }
                       visible="true"
                       {...cap_format}
@@ -436,17 +413,12 @@ const Demo = () => {
                       class="name_wrapper"
                       type="wrapper"
                       value={scientist.trans[lang.code].title}
-                      font={
-                        base_url +
-                        "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"
+                      font={font
                       }
                       visible="true"
                       {...name_format}
                     ></a-troika-text>
-                  </a-entity>
-                  );
-                  })}
-                  {Object.keys(scientist.trans).map((key) => {
+                    {Object.keys(scientist.trans).map((key) => {
                     // console.log("key",scientist.trans[key]);
                     var classname = "btn-wrapper-" + key;
                     var insData = data.find((obj) => obj.class == classname);
@@ -463,22 +435,12 @@ const Demo = () => {
                       ></a-troika-text>
                     );
                   })}
-                  {/* {allLang?.map((lang) => {
-                      var classname="btn-wrapper-"+lang.code;
-                      var insData=data.find((obj) => obj.class == classname);
-                      return (
-                        <a-troika-text
-                          class={classname}
-                          type="wrapper"
-                          visible="true"
-                          key={classname}
-                          value={lang.code}
-                          code={lang.code}
-                          onClick={handleButtonClick}
-                          {...insData}
-                        ></a-troika-text>
-                      );
-                    })} */}{" "}
+                    </a-entity>
+                    
+                  </a-entity>
+                  );
+                  })}
+                  
                 </a-entity>
               );
             })}{" "}

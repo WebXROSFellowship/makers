@@ -4315,16 +4315,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
-/* harmony import */ var _data_assets_demo_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../data/assets_demo.json */ "./data/assets_demo.json");
-/* harmony import */ var _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../../data/dynamicContent_demo.json */ "./data/dynamicContent_demo.json");
+/* harmony import */ var _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../data/dynamicContent_demo.json */ "./data/dynamicContent_demo.json");
 
 
 
 // Updated Inspector API data
 
-
-
-// import { DataContext } from "../utils";
 
 const Demo = () => {
   const PAGE_SLUG = "webxros-a-frame-demo";
@@ -4332,7 +4328,6 @@ const Demo = () => {
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true); // For asset loading
   const [scientistsData, setScientistsData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [elementDetected, setElementDetected] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false); // For inspector loaded
-  // const {lang, setLang } = useContext(DataContext);
   const langRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)("en");
   const [allLang, setAllLang] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [furnitureData, setFurnitureData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
@@ -4416,32 +4411,18 @@ const Demo = () => {
     console.log(Obj);
     var children_lang = Obj.querySelectorAll("a-entity");
     console.log("children_lang", children_lang);
-    children_lang?.forEach(item => {
-      console.log("item", item);
-      console.log(langRef.current);
-      console.log(item.getAttribute("id"));
-      if (item.getAttribute("id") === langRef.current) {
-        var state = !item.getAttribute("visible");
-        console.log("!!!!!!!!!!!!item", langRef.current);
-        console.log("!!!!!!!!!!!!item", item);
-        item.setAttribute("visible", "true");
+    for (var i = 0; i < children_lang.length; i += 2) {
+      if (children_lang[i].getAttribute("id") === langRef.current) {
+        children_lang[i].setAttribute("visible", "true");
+        var state = !children_lang[i + 1].getAttribute("visible");
+        children_lang[i + 1].setAttribute("visible", state);
       } else {
-        item.setAttribute("visible", "false");
+        children_lang[i].setAttribute("visible", "false");
+        var state = !children_lang[i + 1].getAttribute("visible");
+        children_lang[i + 1].setAttribute("visible", state);
       }
-    });
-    // var children = Obj.querySelectorAll("a-troika-text");
-    // // console.log("childeern", children);
-    // // if (children) {
-    //   // var state = !children[0].getAttribute("visible");
-    //   // children[0].setAttribute("visible", state);
-    //   // children[1].setAttribute("visible", state);
-    //   // children[2].setAttribute("visible", state);
-    //   // children[3].setAttribute("visible", state);
-    //   // children[4].setAttribute("visible", state);
-    //   // children[5].setAttribute("visible", state);
-    // // }
+    }
   }
-
   function customManipulation() {
     setTimeout(function RightPaneOpen() {
       // Usage: Opens the Right Pane to add custom button
@@ -4511,7 +4492,7 @@ const Demo = () => {
     const newData = JSON.parse(jsonString);
     var foundData = false;
     var foundClassData = false;
-    const updatedData = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.map(item => {
+    const updatedData = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(item => {
       if (item.class !== undefined && newData.class !== undefined && newData.class === item.class) {
         console.log("Found Class Updation");
         foundClassData = true;
@@ -4601,14 +4582,7 @@ const Demo = () => {
     "oculus-touch-controls": "hand: right",
     "hand-controls": "hand: right; handModelStyle: highPoly; color: #0055ff",
     "blink-controls": "cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-assets", null, " ", _data_assets_demo_json__WEBPACK_IMPORTED_MODULE_3__.map(asset => {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
-      id: asset.id,
-      src: asset.url,
-      key: asset.id,
-      crossOrigin: asset.crossOrigin
-    });
-  }), " "), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
+  })), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h1", {
     className: "h1"
@@ -4626,7 +4600,7 @@ const Demo = () => {
     position: "4.762 0 3.739"
   }), furnitureData?.map(furniture => {
     var Obj_id = furniture.id;
-    var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.id == Obj_id);
+    var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.find(obj => obj.id == Obj_id);
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
         position: "0 0 0"
@@ -4639,11 +4613,11 @@ const Demo = () => {
     }, Data_from_Inspector));
   }), scientistsData?.map(scientist => {
     var Obj_id = scientist.id;
-    var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.id == Obj_id);
-    var desc_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "desc_wrapper");
-    var cap_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "caption_wrapper");
-    var name_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "name_wrapper");
-    var img_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "image_wrapper");
+    var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.find(obj => obj.id == Obj_id);
+    var desc_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.find(obj => obj.class == "desc_wrapper");
+    var cap_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.find(obj => obj.class == "caption_wrapper");
+    var name_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.find(obj => obj.class == "name_wrapper");
+    var img_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.find(obj => obj.class == "image_wrapper");
     // console.log("CHECK",scientist);
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
@@ -4652,6 +4626,7 @@ const Demo = () => {
     }
     delete Data_from_Inspector["show-details-on-click"];
     // console.log("position", Data_from_Inspector.position);
+
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
       id: scientist.id,
       type: "wrapper",
@@ -4664,43 +4639,50 @@ const Demo = () => {
       type: "wrapper",
       class: "image_wrapper"
     })), allLang?.map(lang => {
+      var font = base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
+      if (lang.code == "zh-hans") {
+        font = base_url + "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
+      }
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
         key: lang.code,
         id: lang.code,
+        visible: "false"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
+        id: "toggle",
         visible: "false"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         class: "desc_wrapper",
         type: "wrapper",
         value: scientist.trans[lang.code].alt,
-        font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf",
+        font: font,
         visible: "true"
       }, desc_format)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         class: "caption_wrapper",
         type: "wrapper",
         value: scientist.trans[lang.code].caption,
-        font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf",
+        font: font,
         visible: "true"
       }, cap_format)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         class: "name_wrapper",
         type: "wrapper",
         value: scientist.trans[lang.code].title,
-        font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf",
+        font: font,
         visible: "true"
-      }, name_format)));
-    }), Object.keys(scientist.trans).map(key => {
-      // console.log("key",scientist.trans[key]);
-      var classname = "btn-wrapper-" + key;
-      var insData = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == classname);
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-        class: classname,
-        type: "wrapper",
-        visible: "true",
-        key: classname,
-        value: key,
-        code: key,
-        onClick: handleButtonClick
-      }, insData));
-    }), " ");
+      }, name_format)), Object.keys(scientist.trans).map(key => {
+        // console.log("key",scientist.trans[key]);
+        var classname = "btn-wrapper-" + key;
+        var insData = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__.find(obj => obj.class == classname);
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+          class: classname,
+          type: "wrapper",
+          visible: "true",
+          key: classname,
+          value: key,
+          code: key,
+          onClick: handleButtonClick
+        }, insData));
+      })));
+    }));
   }), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
     type: "directional",
     color: "#35227A",
@@ -41317,23 +41299,13 @@ module.exports = JSON.parse('[{"id":"marvel","type":"model","name":"astra","url"
 
 /***/ }),
 
-/***/ "./data/assets_demo.json":
-/*!*******************************!*\
-  !*** ./data/assets_demo.json ***!
-  \*******************************/
-/***/ ((module) => {
-
-module.exports = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossOrigin":"anonymous"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","crossOrigin":"anonymous"},{"id":"sofa","type":"model","name":"sofa","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","crossOrigin":"anonymous"},{"id":"clock","type":"model","name":"clock","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","crossOrigin":"anonymous"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.me/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Fmodel.glb","crossOrigin":"anonymous"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb","crossOrigin":"anonymous"}]');
-
-/***/ }),
-
 /***/ "./data/dynamicContent_demo.json":
 /*!***************************************!*\
   !*** ./data/dynamicContent_demo.json ***!
   \***************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"9004111222011961","type":"wrapper","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"9004111222012022","type":"wrapper","position":"-3.21 1.661 -2.597"},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"9004111222011911","type":"wrapper","position":"-7.63777 1.653 -2.59869"},{"id":"9004111222011930","type":"wrapper","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"9004111222011984","type":"wrapper","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"id":"9004111222012003","type":"wrapper","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.9 1.292 2.655"},{"id":"708","gltf-model":"https://localhost:3000/wp-content/uploads/2023/06/clock.glb","type":"model","position":"1.77172 0.578 2.996","rotation":"0 90 0"},{"id":"826","type":"model","position":"-7.87609 0.002 -0.59439"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"778","type":"model","position":"-7.141 1.416 2.658","rotation":"0 180 0","scale":"0.25 0.25 0.25"},{"id":"8645","gltf-model":"https://localhost:3000/wp-content/uploads/2023/06/room-1.glb","position":"4.537 0 3.468"},{"class":"btn-wrapper-zh-hans","type":"wrapper","code":"zh-hans","troika-text":"","position":"1.05 -0.73 0"}]');
+module.exports = JSON.parse('[{"id":"9004111222011961","type":"wrapper","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"9004111222012022","type":"wrapper","position":"-3.21 1.661 -2.597"},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"9004111222011911","type":"wrapper","position":"-7.63777 1.653 -2.59869"},{"id":"9004111222011930","type":"wrapper","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"9004111222011984","type":"wrapper","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"id":"9004111222012003","type":"wrapper","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.9 1.292 2.655"},{"id":"708","gltf-model":"https://localhost:3000/wp-content/uploads/2023/06/clock.glb","type":"model","position":"-0.86045 0.578 2.996","rotation":"0 90 0"},{"id":"826","type":"model","position":"-7.87609 0.002 -0.59439"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"778","type":"model","position":"-7.141 1.416 2.658","rotation":"0 180 0","scale":"0.25 0.25 0.25"},{"id":"8645","gltf-model":"https://localhost:3000/wp-content/uploads/2023/06/room-1.glb","position":"4.537 0 3.468"},{"class":"btn-wrapper-zh-hans","type":"wrapper","code":"zh-hans","troika-text":"","position":"1.05 -0.73 0"}]');
 
 /***/ }),
 
