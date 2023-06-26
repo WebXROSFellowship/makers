@@ -3907,13 +3907,14 @@ const appRouter = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.createBrowser
   }]
 }]);
 const App = () => {
-  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_URL;
+  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_URL;
   const [lang, setLang] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [menuData, setMenuData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const [stagingData, setStagingData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetchMenuData();
   }, [lang]);
+  console.log("site url", base_url);
 
   // TODO: Optimize for dynamicity
   // useEffect(() => {
@@ -3953,6 +3954,7 @@ const App = () => {
   async function fetchMenuData() {
     try {
       let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
+      console.log(fetchURL);
       let stagingData = await fetch(fetchURL);
       let jsonData = await stagingData.json();
       let items = jsonData.filter(item => item.slug == "main-menu");
@@ -4239,20 +4241,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
-/* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/js/app/utils/index.js");
+/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
+/* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
+
 
 
 
 const Body = () => {
-  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_2__["default"].SITE_URL;
+  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_URL;
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const [bodyData, setBodyData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const {
+    lang,
+    setLang
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_1__.DataContext);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetchBodyData();
-  }, []);
+  }, [lang]);
   const fetchBodyData = async () => {
-    const url = `${base_url}/wp-json/wp/v2/pages`;
+    const url = `${base_url}/${lang}/wp-json/wp/v2/pages`;
     await fetch(url).then(response => response.json()).then(result => {
       result.map(data => {
         if (data.slug === "webxr-open-source-fellowship") {
@@ -4319,7 +4327,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Demo = () => {
-  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_2__["default"].SITE_URL;
+  const PAGE_SLUG = "webxros-a-frame-demo";
+  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_2__.AppConfig.SITE_URL;
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true); // For asset loading
   const [scientistsData, setScientistsData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [elementDetected, setElementDetected] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false); // For inspector loaded
@@ -4328,11 +4337,13 @@ const Demo = () => {
     setLang
   } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_5__.DataContext);
   const [allLang, setAllLang] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [furnitureData, setFurnitureData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [worldData, setWorldData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [meshData, setMeshData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     getFromServer();
   }, [lang]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    getFromServer();
     // Call the checkElement function initially
     checkElement();
     getLanguages();
@@ -4367,18 +4378,32 @@ const Demo = () => {
   };
   const getFromServer = async () => {
     // console.log("Inside get from staging");
-    const url = `${base_url}/${lang}/wp-json/wp/v2/media?fields=id,slug,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
+    const url = `${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     console.log(url);
     await fetch(url).then(response => response.json()).then(result => {
-      let data = [];
+      console.log("!!!!!!!!!!!!!!!!!!!result", result);
+      var pagecontents = [];
+      var furniture = [];
+      var world = [];
+      var navmesh = [];
       result.map(item => {
-        if (item.data) {
-          data.push(item);
-          setScientistsData(data);
-          setLoading(false);
+        if (item.slug === PAGE_SLUG) {
+          pagecontents = item.post_media.screen_image;
+          furniture = item.properties_3D.furniture;
+          console.log("furniture", furniture);
+          world = item.properties_3D.world_model;
+          console.log("world", world);
+          navmesh = item.properties_3D.nav_mesh;
+          console.log("navmesh", navmesh);
         }
       });
-      AddClickEvent(data);
+      setFurnitureData(furniture);
+      setWorldData(world);
+      setMeshData(navmesh);
+      console.log("Page contents as in", pagecontents);
+      setScientistsData(pagecontents);
+      setLoading(false);
+      AddClickEvent(pagecontents);
     }).catch(error => {
       console.log("Error from server...", error);
     });
@@ -4580,82 +4605,94 @@ const Demo = () => {
     className: "container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h1", {
     className: "h1"
-  }, "Loading...")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, scientistsData?.map(scientist => {
-    if (scientist.data.file.slice(-3) == 'glb') {
-      // console.log("Rendering glb");
-
-      var Obj_id = scientist.data.file;
-      var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.id == Obj_id);
-      if (Data_from_Inspector) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
-          id: scientist.data.file,
-          "gltf-model": base_url + scientist.data.full_path,
-          type: "model",
-          key: scientist.data.id,
-          position: Data_from_Inspector.position,
-          rotation: Data_from_Inspector.rotation,
-          scale: Data_from_Inspector.scale
-        });
-      }
-    } else {
-      var Obj_id = scientist.data.file + "wrapper";
-      var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.id == Obj_id);
-      var desc_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "desc_wrapper");
-      var cap_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "caption_wrapper");
-      var name_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "name_wrapper");
-      var img_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "image_wrapper");
-      console.log("CHECK", scientist);
-      if (Data_from_Inspector) {
-        // console.log("position", Data_from_Inspector.position);
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-          id: scientist.data.file + "wrapper",
-          type: "wrapper",
-          key: scientist.data.id
-        }, Data_from_Inspector, {
-          "show-details-on-click": ""
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-image", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-          src: base_url + scientist.data.full_path
-        }, img_format, {
-          type: "wrapper",
-          class: "image_wrapper"
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-          class: "desc_wrapper",
-          type: "wrapper",
-          value: scientist.data.alt,
-          font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf",
-          visible: "false"
-        }, desc_format)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-          class: "caption_wrapper",
-          type: "wrapper",
-          value: scientist.data.caption,
-          font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"
-        }, cap_format)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-          class: "name_wrapper",
-          type: "wrapper",
-          value: scientist.data.title,
-          font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"
-        }, name_format)), allLang?.map(lang => {
-          var classname = "btn-wrapper-" + lang.code;
-          var insData = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == classname);
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-            class: classname,
-            type: "wrapper",
-            visible: "true",
-            key: classname,
-            value: lang.code,
-            code: lang.code,
-            onClick: handleButtonClick
-          }, insData));
-        }));
-      }
-    }
+  }, "Loading...")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
+    id: worldData.id,
+    "gltf-model": base_url + "/wp-content/uploads/" + worldData.src,
+    key: worldData.id,
+    position: "4.537 0 3.468"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
     "nav-mesh": "",
-    id: "#navmesh",
-    "gltf-model": "#navmesh",
-    crossOrigin: "anonymous",
+    id: meshData.id,
+    "gltf-model": base_url + "/wp-content/uploads/" + meshData.src,
+    key: meshData.id,
     visible: "false",
     position: "4.762 0 3.739"
+  }), furnitureData?.map(furniture => {
+    var Obj_id = furniture.id;
+    var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.id == Obj_id);
+    if (!Data_from_Inspector) {
+      Data_from_Inspector = {
+        position: "0 0 0"
+      };
+    }
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      id: furniture.id,
+      "gltf-model": base_url + furniture.full_path,
+      key: furniture.id
+    }, Data_from_Inspector));
+  }), scientistsData?.map(scientist => {
+    var Obj_id = scientist.id;
+    console.log(Obj_id);
+    console.log(_data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__);
+    var Data_from_Inspector = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.id == Obj_id);
+    var desc_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "desc_wrapper");
+    var cap_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "caption_wrapper");
+    var name_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "name_wrapper");
+    var img_format = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == "image_wrapper");
+    // console.log("CHECK",scientist);
+    if (!Data_from_Inspector) {
+      Data_from_Inspector = {
+        position: "0 0 0"
+      };
+    }
+    // console.log("position", Data_from_Inspector.position);
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      id: scientist.id,
+      type: "wrapper",
+      key: scientist.id
+    }, Data_from_Inspector, {
+      "show-details-on-click": ""
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-image", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      src: base_url + scientist.full_path
+    }, img_format, {
+      type: "wrapper",
+      class: "image_wrapper"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      class: "desc_wrapper",
+      type: "wrapper",
+      value: scientist.alt,
+      font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf",
+      visible: "false"
+    }, desc_format)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      class: "caption_wrapper",
+      type: "wrapper",
+      value: scientist.caption,
+      font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"
+    }, cap_format)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      class: "name_wrapper",
+      type: "wrapper",
+      value: scientist.title,
+      font: base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"
+    }, name_format)), Object.keys(scientist.trans).map(key => {
+      // console.log("key",scientist.trans[key]);
+      var classname = "btn-wrapper-" + key;
+      var insData = _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_4__.find(obj => obj.class == classname);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+        class: classname,
+        type: "wrapper",
+        visible: "true",
+        key: classname,
+        value: key,
+        code: key,
+        onClick: e => {
+          console.log("Lang changed");
+          let langCode = e.target.getAttribute("value");
+          langCode == "en" ? "" : langCode;
+          console.log("Setting lang as, ", langCode);
+          setLang(langCode);
+        }
+      }, insData));
+    }));
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-light", {
     type: "directional",
     color: "#35227A",
@@ -4803,12 +4840,14 @@ const Navbar = () => {
   const {
     stagingData
   } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_2__.StagingDataContext);
-  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_URL;
+  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_URL;
+  const [navbarData, setNavbarData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    settingMenuData();
+    settingMenuData2();
+    // settingMenuData();
     setLanguages();
   }, [stagingData]);
   function formatNames(name) {
@@ -4819,28 +4858,72 @@ const Navbar = () => {
     let formattedName = allWords.join(" ");
     return formattedName;
   }
-  function settingMenuData() {
+  function settingMenuData2() {
     let items = stagingData;
-    let head = items.filter(e => e.menu_item_parent === "0")[0];
-    let childItems = items.filter(e => parseInt(e.menu_item_parent) === head.ID);
-    let nestedItems = [];
-    let currIDs = [];
-    for (let i = 0; i < childItems.length; i++) {
-      let currChild = childItems[i];
-      let allNestedChild = items.filter(e => parseInt(e.menu_item_parent) === currChild.ID);
-      if (allNestedChild.length > 0) {
-        currIDs.push(currChild.ID);
-        allNestedChild.map(ele => nestedItems.push(ele));
+    console.log("Printing Items", items);
+    const parents = {};
+    const children = [];
+    items.forEach(item => {
+      const {
+        ID,
+        menu_item_parent,
+        title,
+        content,
+        url
+      } = item;
+      if (menu_item_parent === "0") {
+        parents[ID] = {
+          ...item,
+          childItems: []
+        };
+      } else {
+        children.push(item);
       }
-    }
-    setC2IDs(currIDs);
-    let cData = [{
-      head,
-      childItems,
-      nestedItems
-    }];
-    setNavbarMenus(cData);
+    });
+    children.forEach(child => {
+      const {
+        menu_item_parent
+      } = child;
+      if (parents[menu_item_parent]) {
+        parents[menu_item_parent].childItems.push(child);
+      }
+    });
+    console.log("Settingggg");
+    console.log(parents);
+    let navbarData2 = Object.values(parents);
+    console.log("Printing values", navbarData2);
+    setNavbarData(navbarData2);
   }
+
+  // function settingMenuData() {
+  //   let items = stagingData;
+  //   let head = items.filter((e) => e.menu_item_parent === "0")[0];
+  //   let childItems = items.filter(
+  //     (e) => parseInt(e.menu_item_parent) === head.ID
+  //   );
+  //   let nestedItems = [];
+  //   let currIDs = [];
+  //   for (let i = 0; i < childItems.length; i++) {
+  //     let currChild = childItems[i];
+  //     let allNestedChild = items.filter(
+  //       (e) => parseInt(e.menu_item_parent) === currChild.ID
+  //     );
+  //     if (allNestedChild.length > 0) {
+  //       currIDs.push(currChild.ID);
+  //       allNestedChild.map((ele) => nestedItems.push(ele));
+  //     }
+  //   }
+  //   setC2IDs(currIDs);
+  //   let cData = [
+  //     {
+  //       head,
+  //       childItems,
+  //       nestedItems,
+  //     },
+  //   ];
+  //   setNavbarMenus(cData);
+  // }
+
   async function setLanguages() {
     const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
     let langData = await fetch(langFetchURL);
@@ -4876,40 +4959,28 @@ const Navbar = () => {
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "title-head"
-  }, _config_appConfig__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_TITLE))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_TITLE))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "navbar-right"
-  }, navbarMenus ? navbarMenus.map((currEle, i) => {
-    let {
-      head,
-      childItems,
-      nestedItems
-    } = currEle;
+  }, navbarData ? navbarData?.map((currNavBarItem, i) => {
+    let title = currNavBarItem.title;
+    let childItems = currNavBarItem.childItems;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "dropdown",
       key: i
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       className: "dropbtn"
-    }, head.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
-      const c = c2IDs.includes(menu.ID);
+      const {
+        title,
+        url
+      } = menu;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         className: "dropdown__items",
         key: i,
-        onMouseEnter: () => setHoveredIndex(i),
-        onMouseLeave: () => setHoveredIndex(-1),
-        to: menu.url
-      }, formatNames(menu.title), c && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-        className: "n2-drop"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-        className: "fa-solid fa-circle-chevron-down"
-      })), c && hoveredIndex === i && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-        className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
-        to: cur.url,
-        className: "dropdown__items d2",
-        key: i
-      }, cur.title))));
+        to: url
+      }, formatNames(title));
     })));
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dropdown"
@@ -4981,7 +5052,28 @@ const Navbar = () => {
     className: "fa-solid fa-bars fa-xl"
   }))), showMenu === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "sideMenu"
-  }, navbarMenus ? navbarMenus.map((currEle, i) => {
+  }, navbarData ? navbarData?.map(currNavBarItem => {
+    let title = currNavBarItem.title;
+    let childItems = currNavBarItem.childItems;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "dropdown2",
+      key: currNavBarItem
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+      className: "dropbtn"
+    }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "dropdown__content"
+    }, childItems.map((menu, i) => {
+      const {
+        title,
+        url
+      } = menu;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+        className: "dropdown__items",
+        key: title,
+        to: url
+      }, formatNames(title));
+    })));
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null), navbarMenus ? navbarMenus.map((currEle, i) => {
     let {
       head,
       childItems,
@@ -5020,16 +5112,18 @@ const Navbar = () => {
     className: "dropbtn"
   }, " Languages "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dropdown__content"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    onClick: () => setLang(""),
-    className: "dropdown__items"
-  }, "English"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    onClick: () => setLang("hi"),
-    className: "dropdown__items"
-  }, "Hindi"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    onClick: () => setLang("de"),
-    className: "dropdown__items"
-  }, "German")))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null))));
+  }, languageArr.map(currLang => {
+    let cLang = currLang.native_name;
+    let code = currLang.code;
+    if (code == "en") {
+      code = "";
+    }
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+      onClick: () => setLang(`${code}`),
+      key: code,
+      className: "dropdown__items"
+    }, cLang);
+  })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Navbar);
 
@@ -5069,7 +5163,7 @@ const Profile = () => {
   const content = cd[0]?.content || "";
   const titleName = cd[0]?.title;
   const [imgLink, setImgLink] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__["default"].SITE_URL;
+  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_URL;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetch(`${base_url}/wp-json/wp/v2/media?media`).then(response => response.json()).then(data => {
       const profileImage = data?.find(image => image?.slug === username);
@@ -5263,10 +5357,10 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   AppConfig: () => (/* binding */ AppConfig)
 /* harmony export */ });
 const AppConfig = configData;
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppConfig);
+
 
 /***/ }),
 
@@ -41233,7 +41327,7 @@ module.exports = JSON.parse('[{"id":"powersimple","type":"model","name":"powersi
   \***************************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('[{"id":"Alan-Turing-1.pngwrapper","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"Hedy_Lamarr-1.jpegwrapper","type":"wrapper","position":"-3.21 1.661 -2.597","show-details-on-click":""},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"albert-einstein-1.jpegwrapper","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"Nikola-Tesla-.pngwrapper","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"gordan-moore-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"id":"Neil_deGrasse_Tyson-1.jpegwrapper","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.9 1.292 2.655"},{"id":"clock.glb","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/clock.glb","type":"model","rotation":"0 90 0","position":"0 0.578 2.996"},{"id":"sofa.glb","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/sofa.glb","type":"model","position":"-7.87609 0.002 -0.59439"},{"id":"room-1.glb","type":"model","crossorigin":"anonymous","position":"4.537 -0.01 3.468"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"powersimple.glb","gltf-model":"http://localhost:8888/wordpress/wp-content/uploads/2023/06/powersimple.glb","type":"model","position":"-7.141 1.416 2.658","rotation":"0 180 0","scale":"0.25 0.25 0.25"}]');
+module.exports = JSON.parse('[{"id":"9004111222011961","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"9004111222012022","type":"wrapper","position":"-3.21 1.661 -2.597","show-details-on-click":""},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"9004111222011911","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"9004111222011930","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"9004111222011984","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"id":"9004111222012003","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.9 1.292 2.655"},{"id":"708","type":"model","position":"1.17248 0.578 2.996","rotation":"0 90 0"},{"id":"826","type":"model","position":"-7.87609 0.002 -0.59439"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"778","type":"model","position":"-7.141 1.416 2.658","rotation":"0 180 0","scale":"0.25 0.25 0.25"}]');
 
 /***/ }),
 

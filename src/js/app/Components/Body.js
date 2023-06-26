@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { DataContext } from "../utils";
 
 import "@styles/style.scss";
-import AppConfig from "../config/appConfig";
+import {AppConfig} from "../config/appConfig";
+
 
 const Body = () => {
   const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true);
   const [bodyData, setBodyData] = useState("");
+  const {lang, setLang} = useContext(DataContext);
 
   useEffect(() => {
     fetchBodyData();
-  }, []);
+  }, [lang]);
 
   const fetchBodyData = async () => {
-    const url = `${base_url}/wp-json/wp/v2/pages`;
+    const url = `${base_url}/${lang}/wp-json/wp/v2/pages`;
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
