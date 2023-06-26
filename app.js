@@ -7048,6 +7048,7 @@ const Demo = () => {
       alert(dataResp.message);
       // window.location.reload();
     }).catch(error => console.log("Error", error));
+    fetchLatestData();
   };
   function AddClickEvent() {
     console.log("In add click event");
