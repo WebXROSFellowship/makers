@@ -262,6 +262,7 @@ const Demo = () => {
         // window.location.reload();
       })
       .catch((error) => console.log("Error", error));
+      fetchLatestData();
   };
 
   function AddClickEvent() {

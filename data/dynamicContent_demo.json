@@ -57,12 +57,14 @@
     "id": "9004111222012003",
     "type": "wrapper",
     "rotation": "-179.9998479605043 0 -179.9998479605043",
-    "position": "-0.9 1.292 2.655"
+    "position": "1.22441 1.292 2.655",
+    "show-details-on-click": ""
   },
   {
     "id": "708",
+    "gltf-model": "https://webxr.local/wp-content/uploads/2023/06/clock.glb",
     "type": "model",
-    "position": "1.77172 0.578 2.996",
+    "position": "3.08747 0.578 2.996",
     "rotation": "0 90 0"
   },
   {
@@ -106,5 +108,12 @@
     "code": "zh-hans",
     "troika-text": "",
     "position": "1.05 -0.73 0"
+  },
+  {
+    "id": "9004111222012641",
+    "type": "wrapper",
+    "position": "0 1.38 0",
+    "show-details-on-click": "",
+    "rotation": ""
   }
 ]
