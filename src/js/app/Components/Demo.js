@@ -1,28 +1,28 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect ,useRef } from "react";
 
 // Updated Inspector API data
-import {AppConfig} from "../config/appConfig";
-import assets from "./../../../../data/assets_demo.json";
+import { AppConfig } from "../config/appConfig";
 import data from "./../../../../data/dynamicContent_demo.json";
-import { DataContext } from "../utils";
+
 
 const Demo = () => {
-  const PAGE_SLUG="webxros-a-frame-demo";
+  const PAGE_SLUG = "webxros-a-frame-demo";
   const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]);
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
-  const { lang, setLang } = useContext(DataContext);
+  const langRef = useRef("en");
   const [allLang, setAllLang] = useState([]);
   const [furnitureData, setFurnitureData] = useState([]);
   const [worldData, setWorldData] = useState([]);
   const [meshData, setMeshData] = useState([]);
+  const data = useRef(null);
 
+  useEffect(() => {
+    fetchLatestData();
+  },[]);
   useEffect(() => {
     getFromServer();
-  }, [lang]);
-
-  useEffect(() => {
     // Call the checkElement function initially
     checkElement();
     getLanguages();
@@ -38,16 +38,19 @@ const Demo = () => {
     return () => observer.disconnect();
   }, [elementDetected]);
 
-
   const getLanguages = async () => {
     const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
     let langData = await fetch(langFetchURL);
     let jsonLangData = await langData.json();
-    console.log("ALL  RESPONSE", langData);
-    console.log("ALL LANG", jsonLangData);
     setAllLang(jsonLangData);
   };
 
+  const handleButtonClick = (event) => {
+
+    const buttonText =event.target.getAttribute("value");
+    langRef.current = buttonText;
+
+  };
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
     const ele = document.querySelector(
@@ -63,31 +66,30 @@ const Demo = () => {
 
   const getFromServer = async () => {
     // console.log("Inside get from staging");
-    const url =`${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
-    console.log(url);
+    const url = `${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
+   
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
-        console.log("!!!!!!!!!!!!!!!!!!!result", result);
+       
         var pagecontents = [];
-        var furniture=[];
-        var world=[];
-        var navmesh=[];
+        var furniture = [];
+        var world = [];
+        var navmesh = [];
         result.map((item) => {
-          if (item.slug === PAGE_SLUG) {  
-           pagecontents = item.post_media.screen_image;
-            furniture=item.properties_3D.furniture;
-            console.log("furniture",furniture);
-            world=item.properties_3D.world_model;
-            console.log("world",world);
-            navmesh=item.properties_3D.nav_mesh;
-            console.log("navmesh",navmesh);
+          if (item.slug === PAGE_SLUG) {
+            pagecontents = item.post_media.screen_image;
+            furniture = item.properties_3D.furniture;
+        
+            world = item.properties_3D.world_model;
+            
+            navmesh = item.properties_3D.nav_mesh;
+          
           }
         });
         setFurnitureData(furniture);
         setWorldData(world);
         setMeshData(navmesh);
-        console.log("Page contents as in", pagecontents);
         setScientistsData(pagecontents);
         setLoading(false);
         AddClickEvent(pagecontents);
@@ -97,21 +99,25 @@ const Demo = () => {
       });
   };
 
-  function ShowDescription(Obj, data) {
-    console.log("ShowDescription");
-    console.log(Obj);
+  function ShowDescription(Obj) {
+   
+    var children_lang = Obj.querySelectorAll("a-entity");
+  
 
-    var children = Obj.querySelectorAll("a-troika-text");
-    // console.log("childeern", children);
-    if (children) {
-      var state = !children[0].getAttribute("visible");
-      children[0].setAttribute("visible", state);
-      // children[1].setAttribute("visible", state);
-      // children[2].setAttribute("visible", state);
-      // children[3].setAttribute("visible", state);
-      // children[4].setAttribute("visible", state);
-      // children[5].setAttribute("visible", state);
+    for (var i = 0; i < children_lang.length; i+=2) { 
+      if (children_lang[i].getAttribute("id") === langRef.current) {
+        children_lang[i].setAttribute("visible", "true");
+        var state = !children_lang[i+1].getAttribute("visible");
+        children_lang[i+1].setAttribute("visible", state);
+      }
+      else
+      {
+        children_lang[i].setAttribute("visible", "false");
+        var state = !children_lang[i+1].getAttribute("visible");
+        children_lang[i+1].setAttribute("visible", state);
+      }
     }
+  
   }
 
   function customManipulation() {
@@ -144,6 +150,20 @@ const Demo = () => {
     }, 1500); // Adjust the delay as needed
   }
 
+  async function fetchLatestData() {
+    const url = `${base_url}/wp-content/themes/makers/data/dynamicContent_demo.json`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((result) => {
+        data.current=result;
+        console.log("DATA SET",data.current);
+      })
+      .catch((error) => {
+        console.log("Failed to fetch dynamic content", error);
+      });
+
+
+  }
   function fetchDataClipboard() {
     // Usage: Fetches the data from the clipboard and stores it in a variable
     var element = document.querySelector(
@@ -153,6 +173,7 @@ const Demo = () => {
       // Usage: Access the data from the clipboard and store it in a variable "clipboardData"
       navigator.clipboard.readText().then(function (clipboardData) {
         console.log("Clipboard Data as fetched : ", clipboardData);
+        fetchLatestData();
         createJsonSting(clipboardData);
       });
     };
@@ -185,7 +206,7 @@ const Demo = () => {
     const newData = JSON.parse(jsonString);
     var foundData = false;
     var foundClassData = false;
-    const updatedData = data.map((item) => {
+    const updatedData = data.current.map((item) => {
       if (
         item.class !== undefined &&
         newData.class !== undefined &&
@@ -208,6 +229,7 @@ const Demo = () => {
 
     if (!foundData && newData.id !== undefined && newData.class === undefined)
       updatedData.push(newData);
+
     if (newData.class !== undefined && !foundClassData) {
       console.log("New Class Data");
       var alteredClassData = updateClassData(newData);
@@ -240,15 +262,17 @@ const Demo = () => {
         // window.location.reload();
       })
       .catch((error) => console.log("Error", error));
+      fetchLatestData();
   };
 
-  function AddClickEvent(fdata) {
-    console.log("In add click event", fdata);
+  function AddClickEvent() {
+    console.log("In add click event");
     AFRAME.registerComponent("show-details-on-click", {
       init: function () {
         var el = this.el;
         el.addEventListener("click", function () {
-          ShowDescription(el, fdata);
+          ShowDescription(el);
+          console.log("Click detected",el);
           // UpdateProperties(data)
           // console.log("Click detected");
         });
@@ -256,19 +280,6 @@ const Demo = () => {
     });
   }
 
-  const handleButtonClick = (event) => {
-    console.log("Lang changed");
-    console.log("I'm clicked");
-    const buttonText = event.target.getAttribute("value");
-
-    if (buttonText === "English") {
-      setLang("");
-    } else if (buttonText === "Hindi") {
-      setLang("hi");
-    } else if (buttonText === "German") {
-      setLang("de");
-    }
-  };
 
   return (
     <>
@@ -313,164 +324,138 @@ const Demo = () => {
           ></a-entity>
         </a-entity>
 
-        {/* loaading assets in Aframe */}
-        <a-assets>
-          {assets.map((asset) => {
-            return (
-              <a-asset-item
-                id={asset.id}
-                src={asset.url}
-                key={asset.id}
-                crossOrigin={asset.crossOrigin}
-              ></a-asset-item>
-            );
-          })}{" "}
-        </a-assets>
+       
         {loading ? (
           <div className="container">
             <h1 className="h1">Loading...</h1>
           </div>
         ) : (
           <>
-            
-             <a-entity 
-                id={worldData.id}
-                gltf-model={base_url +"/wp-content/uploads/"+ worldData.src} 
-                key={worldData.id}
-                position="4.537 0 3.468"
-              >
-             </a-entity>
-
-              <a-entity
+            <a-entity
+              id={worldData.id}
+              gltf-model={base_url + "/wp-content/uploads/" + worldData.src}
+              key={worldData.id}
+              position="4.537 0 3.468"
+            ></a-entity>
+            <a-entity
               nav-mesh=""
               id={meshData.id}
               gltf-model={base_url + "/wp-content/uploads/" + meshData.src}
               key={meshData.id}
               visible="false"
               position="4.762 0 3.739"
-              ></a-entity>
-
-              {
-                furnitureData?.map((furniture) => {
-                var Obj_id = furniture.id;
-                var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
-                  if (!Data_from_Inspector) {
-                    Data_from_Inspector={
-                      position: "0 0 0",
-                    }
-                  }
-                  return (
-                    <a-entity
-                      id={furniture.id}
-                      gltf-model={base_url + furniture.full_path}
-                      key={furniture.id}
-                      {...Data_from_Inspector}
-                    ></a-entity>)
-                })
+            ></a-entity>
+            {furnitureData?.map((furniture) => {
+              var Obj_id = furniture.id;
+              var Data_from_Inspector = data.current.find((obj) => obj.id == Obj_id);
+              if (!Data_from_Inspector) {
+                Data_from_Inspector = {
+                  position: "0 0 0",
+                };
               }
+              return (
+                <a-entity
+                  id={furniture.id}
+                  gltf-model={base_url + furniture.full_path}
+                  key={furniture.id}
+                  {...Data_from_Inspector}
+                ></a-entity>
+              );
+            })}
             {scientistsData?.map((scientist) => {
+              var Obj_id = scientist.id;
+              var Data_from_Inspector = data.current.find((obj) => obj.id == Obj_id);
+              var desc_format = data.current.find((obj) => obj.class == "desc_wrapper");
+              var cap_format = data.current.find(
+                (obj) => obj.class == "caption_wrapper"
+              );
+              var name_format = data.current.find((obj) => obj.class == "name_wrapper");
+              var img_format = data.current.find((obj) => obj.class == "image_wrapper");
              
-                var Obj_id = scientist.id;
-                console.log(Obj_id);
-                console.log(data);
-                var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
-                var desc_format = data.find((obj) => obj.class == "desc_wrapper");
-                var cap_format = data.find(
-                  (obj) => obj.class == "caption_wrapper"
-                );
-                var name_format = data.find((obj) => obj.class == "name_wrapper");
-                var img_format = data.find((obj) => obj.class == "image_wrapper");
-                // console.log("CHECK",scientist);
-                  if (!Data_from_Inspector) {
-                    Data_from_Inspector={
-                      position: "0 0 0",
-                    }
-                  }
-                  // console.log("position", Data_from_Inspector.position);
-                  return (
-                    <a-entity
-                      id={scientist.id}
-                      type="wrapper"
-                      key={scientist.id}
-                      {...Data_from_Inspector}
-                      show-details-on-click=""
-                    >
-                      <a-image
-                        src={base_url + scientist.full_path}
-                        {...img_format}
-                        type="wrapper"
-                        class="image_wrapper"
-                      ></a-image>
-                      <a-troika-text
-                        class="desc_wrapper"
-                        type="wrapper"
-                        value={scientist.alt}
-                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
-                        visible="false"
-                        {...desc_format}
-                      ></a-troika-text>
-                      <a-troika-text
-                        class="caption_wrapper"
-                        type="wrapper"
-                        value={scientist.caption}
-                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
-                       
-                        {...cap_format}
-                      ></a-troika-text>
-                      <a-troika-text
-                        class="name_wrapper"
-                        type="wrapper"
-                        value={scientist.title}
-                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
-                      
-                        {...name_format}
-                      ></a-troika-text>
-                      {
-                        Object.keys(scientist.trans).map((key)=>{
-                          // console.log("key",scientist.trans[key]);
-                          var classname="btn-wrapper-"+key;
-                          var insData=data.find((obj) => obj.class == classname);
-                          return (
-                            <a-troika-text
-                              class={classname}
-                              type="wrapper"
-                              visible="true"
-                              key={classname}
-                              value={key}
-                              code={key}
-                              onClick={(e)=>{
-                                console.log("Lang changed");
-                                let langCode = e.target.getAttribute("value");
-                                langCode == "en" ? "" : langCode;
-                                console.log("Setting lang as, ",langCode);
-                                setLang(langCode);
-                              }}
-                              {...insData}
-                            ></a-troika-text>
-                          );
-                        })
-                      }
-                      {/* {allLang?.map((lang) => {
-                      var classname="btn-wrapper-"+lang.code;
-                      var insData=data.find((obj) => obj.class == classname);
-                      return (
-                        <a-troika-text
-                          class={classname}
-                          type="wrapper"
-                          visible="true"
-                          key={classname}
-                          value={lang.code}
-                          code={lang.code}
-                          onClick={handleButtonClick}
-                          {...insData}
-                        ></a-troika-text>
-                      );
-                    })} */}
-                    </a-entity>
-                  );
-                
+              if (!Data_from_Inspector) {
+                Data_from_Inspector = {
+                  position: "0 0 0",
+                };
               }
-            )}
+              delete Data_from_Inspector["show-details-on-click"];
+             
+              
+              return (
+                <a-entity
+                  id={scientist.id}
+                  type="wrapper"
+                  key={scientist.id}
+                  {...Data_from_Inspector}
+                  show-details-on-click=""
+                >
+                  <a-image
+                    src={base_url + scientist.full_path}
+                    {...img_format}
+                    type="wrapper"
+                    class="image_wrapper"
+                  ></a-image>
+                  {allLang?.map((lang) => {
+                    var font=base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
+                    if(lang.code=="zh-hans"){
+                      font=base_url + "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
+                    }
+                  return (
+                  <a-entity key={lang.code} id={lang.code} visible="false">
+                    <a-entity id="toggle" visible="false">
+                    <a-troika-text
+                      class="desc_wrapper"
+                      type="wrapper"
+                      value={scientist.trans[lang.code].alt}
+                      font={
+                        font
+                      }
+                      visible="true"
+                      {...desc_format}
+                    ></a-troika-text>
+                    <a-troika-text
+                      class="caption_wrapper"
+                      type="wrapper"
+                      value={scientist.trans[lang.code].caption}
+                      font={font
+                      }
+                      visible="true"
+                      {...cap_format}
+                    ></a-troika-text>
+                    <a-troika-text
+                      class="name_wrapper"
+                      type="wrapper"
+                      value={scientist.trans[lang.code].title}
+                      font={font
+                      }
+                      visible="true"
+                      {...name_format}
+                    ></a-troika-text>
+                    {Object.keys(scientist.trans).map((key) => {
+               
+                    var classname = "btn-wrapper-" + key;
+                    var insData = data.current.find((obj) => obj.class == classname);
+                    return (
+                      <a-troika-text
+                        class={classname}
+                        type="wrapper"
+                        visible="true"
+                        key={classname}
+                        value={key}
+                        code={key}
+                        onClick={handleButtonClick}
+                        {...insData}
+                      ></a-troika-text>
+                    );
+                  })}
+                    </a-entity>
+                    
+                  </a-entity>
+                  );
+                  })}
+                  
+                </a-entity>
+              );
+            })}{" "}
           </>
         )}
 
