@@ -406,6 +406,7 @@ function get_properties_3D( $object ) {
 	$properties_3D= add_3D_media_property($properties_3D,$post_id,"logo_wide_3D");
 	$properties_3D= add_3D_media_property($properties_3D,$post_id,"button_3D");
 	$properties_3D= add_3D_media_property($properties_3D,$post_id,"world_model");
+	$properties_3D= add_3D_media_property($properties_3D,$post_id,"nav_mesh");
 
 	$furniture = get_post_meta($post_id,"furniture");
 	

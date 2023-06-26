@@ -67,6 +67,8 @@ const App = () => {
     fetchMenuData();
   }, [lang]);
 
+  console.log("site url", base_url);
+
   // TODO: Optimize for dynamicity
   // useEffect(() => {
   //   sendDataDump("", "data_english");

@@ -694,6 +694,16 @@ function siteProperties3D( $meta_boxes ) {
 				'options' => array(),
 				'attributes' => array(),
 			),
+			array(
+				'id' => 'nav_mesh',
+				'type' => 'image_advanced',
+				'name' => esc_html__( 'Nav Mesh for World Model', 'metabox-online-generator' ), 
+				'desc' => esc_html__( 'This should be for the collider file for that matches the world model precisely', 'metabox-online-generator' ),
+				'force_delete' => true,
+				'max_file_uploads' => '1',
+				'options' => array(),
+				'attributes' => array(),
+			),
 			
 			array(
 				'id' => 'logo_3D',
