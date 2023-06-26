@@ -16,7 +16,11 @@ const Demo = () => {
   const [furnitureData, setFurnitureData] = useState([]);
   const [worldData, setWorldData] = useState([]);
   const [meshData, setMeshData] = useState([]);
+  const data = useRef(null);
 
+  useEffect(() => {
+    fetchLatestData();
+  },[]);
   useEffect(() => {
     getFromServer();
     // Call the checkElement function initially
@@ -38,19 +42,12 @@ const Demo = () => {
     const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
     let langData = await fetch(langFetchURL);
     let jsonLangData = await langData.json();
-    console.log("ALL  RESPONSE", langData);
-    console.log("ALL LANG", jsonLangData);
     setAllLang(jsonLangData);
   };
 
   const handleButtonClick = (event) => {
 
-    console.log("Lang changed");
-    console.log("I'm clicked");
-    console.log("EVENTT",event);
     const buttonText =event.target.getAttribute("value");
-   
-    console.log( "buttonText",buttonText);
     langRef.current = buttonText;
 
   };
@@ -70,11 +67,11 @@ const Demo = () => {
   const getFromServer = async () => {
     // console.log("Inside get from staging");
     const url = `${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
-    console.log(url);
+   
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
-        console.log("!!!!!!!!!!!!!!!!!!!result", result);
+       
         var pagecontents = [];
         var furniture = [];
         var world = [];
@@ -83,11 +80,11 @@ const Demo = () => {
           if (item.slug === PAGE_SLUG) {
             pagecontents = item.post_media.screen_image;
             furniture = item.properties_3D.furniture;
-            console.log("furniture", furniture);
+        
             world = item.properties_3D.world_model;
-            console.log("world", world);
+            
             navmesh = item.properties_3D.nav_mesh;
-            console.log("navmesh", navmesh);
+          
           }
         });
         setFurnitureData(furniture);
@@ -103,10 +100,9 @@ const Demo = () => {
   };
 
   function ShowDescription(Obj) {
-    console.log("ShowDescription");
-    console.log(Obj);
+   
     var children_lang = Obj.querySelectorAll("a-entity");
-    console.log("children_lang", children_lang);
+  
 
     for (var i = 0; i < children_lang.length; i+=2) { 
       if (children_lang[i].getAttribute("id") === langRef.current) {
@@ -154,6 +150,20 @@ const Demo = () => {
     }, 1500); // Adjust the delay as needed
   }
 
+  async function fetchLatestData() {
+    const url = `${base_url}/wp-content/themes/makers/data/dynamicContent_demo.json`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((result) => {
+        data.current=result;
+        console.log("DATA SET",data.current);
+      })
+      .catch((error) => {
+        console.log("Failed to fetch dynamic content", error);
+      });
+
+
+  }
   function fetchDataClipboard() {
     // Usage: Fetches the data from the clipboard and stores it in a variable
     var element = document.querySelector(
@@ -163,6 +173,7 @@ const Demo = () => {
       // Usage: Access the data from the clipboard and store it in a variable "clipboardData"
       navigator.clipboard.readText().then(function (clipboardData) {
         console.log("Clipboard Data as fetched : ", clipboardData);
+        fetchLatestData();
         createJsonSting(clipboardData);
       });
     };
@@ -195,7 +206,7 @@ const Demo = () => {
     const newData = JSON.parse(jsonString);
     var foundData = false;
     var foundClassData = false;
-    const updatedData = data.map((item) => {
+    const updatedData = data.current.map((item) => {
       if (
         item.class !== undefined &&
         newData.class !== undefined &&
@@ -335,7 +346,7 @@ const Demo = () => {
             ></a-entity>
             {furnitureData?.map((furniture) => {
               var Obj_id = furniture.id;
-              var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
+              var Data_from_Inspector = data.current.find((obj) => obj.id == Obj_id);
               if (!Data_from_Inspector) {
                 Data_from_Inspector = {
                   position: "0 0 0",
@@ -352,21 +363,21 @@ const Demo = () => {
             })}
             {scientistsData?.map((scientist) => {
               var Obj_id = scientist.id;
-              var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
-              var desc_format = data.find((obj) => obj.class == "desc_wrapper");
-              var cap_format = data.find(
+              var Data_from_Inspector = data.current.find((obj) => obj.id == Obj_id);
+              var desc_format = data.current.find((obj) => obj.class == "desc_wrapper");
+              var cap_format = data.current.find(
                 (obj) => obj.class == "caption_wrapper"
               );
-              var name_format = data.find((obj) => obj.class == "name_wrapper");
-              var img_format = data.find((obj) => obj.class == "image_wrapper");
-              // console.log("CHECK",scientist);
+              var name_format = data.current.find((obj) => obj.class == "name_wrapper");
+              var img_format = data.current.find((obj) => obj.class == "image_wrapper");
+             
               if (!Data_from_Inspector) {
                 Data_from_Inspector = {
                   position: "0 0 0",
                 };
               }
               delete Data_from_Inspector["show-details-on-click"];
-              // console.log("position", Data_from_Inspector.position);
+             
               
               return (
                 <a-entity
@@ -419,9 +430,9 @@ const Demo = () => {
                       {...name_format}
                     ></a-troika-text>
                     {Object.keys(scientist.trans).map((key) => {
-                    // console.log("key",scientist.trans[key]);
+               
                     var classname = "btn-wrapper-" + key;
-                    var insData = data.find((obj) => obj.class == classname);
+                    var insData = data.current.find((obj) => obj.class == classname);
                     return (
                       <a-troika-text
                         class={classname}
