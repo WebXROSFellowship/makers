@@ -55,7 +55,7 @@ DO NOT EDIT IN STYLE.CSS
 .navbar {
   padding-top: 20px;
   height: 65px;
-  width: 100%;
+  width: 100vw;
   opacity: 0.8;
   background-color: #00000F;
   color: #9DB2BF;
@@ -76,7 +76,6 @@ DO NOT EDIT IN STYLE.CSS
 .navbar-right {
   display: flex;
   align-items: center;
-  margin-right: 1rem;
 }
 
 .logo-img {
@@ -223,7 +222,7 @@ DO NOT EDIT IN STYLE.CSS
   background: darkgrey;
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 858px) {
   .navbar-brand {
     font-size: 0.95rem;
   }
@@ -245,6 +244,24 @@ DO NOT EDIT IN STYLE.CSS
   }
   .dropdown__content {
     margin-top: 0;
+  }
+}
+@media only screen and (max-width: 425px) {
+  .navbar {
+    height: 80px;
+    width: 100%;
+  }
+  .hamburger {
+    padding: 10px;
+  }
+  .hamburger__logo {
+    height: 10px;
+  }
+  .title-head {
+    display: flex;
+    max-width: 70px;
+    font-size: smaller;
+    padding-top: 10px;
   }
 }
 /* Accessibility button */
@@ -401,6 +418,14 @@ button {
   margin: 1.7% 10%;
 }
 
+p {
+  margin-bottom: 0;
+}
+
+.profile {
+  min-height: 100vh;
+}
+
 @media only screen and (max-width: 720px) {
   .body-head {
     font-size: 2rem !important;
@@ -437,8 +462,13 @@ code {
   text-transform: capitalize;
   color: #00000F;
   padding: 0.6% 7%;
+  margin-bottom: 0;
 }
 
 .dynamic b {
   padding-left: 10%;
+}
+
+.otgs-development-site-front-end {
+  display: none;
 }

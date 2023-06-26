@@ -5136,7 +5136,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
 /* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
 
+/***/ }),
 
+/***/ "./src/js/app/components/AFrame.js":
+/*!*****************************************!*\
+  !*** ./src/js/app/components/AFrame.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
 
@@ -41402,6 +41408,7 @@ module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.co
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
+/******/ 	__webpack_require__("./src/js/app/index.js");
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	__webpack_require__("./src/js/app/app.js");
 /******/ 	var __webpack_exports__ = __webpack_require__("./src/js/app/index.js");

@@ -1,7 +1,7 @@
 .navbar {
   padding-top: 20px;;
   height: 65px;
-  width: 100%;
+  width: 100vw;
   opacity: 0.8;
   background-color: #00000F;
   color: #9DB2BF;
@@ -24,7 +24,7 @@
 .navbar-right {
   display: flex;
   align-items: center;
-  margin-right: 1rem;
+  // margin-right: 1rem;
 }
 
 
@@ -168,7 +168,7 @@
   background: darkgrey;
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 858px) {
   .navbar-brand {
     font-size: 0.95rem;
   }
@@ -193,6 +193,27 @@
   .dropdown__content {
     margin-top: 0;
   }
+}
+@media only screen and (max-width: 425px) {
+  .navbar{
+    height:80px;
+    width: 100%;
+  }
+  .hamburger{
+    padding: 10px;
+
+  }
+  .hamburger__logo{
+    height:10px;
+  }
+.title-head{
+  display: flex;
+  max-width:70px;
+  font-size: smaller;
+  padding-top: 10px;
+  
+  
+}
 }
 
 // .navbar text-white {
