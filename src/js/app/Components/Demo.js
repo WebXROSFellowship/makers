@@ -23,7 +23,6 @@ const Demo = () => {
   }, [lang]);
 
   useEffect(() => {
-    getFromServer();
     // Call the checkElement function initially
     checkElement();
     getLanguages();
@@ -88,6 +87,7 @@ const Demo = () => {
         setFurnitureData(furniture);
         setWorldData(world);
         setMeshData(navmesh);
+        console.log("Page contents as in", pagecontents);
         setScientistsData(pagecontents);
         setLoading(false);
         AddClickEvent(pagecontents);
@@ -371,6 +371,8 @@ const Demo = () => {
             {scientistsData?.map((scientist) => {
              
                 var Obj_id = scientist.id;
+                console.log(Obj_id);
+                console.log(data);
                 var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
                 var desc_format = data.find((obj) => obj.class == "desc_wrapper");
                 var cap_format = data.find(
@@ -436,7 +438,13 @@ const Demo = () => {
                               key={classname}
                               value={key}
                               code={key}
-                              onClick={handleButtonClick}
+                              onClick={(e)=>{
+                                console.log("Lang changed");
+                                let langCode = e.target.getAttribute("value");
+                                langCode == "en" ? "" : langCode;
+                                console.log("Setting lang as, ",langCode);
+                                setLang(langCode);
+                              }}
                               {...insData}
                             ></a-troika-text>
                           );
