@@ -1,19 +1,26 @@
 import React, { useState, useEffect, useContext } from "react";
 
 // Updated Inspector API data
-import AppConfig from "../config/appConfig";
+import {AppConfig} from "../config/appConfig";
 import assets from "./../../../../data/assets_demo.json";
 import data from "./../../../../data/dynamicContent_demo.json";
 import { DataContext } from "../utils";
 
 const Demo = () => {
+  const PAGE_SLUG="webxros-a-frame-demo";
   const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]);
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
   const { lang, setLang } = useContext(DataContext);
-
   const [allLang, setAllLang] = useState([]);
+  const [furnitureData, setFurnitureData] = useState([]);
+  const [worldData, setWorldData] = useState([]);
+  const [meshData, setMeshData] = useState([]);
+
+  useEffect(() => {
+    getFromServer();
+  }, [lang]);
 
   useEffect(() => {
     // Call the checkElement function initially
@@ -31,16 +38,15 @@ const Demo = () => {
     return () => observer.disconnect();
   }, [elementDetected]);
 
-  useEffect(() => {
-    getFromServer();
-  }, [lang]);
 
-  const getLanguages = async() => {
+  const getLanguages = async () => {
     const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
     let langData = await fetch(langFetchURL);
     let jsonLangData = await langData.json();
+    console.log("ALL  RESPONSE", langData);
+    console.log("ALL LANG", jsonLangData);
     setAllLang(jsonLangData);
-  }
+  };
 
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
@@ -57,20 +63,34 @@ const Demo = () => {
 
   const getFromServer = async () => {
     // console.log("Inside get from staging");
-    const url = `${base_url}/${lang}/wp-json/wp/v2/media?fields=id,data&filter[orderby]=ID&order=asc&per_page=100&page=1`;
+    const url =`${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     console.log(url);
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
-        let data = [];
+        console.log("!!!!!!!!!!!!!!!!!!!result", result);
+        var pagecontents = [];
+        var furniture=[];
+        var world=[];
+        var navmesh=[];
         result.map((item) => {
-          if (item.data.desc) {
-            data.push(item.data);
-            setScientistsData(data);
-            setLoading(false);
+          if (item.slug === PAGE_SLUG) {  
+           pagecontents = item.post_media.screen_image;
+            furniture=item.properties_3D.furniture;
+            console.log("furniture",furniture);
+            world=item.properties_3D.world_model;
+            console.log("world",world);
+            navmesh=item.properties_3D.nav_mesh;
+            console.log("navmesh",navmesh);
           }
         });
-        AddClickEvent(data);
+        setFurnitureData(furniture);
+        setWorldData(world);
+        setMeshData(navmesh);
+        console.log("Page contents as in", pagecontents);
+        setScientistsData(pagecontents);
+        setLoading(false);
+        AddClickEvent(pagecontents);
       })
       .catch((error) => {
         console.log("Error from server...", error);
@@ -86,11 +106,11 @@ const Demo = () => {
     if (children) {
       var state = !children[0].getAttribute("visible");
       children[0].setAttribute("visible", state);
-      children[1].setAttribute("visible", state);
-      children[2].setAttribute("visible", state);
-      children[3].setAttribute("visible", state);
-      children[4].setAttribute("visible", state);
-      children[5].setAttribute("visible", state);
+      // children[1].setAttribute("visible", state);
+      // children[2].setAttribute("visible", state);
+      // children[3].setAttribute("visible", state);
+      // children[4].setAttribute("visible", state);
+      // children[5].setAttribute("visible", state);
     }
   }
 
@@ -267,7 +287,6 @@ const Demo = () => {
             position="0 1.6 0"
             rotation="-4.469070802020421 -84.91234523838803 0"
             look-controls="fly:true"
-            wasd-controls="fly:true; acceleration:1"
             raycaster="far: 5; objects: .clickable"
             super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
           >
@@ -302,125 +321,156 @@ const Demo = () => {
                 id={asset.id}
                 src={asset.url}
                 key={asset.id}
-                crossOrigin="anonymous"
+                crossOrigin={asset.crossOrigin}
               ></a-asset-item>
             );
           })}{" "}
         </a-assets>
-
         {loading ? (
-          <p>Loading...</p>
+          <div className="container">
+            <h1 className="h1">Loading...</h1>
+          </div>
         ) : (
           <>
-            <a-entity
-              id="#room"
-              gltf-model="#room"
-              crossOrigin="anonymous"
-              position="4.537 0 3.468"
-            ></a-entity>
-            {/* Load ScientistsData */}
-            {scientistsData?.map((scientist) => {
-              var Obj_id = scientist.file + "wrapper";
-              var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
-              var desc_format = data.find((obj) => obj.class == "desc_wrapper");
-              var cap_format = data.find(
-                (obj) => obj.class == "caption_wrapper"
-              );
-              var name_format = data.find((obj) => obj.class == "name_wrapper");
-              var img_format = data.find((obj) => obj.class == "image_wrapper");
-              if (Data_from_Inspector) {
-                return (
-                  <a-entity
-                    id={scientist.file + "wrapper"}
-                    type="wrapper"
-                    key={scientist.id}
-                    {...Data_from_Inspector}
-                    show-details-on-click=""
-                  >
-                    <a-image
-                      src={base_url + scientist.full_path}
-                      {...img_format}
-                      type="wrapper"
-                      class="image_wrapper"
-                    ></a-image>
-                    <a-troika-text
-                      class="desc_wrapper"
-                      type="wrapper"
-                      value={scientist.alt}
-                      visible="false"
-                      {...desc_format}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="caption_wrapper"
-                      type="wrapper"
-                      value={scientist.caption}
-                      visible="false"
-                      {...cap_format}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="name_wrapper"
-                      type="wrapper"
-                      value={scientist.title}
-                      visible="false"
-                      {...name_format}
-                    ></a-troika-text>
-                    {allLang?.map((lang) => {
-                      const langName = lang.native_name;
-                      const langCode = lang.code;
+            
+             <a-entity 
+                id={worldData.id}
+                gltf-model={base_url +"/wp-content/uploads/"+ worldData.src} 
+                key={worldData.id}
+                position="4.537 0 3.468"
+              >
+             </a-entity>
 
-                      return (
-                        <a-troika-text
-                          class="btn-wrapper"
-                          type="wrapper"
-                          visible="false"
-                          position="0 -0.68371 0"
-                          value={langCode}
-                          code={langCode}
-                          onClick={handleButtonClick}
-                        ></a-troika-text>
-                      );
-                    })}
-                  </a-entity>
-                );
-              }
-            })}
-            <a-entity
+              <a-entity
               nav-mesh=""
-              id="#navmesh"
-              gltf-model="#navmesh"
-              crossOrigin="anonymous"
+              id={meshData.id}
+              gltf-model={base_url + "/wp-content/uploads/" + meshData.src}
+              key={meshData.id}
               visible="false"
               position="4.762 0 3.739"
-            ></a-entity>
-            {data.map((entity) => {
-              if (entity["gltf-model"]) {
-                return (
-                  <a-entity
-                    key={entity.id}
-                    {...entity}
-                    crossOrigin="anonymous"
-                  ></a-entity>
-                );
-              } else if (entity["type"] == "img") {
-                return (
-                  <a-image
-                    key={entity.id}
-                    {...entity}
-                    crossOrigin="anonymous"
-                  ></a-image>
-                );
-              } else if (entity["type"] == "wrapper") {
-                console.log("Wrapper rendered");
-              } else {
-                return (
-                  <a-entity
-                    key={entity.id}
-                    {...entity}
-                    crossOrigin="anonymous"
-                  ></a-entity>
-                );
+              ></a-entity>
+
+              {
+                furnitureData?.map((furniture) => {
+                var Obj_id = furniture.id;
+                var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
+                  if (!Data_from_Inspector) {
+                    Data_from_Inspector={
+                      position: "0 0 0",
+                    }
+                  }
+                  return (
+                    <a-entity
+                      id={furniture.id}
+                      gltf-model={base_url + furniture.full_path}
+                      key={furniture.id}
+                      {...Data_from_Inspector}
+                    ></a-entity>)
+                })
               }
-            })}{" "}
+            {scientistsData?.map((scientist) => {
+             
+                var Obj_id = scientist.id;
+                console.log(Obj_id);
+                console.log(data);
+                var Data_from_Inspector = data.find((obj) => obj.id == Obj_id);
+                var desc_format = data.find((obj) => obj.class == "desc_wrapper");
+                var cap_format = data.find(
+                  (obj) => obj.class == "caption_wrapper"
+                );
+                var name_format = data.find((obj) => obj.class == "name_wrapper");
+                var img_format = data.find((obj) => obj.class == "image_wrapper");
+                // console.log("CHECK",scientist);
+                  if (!Data_from_Inspector) {
+                    Data_from_Inspector={
+                      position: "0 0 0",
+                    }
+                  }
+                  // console.log("position", Data_from_Inspector.position);
+                  return (
+                    <a-entity
+                      id={scientist.id}
+                      type="wrapper"
+                      key={scientist.id}
+                      {...Data_from_Inspector}
+                      show-details-on-click=""
+                    >
+                      <a-image
+                        src={base_url + scientist.full_path}
+                        {...img_format}
+                        type="wrapper"
+                        class="image_wrapper"
+                      ></a-image>
+                      <a-troika-text
+                        class="desc_wrapper"
+                        type="wrapper"
+                        value={scientist.alt}
+                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
+                        visible="false"
+                        {...desc_format}
+                      ></a-troika-text>
+                      <a-troika-text
+                        class="caption_wrapper"
+                        type="wrapper"
+                        value={scientist.caption}
+                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
+                       
+                        {...cap_format}
+                      ></a-troika-text>
+                      <a-troika-text
+                        class="name_wrapper"
+                        type="wrapper"
+                        value={scientist.title}
+                        font= {base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf"}
+                      
+                        {...name_format}
+                      ></a-troika-text>
+                      {
+                        Object.keys(scientist.trans).map((key)=>{
+                          // console.log("key",scientist.trans[key]);
+                          var classname="btn-wrapper-"+key;
+                          var insData=data.find((obj) => obj.class == classname);
+                          return (
+                            <a-troika-text
+                              class={classname}
+                              type="wrapper"
+                              visible="true"
+                              key={classname}
+                              value={key}
+                              code={key}
+                              onClick={(e)=>{
+                                console.log("Lang changed");
+                                let langCode = e.target.getAttribute("value");
+                                langCode == "en" ? "" : langCode;
+                                console.log("Setting lang as, ",langCode);
+                                setLang(langCode);
+                              }}
+                              {...insData}
+                            ></a-troika-text>
+                          );
+                        })
+                      }
+                      {/* {allLang?.map((lang) => {
+                      var classname="btn-wrapper-"+lang.code;
+                      var insData=data.find((obj) => obj.class == classname);
+                      return (
+                        <a-troika-text
+                          class={classname}
+                          type="wrapper"
+                          visible="true"
+                          key={classname}
+                          value={lang.code}
+                          code={lang.code}
+                          onClick={handleButtonClick}
+                          {...insData}
+                        ></a-troika-text>
+                      );
+                    })} */}
+                    </a-entity>
+                  );
+                
+              }
+            )}
           </>
         )}
 

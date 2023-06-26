@@ -1,48 +1,71 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
+import { DataContext } from "../utils";
 
 import "@styles/style.scss";
-import AppConfig from "../config/appConfig";
+import {AppConfig} from "../config/appConfig";
+
 
 const Body = () => {
   const base_url = AppConfig.SITE_URL;
-  const [imageUrl, setImageUrl] = useState('');
-  const [content, setContent] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [bodyData, setBodyData] = useState("");
+  const {lang, setLang} = useContext(DataContext);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${base_url}/wp-json/wp/v2/pages?pages`);
-        const data = await response.json();
-        const entry = data.find((item) => item.slug === 'webxr-open-source-fellowship');
-        if (entry) {
-          const contentRendered = entry.content.rendered;
-          setContent(contentRendered);
+    fetchBodyData();
+  }, [lang]);
 
-          if (entry._links && entry._links['wp:featuredmedia']) {
-            const mediaResponse = await fetch(entry._links['wp:featuredmedia'][0].href);
-            const mediaData = await mediaResponse.json();
-            const imageUrl = mediaData.media_details.sizes.full.source_url;
-            setImageUrl(imageUrl);
+  const fetchBodyData = async () => {
+    const url = `${base_url}/${lang}/wp-json/wp/v2/pages`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((result) => {
+        result.map((data) => {
+          if (data.link == `${base_url}/${lang}` || data.link == `${base_url}/${lang}/`) {
+            console.log("image", data?.post_media?._thumbnail_id[0]?.full_path);
+            setBodyData(data);
+            setLoading(false);
+          } else {
+            console.log("no data found");
+            setLoading(false);
           }
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+        });
+      })
+      .catch((error) => {
+        console.log("Error when getting body data", error);
+      });
+  };
 
   return (
-  
-    <div className="dynamic">
-     {imageUrl ? (
-  <img src={imageUrl} alt="Featured Image"/>
-) : null}
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+    <div className="container">
+      {loading ? (
+        <div className="container-md">
+          <h1 className="h1">Loading...</h1>
+        </div>
+      ) : (
+        <div>
+          {bodyData ? (
+            <div className="dynamic">
+              {bodyData?.post_media?._thumbnail_id[0]?.full_path ? (
+                <img
+                  src={bodyData?.post_media?._thumbnail_id[0]?.full_path}
+                  alt={bodyData?.post_media?._thumbnail_id[0]?.alt}
+                />
+              ) : null}
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: bodyData?.content?.rendered,
+                }}
+              />
+            </div>
+          ) : (
+            <div className="container-md">
+              <h1 className="h1">Data not Found...</h1>
+            </div>
+          )}
+        </div>
+      )}
     </div>
-
-    
   );
 };
 
