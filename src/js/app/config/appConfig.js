@@ -1,3 +1,3 @@
 const AppConfig = configData;
 
-export default AppConfig;
+export { AppConfig };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import "@styles/style.scss";
-import AppConfig from "../config/appConfig";
+import {AppConfig} from "../config/appConfig";
 
 const Body = () => {
   const base_url = AppConfig.SITE_URL;

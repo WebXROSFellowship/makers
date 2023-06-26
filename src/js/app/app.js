@@ -12,7 +12,7 @@ import {
   Sidebar,
 } from "./components";
 import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
-import AppConfig from "./config/appConfig";
+import { AppConfig } from "./config/appConfig";
 
 const appRouter = createBrowserRouter([
   {

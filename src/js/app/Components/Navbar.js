@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import "@styles/style.scss";
 import { DataContext, StagingDataContext } from "../utils";
-import AppConfig from "../config/appConfig";
+import {AppConfig} from "../config/appConfig";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
