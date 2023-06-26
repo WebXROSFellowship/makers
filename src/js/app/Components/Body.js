@@ -37,6 +37,7 @@ const Body = () => {
   };
 
   return (
+    <>
     <div className="container">
       {loading ? (
         <div className="container-md">
@@ -66,6 +67,7 @@ const Body = () => {
         </div>
       )}
     </div>
+  </>
   );
 };
 

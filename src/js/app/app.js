@@ -10,6 +10,7 @@ import {
   Navbar,
   Profile,
   Sidebar,
+  Footer
 } from "./components";
 import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
 import { AppConfig } from "./config/appConfig";
@@ -22,6 +23,7 @@ const appRouter = createBrowserRouter([
         <Navbar />
         <Sidebar />
         <Home />
+        <Footer/>
       </>
     ),
     children: [
