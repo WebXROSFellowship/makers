@@ -4263,7 +4263,7 @@ const Body = () => {
     const url = `${base_url}/${lang}/wp-json/wp/v2/pages`;
     await fetch(url).then(response => response.json()).then(result => {
       result.map(data => {
-        if (data.slug === "webxr-open-source-fellowship") {
+        if (data.link == `${base_url}/${lang}` || data.link == `${base_url}/${lang}/`) {
           console.log("image", data?.post_media?._thumbnail_id[0]?.full_path);
           setBodyData(data);
           setLoading(false);
@@ -5136,13 +5136,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
 /* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
 
-/***/ }),
 
-/***/ "./src/js/app/components/AFrame.js":
-/*!*****************************************!*\
-  !*** ./src/js/app/components/AFrame.js ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
 
@@ -5167,7 +5161,9 @@ const Profile = () => {
       setImgLink(imageUrl);
     }).catch(error => console.log(error));
   }, [username]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "profile"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
     className: "profile-text"
   }, titleName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "profile_container"
@@ -5180,7 +5176,7 @@ const Profile = () => {
     dangerouslySetInnerHTML: {
       __html: content
     }
-  }));
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Profile);
 
@@ -41408,7 +41404,6 @@ module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.co
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	__webpack_require__("./src/js/app/index.js");
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	__webpack_require__("./src/js/app/app.js");
 /******/ 	var __webpack_exports__ = __webpack_require__("./src/js/app/index.js");
