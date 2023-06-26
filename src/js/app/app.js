@@ -63,7 +63,10 @@ const App = () => {
   const [menuData, setMenuData] = useState({});
   const [stagingData, setStagingData] = useState([]);
 
-  
+  useEffect(() => {
+    fetchMenuData();
+  }, [lang]);
+
   // TODO: Optimize for dynamicity
   // useEffect(() => {
   //   sendDataDump("", "data_english");
@@ -71,38 +74,33 @@ const App = () => {
   //   sendDataDump("hi", "data_hindi");
   // }, []);
 
-  useEffect(() => {
-    fetchMenuData();
-  }, [lang]);
+  // const sendDataDump = async (lang, slug) => {
+  //   const url = `${base_url}/${lang}/wp-json`;
+  //   await fetch(url)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log("data..", data);
+  //       const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
+  //       const formdata = new FormData();
+  //       formdata.append("slug", slug);
+  //       formdata.append("data", JSON.stringify(data));
+  //       const payload = {
+  //         method: "POST",
+  //         body: formdata,
+  //         redirect: "follow",
+  //       };
 
-
-  const sendDataDump = async (lang, slug) => {
-    const url = `${base_url}/${lang}/wp-json`;
-    await fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("data..", data);
-        const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
-        const formdata = new FormData();
-        formdata.append("slug", slug);
-        formdata.append("data", JSON.stringify(data));
-        const payload = {
-          method: "POST",
-          body: formdata,
-          redirect: "follow",
-        };
-
-        fetch(apiUrl, payload)
-          .then((response) => response.json())
-          .then((result) => {
-            console.log("Data Dump...", result);
-          })
-          .catch((error) => console.log("Data Dump Error...", error));
-      })
-      .catch((error) => {
-        console.log("Error in Getting the Data...", error);
-      });
-  };
+  //       fetch(apiUrl, payload)
+  //         .then((response) => response.json())
+  //         .then((result) => {
+  //           console.log("Data Dump...", result);
+  //         })
+  //         .catch((error) => console.log("Data Dump Error...", error));
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error in Getting the Data...", error);
+  //     });
+  // };
 
   async function fetchMenuData() {
     try {
@@ -117,22 +115,22 @@ const App = () => {
     }
   }
 
-  if (stagingData.length === 0) {
-    return (
-      <div className="container mx-auto">
-        <h1 className="">Loading...</h1>
-      </div>
-    );
-  }
-
   return (
-    <DataContext.Provider value={{ lang: lang, setLang: setLang }}>
-      <StagingDataContext.Provider value={{ stagingData, setStagingData }}>
-        <MenuDataContext.Provider value={{ menuData, setMenuData }}>
-          <RouterProvider router={appRouter} />
-        </MenuDataContext.Provider>
-      </StagingDataContext.Provider>
-    </DataContext.Provider>
+    <>
+      {stagingData.length === 0 ? (
+        <div className="container mx-auto">
+          <h1 className="h1">Loading...</h1>
+        </div>
+      ) : (
+        <DataContext.Provider value={{ lang: lang, setLang: setLang }}>
+          <StagingDataContext.Provider value={{ stagingData, setStagingData }}>
+            <MenuDataContext.Provider value={{ menuData, setMenuData }}>
+              <RouterProvider router={appRouter} />
+            </MenuDataContext.Provider>
+          </StagingDataContext.Provider>
+        </DataContext.Provider>
+      )}
+    </>
   );
 };
 export default App;
