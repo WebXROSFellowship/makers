@@ -350,7 +350,7 @@ const Demo = () => {
               var Data_from_Inspector = data.current.find((obj) => obj.id == Obj_id);
               if (!Data_from_Inspector) {
                 Data_from_Inspector = {
-                  position: "0 0 0",
+                  position: "0 1.6 0",
                 };
               }
               return (
@@ -374,7 +374,7 @@ const Demo = () => {
              
               if (!Data_from_Inspector) {
                 Data_from_Inspector = {
-                  position: "0 0 0",
+                  position: "0 1.6 0",
                 };
               }
               delete Data_from_Inspector["show-details-on-click"];

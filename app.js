@@ -7118,7 +7118,7 @@ const Demo = () => {
     var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
-        position: "0 0 0"
+        position: "0 1.6 0"
       };
     }
     return /*#__PURE__*/react.createElement("a-entity", extends_extends({
@@ -7135,7 +7135,7 @@ const Demo = () => {
     var img_format = data.current.find(obj => obj.class == "image_wrapper");
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
-        position: "0 0 0"
+        position: "0 1.6 0"
       };
     }
     delete Data_from_Inspector["show-details-on-click"];
