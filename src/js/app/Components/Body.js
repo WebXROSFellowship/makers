@@ -21,7 +21,7 @@ const Body = () => {
       .then((response) => response.json())
       .then((result) => {
         result.map((data) => {
-          if (data.slug === "webxr-open-source-fellowship") {
+          if (data.link == `${base_url}/${lang}` || data.link == `${base_url}/${lang}/`) {
             console.log("image", data?.post_media?._thumbnail_id[0]?.full_path);
             setBodyData(data);
             setLoading(false);
