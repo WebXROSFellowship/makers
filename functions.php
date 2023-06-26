@@ -9,7 +9,7 @@ require_once ("functions/functions-metabox.php");
 require_once ("functions/functions-wpml-languages.php");
 
 require_once ("functions/functions-publish.php");
-require_once ("config.php");
+// require_once ("config.php");
 
 
 require_once ("functions/functions-rest-menus.php");
@@ -22,7 +22,10 @@ function my_custom_mime_types($mimes) {
         'jpg|jpeg|jpe' => 'image/jpeg',
         'gif' => 'image/gif',
         'png' => 'image/png',
-		'glb' => 'model/gltf-binary'
+		'glb' => 'model/gltf-binary',
+		'ttf' => 'font/ttf',
+		'otf' => 'font/otf'
+		
     );
 
     return $mimes;
@@ -63,4 +66,6 @@ function wpse16243_media_default_to_show_all() {
     </script>
     <?php
 }
+
+
 ?>

@@ -11,6 +11,27 @@
 // enqueue_scripts in wordpress theme
 function theme_scripts() {
 
+    
+        $array = array(
+            "SITE_URL" => get_site_url(),
+            "HOME_URL" => get_home_url(),
+            "SITE_TITLE" => get_bloginfo( 'name' ),
+            "SITE_TAGLINE" => get_bloginfo( 'description' ),
+            // "home_page" => get_option( 'page_on_front' ),
+            // "uploads_path" =>  upload_dir['baseurl'],
+            // "theme_path" => get_stylesheet_directory(),
+            // "useWheelNav" => false,
+            // "active_id" => $post->ID,
+            // "active_object" => $post->post_type,
+            // "slug" => $post->post_name,
+            // "profile_template" => ''//hack
+            );
+  
+
+        wp_register_script('config-script', get_template_directory_uri() . '/src/js/app/config/appConfig.js', array( 'jquery' ), '1.0.0', true);
+        wp_enqueue_script('config-script');
+        wp_localize_script('config-script', 'configData', $array);
+
         wp_register_script('app',get_stylesheet_directory_uri() . '/app.js', array('jquery'),rand(100000,999999), true); 
         wp_enqueue_script('app');
 
