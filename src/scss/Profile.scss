@@ -9,9 +9,14 @@
 
 .profile-text {
   margin: 1.7% 10%;
+  
 }
-
-
+p{
+  margin-bottom: 0;
+}
+.profile{
+  min-height: 100vh;
+}
 //Commands for Body Page
 @media only screen and (max-width: 720px) {
   .body-head {
