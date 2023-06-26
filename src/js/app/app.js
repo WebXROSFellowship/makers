@@ -12,7 +12,7 @@ import {
   Sidebar,
 } from "./components";
 import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
-import AppConfig from "./config/appConfig";
+import { AppConfig } from "./config/appConfig";
 
 const appRouter = createBrowserRouter([
   {
@@ -67,6 +67,8 @@ const App = () => {
     fetchMenuData();
   }, [lang]);
 
+  console.log("site url", base_url);
+
   // TODO: Optimize for dynamicity
   // useEffect(() => {
   //   sendDataDump("", "data_english");
@@ -105,6 +107,7 @@ const App = () => {
   async function fetchMenuData() {
     try {
       let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
+      console.log(fetchURL);
       let stagingData = await fetch(fetchURL);
       let jsonData = await stagingData.json();
       let items = jsonData.filter((item) => item.slug == "main-menu");

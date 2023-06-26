@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { StagingDataContext } from "../utils";
 import "@styles/style.scss";
 
-import AppConfig from "../config/appConfig";
+import {AppConfig} from "../config/appConfig";
 
 const Profile = () => {
   const { username } = useParams();
