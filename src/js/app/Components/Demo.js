@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 // Updated Inspector API data
 import {AppConfig} from "../config/appConfig";
 import assets from "./../../../../data/assets_demo.json";
-import data from "./../../../../data/dynamicContent_demo.json";
+// import data from "./../../../../data/dynamicContent_demo.json";
 import { DataContext } from "../utils";
 
 const Demo = () => {
@@ -17,8 +17,10 @@ const Demo = () => {
   const [furnitureData, setFurnitureData] = useState([]);
   const [worldData, setWorldData] = useState([]);
   const [meshData, setMeshData] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
+    getData();
     getFromServer();
   }, [lang]);
 
@@ -82,20 +84,33 @@ const Demo = () => {
             console.log("world",world);
             navmesh=item.properties_3D.nav_mesh;
             console.log("navmesh",navmesh);
+            setFurnitureData(furniture);
+            setWorldData(world);
+            setMeshData(navmesh);
+            console.log("Page contents as in", pagecontents);
+            setScientistsData(pagecontents);
+            setLoading(false);    
           }
         });
-        setFurnitureData(furniture);
-        setWorldData(world);
-        setMeshData(navmesh);
-        console.log("Page contents as in", pagecontents);
-        setScientistsData(pagecontents);
-        setLoading(false);
         AddClickEvent(pagecontents);
       })
       .catch((error) => {
         console.log("Error from server...", error);
       });
   };
+
+  const getData = async () => {
+    const url = `${base_url}/wp-content/themes/makers/data/dynamicContent_demo.json`;
+    await fetch(url)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log("data result", result);
+      setData(result);
+    })
+    .catch((error) => {
+      console.log("Error in data", error);
+    })
+  }
 
   function ShowDescription(Obj, data) {
     console.log("ShowDescription");

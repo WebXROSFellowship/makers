@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 231:
+/***/ 675:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -7108,8 +7108,6 @@ function AFrame() {
 /* harmony default export */ const components_AFrame = (AFrame);
 ;// CONCATENATED MODULE: ./data/assets_demo.json
 const assets_demo_namespaceObject = JSON.parse('[{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb","crossOrigin":"anonymous"},{"id":"photos2","type":"model","name":"photos2","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/3_hanging_picture_photo_frames.glb","crossOrigin":"anonymous"},{"id":"sofa","type":"model","name":"sofa","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Sofa.glb","crossOrigin":"anonymous"},{"id":"clock","type":"model","name":"clock","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Clock.glb","crossOrigin":"anonymous"},{"id":"room","type":"model","name":"room","url":"https://cdn.glitch.me/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Fmodel.glb","crossOrigin":"anonymous"},{"id":"navmesh","type":"model","name":"navmesh","url":"https://cdn.glitch.global/239eb2c3-4dc3-495c-89b1-5c54ec14cbc8/Mesh0.glb","crossOrigin":"anonymous"}]');
-;// CONCATENATED MODULE: ./data/dynamicContent_demo.json
-const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"9004111222011961","type":"wrapper","show-details-on-click":"","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"9004111222012022","type":"wrapper","position":"-3.21 1.661 -2.597","show-details-on-click":""},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"9004111222011911","type":"wrapper","show-details-on-click":"","position":"-7.63777 1.653 -2.59869"},{"id":"9004111222011930","type":"wrapper","show-details-on-click":"","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"9004111222011984","type":"wrapper","show-details-on-click":"","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"id":"9004111222012003","type":"wrapper","show-details-on-click":"","rotation":"-179.9998479605043 0 -179.9998479605043","position":"-0.9 1.292 2.655"},{"id":"708","type":"model","position":"1.17248 0.578 2.996","rotation":"0 90 0"},{"id":"826","type":"model","position":"-7.87609 0.002 -0.59439"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"778","type":"model","position":"-7.141 1.416 2.658","rotation":"0 180 0","scale":"0.25 0.25 0.25"}]');
 ;// CONCATENATED MODULE: ./src/js/app/components/Demo.js
 
 
@@ -7117,7 +7115,7 @@ const dynamicContent_demo_namespaceObject = JSON.parse('[{"id":"9004111222011961
 // Updated Inspector API data
 
 
-
+// import data from "./../../../../data/dynamicContent_demo.json";
 
 const Demo = () => {
   const PAGE_SLUG = "webxros-a-frame-demo";
@@ -7133,7 +7131,9 @@ const Demo = () => {
   const [furnitureData, setFurnitureData] = (0,react.useState)([]);
   const [worldData, setWorldData] = (0,react.useState)([]);
   const [meshData, setMeshData] = (0,react.useState)([]);
+  const [data, setData] = (0,react.useState)([]);
   (0,react.useEffect)(() => {
+    getData();
     getFromServer();
   }, [lang]);
   (0,react.useEffect)(() => {
@@ -7188,17 +7188,26 @@ const Demo = () => {
           console.log("world", world);
           navmesh = item.properties_3D.nav_mesh;
           console.log("navmesh", navmesh);
+          setFurnitureData(furniture);
+          setWorldData(world);
+          setMeshData(navmesh);
+          console.log("Page contents as in", pagecontents);
+          setScientistsData(pagecontents);
+          setLoading(false);
         }
       });
-      setFurnitureData(furniture);
-      setWorldData(world);
-      setMeshData(navmesh);
-      console.log("Page contents as in", pagecontents);
-      setScientistsData(pagecontents);
-      setLoading(false);
       AddClickEvent(pagecontents);
     }).catch(error => {
       console.log("Error from server...", error);
+    });
+  };
+  const getData = async () => {
+    const url = `${base_url}/wp-content/themes/makers/data/dynamicContent_demo.json`;
+    await fetch(url).then(response => response.json()).then(result => {
+      console.log("data result", result);
+      setData(result);
+    }).catch(error => {
+      console.log("Error in data", error);
     });
   };
   function ShowDescription(Obj, data) {
@@ -7286,7 +7295,7 @@ const Demo = () => {
     const newData = JSON.parse(jsonString);
     var foundData = false;
     var foundClassData = false;
-    const updatedData = dynamicContent_demo_namespaceObject.map(item => {
+    const updatedData = data.map(item => {
       if (item.class !== undefined && newData.class !== undefined && newData.class === item.class) {
         console.log("Found Class Updation");
         foundClassData = true;
@@ -7412,7 +7421,7 @@ const Demo = () => {
     position: "4.762 0 3.739"
   }), furnitureData === null || furnitureData === void 0 ? void 0 : furnitureData.map(furniture => {
     var Obj_id = furniture.id;
-    var Data_from_Inspector = dynamicContent_demo_namespaceObject.find(obj => obj.id == Obj_id);
+    var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
         position: "0 0 0"
@@ -7426,12 +7435,12 @@ const Demo = () => {
   }), scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
     var Obj_id = scientist.id;
     console.log(Obj_id);
-    console.log(dynamicContent_demo_namespaceObject);
-    var Data_from_Inspector = dynamicContent_demo_namespaceObject.find(obj => obj.id == Obj_id);
-    var desc_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "desc_wrapper");
-    var cap_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "caption_wrapper");
-    var name_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "name_wrapper");
-    var img_format = dynamicContent_demo_namespaceObject.find(obj => obj.class == "image_wrapper");
+    console.log(data);
+    var Data_from_Inspector = data.find(obj => obj.id == Obj_id);
+    var desc_format = data.find(obj => obj.class == "desc_wrapper");
+    var cap_format = data.find(obj => obj.class == "caption_wrapper");
+    var name_format = data.find(obj => obj.class == "name_wrapper");
+    var img_format = data.find(obj => obj.class == "image_wrapper");
     // console.log("CHECK",scientist);
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
@@ -7469,7 +7478,7 @@ const Demo = () => {
     }, name_format)), Object.keys(scientist.trans).map(key => {
       // console.log("key",scientist.trans[key]);
       var classname = "btn-wrapper-" + key;
-      var insData = dynamicContent_demo_namespaceObject.find(obj => obj.class == classname);
+      var insData = data.find(obj => obj.class == classname);
       return /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
         class: classname,
         type: "wrapper",
@@ -7661,7 +7670,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(231);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(675);
 
 
 
@@ -8222,7 +8231,7 @@ if (true) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(231);
+/******/ 	__webpack_require__(675);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()
