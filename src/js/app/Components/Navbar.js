@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import "@styles/style.scss";
 import { DataContext, StagingDataContext } from "../utils";
-import {AppConfig} from "../config/appConfig";
+import { AppConfig } from "../config/appConfig";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -38,6 +38,79 @@ const Navbar = () => {
   function settingMenuData2() {
     let items = stagingData;
 
+    const parents = {};
+    const children = [];
+    const grandchildren = [];
+
+    items.forEach((item) => {
+      const { ID, menu_item_parent } = item;
+      if (menu_item_parent === "0") {
+        parents[ID] = {
+          ...item,
+          childItems: [],
+        };
+      } else if (parents[menu_item_parent]) {
+        children.push(item);
+      } else {
+        console.log(item);
+        grandchildren.push(item);
+      }
+    });
+
+    children.forEach((child) => {
+      const { menu_item_parent } = child;
+      if (parents[menu_item_parent]) {
+        parents[menu_item_parent].childItems.push(child);
+      }
+    });
+
+    console.log("Grand Children", grandchildren);
+
+    grandchildren.forEach((grandchild) => {
+      console.log("GC in FE", grandchild);
+      const { menu_item_parent } = grandchild;
+      console.log(menu_item_parent);
+      let parent = Object.values(parents);
+      console.log("Parent", parent);
+      parent = parent.find((parent) =>
+        parent.childItems.filter((child) => child.ID === menu_item_parent)
+      );
+      console.log("Parent", parent);
+      if (parent) {
+        const child = parent.childItems.find(
+          (child) => child.ID == menu_item_parent
+        );
+        console.log("Child", child);
+        if (child) {
+          console.log("Setting nowww");
+          child.childItems = child.childItems || [];
+          child.childItems.push(grandchild);
+        }
+      }
+    });
+
+    const navbarData2 = Object.values(parents)
+      .map((parent) => parent)
+      .map((child) => child)
+      .map((gcc) => gcc);
+
+    // Logging the grandchildren
+    navbarData2.forEach((parent) => {
+      parent.childItems.forEach((child) => {
+        if (child?.childItems?.length > 0) {
+          console.log("Parent:", parent);
+          console.log("Child:", child);
+          console.log("Grandchildren:", child.childItems);
+        }
+      });
+    });
+    console.log(navbarData2);
+    setNavbarData(navbarData2);
+  }
+
+  function settingMenuData3() {
+    let items = stagingData;
+
     console.log("Printing Items", items);
 
     const parents = {};
@@ -64,7 +137,7 @@ const Navbar = () => {
     console.log("Settingggg");
     console.log(parents);
     let navbarData2 = Object.values(parents);
-    console.log("Printing values",navbarData2);
+    console.log("Printing values", navbarData2);
     setNavbarData(navbarData2);
   }
 
@@ -145,14 +218,27 @@ const Navbar = () => {
                 <div className="dropdown" key={i}>
                   <button className="dropbtn">{title}</button>
                   <div className="dropdown__content">
-                  {childItems.map((menu, i) => {
-                    const { title, url } = menu;
-                    return (
-                      <Link className="dropdown__items" key={i} to={url}>
-                        {formatNames(title)}
-                      </Link>
-                    );
-                  })}
+                    {childItems.map((menu, i) => {
+                      const { title, url, childItems: nestedChildItems } = menu;
+                      return (
+                        <Link className="dropdown__items" key={i} to={url}>
+                          {formatNames(title)}
+                          {nestedChildItems && nestedChildItems.length > 0 && (
+                            <div className="n2">
+                              {nestedChildItems.map((cur, i) => (
+                                <Link
+                                  to={cur.url}
+                                  className="dropdown__items d2"
+                                  key={i}
+                                >
+                                  {cur.title}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               );
@@ -160,6 +246,7 @@ const Navbar = () => {
           ) : (
             <></>
           )}
+
           {/* {navbarMenus ? (
             navbarMenus.map((currEle, i) => {
               let { head, childItems, nestedItems } = currEle;
@@ -292,29 +379,33 @@ const Navbar = () => {
           {showMenu === true ? (
             <div className="sideMenu">
               {navbarData ? (
-            navbarData?.map((currNavBarItem) => {
-              let title = currNavBarItem.title;
-              let childItems = currNavBarItem.childItems;
+                navbarData?.map((currNavBarItem) => {
+                  let title = currNavBarItem.title;
+                  let childItems = currNavBarItem.childItems;
 
-              return (
-                <div className="dropdown2" key={currNavBarItem}>
-                  <button className="dropbtn">{title}</button>
-                  <div className="dropdown__content">
-                  {childItems.map((menu, i) => {
-                    const { title, url } = menu;
-                    return (
-                      <Link className="dropdown__items" key={title} to={url}>
-                        {formatNames(title)}
-                      </Link>
-                    );
-                  })}
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <></>
-          )}
+                  return (
+                    <div className="dropdown2" key={currNavBarItem}>
+                      <button className="dropbtn">{title}</button>
+                      <div className="dropdown__content">
+                        {childItems.map((menu, i) => {
+                          const { title, url } = menu;
+                          return (
+                            <Link
+                              className="dropdown__items"
+                              key={title}
+                              to={url}
+                            >
+                              {formatNames(title)}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <></>
+              )}
               {navbarMenus ? (
                 navbarMenus.map((currEle, i) => {
                   let { head, childItems, nestedItems } = currEle;
@@ -366,21 +457,21 @@ const Navbar = () => {
                 <button className="dropbtn"> Languages </button>
                 <div className="dropdown__content">
                   {languageArr.map((currLang) => {
-                let cLang = currLang.native_name;
-                let code = currLang.code;
-                if (code == "en") {
-                  code = "";
-                }
-                return (
-                  <span
-                    onClick={() => setLang(`${code}`)}
-                    key={code}
-                    className="dropdown__items"
-                  >
-                    {cLang}
-                  </span>
-                );
-              })}
+                    let cLang = currLang.native_name;
+                    let code = currLang.code;
+                    if (code == "en") {
+                      code = "";
+                    }
+                    return (
+                      <span
+                        onClick={() => setLang(`${code}`)}
+                        key={code}
+                        className="dropdown__items"
+                      >
+                        {cLang}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             </div>
