@@ -4063,7 +4063,7 @@ const App = () => {
     className: "container mx-auto"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
     className: "h1"
-  }, "Loading...")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_utils__WEBPACK_IMPORTED_MODULE_2__.DataContext.Provider, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components__WEBPACK_IMPORTED_MODULE_1__.Shimmer, null))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_utils__WEBPACK_IMPORTED_MODULE_2__.DataContext.Provider, {
     value: {
       lang: lang,
       setLang: setLang
@@ -4098,22 +4098,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
-/* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/js/app/utils/index.js");
+/* harmony import */ var _Shimmer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Shimmer */ "./src/js/app/components/Shimmer.js");
+/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
+/* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./src/js/app/utils/index.js");
+
 
 
 
 
 const Body = () => {
   var _bodyData$post_media, _bodyData$post_media$, _bodyData$post_media2, _bodyData$post_media3, _bodyData$post_media4, _bodyData$post_media5, _bodyData$content;
-  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_2__.AppConfig.SITE_URL;
+  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_URL;
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const [bodyData, setBodyData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const {
     lang,
     setLang
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_3__.DataContext);
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_4__.DataContext);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetchBodyData();
   }, [lang]);
@@ -4139,9 +4141,7 @@ const Body = () => {
     className: "container"
   }, loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "container-md"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
-    className: "h1"
-  }, "Loading...")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, bodyData ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Shimmer__WEBPACK_IMPORTED_MODULE_1__["default"], null)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, bodyData ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dynamic"
   }, bodyData !== null && bodyData !== void 0 && (_bodyData$post_media = bodyData.post_media) !== null && _bodyData$post_media !== void 0 && (_bodyData$post_media$ = _bodyData$post_media._thumbnail_id[0]) !== null && _bodyData$post_media$ !== void 0 && _bodyData$post_media$.full_path ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
     src: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$post_media2 = bodyData.post_media) === null || _bodyData$post_media2 === void 0 ? void 0 : (_bodyData$post_media3 = _bodyData$post_media2._thumbnail_id[0]) === null || _bodyData$post_media3 === void 0 ? void 0 : _bodyData$post_media3.full_path,
@@ -4174,6 +4174,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
+/* harmony import */ var _Shimmer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Shimmer */ "./src/js/app/components/Shimmer.js");
+
 
 
 
@@ -4427,9 +4429,7 @@ const Demo = () => {
     "blink-controls": "cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
   })), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     className: "container"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h1", {
-    className: "h1"
-  }, "Loading...")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_Shimmer__WEBPACK_IMPORTED_MODULE_3__["default"], null)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
     id: worldData.id,
     "gltf-model": base_url + "/wp-content/uploads/" + worldData.src,
     key: worldData.id,
@@ -4747,7 +4747,6 @@ const Navbar = () => {
       } else if (parents[menu_item_parent]) {
         children.push(item);
       } else {
-        console.log(item);
         grandchildren.push(item);
       }
     });
@@ -4759,46 +4758,25 @@ const Navbar = () => {
         parents[menu_item_parent].childItems.push(child);
       }
     });
-    console.log("Grand Children", grandchildren);
     grandchildren.forEach(grandchild => {
-      console.log("GC in FE", grandchild);
       const {
         menu_item_parent
       } = grandchild;
-      console.log(menu_item_parent);
       let parent = Object.values(parents);
-      console.log("Parent", parent);
       parent = parent.find(parent => parent.childItems.filter(child => child.ID === menu_item_parent));
-      console.log("Parent", parent);
       if (parent) {
         const child = parent.childItems.find(child => child.ID == menu_item_parent);
-        console.log("Child", child);
         if (child) {
-          console.log("Setting nowww");
           child.childItems = child.childItems || [];
           child.childItems.push(grandchild);
         }
       }
     });
     const navbarData2 = Object.values(parents).map(parent => parent).map(child => child).map(gcc => gcc);
-
-    // Logging the grandchildren
-    navbarData2.forEach(parent => {
-      parent.childItems.forEach(child => {
-        var _child$childItems;
-        if ((child === null || child === void 0 ? void 0 : (_child$childItems = child.childItems) === null || _child$childItems === void 0 ? void 0 : _child$childItems.length) > 0) {
-          console.log("Parent:", parent);
-          console.log("Child:", child);
-          console.log("Grandchildren:", child.childItems);
-        }
-      });
-    });
-    console.log(navbarData2);
     setNavbarData(navbarData2);
   }
   function settingMenuData3() {
     let items = stagingData;
-    console.log("Printing Items", items);
     const parents = {};
     const children = [];
     items.forEach(item => {
@@ -4826,42 +4804,9 @@ const Navbar = () => {
         parents[menu_item_parent].childItems.push(child);
       }
     });
-    console.log("Settingggg");
-    console.log(parents);
     let navbarData2 = Object.values(parents);
-    console.log("Printing values", navbarData2);
     setNavbarData(navbarData2);
   }
-
-  // function settingMenuData() {
-  //   let items = stagingData;
-  //   let head = items.filter((e) => e.menu_item_parent === "0")[0];
-  //   let childItems = items.filter(
-  //     (e) => parseInt(e.menu_item_parent) === head.ID
-  //   );
-  //   let nestedItems = [];
-  //   let currIDs = [];
-  //   for (let i = 0; i < childItems.length; i++) {
-  //     let currChild = childItems[i];
-  //     let allNestedChild = items.filter(
-  //       (e) => parseInt(e.menu_item_parent) === currChild.ID
-  //     );
-  //     if (allNestedChild.length > 0) {
-  //       currIDs.push(currChild.ID);
-  //       allNestedChild.map((ele) => nestedItems.push(ele));
-  //     }
-  //   }
-  //   setC2IDs(currIDs);
-  //   let cData = [
-  //     {
-  //       head,
-  //       childItems,
-  //       nestedItems,
-  //     },
-  //   ];
-  //   setNavbarMenus(cData);
-  // }
-
   async function setLanguages() {
     const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
     let langData = await fetch(langFetchURL);
@@ -5147,6 +5092,34 @@ const Profile = () => {
 
 /***/ }),
 
+/***/ "./src/js/app/components/Shimmer.js":
+/*!******************************************!*\
+  !*** ./src/js/app/components/Shimmer.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ShimmerImg_jpeg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShimmerImg.jpeg */ "./src/js/app/components/ShimmerImg.jpeg");
+
+
+const Shimmer = () => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "img-container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+    src: _ShimmerImg_jpeg__WEBPACK_IMPORTED_MODULE_1__,
+    className: "img-shimmer",
+    alt: "Shimmer Image"
+  })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Shimmer);
+
+/***/ }),
+
 /***/ "./src/js/app/components/Sidebar.js":
 /*!******************************************!*\
   !*** ./src/js/app/components/Sidebar.js ***!
@@ -5274,6 +5247,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   NavSites: () => (/* reexport safe */ _NavSites__WEBPACK_IMPORTED_MODULE_5__["default"]),
 /* harmony export */   Navbar: () => (/* reexport safe */ _Navbar__WEBPACK_IMPORTED_MODULE_0__["default"]),
 /* harmony export */   Profile: () => (/* reexport safe */ _Profile__WEBPACK_IMPORTED_MODULE_3__["default"]),
+/* harmony export */   Shimmer: () => (/* reexport safe */ _Shimmer__WEBPACK_IMPORTED_MODULE_8__["default"]),
 /* harmony export */   Sidebar: () => (/* reexport safe */ _Sidebar__WEBPACK_IMPORTED_MODULE_4__["default"])
 /* harmony export */ });
 /* harmony import */ var _Navbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Navbar */ "./src/js/app/components/Navbar.js");
@@ -5284,6 +5258,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NavSites__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./NavSites */ "./src/js/app/components/NavSites.js");
 /* harmony import */ var _Demo__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Demo */ "./src/js/app/components/Demo.js");
 /* harmony import */ var _Footer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Footer */ "./src/js/app/components/Footer.js");
+/* harmony import */ var _Shimmer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Shimmer */ "./src/js/app/components/Shimmer.js");
+
 
 
 
@@ -41363,6 +41339,16 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./src/js/app/components/ShimmerImg.jpeg":
+/*!***********************************************!*\
+  !*** ./src/js/app/components/ShimmerImg.jpeg ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "3795beddcb9f072a533b.jpeg";
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/extends.js":
 /*!************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/extends.js ***!
@@ -41444,6 +41430,18 @@ function _extends() {
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -41467,6 +41465,29 @@ function _extends() {
 /******/ 			if (!module.children) module.children = [];
 /******/ 			return module;
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && !scriptUrl) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
 /******/ 	})();
 /******/ 	
 /************************************************************************/

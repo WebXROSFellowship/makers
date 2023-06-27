@@ -9,7 +9,8 @@ import {
   Navbar,
   Profile,
   Sidebar,
-  Footer
+  Footer,
+  Shimmer,
 } from "./components";
 import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
 import { AppConfig } from "./config/appConfig";
@@ -82,7 +83,7 @@ const App = () => {
     <>
       {stagingData.length === 0 ? (
         <div className="container mx-auto">
-          <h1 className="h1">Loading...</h1>
+          <h1 className="h1"><Shimmer/></h1>
         </div>
       ) : (
         <DataContext.Provider value={{ lang: lang, setLang: setLang }}>

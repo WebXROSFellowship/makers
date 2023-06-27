@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { AppConfig } from "../config/appConfig";
+import Shimmer from "./Shimmer";
 
 const Demo = () => {
   const PAGE_SLUG = "webxros-a-frame-demo";
@@ -302,7 +303,7 @@ const Demo = () => {
 
         {loading ? (
           <div className="container">
-            <h1 className="h1">Loading...</h1>
+            <Shimmer/>
           </div>
         ) : (
           <>

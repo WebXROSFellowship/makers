@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-
+import Shimmer from "./Shimmer";
 import "@styles/style.scss";
 import {AppConfig} from "../config/appConfig";
 import { DataContext } from "../utils";
@@ -41,7 +41,7 @@ const Body = () => {
     <div className="container">
       {loading ? (
         <div className="container-md">
-          <h1 className="h1">Loading...</h1>
+          <Shimmer/>
         </div>
       ) : (
         <div>

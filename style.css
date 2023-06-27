@@ -64,6 +64,15 @@ DO NOT EDIT IN STYLE.CSS
   top: 0;
 }
 
+.nav-shimmer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-width: 100%;
+}
+
 .navbar-brand {
   font-size: 1.5em;
   margin-left: 1rem;
@@ -81,6 +90,20 @@ DO NOT EDIT IN STYLE.CSS
 
 .navbar-right {
   display: flex;
+  align-items: center;
+}
+
+.img-shimmer {
+  width: 550px;
+  height: 550px;
+  border-radius: 10%;
+  display: flex;
+  margin-top: 5rem;
+}
+
+.img-container {
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
@@ -104,7 +127,7 @@ DO NOT EDIT IN STYLE.CSS
 .dropbtn {
   background-color: #00000F;
   color: #9DB2BF;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   border: none;
   cursor: pointer;
   margin-top: -10px;

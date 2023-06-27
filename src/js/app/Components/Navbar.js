@@ -52,7 +52,6 @@ const Navbar = () => {
       } else if (parents[menu_item_parent]) {
         children.push(item);
       } else {
-        console.log(item);
         grandchildren.push(item);
       }
     });
@@ -64,25 +63,18 @@ const Navbar = () => {
       }
     });
 
-    console.log("Grand Children", grandchildren);
 
     grandchildren.forEach((grandchild) => {
-      console.log("GC in FE", grandchild);
       const { menu_item_parent } = grandchild;
-      console.log(menu_item_parent);
       let parent = Object.values(parents);
-      console.log("Parent", parent);
       parent = parent.find((parent) =>
         parent.childItems.filter((child) => child.ID === menu_item_parent)
       );
-      console.log("Parent", parent);
       if (parent) {
         const child = parent.childItems.find(
           (child) => child.ID == menu_item_parent
         );
-        console.log("Child", child);
         if (child) {
-          console.log("Setting nowww");
           child.childItems = child.childItems || [];
           child.childItems.push(grandchild);
         }
@@ -94,24 +86,12 @@ const Navbar = () => {
       .map((child) => child)
       .map((gcc) => gcc);
 
-    // Logging the grandchildren
-    navbarData2.forEach((parent) => {
-      parent.childItems.forEach((child) => {
-        if (child?.childItems?.length > 0) {
-          console.log("Parent:", parent);
-          console.log("Child:", child);
-          console.log("Grandchildren:", child.childItems);
-        }
-      });
-    });
-    console.log(navbarData2);
     setNavbarData(navbarData2);
   }
 
   function settingMenuData3() {
     let items = stagingData;
 
-    console.log("Printing Items", items);
 
     const parents = {};
     const children = [];
@@ -134,41 +114,10 @@ const Navbar = () => {
         parents[menu_item_parent].childItems.push(child);
       }
     });
-    console.log("Settingggg");
-    console.log(parents);
     let navbarData2 = Object.values(parents);
-    console.log("Printing values", navbarData2);
     setNavbarData(navbarData2);
   }
 
-  // function settingMenuData() {
-  //   let items = stagingData;
-  //   let head = items.filter((e) => e.menu_item_parent === "0")[0];
-  //   let childItems = items.filter(
-  //     (e) => parseInt(e.menu_item_parent) === head.ID
-  //   );
-  //   let nestedItems = [];
-  //   let currIDs = [];
-  //   for (let i = 0; i < childItems.length; i++) {
-  //     let currChild = childItems[i];
-  //     let allNestedChild = items.filter(
-  //       (e) => parseInt(e.menu_item_parent) === currChild.ID
-  //     );
-  //     if (allNestedChild.length > 0) {
-  //       currIDs.push(currChild.ID);
-  //       allNestedChild.map((ele) => nestedItems.push(ele));
-  //     }
-  //   }
-  //   setC2IDs(currIDs);
-  //   let cData = [
-  //     {
-  //       head,
-  //       childItems,
-  //       nestedItems,
-  //     },
-  //   ];
-  //   setNavbarMenus(cData);
-  // }
 
   async function setLanguages() {
     const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
