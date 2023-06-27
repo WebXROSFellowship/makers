@@ -185,15 +185,15 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         {/* The brand section of the Navbar */}
-        <Link to="/" className="text-decoration-none">
+        <Link to="/" className="text-decoration-none cursor-pointer">
           <div
-            className="navbar-brand text-white"
+            className="navbar-brand text-white cursor-pointer"
             style={{ fontFamily: "sans-serif" }}
           >
             <img
               src={imgBaseURL}
               alt="logo"
-              className="logo-img"
+              className="logo-img cursor-pointer"
               style={{
                 width: "50px",
                 height: "50px",
@@ -203,7 +203,7 @@ const Navbar = () => {
                 marginRight: "1rem",
               }}
             />
-            <span className="title-head">{AppConfig.SITE_TITLE}</span>
+            <span className="title-head cursor-pointer">{AppConfig.SITE_TITLE}</span>
           </div>
         </Link>
 
@@ -212,11 +212,14 @@ const Navbar = () => {
           {navbarData ? (
             navbarData?.map((currNavBarItem, i) => {
               let title = currNavBarItem.title;
+              let titleUrl = currNavBarItem.url;
               let childItems = currNavBarItem.childItems;
 
               return (
                 <div className="dropdown" key={i}>
+                  <Link to={titleUrl}>
                   <button className="dropbtn">{title}</button>
+                  </Link>
                   <div className="dropdown__content">
                     {childItems.map((menu, i) => {
                       const { title, url, childItems: nestedChildItems } = menu;

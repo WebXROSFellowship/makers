@@ -4047,12 +4047,9 @@ const App = () => {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetchMenuData();
   }, [lang]);
-  console.log("site url", base_url);
   async function fetchMenuData() {
     try {
       let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
-      fetchURL = "https://staging.webxr.link/wp-json/wp/v2/menus?menus";
-      console.log(fetchURL);
       let stagingData = await fetch(fetchURL);
       let jsonData = await stagingData.json();
       let items = jsonData.filter(item => item.slug == "main-menu");
@@ -4669,11 +4666,11 @@ const NavSites = () => {
     className: "navsite"
   }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
     dangerouslySetInnerHTML: {
-      __html: filteredMenuData.title
+      __html: filteredMenuData === null || filteredMenuData === void 0 ? void 0 : filteredMenuData.title
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     dangerouslySetInnerHTML: {
-      __html: filteredMenuData.content
+      __html: filteredMenuData === null || filteredMenuData === void 0 ? void 0 : filteredMenuData.content
     }
   }), " "));
 };
@@ -4880,16 +4877,16 @@ const Navbar = () => {
     className: "navbar"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
     to: "/",
-    className: "text-decoration-none"
+    className: "text-decoration-none cursor-pointer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "navbar-brand text-white",
+    className: "navbar-brand text-white cursor-pointer",
     style: {
       fontFamily: "sans-serif"
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
     src: imgBaseURL,
     alt: "logo",
-    className: "logo-img",
+    className: "logo-img cursor-pointer",
     style: {
       width: "50px",
       height: "50px",
@@ -4899,18 +4896,21 @@ const Navbar = () => {
       marginRight: "1rem"
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "title-head"
+    className: "title-head cursor-pointer"
   }, _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_TITLE))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "navbar-right"
   }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map((currNavBarItem, i) => {
     let title = currNavBarItem.title;
+    let titleUrl = currNavBarItem.url;
     let childItems = currNavBarItem.childItems;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "dropdown",
       key: i
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+      to: titleUrl
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       className: "dropbtn"
-    }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    }, title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const {
