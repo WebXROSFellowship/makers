@@ -45,9 +45,7 @@ function Sidebar() {
   };
 
 
-  const handleDyslexiaModeButtonClick = () => {
-    document.body.classList.toggle('dyslexia-mode');
-  };
+  
 
   const handleIncreaseWordSpaceButtonClick = () => {
     const currentWordSpacing = parseFloat(
@@ -63,16 +61,15 @@ function Sidebar() {
     document.documentElement.style.wordSpacing = currentWordSpacing - 1 + 'px';
   };
 
-  const handleFocusModeButtonClick = () => {
-    document.body.classList.toggle('focus-mode');
-  };
+  // const handleFocusModeButtonClick = () => {
+  //   document.body.classList.toggle('focus-mode');
+  // };
 
   const handleResetButtonClick = () => {
     // Reset body classList
     document.body.classList.remove('high-contrast');
     document.body.classList.remove('greyscale');
     document.body.classList.remove('light-mode');
-    document.body.classList.remove('dyslexia-mode');
     document.body.classList.remove('dark-mode');
 
     // Reset font size and word spacing
@@ -132,14 +129,6 @@ function Sidebar() {
                   Decrease Font Size
                 </button>
               </li>
-              {/* <li>
-                <button
-                  className='accessibility-light-mode-button'
-                  onClick={handleLightModeButtonClick}
-                >
-                  Light Mode
-                </button>
-              </li> */}
 
               <li>
                 <button
@@ -147,15 +136,6 @@ function Sidebar() {
                   onClick={handleDarkModeButtonClick}
                 >
                   Dark Mode
-                </button>
-              </li>
-
-              <li>
-                <button
-                  className='accessibility-dyslexia-mode-button'
-                  onClick={handleDyslexiaModeButtonClick}
-                >
-                  Dyslexia Friendly Mode
                 </button>
               </li>
               <li>
@@ -172,14 +152,14 @@ function Sidebar() {
                   Decrease Word Space
                 </button>
               </li>
-              <li>
+              {/* <li>
                 <button
                   className='accessibility-focus-mode-button'
                   onClick={handleFocusModeButtonClick}
                 >
                   Focus Mode
                 </button>
-              </li>
+              </li> */}
               <li>
                 <button
                   className='accessibility-reset-button'
