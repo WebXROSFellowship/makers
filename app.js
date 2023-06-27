@@ -3891,9 +3891,6 @@ const appRouter = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.createBrowser
     path: "aframe_demo",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components__WEBPACK_IMPORTED_MODULE_1__.Demo, null)
   }, {
-    path: "aframe",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components__WEBPACK_IMPORTED_MODULE_1__.AFrame, null)
-  }, {
     path: "profile/:username",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components__WEBPACK_IMPORTED_MODULE_1__.Profile, null)
   }, {
@@ -3915,42 +3912,6 @@ const App = () => {
     fetchMenuData();
   }, [lang]);
   console.log("site url", base_url);
-
-  // TODO: Optimize for dynamicity
-  // useEffect(() => {
-  //   sendDataDump("", "data_english");
-  //   sendDataDump("de", "data_german");
-  //   sendDataDump("hi", "data_hindi");
-  // }, []);
-
-  // const sendDataDump = async (lang, slug) => {
-  //   const url = `${base_url}/${lang}/wp-json`;
-  //   await fetch(url)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("data..", data);
-  //       const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
-  //       const formdata = new FormData();
-  //       formdata.append("slug", slug);
-  //       formdata.append("data", JSON.stringify(data));
-  //       const payload = {
-  //         method: "POST",
-  //         body: formdata,
-  //         redirect: "follow",
-  //       };
-
-  //       fetch(apiUrl, payload)
-  //         .then((response) => response.json())
-  //         .then((result) => {
-  //           console.log("Data Dump...", result);
-  //         })
-  //         .catch((error) => console.log("Data Dump Error...", error));
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error in Getting the Data...", error);
-  //     });
-  // };
-
   async function fetchMenuData() {
     try {
       let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
@@ -3991,244 +3952,6 @@ const App = () => {
 
 /***/ }),
 
-/***/ "./src/js/app/components/AFrame.js":
-/*!*****************************************!*\
-  !*** ./src/js/app/components/AFrame.js ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _data_assets_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../../data/assets.json */ "./data/assets.json");
-/* harmony import */ var _data_dynamicContent_old_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../data/dynamicContent_old.json */ "./data/dynamicContent_old.json");
-
-
-
-
-// have used native file system till endpoints unavailable
-
-function AFrame() {
-  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
-  const color = new URLSearchParams(document.location.search).get("color");
-  // Default Black color for the plane
-  var gcolor = "#000000";
-  // Check if the color is passed as a query parameter, facilitate both hex and string
-  if (color) {
-    if (/^[a-zA-Z]+$/.test(color)) {
-      gcolor = color.toLowerCase();
-    } else {
-      gcolor = "#" + color;
-    }
-  }
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    // loading inspector
-    function loadAndGet() {
-      var sceneEl = document.querySelector("a-scene");
-      sceneEl.addEventListener("loaded", function () {
-        sceneEl.components.inspector.openInspector();
-      });
-    }
-    // creating new button for getting all the data for the entity
-    function addMani() {
-      setTimeout(function () {
-        var ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
-        console.log(ele);
-        ele.click();
-        console.log("Clicked");
-        // Create the <a> element
-        var link = document.createElement("a");
-        link.href = "#";
-        link.title = "send data";
-        link.setAttribute("data-action", "copy-entity-to-clipboard");
-        link.classList.add("button", "fa", "fa-bookmark");
-
-        // Append the <a> element to the specified location
-        var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
-        console.log("!!!!!!!!!!!!got the parent element");
-        console.log(parentElement);
-        parentElement.appendChild(link);
-        dataToConsole();
-      }, 10000); // Adjust the delay as needed
-    }
-
-    // getting data from the clipboard to console
-    function dataToConsole() {
-      var element = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-bookmark");
-
-      // Add the onclick function
-      element.onclick = function () {
-        // Access the data from the clipboard
-        navigator.clipboard.readText().then(function (clipboardData) {
-          // Print the clipboard data to the console
-          console.log(clipboardData);
-          storeData(clipboardData);
-        });
-      };
-    }
-    function storeData(entityString) {
-      // Create a temporary element to parse the string
-      var tempElement = document.createElement("div");
-      tempElement.innerHTML = entityString;
-
-      // Get the attributes of the <a-entity> element
-      var entityAttributes = tempElement.firstChild.attributes;
-
-      // Convert the attributes into an object
-      var entityObject = {};
-      for (var i = 0; i < entityAttributes.length; i++) {
-        var attr = entityAttributes[i];
-        entityObject[attr.name] = attr.value;
-      }
-
-      // Convert the object to JSON string
-      var jsonString = JSON.stringify(entityObject);
-      console.log("!!!!!!!!!!!!!!!!!");
-      console.log(jsonString);
-      updateDataFile(jsonString);
-    }
-    function updateDataFile(jsonString) {
-      const newData = JSON.parse(jsonString);
-      var foundData = false;
-      const updatedData = _data_dynamicContent_old_json__WEBPACK_IMPORTED_MODULE_3__.map(item => {
-        if (item.id === newData.id) {
-          console.log("Found the item to update");
-          foundData = true;
-          return newData;
-        } else {
-          console.log("Not the item to update");
-          return item;
-        }
-      });
-      if (!foundData) updatedData.push(newData);
-      const updatedJsonString = JSON.stringify(updatedData, null, 2);
-      console.log('Updated data:', updatedData);
-      const fileName = 'dynamicContent.json';
-      saveJsonAsBlob(updatedJsonString, fileName);
-    }
-    function saveJsonAsBlob(updatedData, fileName) {
-      const blob = new Blob([updatedData], {
-        type: 'application/json'
-      });
-      const url = URL.createObjectURL(blob);
-
-      // Create a temporary link element
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = fileName;
-
-      // Append the link to the document body and click it programmatically
-      document.body.appendChild(link);
-      link.click();
-
-      // Clean up by removing the link and revoking the URL
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }
-
-    // Event listener for color change
-    function changeColor() {
-      AFRAME.registerComponent("change-color-on-hover", {
-        schema: {
-          color: {
-            default: "red"
-          }
-        },
-        init: function () {
-          var data = this.data;
-          var el = this.el;
-          el.addEventListener("mouseenter", function () {
-            el.setAttribute("material", "color", data.color);
-          });
-          el.addEventListener("mouseleave", function () {
-            el.setAttribute("material", "color", "pink");
-          });
-        }
-      });
-    }
-
-    // Below mentioned event gets activated after click
-    function AddClickEvent() {
-      AFRAME.registerComponent("show-details-on-click", {
-        init: function () {
-          var el = this.el;
-          el.addEventListener("click", function () {
-            el.setAttribute("material", "color", "lightblue");
-            var details_box = document.querySelector('#details-box');
-            var current_state = details_box.getAttribute('visible');
-            if (current_state == false) details_box.setAttribute("visible", "true");else details_box.setAttribute("visible", "false");
-          });
-        }
-      });
-    }
-
-    // Heavy models take time to load, hence wait for a while
-    setTimeout(() => setLoading(false), 1000); // Wait for 1 second before setting loading to false
-
-    AddClickEvent();
-    changeColor();
-    loadAndGet();
-    addMani();
-  }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-scene", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-camera", {
-    position: "0 1.2 0",
-    rotation: "0 -45 0"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-cursor", {
-    id: "cursor",
-    color: "#FF0000"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-assets", null, _data_assets_json__WEBPACK_IMPORTED_MODULE_2__.map(asset => {
-    if (asset.type === "model") {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-asset-item", {
-        id: asset.id,
-        src: asset.url,
-        key: asset.id,
-        crossOrigin: "anonymous"
-      });
-    }
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("img", {
-      id: asset.id,
-      src: asset.url,
-      key: asset.id,
-      crossOrigin: "anonymous"
-    });
-  })), loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", {
-    id: "#powersimple",
-    "gltf-model": "#powersimple",
-    position: "0 0.75 -3",
-    radius: "0.5",
-    height: "1.5",
-    crossOrigin: "anonymous"
-  }), _data_dynamicContent_old_json__WEBPACK_IMPORTED_MODULE_3__.map(entity => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    key: entity.id
-  }, entity)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-sphere", {
-    position: "0 0.7 -7",
-    radius: "2.25",
-    "change-color-on-hover": "color:#FFFFFF",
-    "show-details-on-click": true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-box", {
-    id: "details-box",
-    position: "1 2 -2",
-    color: "lightgreen",
-    visible: "false"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-plane", {
-    rotation: "-90 0 0",
-    position: "0 -2 -10",
-    width: "10",
-    height: "10",
-    color: gcolor,
-    shadow: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-sky", {
-    src: "#bg"
-  })));
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AFrame);
-
-/***/ }),
-
 /***/ "./src/js/app/components/Body.js":
 /*!***************************************!*\
   !*** ./src/js/app/components/Body.js ***!
@@ -4241,21 +3964,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/js/app/utils/index.js");
-/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
-/* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
+/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
+/* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/js/app/utils/index.js");
 
 
 
 
 const Body = () => {
-  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_URL;
+  const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_2__.AppConfig.SITE_URL;
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const [bodyData, setBodyData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const {
     lang,
     setLang
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_1__.DataContext);
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_3__.DataContext);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetchBodyData();
   }, [lang]);
@@ -4315,31 +4038,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _config_appConfig__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/appConfig */ "./src/js/app/config/appConfig.js");
-/* harmony import */ var _data_dynamicContent_demo_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../data/dynamicContent_demo.json */ "./data/dynamicContent_demo.json");
 
-
-
-// Updated Inspector API data
 
 
 const Demo = () => {
   const PAGE_SLUG = "webxros-a-frame-demo";
+  const DEFAULT_LANG = "en";
   const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_2__.AppConfig.SITE_URL;
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true); // For asset loading
   const [scientistsData, setScientistsData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [elementDetected, setElementDetected] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false); // For inspector loaded
-  const langRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)("en");
+  const langRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(DEFAULT_LANG);
   const [allLang, setAllLang] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [furnitureData, setFurnitureData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [worldData, setWorldData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [meshData, setMeshData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
-  const data = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+  const data = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)([{}]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     fetchLatestData();
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     getFromServer();
-    // Call the checkElement function initially
     checkElement();
     getLanguages();
 
@@ -4374,7 +4093,6 @@ const Demo = () => {
     }
   };
   const getFromServer = async () => {
-    // console.log("Inside get from staging");
     const url = `${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     await fetch(url).then(response => response.json()).then(result => {
       var pagecontents = [];
@@ -4443,7 +4161,6 @@ const Demo = () => {
     const url = `${base_url}/wp-content/themes/makers/data/dynamicContent_demo.json`;
     await fetch(url).then(response => response.json()).then(result => {
       data.current = result;
-      console.log("DATA SET", data.current);
     }).catch(error => {
       console.log("Failed to fetch dynamic content", error);
     });
@@ -4455,7 +4172,6 @@ const Demo = () => {
       // Usage: Access the data from the clipboard and store it in a variable "clipboardData"
       navigator.clipboard.readText().then(function (clipboardData) {
         console.log("Clipboard Data as fetched : ", clipboardData);
-        fetchLatestData();
         createJsonSting(clipboardData);
       });
     };
@@ -4494,23 +4210,18 @@ const Demo = () => {
     var foundClassData = false;
     const updatedData = data.current.map(item => {
       if (item.class !== undefined && newData.class !== undefined && newData.class === item.class) {
-        console.log("Found Class Updation");
         foundClassData = true;
         var alteredClassData = updateClassData(newData);
         return alteredClassData;
       } else if (newData.id !== undefined && item.id === newData.id) {
-        console.log(newData.id);
-        console.log("Found the item to update");
         foundData = true;
         return newData;
       } else {
-        console.log("Not the item to update");
         return item;
       }
     });
     if (!foundData && newData.id !== undefined && newData.class === undefined) updatedData.push(newData);
     if (newData.class !== undefined && !foundClassData) {
-      console.log("New Class Data");
       var alteredClassData = updateClassData(newData);
       updatedData.push(alteredClassData);
     }
@@ -4532,25 +4243,20 @@ const Demo = () => {
       // Result : {success: true/false, message: "..."}
       const dataResp = JSON.parse(result);
       alert(dataResp.message);
-      // window.location.reload();
     }).catch(error => console.log("Error", error));
     fetchLatestData();
   };
   function AddClickEvent() {
-    console.log("In add click event");
     AFRAME.registerComponent("show-details-on-click", {
       init: function () {
         var el = this.el;
         el.addEventListener("click", function () {
           ShowDescription(el);
           console.log("Click detected", el);
-          // UpdateProperties(data)
-          // console.log("Click detected");
         });
       }
     });
   }
-
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-scene", {
     environment: "preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;",
     cursor: "rayOrigin: mouse"
@@ -4600,20 +4306,20 @@ const Demo = () => {
     visible: "false",
     position: "4.762 0 3.739"
   }), furnitureData?.map(furniture => {
-    var Obj_id = furniture.id;
+    var Obj_id = furniture.slug;
     var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
-        position: "0 0 0"
+        position: "0 1.6 0"
       };
     }
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-      id: furniture.id,
+      id: furniture.slug,
       "gltf-model": base_url + furniture.full_path,
       key: furniture.id
     }, Data_from_Inspector));
   }), scientistsData?.map(scientist => {
-    var Obj_id = scientist.id;
+    var Obj_id = scientist.slug;
     var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
     var desc_format = data.current.find(obj => obj.class == "desc_wrapper");
     var cap_format = data.current.find(obj => obj.class == "caption_wrapper");
@@ -4621,12 +4327,12 @@ const Demo = () => {
     var img_format = data.current.find(obj => obj.class == "image_wrapper");
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
-        position: "0 0 0"
+        position: "0 1.6 0"
       };
     }
     delete Data_from_Inspector["show-details-on-click"];
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-entity", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-      id: scientist.id,
+      id: scientist.slug,
       type: "wrapper",
       key: scientist.id
     }, Data_from_Inspector, {
@@ -4739,13 +4445,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../scss/style.scss */ "./src/scss/style.scss");
+
 
 
 const Footer = () => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h5", null, "\xA9 Copyright by Powersimple"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h5", null, "   Privacy Policy"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", {
+    className: "h6"
+  }, "\xA9 Copyright by ", " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
+    to: "/",
+    className: "text-decoration-none"
+  }, "Powersimple")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, " ", " ", " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h6", {
+    className: "h6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
+    to: "#",
+    className: "text-decoration-none"
+  }, " Privacy Policy ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "footer_icons"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
     href: "https://twitter.com/webxrawards",
@@ -5334,10 +5052,9 @@ function Sidebar() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   AFrame: () => (/* reexport safe */ _AFrame__WEBPACK_IMPORTED_MODULE_6__["default"]),
 /* harmony export */   Body: () => (/* reexport safe */ _Body__WEBPACK_IMPORTED_MODULE_2__["default"]),
-/* harmony export */   Demo: () => (/* reexport safe */ _Demo__WEBPACK_IMPORTED_MODULE_7__["default"]),
-/* harmony export */   Footer: () => (/* reexport safe */ _Footer__WEBPACK_IMPORTED_MODULE_8__["default"]),
+/* harmony export */   Demo: () => (/* reexport safe */ _Demo__WEBPACK_IMPORTED_MODULE_6__["default"]),
+/* harmony export */   Footer: () => (/* reexport safe */ _Footer__WEBPACK_IMPORTED_MODULE_7__["default"]),
 /* harmony export */   Home: () => (/* reexport safe */ _Home__WEBPACK_IMPORTED_MODULE_1__["default"]),
 /* harmony export */   NavSites: () => (/* reexport safe */ _NavSites__WEBPACK_IMPORTED_MODULE_5__["default"]),
 /* harmony export */   Navbar: () => (/* reexport safe */ _Navbar__WEBPACK_IMPORTED_MODULE_0__["default"]),
@@ -5350,10 +5067,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Profile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Profile */ "./src/js/app/components/Profile.js");
 /* harmony import */ var _Sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Sidebar */ "./src/js/app/components/Sidebar.js");
 /* harmony import */ var _NavSites__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./NavSites */ "./src/js/app/components/NavSites.js");
-/* harmony import */ var _AFrame__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./AFrame */ "./src/js/app/components/AFrame.js");
-/* harmony import */ var _Demo__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Demo */ "./src/js/app/components/Demo.js");
-/* harmony import */ var _Footer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Footer */ "./src/js/app/components/Footer.js");
-
+/* harmony import */ var _Demo__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Demo */ "./src/js/app/components/Demo.js");
+/* harmony import */ var _Footer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Footer */ "./src/js/app/components/Footer.js");
 
 
 
@@ -41315,36 +41030,6 @@ function _extends() {
   };
   return _extends.apply(this, arguments);
 }
-
-/***/ }),
-
-/***/ "./data/assets.json":
-/*!**************************!*\
-  !*** ./data/assets.json ***!
-  \**************************/
-/***/ ((module) => {
-
-module.exports = JSON.parse('[{"id":"marvel","type":"model","name":"astra","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb"},{"id":"powersimple","type":"model","name":"powersimple","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/powersimple.glb"},{"id":"astra","type":"model","name":"marvel","url":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb"},{"id":"bg","type":"image","name":"background","url":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/bg.jpg"}]');
-
-/***/ }),
-
-/***/ "./data/dynamicContent_demo.json":
-/*!***************************************!*\
-  !*** ./data/dynamicContent_demo.json ***!
-  \***************************************/
-/***/ ((module) => {
-
-module.exports = JSON.parse('[{"id":"9004111222011961","type":"wrapper","position":"-5.82625 1.67077 -2.55294","rotation":"0.1 0 0"},{"id":"9004111222012022","type":"wrapper","position":"-3.21 1.661 -2.597"},{"class":"name_wrapper","type":"wrapper","troika-text":"color: #ffffff; align: center; fontSize: 0.08","position":"0 -0.4706 0"},{"class":"caption_wrapper","type":"wrapper","troika-text":"align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d","position":"0 -0.58371 0"},{"class":"desc_wrapper","type":"wrapper","troika-text":"color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2","position":"1.057 0 0"},{"class":"image_wrapper","material":"","geometry":"","type":"wrapper","position":"","scale":"0.718 0.762 1"},{"id":"9004111222011911","type":"wrapper","position":"-7.63777 1.653 -2.59869"},{"id":"9004111222011930","type":"wrapper","rotation":"179.9998479605043 0 179.9998479605043","position":"-2.84602 1.28015 2.68782"},{"id":"9004111222011984","type":"wrapper","rotation":"-180 0 -180","position":"-4.93481 1.28642 2.6718"},{"id":"9004111222012003","type":"wrapper","rotation":"-179.9998479605043 0 -179.9998479605043","position":"1.22441 1.292 2.655","show-details-on-click":""},{"id":"708","gltf-model":"https://webxr.local/wp-content/uploads/2023/06/clock.glb","type":"model","position":"3.08747 0.578 2.996","rotation":"0 90 0"},{"id":"826","type":"model","position":"-7.87609 0.002 -0.59439"},{"class":"btn-wrapper-en","type":"wrapper","position":"0.42111 -0.68371 0","code":"","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-hi","type":"wrapper","position":"0 -0.684 -0.00017","troika-text":"fontSize: 0.06"},{"class":"btn-wrapper-de","type":"wrapper","position":"-0.44 -0.681 0.005","troika-text":"fontSize: 0.06"},{"id":"778","type":"model","position":"-7.141 1.416 2.658","rotation":"0 180 0","scale":"0.25 0.25 0.25"},{"id":"8645","position":"4.537 0 3.468"},{"class":"btn-wrapper-zh-hans","type":"wrapper","code":"zh-hans","troika-text":"","position":"1.05 -0.73 0"},{"id":"9004111222012641","type":"wrapper","position":"0 1.38 0","show-details-on-click":"","rotation":""}]');
-
-/***/ }),
-
-/***/ "./data/dynamicContent_old.json":
-/*!**************************************!*\
-  !*** ./data/dynamicContent_old.json ***!
-  \**************************************/
-/***/ ((module) => {
-
-module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.com/ac5eecac-40b2-4897-8f67-28c497a19b47%2FAstronaut.glb","position":"-1 1.93968 -3","crossorigin":"anonymous"},{"troika-text":"strokeColor: #fffafa; value: Text is here","id":"#text","position":"1.27063 1.34902 1","visible":"","rotation":"1 0 0"},{"id":"#marvel","gltf-model":"https://cdn.glitch.global/b32f8a0e-a5aa-4181-890e-189ebc2588f0/marvel.glb","position":"1.91177 0.75 -3","scale":"3 3 3","crossorigin":"anonymous"}]');
 
 /***/ })
 

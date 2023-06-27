@@ -1,12 +1,24 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import "@styles/style.scss";
 
 const Footer = () => {
-  return (<div className="footer">
-    
-    <h5>&copy; Copyright by Powersimple</h5>
-    <h5>   Privacy Policy</h5>
-    <div className="footer_icons">
+  
+  return (
+    <div className="footer">
+      <h6 className="h6">
+        &copy; Copyright by {" "}
+        <Link to="/" className="text-decoration-none">
+          Powersimple
+        </Link>
+      </h6>
+      <span> {" "} </span>
+      <h6 className="h6">
+        <Link to="#" className="text-decoration-none"> Privacy Policy </Link>
+      </h6>
+
+      <div className="footer_icons">
     {/* <div className="dropdown dropdown--logos dropdown__socials"> */}
             <a
               href="https://twitter.com/webxrawards"
@@ -58,7 +70,7 @@ const Footer = () => {
     </div>
     </div>
     
-    );
+  );
 };
 
 export default Footer;

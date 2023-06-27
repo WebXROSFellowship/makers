@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { DataContext } from "../utils";
 
 import "@styles/style.scss";
 import {AppConfig} from "../config/appConfig";
+import { DataContext } from "../utils";
 
 
 const Body = () => {
