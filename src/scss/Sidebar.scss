@@ -10,13 +10,10 @@
   }
   
 
-  
-  /* Accessibility panel styles */
-
   .accessibility-panel {
     background-color: $darkPanel-Bg;
     color: $darkPanelText;
-    border-radius: 0 1rem 1rem 0 ;
+    border-radius: 0 1rem 1rem 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     height: 65vh;
     left: -17rem;
@@ -29,56 +26,41 @@
     z-index: 10;
     position: fixed;
   }
-
+  
   .accessibility-panel.active {
-    left: 0.15rem;
+    left: 0.1rem;
   }
   
   .accessibility-close-button {
     background-color: transparent;
-    border: none;
     cursor: pointer;
     position: absolute;
-    right: 0.9rem;
-    top: 0;
+    top:-0.5rem;
+    right: 0rem
   }
   
-  .accessibility-close-icon {
-    background-color: #000000;
-    display: block;
-    height: 2px;
-    position: absolute;
-    transform: rotate(90deg);
-    width: 2px;
+  .accessibility-close-button::after {
+    content: "X";
+    font-size: 1rem;
+    color: #000000;
   }
   
-  .accessibility-close-icon::before,
-  .accessibility-close-icon::after {
-    background-color: #000000;
-    content: '';
-    display: block;
-    height: 2px;
-    position: absolute;
-    transform: rotate(90deg);
-    width: 2px;
+  .accessibility-increase-font-size-button{
+    margin-bottom: 1rem;
   }
-  
-  .accessibility-close-icon::before {
-    top: 6px;
+
+  .accessibility-increase-word-space-button{
+    margin-bottom: 1rem;
   }
-  
-  .accessibility-close-icon::after {
-    top: -6px;
-  }
-  
+
   ul {
     list-style: none;
-    margin: 0;
-    padding: 0;
+    padding: 0rem 2rem;
   }
   
   li {
     margin-bottom: 1rem;
+    font: 11.5px sans-serif;
   }
   
   button {
@@ -88,12 +70,14 @@
     cursor: pointer;
     padding: 0.5rem;
   }
-  
+
+
   /* Accessibility mode styles */
 
   .high-contrast {
-    filter: invert(0.1) hue-rotate(180deg);
+    filter: invert(1);
   }
+  
   
   .greyscale {
     filter: grayscale(100%);
@@ -101,25 +85,35 @@
   }
   
   .dark-mode {
+
+    .footer{
+      background-color: #DDE6ED;
+      color:#27374D;
+    }
+
+
     #root{
       background-color: rgba(0, 0, 15, 0.95);
+      color:#DDE6ED;
     }
 
     .dropbtn {
      color: #27374D;
     }
-    .dynamic p {
-      color: #DDE6ED;
-    }
+    // .dynamic p {
+    //   color: #DDE6ED;
+    // }
 
-    .dynamic b{
-      color: #DDE6ED;
-    }
+    // .dynamic b{
+    //   color: #DDE6ED;
+    // }
 
-    .profile-text {
-      color: #DDE6ED;
-    }
+    // .profile-text {
+    //   color: #DDE6ED;
+    // }
     
+   
+
     .navbar{
       background-color: #DDE6ED;
       color:#27374D;
@@ -134,14 +128,6 @@
    
   }
 
-  .dyslexia-mode {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-  }
-  
-  .focus-mode img {
-    display: none;
-  }
-  
   /* Media queries */
 
   @media screen and (max-width: 768px) {
