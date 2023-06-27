@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-import { StagingDataContext } from "../utils";
+import { StagingDataContext,DataContext } from "../utils";
 import "@styles/style.scss";
 
 import {AppConfig} from "../config/appConfig";
@@ -9,6 +9,8 @@ import {AppConfig} from "../config/appConfig";
 const Profile = () => {
   const { username } = useParams();
   const { stagingData } = useContext(StagingDataContext);
+  const {lang, setLang} = useContext(DataContext);
+
 
   const curl = "/profile/" + username + "/";
   const data = stagingData;
@@ -20,15 +22,16 @@ const Profile = () => {
   const base_url = AppConfig.SITE_URL;
 
   useEffect(() => {
-    fetch(`${base_url}/wp-json/wp/v2/media?media`)
+    fetch(`${base_url}/${lang}/wp-json/wp/v2/profile?fields=id,link,thumbnail_url,&filter[orderby]=post_title&order=asc&per_page=100&page=1`)
       .then((response) => response.json())
       .then((data) => {
-        const profileImage = data?.find((image) => image?.slug === username);
-        const imageUrl = profileImage ? profileImage.guid.rendered : "";
-        setImgLink(imageUrl);
+		const data_id = cd[0]?.object_id || "";
+        const profileImage = data?.find((image) => image?.id == data_id);
+        const imageUrl = profileImage ? profileImage.thumbnail_url.large : "";
+        setImgLink(base_url + imageUrl);
       })
       .catch((error) => console.log(error));
-  }, [username]);
+  }, [username,cd]);
 
   return (
     <>
