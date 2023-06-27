@@ -1,6 +1,6 @@
 .navbar {
   padding-top: 20px;;
-  height: 65px;
+  height: 80px;
   width: 100vw;
   opacity: 0.8;
   background-color: #00000F;
@@ -48,7 +48,7 @@
 .dropbtn {
   background-color: #00000F;
   color: #9DB2BF;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   border: none;
   cursor: pointer;
   margin-top: -10px;
@@ -138,7 +138,7 @@
 }
 .dropdown2 {
   width: 100%;
-  height: 3.125rem;
+  height: 12vh;
 }
 .dropdown2 button {
   width: 100%;
@@ -168,7 +168,7 @@
   background: darkgrey;
 }
 
-@media only screen and (max-width: 858px) {
+@media only screen and (max-width: 1063px) {
   .navbar-brand {
     font-size: 0.95rem;
   }
@@ -194,6 +194,12 @@
     margin-top: 0;
   }
 }
+@media only screen and (max-width: 490px){
+  .title-head{
+    font-size: smaller;
+  }
+
+}
 @media only screen and (max-width: 425px) {
   .navbar{
     height:80px;
@@ -201,6 +207,7 @@
   }
   .hamburger{
     padding: 10px;
+    margin-top: 1rem;
 
   }
   .hamburger__logo{
@@ -209,7 +216,6 @@
 .title-head{
   display: flex;
   max-width:70px;
-  font-size: smaller;
   padding-top: 10px;
   
   

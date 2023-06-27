@@ -31,6 +31,8 @@ const Profile = () => {
   }, [username]);
 
   return (
+    <>
+    
     <div className="profile">
     <div><h1 className="profile-text">{titleName}</h1>
       <div className="profile_container">
@@ -41,6 +43,10 @@ const Profile = () => {
         dangerouslySetInnerHTML={{ __html: content }}
       /></div>
 </div>
+<div class="footer">
+    footer
+  </div>
+  </>
   );
 };
 
