@@ -1,12 +1,40 @@
 [
   {
-    "id": "9004111222011961",
+    "class": "btn-wrapper-en",
+    "type": "wrapper",
+    "code": "",
+    "position": "0.221 -0.68371 0",
+    "troika-text": "fontSize: 0.06"
+  },
+  {
+    "class": "btn-wrapper-hi",
+    "type": "wrapper",
+    "code": "hi",
+    "position": "-0.23 -0.684 0",
+    "troika-text": "fontSize: 0.06"
+  },
+  {
+    "class": "btn-wrapper-de",
+    "type": "wrapper",
+    "code": "de",
+    "position": "-0.66382 -0.681 0.005",
+    "troika-text": "fontSize: 0.06"
+  },
+  {
+    "class": "btn-wrapper-zh-hans",
+    "type": "wrapper",
+    "code": "zh-hans",
+    "troika-text": "fontSize: 0.06",
+    "position": "0.66 -0.684 -0.00017"
+  },
+  {
+    "id": "alan-turing-1",
     "type": "wrapper",
     "position": "-5.82625 1.67077 -2.55294",
     "rotation": "0.1 0 0"
   },
   {
-    "id": "9004111222012022",
+    "id": "hedy_lamarr-1",
     "type": "wrapper",
     "position": "-3.21 1.661 -2.597"
   },
@@ -37,82 +65,86 @@
     "scale": "0.718 0.762 1"
   },
   {
-    "id": "9004111222011911",
+    "id": "albert-einstein-1",
     "type": "wrapper",
     "position": "-7.63777 1.653 -2.59869"
   },
   {
-    "id": "9004111222011930",
+    "id": "nikola-tesla",
     "type": "wrapper",
     "rotation": "179.9998479605043 0 179.9998479605043",
     "position": "-2.84602 1.28015 2.68782"
   },
   {
-    "id": "9004111222011984",
+    "id": "gordan-moore-1",
     "type": "wrapper",
     "rotation": "-180 0 -180",
-    "position": "-4.93481 1.28642 2.6718"
+    "position": "-4.935 1.896 2.6718"
   },
   {
-    "id": "9004111222012003",
+    "id": "neil_degrasse_tyson-1",
     "type": "wrapper",
     "rotation": "-179.9998479605043 0 -179.9998479605043",
-    "position": "1.22441 1.292 2.655",
-    "show-details-on-click": ""
+    "position": "1.22441 1.292 2.655"
   },
   {
-    "id": "708",
+    "id": "clock",
+    "gltf-model": "https://webxr.local/wp-content/uploads/2023/06/clock.glb",
     "type": "model",
     "position": "3.08747 0.578 2.996",
     "rotation": "0 90 0"
   },
   {
-    "id": "826",
+    "id": "sofa",
     "type": "model",
     "position": "-7.87609 0.002 -0.59439"
   },
   {
-    "class": "btn-wrapper-en",
-    "type": "wrapper",
-    "position": "0.42111 -0.68371 0",
-    "code": "",
-    "troika-text": "fontSize: 0.06"
-  },
-  {
-    "class": "btn-wrapper-hi",
-    "type": "wrapper",
-    "position": "0 -0.684 -0.00017",
-    "troika-text": "fontSize: 0.06"
-  },
-  {
-    "class": "btn-wrapper-de",
-    "type": "wrapper",
-    "position": "-0.44 -0.681 0.005",
-    "troika-text": "fontSize: 0.06"
-  },
-  {
-    "id": "778",
+    "id": "powersimple",
     "type": "model",
     "position": "-7.141 1.416 2.658",
     "rotation": "0 180 0",
     "scale": "0.25 0.25 0.25"
   },
   {
-    "id": "8645",
-    "position": "4.537 0 3.468"
+    "id": "tim_berners-lee-1",
+    "type": "wrapper",
+    "position": "-1.337 1.941 2.69",
+    "rotation": "0 180 0"
   },
   {
-    "class": "btn-wrapper-zh-hans",
+    "id": "vinod_khosla_web_2-0_conference",
     "type": "wrapper",
-    "code": "zh-hans",
-    "troika-text": "",
-    "position": "1.05 -0.73 0"
+    "position": "-1.784 1.33 -2.112"
   },
   {
-    "id": "9004111222012641",
+    "id": "800px-andrew_yao_p1130016_cropped",
     "type": "wrapper",
-    "position": "0 1.38 0",
-    "show-details-on-click": "",
-    "rotation": ""
+    "position": "2.88058 2.175 2.70634",
+    "rotation": "0 180 0"
+  },
+  {
+    "id": "prathamgupta",
+    "position": "-1.274 0.748 -1.508",
+    "scale": "2 2 2",
+    "rotation": "63.48 0 0"
+  },
+  {
+    "id": "ananyajain",
+    "position": "2.07 0.461 -0.096",
+    "rotation": "60.983000000000004 -90 0",
+    "scale": "2 2 2"
+  },
+  {
+    "id": "benerwin-4",
+    "position": "-7.771 1.236 2.591",
+    "scale": "0.1 0.1 0.1",
+    "rotation": "0 180 0"
+  },
+  {
+    "id": "kunaalmangal",
+    "gltf-model": "https://webxr.local/wp-content/uploads/2023/05/KunaalMangal.glb",
+    "position": "0.88855 0.67713 -1.35203",
+    "scale": "2 2 2"
   }
 ]

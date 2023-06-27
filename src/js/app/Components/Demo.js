@@ -1,29 +1,27 @@
-import React, { useState, useEffect ,useRef } from "react";
-
-// Updated Inspector API data
+import React, { useState, useEffect, useRef } from "react";
 import { AppConfig } from "../config/appConfig";
-import data from "./../../../../data/dynamicContent_demo.json";
-
 
 const Demo = () => {
   const PAGE_SLUG = "webxros-a-frame-demo";
+  const DEFAULT_LANG = "en";
+
   const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]);
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
-  const langRef = useRef("en");
+  const langRef = useRef(DEFAULT_LANG);
   const [allLang, setAllLang] = useState([]);
   const [furnitureData, setFurnitureData] = useState([]);
   const [worldData, setWorldData] = useState([]);
   const [meshData, setMeshData] = useState([]);
-  const data = useRef(null);
+  const data = useRef([{}]);
 
   useEffect(() => {
     fetchLatestData();
-  },[]);
+  }, []);
+
   useEffect(() => {
     getFromServer();
-    // Call the checkElement function initially
     checkElement();
     getLanguages();
 
@@ -46,10 +44,8 @@ const Demo = () => {
   };
 
   const handleButtonClick = (event) => {
-
-    const buttonText =event.target.getAttribute("value");
+    const buttonText = event.target.getAttribute("value");
     langRef.current = buttonText;
-
   };
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
@@ -65,13 +61,11 @@ const Demo = () => {
   };
 
   const getFromServer = async () => {
-    // console.log("Inside get from staging");
     const url = `${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
-   
+
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
-       
         var pagecontents = [];
         var furniture = [];
         var world = [];
@@ -80,11 +74,10 @@ const Demo = () => {
           if (item.slug === PAGE_SLUG) {
             pagecontents = item.post_media.screen_image;
             furniture = item.properties_3D.furniture;
-        
+
             world = item.properties_3D.world_model;
-            
+
             navmesh = item.properties_3D.nav_mesh;
-          
           }
         });
         setFurnitureData(furniture);
@@ -100,24 +93,19 @@ const Demo = () => {
   };
 
   function ShowDescription(Obj) {
-   
     var children_lang = Obj.querySelectorAll("a-entity");
-  
 
-    for (var i = 0; i < children_lang.length; i+=2) { 
+    for (var i = 0; i < children_lang.length; i += 2) {
       if (children_lang[i].getAttribute("id") === langRef.current) {
         children_lang[i].setAttribute("visible", "true");
-        var state = !children_lang[i+1].getAttribute("visible");
-        children_lang[i+1].setAttribute("visible", state);
-      }
-      else
-      {
+        var state = !children_lang[i + 1].getAttribute("visible");
+        children_lang[i + 1].setAttribute("visible", state);
+      } else {
         children_lang[i].setAttribute("visible", "false");
-        var state = !children_lang[i+1].getAttribute("visible");
-        children_lang[i+1].setAttribute("visible", state);
+        var state = !children_lang[i + 1].getAttribute("visible");
+        children_lang[i + 1].setAttribute("visible", state);
       }
     }
-  
   }
 
   function customManipulation() {
@@ -155,14 +143,11 @@ const Demo = () => {
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
-        data.current=result;
-        console.log("DATA SET",data.current);
+        data.current = result;
       })
       .catch((error) => {
         console.log("Failed to fetch dynamic content", error);
       });
-
-
   }
   function fetchDataClipboard() {
     // Usage: Fetches the data from the clipboard and stores it in a variable
@@ -173,7 +158,6 @@ const Demo = () => {
       // Usage: Access the data from the clipboard and store it in a variable "clipboardData"
       navigator.clipboard.readText().then(function (clipboardData) {
         console.log("Clipboard Data as fetched : ", clipboardData);
-        fetchLatestData();
         createJsonSting(clipboardData);
       });
     };
@@ -212,17 +196,13 @@ const Demo = () => {
         newData.class !== undefined &&
         newData.class === item.class
       ) {
-        console.log("Found Class Updation");
         foundClassData = true;
         var alteredClassData = updateClassData(newData);
         return alteredClassData;
       } else if (newData.id !== undefined && item.id === newData.id) {
-        console.log(newData.id);
-        console.log("Found the item to update");
         foundData = true;
         return newData;
       } else {
-        console.log("Not the item to update");
         return item;
       }
     });
@@ -231,7 +211,6 @@ const Demo = () => {
       updatedData.push(newData);
 
     if (newData.class !== undefined && !foundClassData) {
-      console.log("New Class Data");
       var alteredClassData = updateClassData(newData);
       updatedData.push(alteredClassData);
     }
@@ -259,27 +238,24 @@ const Demo = () => {
         // Result : {success: true/false, message: "..."}
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
-        // window.location.reload();
+       
       })
       .catch((error) => console.log("Error", error));
-      fetchLatestData();
+    fetchLatestData();
   };
 
   function AddClickEvent() {
-    console.log("In add click event");
     AFRAME.registerComponent("show-details-on-click", {
       init: function () {
         var el = this.el;
         el.addEventListener("click", function () {
           ShowDescription(el);
-          console.log("Click detected",el);
-          // UpdateProperties(data)
-          // console.log("Click detected");
+          console.log("Click detected", el);
+         
         });
       },
     });
   }
-
 
   return (
     <>
@@ -324,7 +300,6 @@ const Demo = () => {
           ></a-entity>
         </a-entity>
 
-       
         {loading ? (
           <div className="container">
             <h1 className="h1">Loading...</h1>
@@ -346,8 +321,10 @@ const Demo = () => {
               position="4.762 0 3.739"
             ></a-entity>
             {furnitureData?.map((furniture) => {
-              var Obj_id = furniture.id;
-              var Data_from_Inspector = data.current.find((obj) => obj.id == Obj_id);
+              var Obj_id = furniture.slug;
+              var Data_from_Inspector = data.current.find(
+                (obj) => obj.id == Obj_id
+              );
               if (!Data_from_Inspector) {
                 Data_from_Inspector = {
                   position: "0 1.6 0",
@@ -355,7 +332,7 @@ const Demo = () => {
               }
               return (
                 <a-entity
-                  id={furniture.id}
+                  id={furniture.slug}
                   gltf-model={base_url + furniture.full_path}
                   key={furniture.id}
                   {...Data_from_Inspector}
@@ -363,26 +340,33 @@ const Demo = () => {
               );
             })}
             {scientistsData?.map((scientist) => {
-              var Obj_id = scientist.id;
-              var Data_from_Inspector = data.current.find((obj) => obj.id == Obj_id);
-              var desc_format = data.current.find((obj) => obj.class == "desc_wrapper");
+              var Obj_id = scientist.slug;
+              var Data_from_Inspector = data.current.find(
+                (obj) => obj.id == Obj_id
+              );
+              var desc_format = data.current.find(
+                (obj) => obj.class == "desc_wrapper"
+              );
               var cap_format = data.current.find(
                 (obj) => obj.class == "caption_wrapper"
               );
-              var name_format = data.current.find((obj) => obj.class == "name_wrapper");
-              var img_format = data.current.find((obj) => obj.class == "image_wrapper");
-             
+              var name_format = data.current.find(
+                (obj) => obj.class == "name_wrapper"
+              );
+              var img_format = data.current.find(
+                (obj) => obj.class == "image_wrapper"
+              );
+
               if (!Data_from_Inspector) {
                 Data_from_Inspector = {
                   position: "0 1.6 0",
                 };
               }
               delete Data_from_Inspector["show-details-on-click"];
-             
-              
+
               return (
                 <a-entity
-                  id={scientist.id}
+                  id={scientist.slug}
                   type="wrapper"
                   key={scientist.id}
                   {...Data_from_Inspector}
@@ -395,64 +379,63 @@ const Demo = () => {
                     class="image_wrapper"
                   ></a-image>
                   {allLang?.map((lang) => {
-                    var font=base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
-                    if(lang.code=="zh-hans"){
-                      font=base_url + "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
+                    var font =
+                      base_url +
+                      "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
+                    if (lang.code == "zh-hans") {
+                      font =
+                        base_url +
+                        "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
                     }
-                  return (
-                  <a-entity key={lang.code} id={lang.code} visible="false">
-                    <a-entity id="toggle" visible="false">
-                    <a-troika-text
-                      class="desc_wrapper"
-                      type="wrapper"
-                      value={scientist.trans[lang.code].alt}
-                      font={
-                        font
-                      }
-                      visible="true"
-                      {...desc_format}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="caption_wrapper"
-                      type="wrapper"
-                      value={scientist.trans[lang.code].caption}
-                      font={font
-                      }
-                      visible="true"
-                      {...cap_format}
-                    ></a-troika-text>
-                    <a-troika-text
-                      class="name_wrapper"
-                      type="wrapper"
-                      value={scientist.trans[lang.code].title}
-                      font={font
-                      }
-                      visible="true"
-                      {...name_format}
-                    ></a-troika-text>
-                    {Object.keys(scientist.trans).map((key) => {
-               
-                    var classname = "btn-wrapper-" + key;
-                    var insData = data.current.find((obj) => obj.class == classname);
                     return (
-                      <a-troika-text
-                        class={classname}
-                        type="wrapper"
-                        visible="true"
-                        key={classname}
-                        value={key}
-                        code={key}
-                        onClick={handleButtonClick}
-                        {...insData}
-                      ></a-troika-text>
+                      <a-entity key={lang.code} id={lang.code} visible="false">
+                        <a-entity id="toggle" visible="false">
+                          <a-troika-text
+                            class="desc_wrapper"
+                            type="wrapper"
+                            value={scientist.trans[lang.code].alt}
+                            font={font}
+                            visible="true"
+                            {...desc_format}
+                          ></a-troika-text>
+                          <a-troika-text
+                            class="caption_wrapper"
+                            type="wrapper"
+                            value={scientist.trans[lang.code].caption}
+                            font={font}
+                            visible="true"
+                            {...cap_format}
+                          ></a-troika-text>
+                          <a-troika-text
+                            class="name_wrapper"
+                            type="wrapper"
+                            value={scientist.trans[lang.code].title}
+                            font={font}
+                            visible="true"
+                            {...name_format}
+                          ></a-troika-text>
+                          {Object.keys(scientist.trans).map((key) => {
+                            var classname = "btn-wrapper-" + key;
+                            var insData = data.current.find(
+                              (obj) => obj.class == classname
+                            );
+                            return (
+                              <a-troika-text
+                                class={classname}
+                                type="wrapper"
+                                visible="true"
+                                key={classname}
+                                value={key}
+                                code={key}
+                                onClick={handleButtonClick}
+                                {...insData}
+                              ></a-troika-text>
+                            );
+                          })}
+                        </a-entity>
+                      </a-entity>
                     );
                   })}
-                    </a-entity>
-                    
-                  </a-entity>
-                  );
-                  })}
-                  
                 </a-entity>
               );
             })}{" "}
