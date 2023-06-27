@@ -24,41 +24,10 @@ code {
 }
 
 
-// This will automatically work for devices with dark mode activated in OS or browser
-// @media (prefers-color-scheme: dark) {
-
-//   #root{
-//     background-color: rgba(0, 0, 15, 0.95);
-//   }
-
-//   .dropbtn {
-//    color: #27374D;
-//   }
-//   .dynamic p {
-//     color: #DDE6ED;
-//   }
-
-//   .dynamic b{
-//     color: #DDE6ED;
-//   }
-
-//   .navbar{
-//     background-color: #DDE6ED;
-//     color:#27374D;
-//   }
-
-//   .dropbtn {
-//     background-color: #DDE6ED;
-//   }
-//   .title-head{
-//     color: #27374D;
-//   }
- 
-// }
-
-
 #root{
   background-color: rgba(221, 230, 237, 0.90);
+  color: #00000F;
+  font-family: sans-serif;
 }
 
 /* CSS for the featured image */
@@ -91,6 +60,7 @@ code {
 .otgs-development-site-front-end{
   display: none;
 }
+
 .footer {
   // position: fixed;
   left: 0;
@@ -105,4 +75,28 @@ code {
   align-items: center;
   justify-content: center;
   display: flex;
+}
+
+.navsite{
+    margin: 3% 10%;
+}
+
+.navsite p {
+  line-height: 2rem;
+  margin-bottom: 1%;
+  font-family: sans-serif;
+  text-align: justify;
+}
+
+.navsite h1,
+.navsite h2,
+.navsite h3,
+.navsite h4,
+.navsite h5,
+.navsite h6 {
+  margin-bottom: 1%;
+  margin-top: 1%;
+  font-family: sans-serif;
+  font-weight: 350;
+  line-height: 3rem;
 }

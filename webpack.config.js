@@ -9,8 +9,7 @@ const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 const ModuleResolverPlugin = require("babel-plugin-module-resolver");
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-// const proxyUrl = "https://webxr.local/";
-const proxyUrl = "https://makers:8893";
+const proxyUrl = "https://webxr.local/";
 
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);
