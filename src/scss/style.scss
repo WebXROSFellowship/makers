@@ -76,7 +76,14 @@ code {
   justify-content: center;
   display: flex;
 }
-
+.footer_icons{
+  margin-left:2rem;
+  float:right;
+  color: #9DB2BF;
+}
+.footer_icons a{
+  color: #9DB2BF;
+}
 .navsite{
     margin: 3% 10%;
 }

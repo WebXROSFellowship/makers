@@ -4249,7 +4249,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Body = () => {
-  var _bodyData$post_media, _bodyData$post_media$, _bodyData$post_media2, _bodyData$post_media3, _bodyData$post_media4, _bodyData$post_media5, _bodyData$content;
   const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_URL;
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const [bodyData, setBodyData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
@@ -4265,8 +4264,7 @@ const Body = () => {
     await fetch(url).then(response => response.json()).then(result => {
       result.map(data => {
         if (data.link == `${base_url}/${lang}` || data.link == `${base_url}/${lang}/`) {
-          var _data$post_media, _data$post_media$_thu;
-          console.log("image", data === null || data === void 0 ? void 0 : (_data$post_media = data.post_media) === null || _data$post_media === void 0 ? void 0 : (_data$post_media$_thu = _data$post_media._thumbnail_id[0]) === null || _data$post_media$_thu === void 0 ? void 0 : _data$post_media$_thu.full_path);
+          console.log("image", data?.post_media?._thumbnail_id[0]?.full_path);
           setBodyData(data);
           setLoading(false);
         } else {
@@ -4286,12 +4284,12 @@ const Body = () => {
     className: "h1"
   }, "Loading...")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, bodyData ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dynamic"
-  }, bodyData !== null && bodyData !== void 0 && (_bodyData$post_media = bodyData.post_media) !== null && _bodyData$post_media !== void 0 && (_bodyData$post_media$ = _bodyData$post_media._thumbnail_id[0]) !== null && _bodyData$post_media$ !== void 0 && _bodyData$post_media$.full_path ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-    src: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$post_media2 = bodyData.post_media) === null || _bodyData$post_media2 === void 0 ? void 0 : (_bodyData$post_media3 = _bodyData$post_media2._thumbnail_id[0]) === null || _bodyData$post_media3 === void 0 ? void 0 : _bodyData$post_media3.full_path,
-    alt: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$post_media4 = bodyData.post_media) === null || _bodyData$post_media4 === void 0 ? void 0 : (_bodyData$post_media5 = _bodyData$post_media4._thumbnail_id[0]) === null || _bodyData$post_media5 === void 0 ? void 0 : _bodyData$post_media5.alt
+  }, bodyData?.post_media?._thumbnail_id[0]?.full_path ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+    src: bodyData?.post_media?._thumbnail_id[0]?.full_path,
+    alt: bodyData?.post_media?._thumbnail_id[0]?.alt
   }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     dangerouslySetInnerHTML: {
-      __html: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$content = bodyData.content) === null || _bodyData$content === void 0 ? void 0 : _bodyData$content.rendered
+      __html: bodyData?.content?.rendered
     }
   })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "container-md"
@@ -4601,7 +4599,7 @@ const Demo = () => {
     key: meshData.id,
     visible: "false",
     position: "4.762 0 3.739"
-  }), furnitureData === null || furnitureData === void 0 ? void 0 : furnitureData.map(furniture => {
+  }), furnitureData?.map(furniture => {
     var Obj_id = furniture.id;
     var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
     if (!Data_from_Inspector) {
@@ -4614,7 +4612,7 @@ const Demo = () => {
       "gltf-model": base_url + furniture.full_path,
       key: furniture.id
     }, Data_from_Inspector));
-  }), scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
+  }), scientistsData?.map(scientist => {
     var Obj_id = scientist.id;
     var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
     var desc_format = data.current.find(obj => obj.class == "desc_wrapper");
@@ -4638,7 +4636,7 @@ const Demo = () => {
     }, img_format, {
       type: "wrapper",
       class: "image_wrapper"
-    })), allLang === null || allLang === void 0 ? void 0 : allLang.map(lang => {
+    })), allLang?.map(lang => {
       var font = base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
       if (lang.code == "zh-hans") {
         font = base_url + "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
@@ -4747,7 +4745,49 @@ __webpack_require__.r(__webpack_exports__);
 const Footer = () => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "footer"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h5", null, "\xA9 Copyright by Powersimple"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h5", null, "   Privacy Policy"));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h5", null, "\xA9 Copyright by Powersimple"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h5", null, "   Privacy Policy"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+    className: "footer_icons"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+    href: "https://twitter.com/webxrawards",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "fa-brands fa-twitter fa-xl"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+    href: "https://www.instagram.com/webxrawards/",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "fa-brands fa-instagram fa-xl"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+    href: "https://www.facebook.com/groups/webxrawards",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "fa-brands fa-facebook fa-xl"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+    href: "https://www.linkedin.com/company/the-polys/",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "fa-brands fa-linkedin fa-xl"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+    href: "https://discord.gg/T5vRuM5cDS",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    className: "fa-brands fa-discord fa-xl"
+  })))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Footer);
 
@@ -4980,7 +5020,7 @@ const Navbar = () => {
     className: "title-head"
   }, _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_TITLE))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "navbar-right"
-  }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map((currNavBarItem, i) => {
+  }, navbarData ? navbarData?.map((currNavBarItem, i) => {
     let title = currNavBarItem.title;
     let childItems = currNavBarItem.childItems;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -5019,48 +5059,6 @@ const Navbar = () => {
       className: "dropdown__items"
     }, cLang);
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    className: "dropdown dropdown--logos dropdown__socials"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-    href: "https://twitter.com/webxrawards",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-    className: "fa-brands fa-twitter fa-xl"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-    href: "https://www.instagram.com/webxrawards/",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-    className: "fa-brands fa-instagram fa-xl"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-    href: "https://www.facebook.com/groups/webxrawards",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-    className: "fa-brands fa-facebook fa-xl"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-    href: "https://www.linkedin.com/company/the-polys/",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-    className: "fa-brands fa-linkedin fa-xl"
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-    href: "https://discord.gg/T5vRuM5cDS",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-    className: "fa-brands fa-discord fa-xl"
-  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "hamburger"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "hamburger__logo",
@@ -5071,7 +5069,7 @@ const Navbar = () => {
     className: "fa-solid fa-bars fa-xl"
   }))), showMenu === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "sideMenu"
-  }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map(currNavBarItem => {
+  }, navbarData ? navbarData?.map(currNavBarItem => {
     let title = currNavBarItem.title;
     let childItems = currNavBarItem.childItems;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -5170,27 +5168,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const Profile = () => {
-  var _cd$, _cd$2;
   const {
     username
   } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useParams)();
   const {
     stagingData
   } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_1__.StagingDataContext);
+  const {
+    lang,
+    setLang
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_1__.DataContext);
   const curl = "/profile/" + username + "/";
   const data = stagingData;
-  const cd = data === null || data === void 0 ? void 0 : data.filter(e => (e === null || e === void 0 ? void 0 : e.url) === curl);
-  const content = ((_cd$ = cd[0]) === null || _cd$ === void 0 ? void 0 : _cd$.content) || "";
-  const titleName = (_cd$2 = cd[0]) === null || _cd$2 === void 0 ? void 0 : _cd$2.title;
+  const cd = data?.filter(e => e?.url === curl);
+  const content = cd[0]?.content || "";
+  const titleName = cd[0]?.title;
   const [imgLink, setImgLink] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_URL;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    fetch(`${base_url}/wp-json/wp/v2/media?media`).then(response => response.json()).then(data => {
-      const profileImage = data === null || data === void 0 ? void 0 : data.find(image => (image === null || image === void 0 ? void 0 : image.slug) === username);
-      const imageUrl = profileImage ? profileImage.guid.rendered : "";
-      setImgLink(imageUrl);
+    fetch(`${base_url}/${lang}/wp-json/wp/v2/profile?fields=id,link,thumbnail_url,&filter[orderby]=post_title&order=asc&per_page=100&page=1`).then(response => response.json()).then(data => {
+      const data_id = cd[0]?.object_id || "";
+      const profileImage = data?.find(image => image?.id == data_id);
+      const imageUrl = profileImage ? profileImage.thumbnail_url.large : "";
+      setImgLink(base_url + imageUrl);
     }).catch(error => console.log(error));
-  }, [username]);
+  }, [username, cd]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "profile"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", {
@@ -5206,9 +5208,7 @@ const Profile = () => {
     dangerouslySetInnerHTML: {
       __html: content
     }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-    class: "footer"
-  }, "footer"));
+  }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Profile);
 
@@ -35531,7 +35531,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @remix-run/router */ "./node_modules/@remix-run/router/dist/router.js");
 /**
- * React Router DOM v6.13.0
+ * React Router DOM v6.12.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -35776,6 +35776,10 @@ function deserializeErrors(errors) {
   }
   return serialized;
 }
+// Webpack + React 17 fails to compile on the usage of `React.startTransition` or
+// `React["startTransition"]` even if it's behind a feature detection of
+// `"startTransition" in React`. Moving this to a constant avoids the issue :/
+const START_TRANSITION = "startTransition";
 /**
  * A `<Router>` for use in web browsers. Provides the cleanest URLs.
  */
@@ -35783,7 +35787,6 @@ function BrowserRouter(_ref) {
   let {
     basename,
     children,
-    future,
     window
   } = _ref;
   let historyRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
@@ -35798,12 +35801,9 @@ function BrowserRouter(_ref) {
     action: history.action,
     location: history.location
   });
-  let {
-    v7_startTransition
-  } = future || {};
   let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(newState => {
-    v7_startTransition && react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_startTransitionImpl ? (0,react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_startTransitionImpl)(() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl, v7_startTransition]);
+    START_TRANSITION in react__WEBPACK_IMPORTED_MODULE_0__ ? react__WEBPACK_IMPORTED_MODULE_0__[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl]);
   react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Router, {
     basename: basename,
@@ -35821,7 +35821,6 @@ function HashRouter(_ref2) {
   let {
     basename,
     children,
-    future,
     window
   } = _ref2;
   let historyRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
@@ -35836,12 +35835,9 @@ function HashRouter(_ref2) {
     action: history.action,
     location: history.location
   });
-  let {
-    v7_startTransition
-  } = future || {};
   let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(newState => {
-    v7_startTransition && react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_startTransitionImpl ? (0,react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_startTransitionImpl)(() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl, v7_startTransition]);
+    START_TRANSITION in react__WEBPACK_IMPORTED_MODULE_0__ ? react__WEBPACK_IMPORTED_MODULE_0__[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl]);
   react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Router, {
     basename: basename,
@@ -35861,19 +35857,15 @@ function HistoryRouter(_ref3) {
   let {
     basename,
     children,
-    future,
     history
   } = _ref3;
   let [state, setStateImpl] = react__WEBPACK_IMPORTED_MODULE_0__.useState({
     action: history.action,
     location: history.location
   });
-  let {
-    v7_startTransition
-  } = future || {};
   let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(newState => {
-    v7_startTransition && react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_startTransitionImpl ? (0,react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_startTransitionImpl)(() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl, v7_startTransition]);
+    START_TRANSITION in react__WEBPACK_IMPORTED_MODULE_0__ ? react__WEBPACK_IMPORTED_MODULE_0__[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl]);
   react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Router, {
     basename: basename,
@@ -36534,7 +36526,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   UNSAFE_NavigationContext: () => (/* binding */ NavigationContext),
 /* harmony export */   UNSAFE_RouteContext: () => (/* binding */ RouteContext),
 /* harmony export */   UNSAFE_mapRouteProperties: () => (/* binding */ mapRouteProperties),
-/* harmony export */   UNSAFE_startTransitionImpl: () => (/* binding */ startTransitionImpl),
 /* harmony export */   UNSAFE_useRouteId: () => (/* binding */ useRouteId),
 /* harmony export */   UNSAFE_useRoutesImpl: () => (/* binding */ useRoutesImpl),
 /* harmony export */   createMemoryRouter: () => (/* binding */ createMemoryRouter),
@@ -36577,7 +36568,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _remix_run_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @remix-run/router */ "./node_modules/@remix-run/router/dist/router.js");
 /**
- * React Router v6.13.0
+ * React Router v6.12.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -36604,33 +36595,6 @@ function _extends() {
   };
   return _extends.apply(this, arguments);
 }
-
-/**
-  Not a true "polyfill" since we guard via the feature flag at runtime,
-  but close enough :)
-
-  Webpack + React 17 fails to compile on any of the following because webpack
-  complains that `startTransition` doesn't exist in `React`:
-  * import { startTransition } from "react"
-  * import * as React from from "react";
-    "startTransition" in React ? React.startTransition(() => setState()) : setState()
-  * import * as React from from "react";
-    "startTransition" in React ? React["startTransition"](() => setState()) : setState()
-
-  Moving it to a constant such as the following solves the Webpack/React 17 issue:
-  * import * as React from from "react";
-    const START_TRANSITION = "startTransition";
-    START_TRANSITION in React ? React[START_TRANSITION](() => setState()) : setState()
-
-  However, that introduces webpack/terser minification issues in production builds
-  in React 18 where minification/obfuscation ends up removing the call of
-  React.startTransition entirely from the first half of the ternary.  Grabbing
-  this exported reference once up front resolves that issue.
-
-  See https://github.com/remix-run/react-router/issues/10579
-*/
-const START_TRANSITION = "startTransition";
-var startTransitionImpl = react__WEBPACK_IMPORTED_MODULE_0__[START_TRANSITION];
 
 // Create react-specific types from the agnostic types in @remix-run/router to
 // export from react-router
@@ -37426,24 +37390,25 @@ function warningOnce(key, cond, message) {
   }
 }
 
+// Webpack + React 17 fails to compile on the usage of `React.startTransition` or
+// `React["startTransition"]` even if it's behind a feature detection of
+// `"startTransition" in React`. Moving this to a constant avoids the issue :/
+const START_TRANSITION = "startTransition";
+
 /**
  * Given a Remix Router instance, render the appropriate UI
  */
 function RouterProvider(_ref) {
   let {
     fallbackElement,
-    router,
-    future
+    router
   } = _ref;
   // Need to use a layout effect here so we are subscribed early enough to
   // pick up on any render-driven redirects/navigations (useEffect/<Navigate>)
   let [state, setStateImpl] = react__WEBPACK_IMPORTED_MODULE_0__.useState(router.state);
-  let {
-    v7_startTransition
-  } = future || {};
   let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(newState => {
-    v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl, v7_startTransition]);
+    START_TRANSITION in react__WEBPACK_IMPORTED_MODULE_0__ ? react__WEBPACK_IMPORTED_MODULE_0__[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl]);
   react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => router.subscribe(setState), [router, setState]);
   let navigator = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => {
     return {
@@ -37506,8 +37471,7 @@ function MemoryRouter(_ref3) {
     basename,
     children,
     initialEntries,
-    initialIndex,
-    future
+    initialIndex
   } = _ref3;
   let historyRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef();
   if (historyRef.current == null) {
@@ -37522,12 +37486,9 @@ function MemoryRouter(_ref3) {
     action: history.action,
     location: history.location
   });
-  let {
-    v7_startTransition
-  } = future || {};
   let setState = react__WEBPACK_IMPORTED_MODULE_0__.useCallback(newState => {
-    v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl, v7_startTransition]);
+    START_TRANSITION in react__WEBPACK_IMPORTED_MODULE_0__ ? react__WEBPACK_IMPORTED_MODULE_0__[START_TRANSITION](() => setStateImpl(newState)) : setStateImpl(newState);
+  }, [setStateImpl]);
   react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => history.listen(setState), [history, setState]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Router, {
     basename: basename,
@@ -41470,9 +41431,9 @@ module.exports = JSON.parse('[{"id":"#astra","gltf-model":"https://cdn.glitch.co
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
+/******/ 	__webpack_require__("./src/js/app/index.js");
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__("./src/js/app/app.js");
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/js/app/index.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/js/app/app.js");
 /******/ 	
 /******/ })()
 ;

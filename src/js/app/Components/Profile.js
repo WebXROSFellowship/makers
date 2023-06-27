@@ -46,9 +46,6 @@ const Profile = () => {
         dangerouslySetInnerHTML={{ __html: content }}
       /></div>
 </div>
-<div class="footer">
-    footer
-  </div>
   </>
   );
 };
