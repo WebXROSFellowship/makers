@@ -245,9 +245,9 @@ const Demo = () => {
       .then((response) => response.text())
       .then((result) => {
         // Result : {success: true/false, message: "..."}
-        console.log("API Response: ", result);ī
-        // const dataResp = JSON.parse(result);
-        // alert(dataResp.message);
+        console.log("API Response: ", result);
+        const dataResp = JSON.parse(result);
+        alert(dataResp.message);
        
       })
       .catch((error) => console.log("Error", error));

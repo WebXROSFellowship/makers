@@ -87,6 +87,11 @@ body {
 .footer_icons a{
   color: #9DB2BF;
 }
+@media only screen and (max-width: 550px) {
+  .footer_icons{
+    display: none;
+  }
+}
 .navsite{
     min-height: calc(100vh - 140px);
     padding: 2rem;
