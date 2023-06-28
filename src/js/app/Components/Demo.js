@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { AppConfig } from "../config/appConfig";
+import {AppLoader} from "./index";
 
 const Demo = () => {
   const PAGE_SLUG = "webxros-a-frame-demo";
@@ -310,9 +311,7 @@ const Demo = () => {
         </a-entity>
 
         {loading ? (
-          <div className="container">
-            <h1 className="h1 text-center">Loading...</h1>
-          </div>
+          <AppLoader />
         ) : (
           <>
             <a-entity
