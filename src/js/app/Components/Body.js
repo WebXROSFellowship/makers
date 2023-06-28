@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "@styles/style.scss";
 import {AppConfig} from "../config/appConfig";
 import { DataContext } from "../utils";
+import {AppLoader, NotFound} from './index'
 
 
 const Body = () => {
@@ -40,9 +41,7 @@ const Body = () => {
     <>
     <div className="container" >
       {loading ? (
-        <div className="container-md">
-          <h1 className="h1 text-center">Loading...</h1>
-        </div>
+        <AppLoader />
       ) : (
         <div>
           {bodyData ? (
@@ -60,9 +59,10 @@ const Body = () => {
               />
             </div>
           ) : (
-            <div className="container-md">
-              <h1 className="h1 text-center">Data not Found...</h1>
-            </div>
+            <NotFound />
+            // <div className="container-md">
+            //   <h1 className="h1 text-center">Data not Found...</h1>
+            // </div>
           )}
         </div>
       )}

@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 234:
+/***/ 625:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -6671,6 +6671,7 @@ const Home = () => {
 
 
 
+
 const Body = () => {
   var _bodyData$post_media, _bodyData$post_media$, _bodyData$post_media2, _bodyData$post_media3, _bodyData$post_media4, _bodyData$post_media5, _bodyData$content;
   const base_url = AppConfig.SITE_URL;
@@ -6703,11 +6704,7 @@ const Body = () => {
   };
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
     className: "container"
-  }, loading ? /*#__PURE__*/react.createElement("div", {
-    className: "container-md"
-  }, /*#__PURE__*/react.createElement("h1", {
-    className: "h1 text-center"
-  }, "Loading...")) : /*#__PURE__*/react.createElement("div", null, bodyData ? /*#__PURE__*/react.createElement("div", {
+  }, loading ? /*#__PURE__*/react.createElement(components_AppLoader, null) : /*#__PURE__*/react.createElement("div", null, bodyData ? /*#__PURE__*/react.createElement("div", {
     className: "dynamic"
   }, bodyData !== null && bodyData !== void 0 && (_bodyData$post_media = bodyData.post_media) !== null && _bodyData$post_media !== void 0 && (_bodyData$post_media$ = _bodyData$post_media._thumbnail_id[0]) !== null && _bodyData$post_media$ !== void 0 && _bodyData$post_media$.full_path ? /*#__PURE__*/react.createElement("img", {
     src: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$post_media2 = bodyData.post_media) === null || _bodyData$post_media2 === void 0 ? void 0 : (_bodyData$post_media3 = _bodyData$post_media2._thumbnail_id[0]) === null || _bodyData$post_media3 === void 0 ? void 0 : _bodyData$post_media3.full_path,
@@ -6716,12 +6713,13 @@ const Body = () => {
     dangerouslySetInnerHTML: {
       __html: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$content = bodyData.content) === null || _bodyData$content === void 0 ? void 0 : _bodyData$content.rendered
     }
-  })) : /*#__PURE__*/react.createElement("div", {
-    className: "container-md"
-  }, /*#__PURE__*/react.createElement("h1", {
-    className: "h1 text-center"
-  }, "Data not Found...")))));
+  })) : /*#__PURE__*/react.createElement(components_NotFound, null)
+  // <div className="container-md">
+  //   <h1 className="h1 text-center">Data not Found...</h1>
+  // </div>
+  )));
 };
+
 /* harmony default export */ const components_Body = (Body);
 ;// CONCATENATED MODULE: ./src/js/app/components/Profile.js
 
@@ -6775,6 +6773,103 @@ const Profile = () => {
   }))));
 };
 /* harmony default export */ const components_Profile = (Profile);
+;// CONCATENATED MODULE: ./src/js/app/components/Sidebar.js
+
+
+function Sidebar() {
+  const [showAccessibilityPanel, setShowAccessibilityPanel] = useState(false);
+  const handleAccessibilityButtonClick = () => {
+    setShowAccessibilityPanel(true);
+  };
+  const handleAccessibilityCloseButtonClick = () => {
+    setShowAccessibilityPanel(false);
+  };
+  const handleHighContrastButtonClick = () => {
+    document.body.classList.toggle('high-contrast');
+  };
+  const handleGreyscaleButtonClick = () => {
+    document.body.classList.toggle('greyscale');
+  };
+  const handleIncreaseFontSizeButtonClick = () => {
+    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    document.documentElement.style.fontSize = currentFontSize + 1 + 'px';
+  };
+  const handleDecreaseFontSizeButtonClick = () => {
+    const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    document.documentElement.style.fontSize = currentFontSize - 1 + 'px';
+  };
+  const handleLightModeButtonClick = () => {
+    document.body.classList.toggle('light-mode');
+  };
+  const handleDarkModeButtonClick = () => {
+    document.body.classList.toggle('dark-mode');
+  };
+  const handleIncreaseWordSpaceButtonClick = () => {
+    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
+    document.documentElement.style.wordSpacing = currentWordSpacing + 1 + 'px';
+  };
+  const handleDecreaseWordSpaceButtonClick = () => {
+    const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
+    document.documentElement.style.wordSpacing = currentWordSpacing - 1 + 'px';
+  };
+
+  // const handleFocusModeButtonClick = () => {
+  //   document.body.classList.toggle('focus-mode');
+  // };
+
+  const handleResetButtonClick = () => {
+    // Reset body classList
+    document.body.classList.remove('high-contrast');
+    document.body.classList.remove('greyscale');
+    document.body.classList.remove('light-mode');
+    document.body.classList.remove('dark-mode');
+
+    // Reset font size and word spacing
+    document.documentElement.style.fontSize = '';
+    document.documentElement.style.wordSpacing = '';
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "App"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-brands fa-accessible-icon",
+    onClick: handleAccessibilityButtonClick
+  }), showAccessibilityPanel && /*#__PURE__*/React.createElement("div", {
+    className: `accessibility-panel ${showAccessibilityPanel ? 'active' : ''}`
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "accessibility-close-button",
+    "aria-label": "Close Accessibility Menu",
+    onClick: handleAccessibilityCloseButtonClick
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "accessibility-close-icon"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "accessibility-options"
+  }, /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+    className: "accessibility-high-contrast-button",
+    onClick: handleHighContrastButtonClick
+  }, "High Contrast")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+    className: "accessibility-greyscale-button",
+    onClick: handleGreyscaleButtonClick
+  }, "Greyscale")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+    className: "accessibility-increase-font-size-button",
+    onClick: handleIncreaseFontSizeButtonClick
+  }, "Increase Font Size"), /*#__PURE__*/React.createElement("button", {
+    className: "accessibility-decrease-font-size-button",
+    onClick: handleDecreaseFontSizeButtonClick
+  }, "Decrease Font Size")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+    className: "accessibility-dark-mode-button",
+    onClick: handleDarkModeButtonClick
+  }, "Dark Mode")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+    className: "accessibility-increase-word-space-button",
+    onClick: handleIncreaseWordSpaceButtonClick
+  }, "Increase Word Space"), /*#__PURE__*/React.createElement("button", {
+    className: "accessibility-decrease-word-space-button",
+    onClick: handleDecreaseWordSpaceButtonClick
+  }, "Decrease Word Space")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+    className: "accessibility-reset-button",
+    onClick: handleResetButtonClick
+  }, "Reset"))))));
+}
+/* harmony default export */ const components_Sidebar = ((/* unused pure expression or super */ null && (Sidebar)));
 ;// CONCATENATED MODULE: ./src/js/app/components/NavSites.js
 
 
@@ -6826,6 +6921,7 @@ function extends_extends() {
   return extends_extends.apply(this, arguments);
 }
 ;// CONCATENATED MODULE: ./src/js/app/components/Demo.js
+
 
 
 
@@ -7086,11 +7182,7 @@ const Demo = () => {
     "oculus-touch-controls": "hand: right",
     "hand-controls": "hand: right; handModelStyle: highPoly; color: #0055ff",
     "blink-controls": "cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
-  })), loading ? /*#__PURE__*/react.createElement("div", {
-    className: "container"
-  }, /*#__PURE__*/react.createElement("h1", {
-    className: "h1 text-center"
-  }, "Loading...")) : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
+  })), loading ? /*#__PURE__*/react.createElement(components_AppLoader, null) : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
     id: worldData.id,
     "gltf-model": base_url + "/wp-content/uploads/" + worldData.src,
     key: worldData.id,
@@ -7289,12 +7381,42 @@ const Footer = () => {
   })))));
 };
 /* harmony default export */ const components_Footer = (Footer);
+;// CONCATENATED MODULE: ./src/js/app/components/NotFound.js
+
+const NotFound = () => {
+  return /*#__PURE__*/react.createElement("div", {
+    className: "container-md",
+    style: {
+      height: '100vh'
+    }
+  }, /*#__PURE__*/react.createElement("h1", {
+    className: "h1 text-center"
+  }, "Oops!"), /*#__PURE__*/react.createElement("h3", {
+    className: "h3 text-center"
+  }, "Data not Found..."));
+};
+/* harmony default export */ const components_NotFound = (NotFound);
+;// CONCATENATED MODULE: ./src/js/app/components/AppLoader.js
+
+const AppLoader = () => {
+  return /*#__PURE__*/react.createElement("div", {
+    className: "container-md",
+    style: {
+      height: '100vh'
+    }
+  }, /*#__PURE__*/react.createElement("h1", {
+    className: "h1 text-center"
+  }, "Loading!"));
+};
+/* harmony default export */ const components_AppLoader = (AppLoader);
 ;// CONCATENATED MODULE: ./src/js/app/components/index.js
 
 
 
 
-// import Sidebar from "./Sidebar";
+
+
+
 
 
 
@@ -7347,11 +7469,7 @@ const App = () => {
       console.log("Error fetching staging data: ", error);
     }
   }
-  return /*#__PURE__*/react.createElement(react.Fragment, null, stagingData.length === 0 ? /*#__PURE__*/react.createElement("div", {
-    className: "container-md mx-auto"
-  }, /*#__PURE__*/react.createElement("h1", {
-    className: "h1 text-center"
-  }, "Loading...")) : /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
+  return /*#__PURE__*/react.createElement(react.Fragment, null, stagingData.length === 0 ? /*#__PURE__*/react.createElement(components_AppLoader, null) : /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
     value: {
       lang: lang,
       setLang: setLang
@@ -7379,7 +7497,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(234);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(625);
 
 
 
@@ -7940,7 +8058,7 @@ if (true) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(234);
+/******/ 	__webpack_require__(625);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()

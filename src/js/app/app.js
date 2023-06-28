@@ -9,7 +9,8 @@ import {
   Navbar,
   Profile,
   // Sidebar,
-  Footer
+  Footer,
+  AppLoader
 } from "./components";
 import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
 import { AppConfig } from "./config/appConfig";
@@ -81,9 +82,7 @@ const App = () => {
   return (
     <>
       {stagingData.length === 0 ? (
-        <div className="container-md mx-auto">
-          <h1 className="h1 text-center">Loading...</h1>
-        </div>
+        <AppLoader />
       ) : (
         <DataContext.Provider value={{ lang: lang, setLang: setLang }}>
           <StagingDataContext.Provider value={{ stagingData, setStagingData }}>
