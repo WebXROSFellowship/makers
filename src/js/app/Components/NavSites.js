@@ -18,8 +18,8 @@ const NavSites = () => {
 
   return (
     <>
-     <div className="navsite"> <h1 dangerouslySetInnerHTML={{ __html: filteredMenuData.title }} />
-      <div dangerouslySetInnerHTML={{ __html: filteredMenuData.content }} /> </div>
+     <div className="navsite"> <h1 dangerouslySetInnerHTML={{ __html: filteredMenuData?.title }} />
+      <div dangerouslySetInnerHTML={{ __html: filteredMenuData?.content }} /> </div>
     </>
   );
 };

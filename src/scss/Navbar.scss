@@ -1,16 +1,22 @@
 .navbar {
   padding-top: 20px;;
   height: 80px;
-  width: 100vw;
+  width: 100%;
   opacity: 0.8;
   background-color: #00000F;
   color: #9DB2BF;
   cursor: default;
+  position: fixed;
+  top: 0;
 }
 
 .navbar-brand {
   font-size: 1.5em;
   margin-left: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .title-head{
@@ -217,9 +223,9 @@
   display: flex;
   max-width:70px;
   padding-top: 10px;
-  
-  
+  font-size: 14px;
 }
+
 }
 
 // .navbar text-white {
