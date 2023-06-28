@@ -757,10 +757,9 @@ function register_inspecter_changes() {
 }
 
 function update_inspecter_data($request) {
-	// var_dump( $request);
+	$file_name = $_POST['page'];
 	$file = $request->get_file_params();
-    $upload_dir = wp_upload_dir();
-    $file_name = 'dynamicContent_demo.json';
+    $upload_dir = wp_upload_dir();;
 	$file_type = $file["file"]["type"]; 
 	$file_tmp_name = $file["file"]['tmp_name'];
     $file_path = get_stylesheet_directory() . '/data/' . $file_name;

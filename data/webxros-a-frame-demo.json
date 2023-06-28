@@ -41,19 +41,19 @@
   {
     "class": "name_wrapper",
     "type": "wrapper",
-    "troika-text": "color: #ffffff; align: center; fontSize: 0.08",
+    "troika-text": "color: #ffffff; align: center; fontSize: 0.08;overflowWrap: break-word",
     "position": "0 -0.4706 0"
   },
   {
     "class": "caption_wrapper",
     "type": "wrapper",
-    "troika-text": "align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d",
+    "troika-text": "align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d; overflowWrap: break-word",
     "position": "0 -0.58371 0"
   },
   {
     "class": "desc_wrapper",
     "type": "wrapper",
-    "troika-text": "color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2",
+    "troika-text": "color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2; overflowWrap: break-word",
     "position": "1.057 0 0"
   },
   {
@@ -89,7 +89,6 @@
   },
   {
     "id": "clock",
-    "gltf-model": "https://webxr.local/wp-content/uploads/2023/06/clock.glb",
     "type": "model",
     "position": "3.08747 0.578 2.996",
     "rotation": "0 90 0"
@@ -143,7 +142,6 @@
   },
   {
     "id": "kunaalmangal",
-    "gltf-model": "https://webxr.local/wp-content/uploads/2023/05/KunaalMangal.glb",
     "position": "0.88855 0.67713 -1.35203",
     "scale": "2 2 2"
   }
