@@ -477,6 +477,11 @@ code {
   color: #9DB2BF;
 }
 
+@media only screen and (max-width: 550px) {
+  .footer_icons {
+    display: none;
+  }
+}
 .navsite {
   margin: 3% 10%;
 }
