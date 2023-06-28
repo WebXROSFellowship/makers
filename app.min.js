@@ -6575,48 +6575,6 @@ const Navbar = () => {
       className: "dropdown__items"
     }, cLang);
   }))), /*#__PURE__*/react.createElement("div", {
-    className: "dropdown dropdown--logos dropdown__socials"
-  }, /*#__PURE__*/react.createElement("a", {
-    href: "https://twitter.com/webxrawards",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-twitter fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://www.instagram.com/webxrawards/",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-instagram fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://www.facebook.com/groups/webxrawards",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-facebook fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://www.linkedin.com/company/the-polys/",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-linkedin fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://discord.gg/T5vRuM5cDS",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-discord fa-xl"
-  })))), /*#__PURE__*/react.createElement("div", {
     className: "hamburger"
   }, /*#__PURE__*/react.createElement("span", {
     className: "hamburger__logo",
@@ -7379,12 +7337,54 @@ const Footer = () => {
   }, "\xA9 Copyright by ", " ", /*#__PURE__*/react.createElement(Link, {
     to: "/",
     className: "text-decoration-none"
-  }, "Powersimple")), /*#__PURE__*/react.createElement("span", null, " ", " ", " "), /*#__PURE__*/react.createElement("h6", {
+  }, "Powersimple")), /*#__PURE__*/react.createElement("h6", {
     className: "h6"
   }, /*#__PURE__*/react.createElement(Link, {
     to: "#",
     className: "text-decoration-none"
-  }, " Privacy Policy ")));
+  }, " Privacy Policy ")), /*#__PURE__*/react.createElement("div", {
+    className: "footer_icons"
+  }, /*#__PURE__*/react.createElement("a", {
+    href: "https://twitter.com/webxrawards",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-twitter fa-xl"
+  }))), /*#__PURE__*/react.createElement("a", {
+    href: "https://www.instagram.com/webxrawards/",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-instagram fa-xl"
+  }))), /*#__PURE__*/react.createElement("a", {
+    href: "https://www.facebook.com/groups/webxrawards",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-facebook fa-xl"
+  }))), /*#__PURE__*/react.createElement("a", {
+    href: "https://www.linkedin.com/company/the-polys/",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-linkedin fa-xl"
+  }))), /*#__PURE__*/react.createElement("a", {
+    href: "https://discord.gg/T5vRuM5cDS",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-discord fa-xl"
+  })))));
 };
 /* harmony default export */ const components_Footer = (Footer);
 ;// CONCATENATED MODULE: ./src/js/app/components/index.js
@@ -7446,7 +7446,7 @@ const App = () => {
     }
   }
   return /*#__PURE__*/react.createElement(react.Fragment, null, stagingData.length === 0 ? /*#__PURE__*/react.createElement("div", {
-    className: "container mx-auto"
+    className: "container-md mx-auto"
   }, /*#__PURE__*/react.createElement("h1", {
     className: "h1"
   }, "Loading...")) : /*#__PURE__*/react.createElement(utils_DataContext.Provider, {

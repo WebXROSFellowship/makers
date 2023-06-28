@@ -1,7 +1,7 @@
 .navbar {
   padding-top: 20px;;
   height: 80px;
-  width: 100vw;
+  width: 100%;
   opacity: 0.8;
   background-color: #00000F;
   color: #9DB2BF;
@@ -174,7 +174,7 @@
   background: darkgrey;
 }
 
-@media only screen and (max-width: 1063px) {
+@media only screen and (max-width: 982px) {
   .navbar-brand {
     font-size: 0.95rem;
   }

@@ -81,7 +81,7 @@ const App = () => {
   return (
     <>
       {stagingData.length === 0 ? (
-        <div className="container mx-auto">
+        <div className="container-md mx-auto">
           <h1 className="h1">Loading...</h1>
         </div>
       ) : (
