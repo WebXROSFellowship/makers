@@ -78,13 +78,13 @@ const Demo = () => {
             world = item.properties_3D.world_model;
 
             navmesh = item.properties_3D.nav_mesh;
+            setFurnitureData(furniture);
+            setWorldData(world);
+            setMeshData(navmesh);
+            setScientistsData(pagecontents);
+            setLoading(false);    
           }
         });
-        setFurnitureData(furniture);
-        setWorldData(world);
-        setMeshData(navmesh);
-        setScientistsData(pagecontents);
-        setLoading(false);
         AddClickEvent(pagecontents);
       })
       .catch((error) => {
