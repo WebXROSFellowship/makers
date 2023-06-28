@@ -78,13 +78,13 @@ const Demo = () => {
             world = item.properties_3D.world_model;
 
             navmesh = item.properties_3D.nav_mesh;
+            setFurnitureData(furniture);
+            setWorldData(world);
+            setMeshData(navmesh);
+            setScientistsData(pagecontents);
+            setLoading(false);    
           }
         });
-        setFurnitureData(furniture);
-        setWorldData(world);
-        setMeshData(navmesh);
-        setScientistsData(pagecontents);
-        setLoading(false);
         AddClickEvent(pagecontents);
       })
       .catch((error) => {
@@ -139,7 +139,7 @@ const Demo = () => {
   }
 
   async function fetchLatestData() {
-    const url = `${base_url}/wp-content/themes/makers/data/dynamicContent_demo.json`;
+    const url = `${base_url}/wp-content/themes/makers/data/${PAGE_SLUG}.json`;
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
@@ -188,6 +188,12 @@ const Demo = () => {
     // Usage: Updates the API data with the new JSON string
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
+    if (Array.isArray(data.current) && data.current.length === 1 && Object.keys(data.current[0]).length === 0){
+      console.log("!!!!!No data found, adding new data");
+      const updatedJsonString = JSON.stringify([newData], null, 2);
+      sendApiRequest(updatedJsonString);
+      return;
+    }
     var foundData = false;
     var foundClassData = false;
     const updatedData = data.current.map((item) => {
@@ -225,6 +231,8 @@ const Demo = () => {
     const url = `${base_url}/wp-json/myroutes/update_inspecter`;
     var formdata = new FormData();
     formdata.append("file", new Blob([data]));
+    const file_name=PAGE_SLUG+".json";
+    formdata.append("page",file_name);
 
     var requestOptions = {
       method: "POST",
@@ -236,8 +244,9 @@ const Demo = () => {
       .then((response) => response.text())
       .then((result) => {
         // Result : {success: true/false, message: "..."}
-        const dataResp = JSON.parse(result);
-        alert(dataResp.message);
+        console.log("API Response: ", result);ī
+        // const dataResp = JSON.parse(result);
+        // alert(dataResp.message);
        
       })
       .catch((error) => console.log("Error", error));
