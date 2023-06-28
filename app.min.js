@@ -6706,7 +6706,7 @@ const Body = () => {
   }, loading ? /*#__PURE__*/react.createElement("div", {
     className: "container-md"
   }, /*#__PURE__*/react.createElement("h1", {
-    className: "h1"
+    className: "h1 text-center"
   }, "Loading...")) : /*#__PURE__*/react.createElement("div", null, bodyData ? /*#__PURE__*/react.createElement("div", {
     className: "dynamic"
   }, bodyData !== null && bodyData !== void 0 && (_bodyData$post_media = bodyData.post_media) !== null && _bodyData$post_media !== void 0 && (_bodyData$post_media$ = _bodyData$post_media._thumbnail_id[0]) !== null && _bodyData$post_media$ !== void 0 && _bodyData$post_media$.full_path ? /*#__PURE__*/react.createElement("img", {
@@ -6719,7 +6719,7 @@ const Body = () => {
   })) : /*#__PURE__*/react.createElement("div", {
     className: "container-md"
   }, /*#__PURE__*/react.createElement("h1", {
-    className: "h1"
+    className: "h1 text-center"
   }, "Data not Found...")))));
 };
 /* harmony default export */ const components_Body = (Body);
@@ -7089,7 +7089,7 @@ const Demo = () => {
   })), loading ? /*#__PURE__*/react.createElement("div", {
     className: "container"
   }, /*#__PURE__*/react.createElement("h1", {
-    className: "h1"
+    className: "h1 text-center"
   }, "Loading...")) : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
     id: worldData.id,
     "gltf-model": base_url + "/wp-content/uploads/" + worldData.src,
@@ -7350,7 +7350,7 @@ const App = () => {
   return /*#__PURE__*/react.createElement(react.Fragment, null, stagingData.length === 0 ? /*#__PURE__*/react.createElement("div", {
     className: "container-md mx-auto"
   }, /*#__PURE__*/react.createElement("h1", {
-    className: "h1"
+    className: "h1 text-center"
   }, "Loading...")) : /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
     value: {
       lang: lang,
