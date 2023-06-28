@@ -8,7 +8,7 @@ import {
   NavSites,
   Navbar,
   Profile,
-  Sidebar,
+  // Sidebar,
   Footer
 } from "./components";
 import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
@@ -20,7 +20,7 @@ const appRouter = createBrowserRouter([
     element: (
       <>
         <Navbar />
-        <Sidebar />
+        {/* <Sidebar /> */}
         <Home />
         <Footer/>
       </>
