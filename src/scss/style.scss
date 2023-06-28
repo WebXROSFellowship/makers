@@ -23,11 +23,15 @@ code {
     monospace;
 }
 
+body {
+  min-height: 100vh;
+}
 
 #root{
   background-color: rgba(221, 230, 237, 0.90);
   color: #00000F;
   font-family: sans-serif;
+  min-height: 100vh;
 }
 
 /* CSS for the featured image */
@@ -67,7 +71,6 @@ code {
   bottom: 0;
   width: 100%;
   height: 60px;
-  top:100vh;
   background-color: #252544;
   text-align: center;
   line-height: 60px;
@@ -85,7 +88,8 @@ code {
   color: #9DB2BF;
 }
 .navsite{
-    margin: 3% 10%;
+    min-height: calc(100vh - 140px);
+    padding: 2rem;
 }
 
 .navsite p {

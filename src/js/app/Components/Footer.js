@@ -13,7 +13,6 @@ const Footer = () => {
           Powersimple
         </Link>
       </h6>
-      <span> {" "} </span>
       <h6 className="h6">
         <Link to="#" className="text-decoration-none"> Privacy Policy </Link>
       </h6>

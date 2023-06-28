@@ -64,12 +64,10 @@ const App = () => {
     fetchMenuData();
   }, [lang]);
 
-  console.log("site url", base_url);
 
   async function fetchMenuData() {
     try {
       let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
-      console.log(fetchURL);
       let stagingData = await fetch(fetchURL);
       let jsonData = await stagingData.json();
       let items = jsonData.filter((item) => item.slug == "main-menu");
@@ -83,7 +81,7 @@ const App = () => {
   return (
     <>
       {stagingData.length === 0 ? (
-        <div className="container mx-auto">
+        <div className="container-md mx-auto">
           <h1 className="h1">Loading...</h1>
         </div>
       ) : (
