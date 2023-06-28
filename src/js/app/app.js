@@ -82,7 +82,7 @@ const App = () => {
     <>
       {stagingData.length === 0 ? (
         <div className="container-md mx-auto">
-          <h1 className="h1">Loading...</h1>
+          <h1 className="h1 text-center">Loading...</h1>
         </div>
       ) : (
         <DataContext.Provider value={{ lang: lang, setLang: setLang }}>

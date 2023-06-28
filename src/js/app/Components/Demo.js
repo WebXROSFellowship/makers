@@ -311,7 +311,7 @@ const Demo = () => {
 
         {loading ? (
           <div className="container">
-            <h1 className="h1">Loading...</h1>
+            <h1 className="h1 text-center">Loading...</h1>
           </div>
         ) : (
           <>

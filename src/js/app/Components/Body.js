@@ -38,10 +38,10 @@ const Body = () => {
 
   return (
     <>
-    <div className="container">
+    <div className="container" >
       {loading ? (
         <div className="container-md">
-          <h1 className="h1">Loading...</h1>
+          <h1 className="h1 text-center">Loading...</h1>
         </div>
       ) : (
         <div>
@@ -61,7 +61,7 @@ const Body = () => {
             </div>
           ) : (
             <div className="container-md">
-              <h1 className="h1">Data not Found...</h1>
+              <h1 className="h1 text-center">Data not Found...</h1>
             </div>
           )}
         </div>
