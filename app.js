@@ -6846,7 +6846,6 @@ const Demo = () => {
     fetchLatestData();
   }, []);
   (0,react.useEffect)(() => {
-    getData();
     getFromServer();
     checkElement();
     getLanguages();

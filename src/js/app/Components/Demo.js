@@ -21,7 +21,6 @@ const Demo = () => {
   }, []);
 
   useEffect(() => {
-    getData();
     getFromServer();
     checkElement();
     getLanguages();
