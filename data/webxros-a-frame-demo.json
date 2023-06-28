@@ -89,6 +89,7 @@
   },
   {
   "id": "clock",
+  "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/06/clock.glb",
   "type": "model",
   "position": "3.867 1.418 2.996",
   "rotation": "0 90 0"
@@ -119,11 +120,13 @@
   {
   "id": "800px-andrew_yao_p1130016_cropped",
   "type": "wrapper",
-  "position": "2.88058 2.175 2.70634",
-  "rotation": "0 180 0"
+  "position": "2.88058 2.175 2.646",
+  "rotation": "0 180 0",
+  "show-details-on-click": ""
   },
   {
   "id": "prathamgupta",
+  "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/05/PrathamGupta.glb",
   "position": "-1.04457 0.748 -1.42253",
   "scale": "2 2 2",
   "rotation": "63.48 0 0"
@@ -142,26 +145,37 @@
   },
   {
   "id": "kunaalmangal",
+  "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/05/KunaalMangal.glb",
   "position": "0.992 0.584 1.505",
   "scale": "2 2 2",
   "rotation": "63.48 180 0"
   },
   {
   "id": "aryangrover",
+  "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/05/AryanGrover.glb",
   "position": "0.706 0.549 -1.373",
   "scale": "2 2 2",
   "rotation": "63 0 0"
   },
   {
   "id": "surbhisharma",
+  "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/05/SurbhiSharma.glb",
   "position": "-2.312 0.894 0.339",
   "scale": "2 2 2",
   "rotation": "60.983000000000004 92.14900000000002 0"
   },
   {
   "id": "shravanikaware",
+  "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/05/ShravaniKaware.glb",
   "position": "-0.557 0.807 1.625",
   "rotation": "63.48 180 0",
   "scale": "2 2 2"
+  },
+  {
+  "id": "diego-marcus",
+  "type": "wrapper",
+  "position": "1.518 1.6 3.052",
+  "show-details-on-click": "",
+  "rotation": ""
   }
   ]
