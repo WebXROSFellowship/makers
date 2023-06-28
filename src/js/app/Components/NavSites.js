@@ -13,12 +13,13 @@ const NavSites = () => {
     const curl = "/" + sitename + "/" + (sn != undefined ? sn + "/" : "");
     const langMenuData = stagingData || [];
     const filteredData = langMenuData.filter((item) => item.url === curl);
-    return filteredData.length > 0 ? filteredData[0].content : null;
+    return filteredData.length > 0 ? filteredData[0] : null;
   }, [stagingData, lang, sitename, sn]);
 
   return (
     <>
-      <div dangerouslySetInnerHTML={{ __html: filteredMenuData }} />
+     <div className="navsite"> <h1 dangerouslySetInnerHTML={{ __html: filteredMenuData?.title }} />
+      <div dangerouslySetInnerHTML={{ __html: filteredMenuData?.content }} /> </div>
     </>
   );
 };

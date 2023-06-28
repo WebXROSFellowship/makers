@@ -2,7 +2,6 @@ import React, { useState, useEffect, lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import {
-  AFrame,
   Body,
   Demo,
   Home,
@@ -10,6 +9,7 @@ import {
   Navbar,
   Profile,
   Sidebar,
+  Footer
 } from "./components";
 import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
 import { AppConfig } from "./config/appConfig";
@@ -22,6 +22,7 @@ const appRouter = createBrowserRouter([
         <Navbar />
         <Sidebar />
         <Home />
+        <Footer/>
       </>
     ),
     children: [
@@ -32,10 +33,6 @@ const appRouter = createBrowserRouter([
       {
         path: "aframe_demo",
         element: <Demo />,
-      },
-      {
-        path: "aframe",
-        element: <AFrame />,
       },
       {
         path: "profile/:username",
@@ -67,47 +64,10 @@ const App = () => {
     fetchMenuData();
   }, [lang]);
 
-  console.log("site url", base_url);
-
-  // TODO: Optimize for dynamicity
-  // useEffect(() => {
-  //   sendDataDump("", "data_english");
-  //   sendDataDump("de", "data_german");
-  //   sendDataDump("hi", "data_hindi");
-  // }, []);
-
-  // const sendDataDump = async (lang, slug) => {
-  //   const url = `${base_url}/${lang}/wp-json`;
-  //   await fetch(url)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("data..", data);
-  //       const apiUrl = `${base_url}/wp-json/myroutes/data_publish`;
-  //       const formdata = new FormData();
-  //       formdata.append("slug", slug);
-  //       formdata.append("data", JSON.stringify(data));
-  //       const payload = {
-  //         method: "POST",
-  //         body: formdata,
-  //         redirect: "follow",
-  //       };
-
-  //       fetch(apiUrl, payload)
-  //         .then((response) => response.json())
-  //         .then((result) => {
-  //           console.log("Data Dump...", result);
-  //         })
-  //         .catch((error) => console.log("Data Dump Error...", error));
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error in Getting the Data...", error);
-  //     });
-  // };
 
   async function fetchMenuData() {
     try {
       let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
-      console.log(fetchURL);
       let stagingData = await fetch(fetchURL);
       let jsonData = await stagingData.json();
       let items = jsonData.filter((item) => item.slug == "main-menu");
@@ -121,7 +81,7 @@ const App = () => {
   return (
     <>
       {stagingData.length === 0 ? (
-        <div className="container mx-auto">
+        <div className="container-md mx-auto">
           <h1 className="h1">Loading...</h1>
         </div>
       ) : (

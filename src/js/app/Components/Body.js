@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { DataContext } from "../utils";
 
 import "@styles/style.scss";
 import {AppConfig} from "../config/appConfig";
+import { DataContext } from "../utils";
 
 
 const Body = () => {
@@ -21,7 +21,7 @@ const Body = () => {
       .then((response) => response.json())
       .then((result) => {
         result.map((data) => {
-          if (data.slug === "webxr-open-source-fellowship") {
+          if (data.link == `${base_url}/${lang}` || data.link == `${base_url}/${lang}/`) {
             console.log("image", data?.post_media?._thumbnail_id[0]?.full_path);
             setBodyData(data);
             setLoading(false);
@@ -37,6 +37,7 @@ const Body = () => {
   };
 
   return (
+    <>
     <div className="container">
       {loading ? (
         <div className="container-md">
@@ -66,6 +67,7 @@ const Body = () => {
         </div>
       )}
     </div>
+  </>
   );
 };
 
