@@ -7150,7 +7150,13 @@ const Demo = () => {
       }
     });
   }
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-scene", {
+  return /*#__PURE__*/react.createElement(react.Fragment, null, loading ? /*#__PURE__*/react.createElement(components_AppLoader, null) : /*#__PURE__*/react.createElement("div", {
+    style: {
+      height: "100vh",
+      width: "100%"
+    }
+  }, /*#__PURE__*/react.createElement("a-scene", {
+    embedded: true,
     environment: "preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;",
     cursor: "rayOrigin: mouse"
   }, /*#__PURE__*/react.createElement("a-entity", {
@@ -7182,7 +7188,7 @@ const Demo = () => {
     "oculus-touch-controls": "hand: right",
     "hand-controls": "hand: right; handModelStyle: highPoly; color: #0055ff",
     "blink-controls": "cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
-  })), loading ? /*#__PURE__*/react.createElement(components_AppLoader, null) : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
+  })), /*#__PURE__*/react.createElement("a-entity", {
     id: worldData.id,
     "gltf-model": base_url + "/wp-content/uploads/" + worldData.src,
     key: worldData.id,
@@ -7275,7 +7281,7 @@ const Demo = () => {
         }, insData));
       })));
     }));
-  }), " "), /*#__PURE__*/react.createElement("a-light", {
+  }), /*#__PURE__*/react.createElement("a-light", {
     type: "directional",
     color: "#35227A",
     intensity: "0.60",
@@ -7316,7 +7322,7 @@ const Demo = () => {
     height: "4",
     color: "#7BC8A4",
     scale: "6 2 2"
-  })));
+  }))));
 };
 /* harmony default export */ const components_Demo = (Demo);
 ;// CONCATENATED MODULE: ./src/js/app/components/Footer.js

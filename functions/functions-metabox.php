@@ -646,7 +646,7 @@ function selectScreenImage( $meta_boxes ) {
 				'name' => esc_html__( 'Screen Image', 'metabox-online-generator' ),
 				'desc' => esc_html__( 'Appears in Screen', 'metabox-online-generator' ),
 				'force_delete' => false,
-				'max_file_uploads' => '10',
+				'max_file_uploads' => '15',
 				'options' => array(),
 				'attributes' => array(),
 			),
