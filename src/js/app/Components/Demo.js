@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { AppConfig } from "../config/appConfig";
-import {AppLoader} from "./index";
+import { AppLoader } from "./index";
 
 const Demo = () => {
   const PAGE_SLUG = "webxros-a-frame-demo";
@@ -83,7 +83,7 @@ const Demo = () => {
             setWorldData(world);
             setMeshData(navmesh);
             setScientistsData(pagecontents);
-            setLoading(false);    
+            setLoading(false);
           }
         });
         AddClickEvent(pagecontents);
@@ -189,7 +189,11 @@ const Demo = () => {
     // Usage: Updates the API data with the new JSON string
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
-    if (Array.isArray(data.current) && data.current.length === 1 && Object.keys(data.current[0]).length === 0){
+    if (
+      Array.isArray(data.current) &&
+      data.current.length === 1 &&
+      Object.keys(data.current[0]).length === 0
+    ) {
       console.log("!!!!!No data found, adding new data");
       const updatedJsonString = JSON.stringify([newData], null, 2);
       sendApiRequest(updatedJsonString);
@@ -232,8 +236,8 @@ const Demo = () => {
     const url = `${base_url}/wp-json/myroutes/update_inspecter`;
     var formdata = new FormData();
     formdata.append("file", new Blob([data]));
-    const file_name=PAGE_SLUG+".json";
-    formdata.append("page",file_name);
+    const file_name = PAGE_SLUG + ".json";
+    formdata.append("page", file_name);
 
     var requestOptions = {
       method: "POST",
@@ -248,7 +252,6 @@ const Demo = () => {
         console.log("API Response: ", result);
         const dataResp = JSON.parse(result);
         alert(dataResp.message);
-       
       })
       .catch((error) => console.log("Error", error));
     fetchLatestData();
@@ -261,7 +264,6 @@ const Demo = () => {
         el.addEventListener("click", function () {
           ShowDescription(el);
           console.log("Click detected", el);
-         
         });
       },
     });
@@ -269,51 +271,51 @@ const Demo = () => {
 
   return (
     <>
-      <a-scene
-        environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
-        cursor="rayOrigin: mouse"
-      >
-        <a-entity
-          id="rig"
-          rotation-reader
-          thumbstick-logging
-          movement-controls="constrainToNavMesh: true; speed:1; controls: checkpoint, gamepad, trackpad, keyboard, touch;"
-        >
-          <a-entity
-            camera=""
-            position="0 1.6 0"
-            rotation="-4.469070802020421 -84.91234523838803 0"
-            look-controls="fly:true"
-            raycaster="far: 5; objects: .clickable"
-            super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
+      {loading ? (
+        <AppLoader />
+      ) : (
+        <div style={{ height: "100vh", width: "100%" }}>
+          <a-scene
+            embedded
+            environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
+            cursor="rayOrigin: mouse"
           >
             <a-entity
-              id="crosshair"
-              cursor="rayOrigin:mouse"
-              position="0 0 -0.2"
-              geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.003"
-              material="shader: flat"
-              raycaster="far: 5; objects: .clickable"
-              visible="false"
-            ></a-entity>
-          </a-entity>
-          <a-entity
-            mixin="hand"
-            oculus-touch-controls="hand: left"
-            hand-controls="hand: left; handModelStyle: highPoly; color: #0055ff"
-          ></a-entity>
-          <a-entity
-            mixin="hand"
-            oculus-touch-controls="hand: right"
-            hand-controls="hand: right; handModelStyle: highPoly; color: #0055ff"
-            blink-controls="cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
-          ></a-entity>
-        </a-entity>
-
-        {loading ? (
-          <AppLoader />
-        ) : (
-          <>
+              id="rig"
+              rotation-reader
+              thumbstick-logging
+              movement-controls="constrainToNavMesh: true; speed:1; controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+            >
+              <a-entity
+                camera=""
+                position="0 1.6 0"
+                rotation="-4.469070802020421 -84.91234523838803 0"
+                look-controls="fly:true"
+                raycaster="far: 5; objects: .clickable"
+                super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
+              >
+                <a-entity
+                  id="crosshair"
+                  cursor="rayOrigin:mouse"
+                  position="0 0 -0.2"
+                  geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.003"
+                  material="shader: flat"
+                  raycaster="far: 5; objects: .clickable"
+                  visible="false"
+                ></a-entity>
+              </a-entity>
+              <a-entity
+                mixin="hand"
+                oculus-touch-controls="hand: left"
+                hand-controls="hand: left; handModelStyle: highPoly; color: #0055ff"
+              ></a-entity>
+              <a-entity
+                mixin="hand"
+                oculus-touch-controls="hand: right"
+                hand-controls="hand: right; handModelStyle: highPoly; color: #0055ff"
+                blink-controls="cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
+              ></a-entity>
+            </a-entity>
             <a-entity
               id={worldData.id}
               gltf-model={base_url + "/wp-content/uploads/" + worldData.src}
@@ -446,61 +448,60 @@ const Demo = () => {
                   })}
                 </a-entity>
               );
-            })}{" "}
-          </>
-        )}
+            })}
+            <a-light
+              type="directional"
+              color="#35227A"
+              intensity="0.60"
+              position="4.40664 0.98434 0.05053"
+              light="type: point; angle: 180"
+              rotation="-0.3 50.509 147.30229250797848"
+              id="bulb"
+            ></a-light>
 
-        <a-light
-          type="directional"
-          color="#35227A"
-          intensity="0.60"
-          position="4.40664 0.98434 0.05053"
-          light="type: point; angle: 180"
-          rotation="-0.3 50.509 147.30229250797848"
-          id="bulb"
-        ></a-light>
+            <a-light
+              type="directional"
+              color="#FFFFBC"
+              intensity="0.50"
+              position="3.94786 -1.28516 -0.54807"
+              light="type: hemisphere; angle: 90; color: #8778bf"
+              rotation="-0.3 50.509 147.30229250797848"
+              id="bulb-3"
+            ></a-light>
 
-        <a-light
-          type="directional"
-          color="#FFFFBC"
-          intensity="0.50"
-          position="3.94786 -1.28516 -0.54807"
-          light="type: hemisphere; angle: 90; color: #8778bf"
-          rotation="-0.3 50.509 147.30229250797848"
-          id="bulb-3"
-        ></a-light>
+            <a-light
+              type="directional"
+              color="#FF4400"
+              intensity="2"
+              position="20.45283 -2.62394 -5.68868"
+              light="type: ambient; intensity: 0.3; angle: 180; color: #7156d2"
+              rotation="-0.3 50.509 147.30229250797848"
+              id="bulb-4"
+            ></a-light>
+            <a-light
+              type="directional"
+              color="#FFFFBC"
+              intensity="0.50"
+              position="-0.21291 -0.99888 0.00254"
+              light="type: hemisphere; color: #ffffff; angle: 90"
+              rotation="-0.3 50.509 147.30229250797848"
+              id="bulb-5"
+            ></a-light>
 
-        <a-light
-          type="directional"
-          color="#FF4400"
-          intensity="2"
-          position="20.45283 -2.62394 -5.68868"
-          light="type: ambient; intensity: 0.3; angle: 180; color: #7156d2"
-          rotation="-0.3 50.509 147.30229250797848"
-          id="bulb-4"
-        ></a-light>
-        <a-light
-          type="directional"
-          color="#FFFFBC"
-          intensity="0.50"
-          position="-0.21291 -0.99888 0.00254"
-          light="type: hemisphere; color: #ffffff; angle: 90"
-          rotation="-0.3 50.509 147.30229250797848"
-          id="bulb-5"
-        ></a-light>
-
-        {/* floor collider */}
-        <a-plane
-          static-body="shape:  mesh"
-          position="0 0 -4"
-          visible="false"
-          rotation="-90 0 0"
-          width="4"
-          height="4"
-          color="#7BC8A4"
-          scale="6 2 2"
-        ></a-plane>
-      </a-scene>
+            {/* floor collider */}
+            <a-plane
+              static-body="shape:  mesh"
+              position="0 0 -4"
+              visible="false"
+              rotation="-90 0 0"
+              width="4"
+              height="4"
+              color="#7BC8A4"
+              scale="6 2 2"
+            ></a-plane>
+          </a-scene>
+        </div>
+      )}
     </>
   );
 };

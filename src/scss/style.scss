@@ -1,4 +1,3 @@
-
 /*
 Theme Name: Makers
 
@@ -10,16 +9,15 @@ DO NOT EDIT IN STYLE.CSS
 */
 /*
     PUT YOUR COLOR PALETTE HERE:
-*/ 
-@import 'partials/colors';
-@import 'App.scss';
-@import 'Navbar.scss';
-@import 'Sidebar.scss';
-@import 'Profile.scss';
-
+*/
+@import "partials/colors";
+@import "App.scss";
+@import "Navbar.scss";
+@import "Sidebar.scss";
+@import "Profile.scss";
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -27,22 +25,22 @@ body {
   min-height: 100%;
 }
 
-#root{
-  background-color: rgba(221, 230, 237, 0.90);
-  color: #00000F;
+#root {
+  background-color: rgba(221, 230, 237, 0.9);
+  color: #00000f;
   font-family: sans-serif;
   min-height: 100vh;
 }
 
-.main{
-  height: 100vh,
+.main {
+  height: 100vh;
 }
 
 /* CSS for the featured image */
-  .dynamic img {
-    width: 55%;
-    margin-left: 22%;
-    margin-top: 7%;
+.dynamic img {
+  width: 55%;
+  margin-left: 22%;
+  margin-top: 7%;
 }
 
 /* CSS for the loading text */
@@ -56,16 +54,15 @@ body {
   line-height: 30px;
   text-align: justify;
   text-transform: capitalize;
-  color: #00000F;
+  color: #00000f;
   padding: 0.6% 7%;
   margin-bottom: 0;
 }
 
-
-.dynamic b{
+.dynamic b {
   padding-left: 10%;
 }
-.otgs-development-site-front-end{
+.otgs-development-site-front-end {
   display: none;
 }
 
@@ -78,27 +75,27 @@ body {
   background-color: #252544;
   text-align: center;
   line-height: 60px;
-  color: #9DB2BF;
+  color: #9db2bf;
   align-items: center;
   justify-content: center;
   display: flex;
 }
-.footer_icons{
-  margin-left:2rem;
-  float:right;
-  color: #9DB2BF;
+.footer_icons {
+  margin-left: 2rem;
+  float: right;
+  color: #9db2bf;
 }
-.footer_icons a{
-  color: #9DB2BF;
+.footer_icons a {
+  color: #9db2bf;
 }
 @media only screen and (max-width: 550px) {
-  .footer_icons{
+  .footer_icons {
     display: none;
   }
 }
-.navsite{
-    min-height: calc(100vh - 140px);
-    padding: 2rem;
+.navsite {
+  min-height: calc(100vh - 140px);
+  padding: 2rem;
 }
 
 .navsite p {
@@ -120,6 +117,7 @@ body {
   font-weight: 350;
   line-height: 3rem;
 }
+
 
 .a-enter-vr-button {
   position: fixed !important;
