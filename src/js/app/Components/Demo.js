@@ -3,20 +3,18 @@ import { AppConfig } from "../config/appConfig";
 import { AppLoader } from "./index";
 
 const Demo = () => {
-  const PAGE_SLUG = "webxros-a-frame-demo";
-  const DEFAULT_LANG = "en";
-
   const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]);
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
-  const langRef = useRef(DEFAULT_LANG);
+  const langRef = useRef(null);
   const [allLang, setAllLang] = useState([]);
   const [furnitureData, setFurnitureData] = useState([]);
   const [worldData, setWorldData] = useState([]);
   const [meshData, setMeshData] = useState([]);
   const data = useRef([{}]);
 
+  const PAGE_SLUG = new URLSearchParams(document.location.search).get("wordpress_slug");
   useEffect(() => {
     fetchLatestData();
   }, []);
@@ -71,8 +69,10 @@ const Demo = () => {
         var furniture = [];
         var world = [];
         var navmesh = [];
+        console.log("result", result);
         result.map((item) => {
           if (item.slug === PAGE_SLUG) {
+            langRef.current = item.languages.default;
             pagecontents = item.post_media.screen_image;
             furniture = item.properties_3D.furniture;
 
@@ -181,6 +181,7 @@ const Demo = () => {
     updateApiData(jsonString);
   }
 
+
   function updateClassData(json) {
     const { value, id, visible, src, ...newJson } = json;
     return newJson;
@@ -189,6 +190,8 @@ const Demo = () => {
     // Usage: Updates the API data with the new JSON string
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
+    delete newData['gltf-model'];
+    delete newData["show-details-on-click"];
     if (
       Array.isArray(data.current) &&
       data.current.length === 1 &&
@@ -372,7 +375,7 @@ const Demo = () => {
                   position: "0 1.6 0",
                 };
               }
-              delete Data_from_Inspector["show-details-on-click"];
+              
 
               return (
                 <a-entity
@@ -403,7 +406,7 @@ const Demo = () => {
                           <a-troika-text
                             class="desc_wrapper"
                             type="wrapper"
-                            value={scientist.trans[lang.code].alt}
+                            value={scientist.trans[lang.code].desc}
                             font={font}
                             visible="true"
                             {...desc_format}

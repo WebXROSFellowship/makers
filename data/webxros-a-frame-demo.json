@@ -3,29 +3,55 @@
     "class": "btn-wrapper-en",
     "type": "wrapper",
     "code": "",
-    "position": "0.221 -0.68371 0",
-    "troika-text": "fontSize: 0.06"
+    "position": "0.05993 -0.68371 0",
+    "troika-text": "fontSize: 0.05; color: #0a0a0a; outlineBlur: 0.01"
   },
   {
     "class": "btn-wrapper-hi",
     "type": "wrapper",
     "code": "hi",
-    "position": "-0.23 -0.684 0",
-    "troika-text": "fontSize: 0.06"
+    "position": "-0.12161 -0.684 0",
+    "troika-text": "fontSize: 0.05; color: #000000; outlineBlur: 0.01"
   },
   {
     "class": "btn-wrapper-de",
     "type": "wrapper",
     "code": "de",
-    "position": "-0.66382 -0.681 0.005",
-    "troika-text": "fontSize: 0.06"
+    "position": "-0.34 -0.681 0.005",
+    "troika-text": "fontSize: 0.05; color: #000000; outlineBlur: 0.01"
   },
   {
     "class": "btn-wrapper-zh-hans",
     "type": "wrapper",
     "code": "zh-hans",
-    "troika-text": "fontSize: 0.06",
-    "position": "0.66 -0.684 -0.00017"
+    "troika-text": "fontSize: 0.05; color: #000000; outlineBlur: 0.01",
+    "position": "0.27634 -0.684 -0.00017"
+  },
+  {
+    "class": "name_wrapper",
+    "type": "wrapper",
+    "troika-text": "color: #ffffff; align: center; fontSize: 0.08;overflowWrap: break-word",
+    "position": "0 -0.4706 0"
+  },
+  {
+    "class": "caption_wrapper",
+    "type": "wrapper",
+    "troika-text": "align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.04; maxWidth: 1; strokeColor: #f20d0d; overflowWrap: break-word",
+    "position": "0 -0.58371 0"
+  },
+  {
+    "class": "desc_wrapper",
+    "type": "wrapper",
+    "troika-text": "color: #0d0d0d; fontSize: 0.04; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2; overflowWrap: break-word",
+    "position": "1.02771 -0.09506 0"
+  },
+  {
+    "class": "image_wrapper",
+    "material": "",
+    "geometry": "",
+    "type": "wrapper",
+    "position": "",
+    "scale": "0.718 0.762 1"
   },
   {
     "id": "alan-turing-1",
@@ -37,32 +63,6 @@
     "id": "hedy_lamarr-1",
     "type": "wrapper",
     "position": "-3.712 2.417 -2.597"
-  },
-  {
-    "class": "name_wrapper",
-    "type": "wrapper",
-    "troika-text": "color: #ffffff; align: center; fontSize: 0.08;overflowWrap: break-word",
-    "position": "0 -0.4706 0"
-  },
-  {
-    "class": "caption_wrapper",
-    "type": "wrapper",
-    "troika-text": "align: center; color: #ffffff; strokeWidth: 0.1; fontSize: 0.06; maxWidth: 2; strokeColor: #f20d0d; overflowWrap: break-word",
-    "position": "0 -0.58371 0"
-  },
-  {
-    "class": "desc_wrapper",
-    "type": "wrapper",
-    "troika-text": "color: #0d0d0d; fontSize: 0.06; maxWidth: 1; outlineBlur: 0.2; outlineColor: #dbd2d2; overflowWrap: break-word",
-    "position": "1.057 0 0"
-  },
-  {
-    "class": "image_wrapper",
-    "material": "",
-    "geometry": "",
-    "type": "wrapper",
-    "position": "",
-    "scale": "0.718 0.762 1"
   },
   {
     "id": "albert-einstein-1",
@@ -89,7 +89,6 @@
   },
   {
     "id": "clock",
-    "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/06/clock.glb",
     "type": "model",
     "position": "3.867 1.418 2.996",
     "rotation": "0 90 0"
@@ -125,7 +124,6 @@
   },
   {
     "id": "prathamgupta",
-    "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/05/PrathamGupta.glb",
     "position": "-1.04457 0.748 -1.42253",
     "scale": "2 2 2",
     "rotation": "63.48 0 0"
@@ -144,28 +142,24 @@
   },
   {
     "id": "kunaalmangal",
-    "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/05/KunaalMangal.glb",
     "position": "0.992 0.584 1.505",
     "scale": "2 2 2",
     "rotation": "63.48 180 0"
   },
   {
     "id": "aryangrover",
-    "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/05/AryanGrover.glb",
     "position": "0.706 0.549 -1.373",
     "scale": "2 2 2",
     "rotation": "63 0 0"
   },
   {
     "id": "surbhisharma",
-    "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/05/SurbhiSharma.glb",
     "position": "-2.312 0.894 0.339",
     "scale": "2 2 2",
     "rotation": "60.983000000000004 92.14900000000002 0"
   },
   {
     "id": "shravanikaware",
-    "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/05/ShravaniKaware.glb",
     "position": "-0.557 0.807 1.625",
     "rotation": "63.48 180 0",
     "scale": "2 2 2"
@@ -183,7 +177,6 @@
   },
   {
     "id": "pedestal4",
-    "gltf-model": "https://staging.webxr.link/wp-content/uploads/2023/06/pedestal4.glb",
     "position": "0 0.12 0",
     "scale": "0.1 0.1 0.1"
   },
