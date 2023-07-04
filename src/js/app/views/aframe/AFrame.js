@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { AppConfig } from "../config/appConfig";
-import { AppLoader } from "./index";
+import { AppConfig } from "../../config/appConfig";
+import { AppLoader } from "../../components";
 
-const Demo = () => {
+const AFrame = () => {
   const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]); // For a-images
@@ -17,9 +17,7 @@ const Demo = () => {
   const [meshData, setMeshData] = useState([]); // Navmesh
   const data = useRef([{}]); // Data from inspector
 
-  const PAGE_SLUG = new URLSearchParams(document.location.search).get(
-    "wordpress_slug"
-  );
+  const PAGE_SLUG = "webxros-a-frame-demo"
 
   /*
     Example domain : https://staging.webxr.link/aframe_demo/?wordpress_slug=webxros-a-frame-demo
@@ -370,13 +368,13 @@ const Demo = () => {
           <a-assets>
             <a-asset-item
               id={worldData.id}
-              src={base_url + "/wp-content/uploads/" + worldData.src}
+              src={base_url + "/wp-content/uploads/" + worldData?.src}
               crossOrigin="anonymous"
               key={worldData.id}
             ></a-asset-item>
             <a-asset-item
               id={meshData.id}
-              src={base_url + "/wp-content/uploads/" + meshData.src}
+              src={base_url + "/wp-content/uploads/" + meshData?.src}
               crossOrigin="anonymous"
               key={meshData.id}
             ></a-asset-item>
@@ -420,7 +418,7 @@ const Demo = () => {
                 visible="false"
                 position="4.762 0 3.739"
               ></a-entity>
-              <a-sky src={base_url + skyboxData.src} ></a-sky>
+              <a-sky src={base_url + skyboxData?.src} ></a-sky>
               {excerptData?.map((excerpt) => {
                 console.log("SKYBOX:",skyboxData);
                 var Obj_id = "Excerpt";
@@ -630,4 +628,4 @@ const Demo = () => {
   );
 };
 
-export default Demo;
+export default AFrame;
