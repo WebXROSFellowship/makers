@@ -87,6 +87,7 @@ const Demo = () => {
         var furniture = [];
         var world = [];
         var navmesh = [];
+        console.log("RESULT!!!!!!!!!!", result);
         result.map((item) => {
           if (item.slug === PAGE_SLUG) {
             langRef.current = item.languages.default;
@@ -97,11 +98,12 @@ const Demo = () => {
             world = item.properties_3D.world_model;
 
             navmesh = item.properties_3D.nav_mesh;
+            console.log("Data from server...", result);
             setFurnitureData(furniture);
             setWorldData(world);
             setMeshData(navmesh);
             setScientistsData(pagecontents);
-            setLoading(false);
+            setTimeout(() => setLoading(false), 1000); 
           }
         });
         AddClickEvent(pagecontents);
@@ -296,10 +298,7 @@ const Demo = () => {
 
   return (
     <>
-      {" "}
-      {loading ? (
-        <AppLoader />
-      ) : (
+     
         <div
           style={{
             height: "100vh",
@@ -325,6 +324,7 @@ const Demo = () => {
                 raycaster="far: 5; objects: .clickable"
                 super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
               >
+               <a-entity laser-controls="hand: right" raycaster="objects: .clickable" cursor="rayOrigin: mouse"></a-entity>
                 <a-entity
                   id="crosshair"
                   cursor="rayOrigin:mouse"
@@ -347,16 +347,58 @@ const Demo = () => {
                 blink-controls="cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
               ></a-entity>
             </a-entity>
+
+         <a-assets>
+          <a-asset-item
+            id={worldData.id}
+            src={base_url + "/wp-content/uploads/" + worldData.src}
+            crossOrigin="anonymous"
+            key={worldData.id}
+          ></a-asset-item>
+          <a-asset-item
+            id={meshData.id}
+            src={base_url + "/wp-content/uploads/" + meshData.src}
+            crossOrigin="anonymous"
+            key={meshData.id}
+          ></a-asset-item>
+          {furnitureData?.map((furniture) => {
+              return (
+                <a-asset-item
+                  id={furniture.id}
+                  src={base_url + furniture.full_path}
+                  key={furniture.id}
+                  crossOrigin="anonymous"
+                ></a-asset-item>
+              );
+            
+          })}
+
+{scientistsData?.map((scientist) => {
+              return (
+                <img
+                  id={scientist.id}
+                  src={base_url + scientist.full_path}
+                  key={scientist.id}
+                  crossOrigin="anonymous"
+                ></img>
+              );
+            
+          })}
+        </a-assets> 
+        {loading ? (
+          <AppLoader />
+        ) : (
+          <>
             <a-entity
               id={worldData.id}
-              gltf-model={base_url + "/wp-content/uploads/" + worldData.src}
+              gltf-model={"#"+worldData.id}
               key={worldData.id}
               position="4.537 0 3.468"
             ></a-entity>
             <a-entity
               nav-mesh=""
               id={meshData.id}
-              gltf-model={base_url + "/wp-content/uploads/" + meshData.src}
+              gltf-model={"#"+meshData.id}
               key={meshData.id}
               visible="false"
               position="4.762 0 3.739"
@@ -374,7 +416,7 @@ const Demo = () => {
               return (
                 <a-entity
                   id={furniture.slug}
-                  gltf-model={base_url + furniture.full_path}
+                  gltf-model={"#"+furniture.id}
                   key={furniture.id}
                   {...Data_from_Inspector}
                 ></a-entity>
@@ -413,7 +455,7 @@ const Demo = () => {
                   show-details-on-click=""
                 >
                   <a-image
-                    src={base_url + scientist.full_path}
+                    src={"#" + scientist.id}
                     {...img_format}
                     type="wrapper"
                     class="image_wrapper"
@@ -540,9 +582,10 @@ const Demo = () => {
               color="#7BC8A4"
               scale="6 2 2"
             ></a-plane>
+            </>
+        )}
           </a-scene>
         </div>
-      )}{" "}
     </>
   );
 };
