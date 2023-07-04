@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 938:
+/***/ 776:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -6967,7 +6967,7 @@ function extends_extends() {
   };
   return extends_extends.apply(this, arguments);
 }
-;// CONCATENATED MODULE: ./src/js/app/views/aframe/Aframe.js
+;// CONCATENATED MODULE: ./src/js/app/views/aframe/AFrame.js
 
 
 
@@ -6977,6 +6977,8 @@ const AFrame = () => {
   const [loading, setLoading] = (0,react.useState)(true); // For asset loading
   const [scientistsData, setScientistsData] = (0,react.useState)([]); // For a-images
   const [elementDetected, setElementDetected] = (0,react.useState)(false); // For inspector loaded
+  const [excerptData, setExcerptData] = (0,react.useState)(null);
+  const [skyboxData, setSkyboxData] = (0,react.useState)(null);
   const langRef = (0,react.useRef)(null); // Current language state
   const prev_langRef = (0,react.useRef)(null); // Previous language state
   const [allLang, setAllLang] = (0,react.useState)([]); // For all languages supported
@@ -7039,13 +7041,14 @@ const AFrame = () => {
     }
   };
   const getFromServer = async () => {
-    // Usage: Loads all assets from server 
+    // Usage: Loads all assets from server
     const url = `${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     await fetch(url).then(response => response.json()).then(result => {
       var pagecontents = [];
       var furniture = [];
       var world = [];
       var navmesh = [];
+      console.log("RESULT!!!!!!!!!!", result);
       result.map(item => {
         if (item.slug === PAGE_SLUG) {
           langRef.current = item.languages.default;
@@ -7054,11 +7057,14 @@ const AFrame = () => {
           furniture = item.properties_3D.furniture;
           world = item.properties_3D.world_model;
           navmesh = item.properties_3D.nav_mesh;
+          console.log("Data from server...", result);
+          setExcerptData([item.excerpt.rendered]);
+          setSkyboxData(item.properties_3D.skybox);
           setFurnitureData(furniture);
           setWorldData(world);
           setMeshData(navmesh);
           setScientistsData(pagecontents);
-          setLoading(false);
+          setTimeout(() => setLoading(false), 1000);
         }
       });
       AddClickEvent(pagecontents);
@@ -7160,7 +7166,9 @@ const AFrame = () => {
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
     delete newData["gltf-model"];
+    delete newData["value"];
     delete newData["show-details-on-click"];
+    delete newData["troika-text"];
     if (Array.isArray(data.current) && data.current.length === 1 && Object.keys(data.current[0]).length === 0) {
       console.log("!!!!!No data found, adding new data");
       const updatedJsonString = JSON.stringify([newData], null, 2);
@@ -7221,7 +7229,16 @@ const AFrame = () => {
       }
     });
   }
-  return /*#__PURE__*/react.createElement(react.Fragment, null, " ", loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement("div", {
+  function HtmlToText(htmlContent) {
+    // Create a new DOMParser instance
+    const parser = new DOMParser();
+    // Parse the HTML content
+    const document = parser.parseFromString(htmlContent, "text/html");
+    // Extract the plain text using textContent
+    const textContent = document.body.textContent;
+    return textContent;
+  }
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
     style: {
       height: "100vh",
       width: "100%"
@@ -7243,6 +7260,10 @@ const AFrame = () => {
     raycaster: "far: 5; objects: .clickable",
     "super-hands": "colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
   }, /*#__PURE__*/react.createElement("a-entity", {
+    "laser-controls": "hand: right",
+    raycaster: "objects: .clickable",
+    cursor: "rayOrigin: mouse"
+  }), /*#__PURE__*/react.createElement("a-entity", {
     id: "crosshair",
     cursor: "rayOrigin:mouse",
     position: "0 0 -0.2",
@@ -7259,18 +7280,58 @@ const AFrame = () => {
     "oculus-touch-controls": "hand: right",
     "hand-controls": "hand: right; handModelStyle: highPoly; color: #0055ff",
     "blink-controls": "cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
-  })), /*#__PURE__*/react.createElement("a-entity", {
+  })), /*#__PURE__*/react.createElement("a-assets", null, /*#__PURE__*/react.createElement("a-asset-item", {
     id: worldData.id,
-    "gltf-model": base_url + "/wp-content/uploads/" + worldData.src,
+    src: base_url + "/wp-content/uploads/" + (worldData === null || worldData === void 0 ? void 0 : worldData.src),
+    crossOrigin: "anonymous",
+    key: worldData.id
+  }), /*#__PURE__*/react.createElement("a-asset-item", {
+    id: meshData.id,
+    src: base_url + "/wp-content/uploads/" + (meshData === null || meshData === void 0 ? void 0 : meshData.src),
+    crossOrigin: "anonymous",
+    key: meshData.id
+  }), furnitureData === null || furnitureData === void 0 ? void 0 : furnitureData.map(furniture => {
+    return /*#__PURE__*/react.createElement("a-asset-item", {
+      id: furniture.id,
+      src: base_url + furniture.full_path,
+      key: furniture.id,
+      crossOrigin: "anonymous"
+    });
+  }), scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
+    return /*#__PURE__*/react.createElement("img", {
+      id: scientist.id,
+      src: base_url + scientist.full_path,
+      key: scientist.id,
+      crossOrigin: "anonymous"
+    });
+  })), loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
+    id: worldData.id,
+    "gltf-model": "#" + worldData.id,
     key: worldData.id,
     position: "4.537 0 3.468"
   }), /*#__PURE__*/react.createElement("a-entity", {
     "nav-mesh": "",
     id: meshData.id,
-    "gltf-model": base_url + "/wp-content/uploads/" + meshData.src,
+    "gltf-model": "#" + meshData.id,
     key: meshData.id,
     visible: "false",
     position: "4.762 0 3.739"
+  }), /*#__PURE__*/react.createElement("a-sky", {
+    src: base_url + (skyboxData === null || skyboxData === void 0 ? void 0 : skyboxData.src)
+  }), excerptData === null || excerptData === void 0 ? void 0 : excerptData.map(excerpt => {
+    console.log("SKYBOX:", skyboxData);
+    var Obj_id = "Excerpt";
+    var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
+    if (!Data_from_Inspector) {
+      Data_from_Inspector = {
+        position: "0 1.6 0"
+      };
+    }
+    return /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+      id: "Excerpt"
+    }, Data_from_Inspector, {
+      value: HtmlToText(excerpt)
+    }));
   }), furnitureData === null || furnitureData === void 0 ? void 0 : furnitureData.map(furniture => {
     var Obj_id = furniture.slug;
     var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
@@ -7281,7 +7342,7 @@ const AFrame = () => {
     }
     return /*#__PURE__*/react.createElement("a-entity", extends_extends({
       id: furniture.slug,
-      "gltf-model": base_url + furniture.full_path,
+      "gltf-model": "#" + furniture.id,
       key: furniture.id
     }, Data_from_Inspector));
   }), scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
@@ -7303,7 +7364,7 @@ const AFrame = () => {
     }, Data_from_Inspector, {
       "show-details-on-click": ""
     }), /*#__PURE__*/react.createElement("a-image", extends_extends({
-      src: base_url + scientist.full_path
+      src: "#" + scientist.id
     }, img_format, {
       type: "wrapper",
       class: "image_wrapper"
@@ -7398,9 +7459,9 @@ const AFrame = () => {
     height: "4",
     color: "#7BC8A4",
     scale: "6 2 2"
-  }))), " ");
+  })))));
 };
-/* harmony default export */ const Aframe = (AFrame);
+/* harmony default export */ const aframe_AFrame = (AFrame);
 ;// CONCATENATED MODULE: ./src/js/app/views/404/NotFound.js
 
 const NotFound = () => {
@@ -7472,7 +7533,7 @@ const routes = createBrowserRouter([{
     element: /*#__PURE__*/react.createElement(body_Body, null)
   }, {
     path: "aframe",
-    element: /*#__PURE__*/react.createElement(Aframe, null)
+    element: /*#__PURE__*/react.createElement(aframe_AFrame, null)
   }, {
     path: "profile/:username",
     element: /*#__PURE__*/react.createElement(profile_Profile, null)
@@ -7542,7 +7603,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(938);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(776);
 
 
 
@@ -8103,7 +8164,7 @@ if (true) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(938);
+/******/ 	__webpack_require__(776);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()

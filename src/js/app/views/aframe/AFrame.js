@@ -7,6 +7,8 @@ const AFrame = () => {
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]); // For a-images
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
+  const [excerptData, setExcerptData] = useState(null);
+  const [skyboxData, setSkyboxData] = useState(null);
   const langRef = useRef(null); // Current language state
   const prev_langRef = useRef(null); // Previous language state
   const [allLang, setAllLang] = useState([]); // For all languages supported
@@ -52,15 +54,14 @@ const AFrame = () => {
   const handleButtonClick = (event) => {
     // Usage: Handles language change on button click
     var buttonText = event.target.getAttribute("code");
-    if(buttonText==""){
-      buttonText="en";
+    if (buttonText == "") {
+      buttonText = "en";
     }
     prev_langRef.current = langRef.current;
     langRef.current = buttonText;
     if (prev_langRef.current !== langRef.current) {
       event.target.click();
     }
-    
   };
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
@@ -76,7 +77,7 @@ const AFrame = () => {
   };
 
   const getFromServer = async () => {
-    // Usage: Loads all assets from server 
+    // Usage: Loads all assets from server
     const url = `${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     await fetch(url)
       .then((response) => response.json())
@@ -85,6 +86,7 @@ const AFrame = () => {
         var furniture = [];
         var world = [];
         var navmesh = [];
+        console.log("RESULT!!!!!!!!!!", result);
         result.map((item) => {
           if (item.slug === PAGE_SLUG) {
             langRef.current = item.languages.default;
@@ -95,11 +97,14 @@ const AFrame = () => {
             world = item.properties_3D.world_model;
 
             navmesh = item.properties_3D.nav_mesh;
+            console.log("Data from server...", result);
+            setExcerptData([item.excerpt.rendered]);
+            setSkyboxData(item.properties_3D.skybox);
             setFurnitureData(furniture);
             setWorldData(world);
             setMeshData(navmesh);
             setScientistsData(pagecontents);
-            setLoading(false);
+            setTimeout(() => setLoading(false), 1000);
           }
         });
         AddClickEvent(pagecontents);
@@ -211,7 +216,10 @@ const AFrame = () => {
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
     delete newData["gltf-model"];
+    delete newData["value"];
     delete newData["show-details-on-click"];
+    delete newData["troika-text"];
+    
     if (
       Array.isArray(data.current) &&
       data.current.length === 1 &&
@@ -292,255 +300,330 @@ const AFrame = () => {
     });
   }
 
+  function HtmlToText(htmlContent) {
+    // Create a new DOMParser instance
+    const parser = new DOMParser();
+    // Parse the HTML content
+    const document = parser.parseFromString(htmlContent, "text/html");
+    // Extract the plain text using textContent
+    const textContent = document.body.textContent;
+    return textContent;
+  }
+
   return (
     <>
-      {" "}
-      {loading ? (
-        <AppLoader />
-      ) : (
-        <div
-          style={{
-            height: "100vh",
-            width: "100%",
-          }}
+      <div
+        style={{
+          height: "100vh",
+          width: "100%",
+        }}
+      >
+        <a-scene
+          embedded
+          environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
+          cursor="rayOrigin: mouse"
         >
-          <a-scene
-            embedded
-            environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
-            cursor="rayOrigin: mouse"
+          <a-entity
+            id="rig"
+            rotation-reader
+            thumbstick-logging
+            movement-controls="constrainToNavMesh: true; speed:1; controls: checkpoint, gamepad, trackpad, keyboard, touch;"
           >
             <a-entity
-              id="rig"
-              rotation-reader
-              thumbstick-logging
-              movement-controls="constrainToNavMesh: true; speed:1; controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+              camera=""
+              position="0 1.6 0"
+              rotation="-4.469070802020421 -84.91234523838803 0"
+              look-controls="fly:true"
+              raycaster="far: 5; objects: .clickable"
+              super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
             >
               <a-entity
-                camera=""
-                position="0 1.6 0"
-                rotation="-4.469070802020421 -84.91234523838803 0"
-                look-controls="fly:true"
-                raycaster="far: 5; objects: .clickable"
-                super-hands="colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
-              >
-                <a-entity
-                  id="crosshair"
-                  cursor="rayOrigin:mouse"
-                  position="0 0 -0.2"
-                  geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.003"
-                  material="shader: flat"
-                  raycaster="far: 5; objects: .clickable"
-                  visible="false"
-                ></a-entity>
-              </a-entity>
-              <a-entity
-                mixin="hand"
-                oculus-touch-controls="hand: left"
-                hand-controls="hand: left; handModelStyle: highPoly; color: #0055ff"
+                laser-controls="hand: right"
+                raycaster="objects: .clickable"
+                cursor="rayOrigin: mouse"
               ></a-entity>
               <a-entity
-                mixin="hand"
-                oculus-touch-controls="hand: right"
-                hand-controls="hand: right; handModelStyle: highPoly; color: #0055ff"
-                blink-controls="cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
+                id="crosshair"
+                cursor="rayOrigin:mouse"
+                position="0 0 -0.2"
+                geometry="primitive: ring; radiusInner: 0.002; radiusOuter: 0.003"
+                material="shader: flat"
+                raycaster="far: 5; objects: .clickable"
+                visible="false"
               ></a-entity>
             </a-entity>
             <a-entity
-              id={worldData.id}
-              gltf-model={base_url + "/wp-content/uploads/" + worldData.src}
-              key={worldData.id}
-              position="4.537 0 3.468"
+              mixin="hand"
+              oculus-touch-controls="hand: left"
+              hand-controls="hand: left; handModelStyle: highPoly; color: #0055ff"
             ></a-entity>
             <a-entity
-              nav-mesh=""
-              id={meshData.id}
-              gltf-model={base_url + "/wp-content/uploads/" + meshData.src}
-              key={meshData.id}
-              visible="false"
-              position="4.762 0 3.739"
+              mixin="hand"
+              oculus-touch-controls="hand: right"
+              hand-controls="hand: right; handModelStyle: highPoly; color: #0055ff"
+              blink-controls="cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
             ></a-entity>
+          </a-entity>
+
+          <a-assets>
+            <a-asset-item
+              id={worldData.id}
+              src={base_url + "/wp-content/uploads/" + worldData?.src}
+              crossOrigin="anonymous"
+              key={worldData.id}
+            ></a-asset-item>
+            <a-asset-item
+              id={meshData.id}
+              src={base_url + "/wp-content/uploads/" + meshData?.src}
+              crossOrigin="anonymous"
+              key={meshData.id}
+            ></a-asset-item>
             {furnitureData?.map((furniture) => {
-              var Obj_id = furniture.slug;
-              var Data_from_Inspector = data.current.find(
-                (obj) => obj.id == Obj_id
-              );
-              if (!Data_from_Inspector) {
-                Data_from_Inspector = {
-                  position: "0 1.6 0",
-                };
-              }
               return (
-                <a-entity
-                  id={furniture.slug}
-                  gltf-model={base_url + furniture.full_path}
+                <a-asset-item
+                  id={furniture.id}
+                  src={base_url + furniture.full_path}
                   key={furniture.id}
-                  {...Data_from_Inspector}
-                ></a-entity>
+                  crossOrigin="anonymous"
+                ></a-asset-item>
               );
             })}
+
             {scientistsData?.map((scientist) => {
-              var Obj_id = scientist.slug;
-              var Data_from_Inspector = data.current.find(
-                (obj) => obj.id == Obj_id
-              );
-              var desc_format = data.current.find(
-                (obj) => obj.class == "desc_wrapper"
-              );
-              var cap_format = data.current.find(
-                (obj) => obj.class == "caption_wrapper"
-              );
-              var name_format = data.current.find(
-                (obj) => obj.class == "name_wrapper"
-              );
-              var img_format = data.current.find(
-                (obj) => obj.class == "image_wrapper"
-              );
-
-              if (!Data_from_Inspector) {
-                Data_from_Inspector = {
-                  position: "0 1.6 0",
-                };
-              }
-
               return (
-                <a-entity
-                  id={scientist.slug}
-                  type="wrapper"
+                <img
+                  id={scientist.id}
+                  src={base_url + scientist.full_path}
                   key={scientist.id}
-                  {...Data_from_Inspector}
-                  show-details-on-click=""
-                >
-                  <a-image
-                    src={base_url + scientist.full_path}
-                    {...img_format}
-                    type="wrapper"
-                    class="image_wrapper"
-                  ></a-image>
-                  {allLang?.map((lang) => {
-                    var font =
-                      base_url +
-                      "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
-                    if (lang.code == "zh-hans") {
-                      font =
-                        base_url +
-                        "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
-                    }
-                    return (
-                      <a-entity key={lang.code} id={lang.code} visible="false">
-                        <a-entity id="toggle" visible="false">
-                          <a-troika-text
-                            class="desc_wrapper"
-                            type="wrapper"
-                            value={scientist.trans[lang.code].desc}
-                            font={font}
-                            visible="true"
-                            {...desc_format}
-                          ></a-troika-text>
-                          <a-troika-text
-                            class="caption_wrapper"
-                            type="wrapper"
-                            value={scientist.trans[lang.code].caption}
-                            font={font}
-                            visible="true"
-                            {...cap_format}
-                          ></a-troika-text>
-                          <a-troika-text
-                            class="name_wrapper"
-                            type="wrapper"
-                            value={scientist.trans[lang.code].title}
-                            font={font}
-                            visible="true"
-                            {...name_format}
-                          ></a-troika-text>
-                          {allLang?.map((lang) => {
-                            var key = lang.code;
-                            var classname = "btn-wrapper-" + key;
-                            var insData = data.current.find(
-                              (obj) => obj.class == classname
-                            );
-                            var font =
-                              base_url +
-                              "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
-                            if (lang.code == "zh-hans") {
-                              font =
-                                base_url +
-                                "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
-                            }
-
-                            return (
-                              <a-troika-text
-                                class={classname}
-                                type="wrapper"
-                                visible="true"
-                                key={classname}
-                                value={lang.native_name}
-                                code={key}
-                                font={font}
-                                onClick={handleButtonClick}
-                                {...insData}
-                              ></a-troika-text>
-                            );
-                          })}{" "}
-                        </a-entity>
-                      </a-entity>
-                    );
-                  })}{" "}
-                </a-entity>
+                  crossOrigin="anonymous"
+                ></img>
               );
             })}
-            <a-light
-              type="directional"
-              color="#35227A"
-              intensity="0.60"
-              position="4.40664 0.98434 0.05053"
-              light="type: point; angle: 180"
-              rotation="-0.3 50.509 147.30229250797848"
-              id="bulb"
-            ></a-light>
+          </a-assets>
+          {loading ? (
+            <AppLoader />
+          ) : (
+            <>
+              <a-entity
+                id={worldData.id}
+                gltf-model={"#" + worldData.id}
+                key={worldData.id}
+                position="4.537 0 3.468"
+              ></a-entity>
+              <a-entity
+                nav-mesh=""
+                id={meshData.id}
+                gltf-model={"#" + meshData.id}
+                key={meshData.id}
+                visible="false"
+                position="4.762 0 3.739"
+              ></a-entity>
+              <a-sky src={base_url + skyboxData?.src} ></a-sky>
+              {excerptData?.map((excerpt) => {
+                console.log("SKYBOX:",skyboxData);
+                var Obj_id = "Excerpt";
+                var Data_from_Inspector = data.current.find(
+                  (obj) => obj.id == Obj_id
+                );
+                if (!Data_from_Inspector) {
+                  Data_from_Inspector = {
+                    position: "0 1.6 0",
+                  };
+                }
+                  return(
+                <a-troika-text id="Excerpt"  {...Data_from_Inspector} value={HtmlToText(excerpt)}></a-troika-text>
+                  );
 
-            <a-light
-              type="directional"
-              color="#FFFFBC"
-              intensity="0.50"
-              position="3.94786 -1.28516 -0.54807"
-              light="type: hemisphere; angle: 90; color: #8778bf"
-              rotation="-0.3 50.509 147.30229250797848"
-              id="bulb-3"
-            ></a-light>
+              })}
+              
 
-            <a-light
-              type="directional"
-              color="#FF4400"
-              intensity="2"
-              position="20.45283 -2.62394 -5.68868"
-              light="type: ambient; intensity: 0.3; angle: 180; color: #7156d2"
-              rotation="-0.3 50.509 147.30229250797848"
-              id="bulb-4"
-            ></a-light>
-            <a-light
-              type="directional"
-              color="#FFFFBC"
-              intensity="0.50"
-              position="-0.21291 -0.99888 0.00254"
-              light="type: hemisphere; color: #ffffff; angle: 90"
-              rotation="-0.3 50.509 147.30229250797848"
-              id="bulb-5"
-            ></a-light>
+              {furnitureData?.map((furniture) => {
+                var Obj_id = furniture.slug;
+                var Data_from_Inspector = data.current.find(
+                  (obj) => obj.id == Obj_id
+                );
+                if (!Data_from_Inspector) {
+                  Data_from_Inspector = {
+                    position: "0 1.6 0",
+                  };
+                }
+                return (
+                  <a-entity
+                    id={furniture.slug}
+                    gltf-model={"#" + furniture.id}
+                    key={furniture.id}
+                    {...Data_from_Inspector}
+                  ></a-entity>
+                );
+              })}
+              {scientistsData?.map((scientist) => {
+                var Obj_id = scientist.slug;
+                var Data_from_Inspector = data.current.find(
+                  (obj) => obj.id == Obj_id
+                );
+                var desc_format = data.current.find(
+                  (obj) => obj.class == "desc_wrapper"
+                );
+                var cap_format = data.current.find(
+                  (obj) => obj.class == "caption_wrapper"
+                );
+                var name_format = data.current.find(
+                  (obj) => obj.class == "name_wrapper"
+                );
+                var img_format = data.current.find(
+                  (obj) => obj.class == "image_wrapper"
+                );
 
-            {/* floor collider */}
-            <a-plane
-              static-body="shape:  mesh"
-              position="0 0 -4"
-              visible="false"
-              rotation="-90 0 0"
-              width="4"
-              height="4"
-              color="#7BC8A4"
-              scale="6 2 2"
-            ></a-plane>
-          </a-scene>
-        </div>
-      )}{" "}
+                if (!Data_from_Inspector) {
+                  Data_from_Inspector = {
+                    position: "0 1.6 0",
+                  };
+                }
+
+                return (
+                  <a-entity
+                    id={scientist.slug}
+                    type="wrapper"
+                    key={scientist.id}
+                    {...Data_from_Inspector}
+                    show-details-on-click=""
+                  >
+                    <a-image
+                      src={"#" + scientist.id}
+                      {...img_format}
+                      type="wrapper"
+                      class="image_wrapper"
+                    ></a-image>
+                    {allLang?.map((lang) => {
+                      var font =
+                        base_url +
+                        "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
+                      if (lang.code == "zh-hans") {
+                        font =
+                          base_url +
+                          "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
+                      }
+                      return (
+                        <a-entity
+                          key={lang.code}
+                          id={lang.code}
+                          visible="false"
+                        >
+                          <a-entity id="toggle" visible="false">
+                            <a-troika-text
+                              class="desc_wrapper"
+                              type="wrapper"
+                              value={scientist.trans[lang.code].desc}
+                              font={font}
+                              visible="true"
+                              {...desc_format}
+                            ></a-troika-text>
+                            <a-troika-text
+                              class="caption_wrapper"
+                              type="wrapper"
+                              value={scientist.trans[lang.code].caption}
+                              font={font}
+                              visible="true"
+                              {...cap_format}
+                            ></a-troika-text>
+                            <a-troika-text
+                              class="name_wrapper"
+                              type="wrapper"
+                              value={scientist.trans[lang.code].title}
+                              font={font}
+                              visible="true"
+                              {...name_format}
+                            ></a-troika-text>
+                            {allLang?.map((lang) => {
+                              var key = lang.code;
+                              var classname = "btn-wrapper-" + key;
+                              var insData = data.current.find(
+                                (obj) => obj.class == classname
+                              );
+                              var font =
+                                base_url +
+                                "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
+                              if (lang.code == "zh-hans") {
+                                font =
+                                  base_url +
+                                  "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
+                              }
+
+                              return (
+                                <a-troika-text
+                                  class={classname}
+                                  type="wrapper"
+                                  visible="true"
+                                  key={classname}
+                                  value={lang.native_name}
+                                  code={key}
+                                  font={font}
+                                  onClick={handleButtonClick}
+                                  {...insData}
+                                ></a-troika-text>
+                              );
+                            })}{" "}
+                          </a-entity>
+                        </a-entity>
+                      );
+                    })}{" "}
+                  </a-entity>
+                );
+              })}
+              <a-light
+                type="directional"
+                color="#35227A"
+                intensity="0.60"
+                position="4.40664 0.98434 0.05053"
+                light="type: point; angle: 180"
+                rotation="-0.3 50.509 147.30229250797848"
+                id="bulb"
+              ></a-light>
+
+              <a-light
+                type="directional"
+                color="#FFFFBC"
+                intensity="0.50"
+                position="3.94786 -1.28516 -0.54807"
+                light="type: hemisphere; angle: 90; color: #8778bf"
+                rotation="-0.3 50.509 147.30229250797848"
+                id="bulb-3"
+              ></a-light>
+
+              <a-light
+                type="directional"
+                color="#FF4400"
+                intensity="2"
+                position="20.45283 -2.62394 -5.68868"
+                light="type: ambient; intensity: 0.3; angle: 180; color: #7156d2"
+                rotation="-0.3 50.509 147.30229250797848"
+                id="bulb-4"
+              ></a-light>
+              <a-light
+                type="directional"
+                color="#FFFFBC"
+                intensity="0.50"
+                position="-0.21291 -0.99888 0.00254"
+                light="type: hemisphere; color: #ffffff; angle: 90"
+                rotation="-0.3 50.509 147.30229250797848"
+                id="bulb-5"
+              ></a-light>
+
+              {/* floor collider */}
+              <a-plane
+                static-body="shape:  mesh"
+                position="0 0 -4"
+                visible="false"
+                rotation="-90 0 0"
+                width="4"
+                height="4"
+                color="#7BC8A4"
+                scale="6 2 2"
+              ></a-plane>
+            </>
+          )}
+        </a-scene>
+      </div>
     </>
   );
 };

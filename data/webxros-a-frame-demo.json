@@ -4,27 +4,27 @@
     "type": "wrapper",
     "code": "",
     "position": "0.05993 -0.68371 0",
-    "troika-text": "fontSize: 0.05; color: #0a0a0a; outlineBlur: 0.01"
+    "troika-text": "fontSize: 0.05; color: #ffffff; outlineBlur: 0.01"
   },
   {
     "class": "btn-wrapper-hi",
     "type": "wrapper",
     "code": "hi",
     "position": "-0.12161 -0.684 0",
-    "troika-text": "fontSize: 0.05; color: #000000; outlineBlur: 0.01"
+    "troika-text": "fontSize: 0.05; color: #ffffff; outlineBlur: 0.01"
   },
   {
     "class": "btn-wrapper-de",
     "type": "wrapper",
     "code": "de",
     "position": "-0.34 -0.681 0.005",
-    "troika-text": "fontSize: 0.05; color: #000000; outlineBlur: 0.01"
+    "troika-text": "fontSize: 0.05; color: #ffffff; outlineBlur: 0.01"
   },
   {
     "class": "btn-wrapper-zh-hans",
     "type": "wrapper",
     "code": "zh-hans",
-    "troika-text": "fontSize: 0.05; color: #000000; outlineBlur: 0.01",
+    "troika-text": "fontSize: 0.05; color: #ffffff; outlineBlur: 0.01",
     "position": "0.27634 -0.684 -0.00017"
   },
   {
@@ -189,7 +189,11 @@
   {
     "id": "brandonjones",
     "type": "wrapper",
-    "position": "-3.936 1.6 2.938",
-    "show-details-on-click": ""
+    "position": "-3.755 1.6 2.725"
+  },
+  {
+    "id": "Excerpt",
+    "position": "4.21625 2.40029 2.72588",
+    "scale": "0.4 0.4 0.4"
   }
 ]
