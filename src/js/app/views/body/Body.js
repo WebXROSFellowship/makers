@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import "@styles/style.scss";
-import {AppConfig} from "../config/appConfig";
-import { DataContext } from "../utils";
-import {AppLoader, NotFound} from './index'
+import {AppConfig} from "../../config/appConfig";
+import { DataContext } from "../../utils";
+import {AppLoader} from '../../components'
+import {NotFound} from "../index";
 
 
 const Body = () => {

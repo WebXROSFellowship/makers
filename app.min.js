@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 625:
+/***/ 938:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -5247,6 +5247,9 @@ function createMemoryRouter(routes, opts) {
 
 //# sourceMappingURL=index.js.map
 
+;// CONCATENATED MODULE: ./src/js/app/config/appConfig.js
+const AppConfig = configData;
+
 ;// CONCATENATED MODULE: ./node_modules/react-router-dom/dist/index.js
 /**
  * React Router DOM v6.14.0
@@ -6291,6 +6294,19 @@ function usePrompt(_ref8) {
 
 //# sourceMappingURL=index.js.map
 
+;// CONCATENATED MODULE: ./src/js/app/components/loader/AppLoader.js
+
+const AppLoader = () => {
+  return /*#__PURE__*/react.createElement("div", {
+    className: "container-md",
+    style: {
+      height: '100vh'
+    }
+  }, /*#__PURE__*/react.createElement("h1", {
+    className: "h1 text-center"
+  }, "Loading!"));
+};
+/* harmony default export */ const loader_AppLoader = (AppLoader);
 ;// CONCATENATED MODULE: ./src/js/app/utils/DataContext.js
 
 const DataContext = /*#__PURE__*/(0,react.createContext)({
@@ -6317,10 +6333,7 @@ StagingDataContext.displayName = "Staging Data";
 
 
 
-;// CONCATENATED MODULE: ./src/js/app/config/appConfig.js
-const AppConfig = configData;
-
-;// CONCATENATED MODULE: ./src/js/app/components/Navbar.js
+;// CONCATENATED MODULE: ./src/js/app/components/navbar/Navbar.js
 
 
 
@@ -6658,126 +6671,12 @@ const Navbar = () => {
     }, cLang);
   })))) : /*#__PURE__*/react.createElement(react.Fragment, null))));
 };
-/* harmony default export */ const components_Navbar = (Navbar);
-;// CONCATENATED MODULE: ./src/js/app/components/Home.js
-
-
-const Home = () => {
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Outlet, null));
-};
-/* harmony default export */ const components_Home = (Home);
-;// CONCATENATED MODULE: ./src/js/app/components/Body.js
-
-
-
-
-
-const Body = () => {
-  var _bodyData$post_media, _bodyData$post_media$, _bodyData$post_media2, _bodyData$post_media3, _bodyData$post_media4, _bodyData$post_media5, _bodyData$content;
-  const base_url = AppConfig.SITE_URL;
-  const [loading, setLoading] = (0,react.useState)(true);
-  const [bodyData, setBodyData] = (0,react.useState)("");
-  const {
-    lang,
-    setLang
-  } = (0,react.useContext)(utils_DataContext);
-  (0,react.useEffect)(() => {
-    fetchBodyData();
-  }, [lang]);
-  const fetchBodyData = async () => {
-    const url = `${base_url}/${lang}/wp-json/wp/v2/pages`;
-    await fetch(url).then(response => response.json()).then(result => {
-      result.map(data => {
-        if (data.link == `${base_url}/${lang}` || data.link == `${base_url}/${lang}/`) {
-          var _data$post_media, _data$post_media$_thu;
-          console.log("image", data === null || data === void 0 ? void 0 : (_data$post_media = data.post_media) === null || _data$post_media === void 0 ? void 0 : (_data$post_media$_thu = _data$post_media._thumbnail_id[0]) === null || _data$post_media$_thu === void 0 ? void 0 : _data$post_media$_thu.full_path);
-          setBodyData(data);
-          setLoading(false);
-        } else {
-          console.log("no data found");
-          setLoading(false);
-        }
-      });
-    }).catch(error => {
-      console.log("Error when getting body data", error);
-    });
-  };
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
-    className: "container"
-  }, loading ? /*#__PURE__*/react.createElement(components_AppLoader, null) : /*#__PURE__*/react.createElement("div", null, bodyData ? /*#__PURE__*/react.createElement("div", {
-    className: "dynamic"
-  }, bodyData !== null && bodyData !== void 0 && (_bodyData$post_media = bodyData.post_media) !== null && _bodyData$post_media !== void 0 && (_bodyData$post_media$ = _bodyData$post_media._thumbnail_id[0]) !== null && _bodyData$post_media$ !== void 0 && _bodyData$post_media$.full_path ? /*#__PURE__*/react.createElement("img", {
-    src: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$post_media2 = bodyData.post_media) === null || _bodyData$post_media2 === void 0 ? void 0 : (_bodyData$post_media3 = _bodyData$post_media2._thumbnail_id[0]) === null || _bodyData$post_media3 === void 0 ? void 0 : _bodyData$post_media3.full_path,
-    alt: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$post_media4 = bodyData.post_media) === null || _bodyData$post_media4 === void 0 ? void 0 : (_bodyData$post_media5 = _bodyData$post_media4._thumbnail_id[0]) === null || _bodyData$post_media5 === void 0 ? void 0 : _bodyData$post_media5.alt
-  }) : null, /*#__PURE__*/react.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$content = bodyData.content) === null || _bodyData$content === void 0 ? void 0 : _bodyData$content.rendered
-    }
-  })) : /*#__PURE__*/react.createElement(components_NotFound, null)
-  // <div className="container-md">
-  //   <h1 className="h1 text-center">Data not Found...</h1>
-  // </div>
-  )));
-};
-
-/* harmony default export */ const components_Body = (Body);
-;// CONCATENATED MODULE: ./src/js/app/components/Profile.js
-
-
-
-
-
-const Profile = () => {
-  var _cd$, _cd$2;
-  const {
-    username
-  } = useParams();
-  const {
-    stagingData
-  } = (0,react.useContext)(utils_StagingDataContext);
-  const {
-    lang,
-    setLang
-  } = (0,react.useContext)(utils_DataContext);
-  const curl = "/profile/" + username + "/";
-  const data = stagingData;
-  const cd = data === null || data === void 0 ? void 0 : data.filter(e => (e === null || e === void 0 ? void 0 : e.url) === curl);
-  const content = ((_cd$ = cd[0]) === null || _cd$ === void 0 ? void 0 : _cd$.content) || "";
-  const titleName = (_cd$2 = cd[0]) === null || _cd$2 === void 0 ? void 0 : _cd$2.title;
-  const [imgLink, setImgLink] = (0,react.useState)("");
-  const base_url = AppConfig.SITE_URL;
-  (0,react.useEffect)(() => {
-    fetch(`${base_url}/${lang}/wp-json/wp/v2/profile?fields=id,link,thumbnail_url,&filter[orderby]=post_title&order=asc&per_page=100&page=1`).then(response => response.json()).then(data => {
-      var _cd$3;
-      const data_id = ((_cd$3 = cd[0]) === null || _cd$3 === void 0 ? void 0 : _cd$3.object_id) || "";
-      const profileImage = data === null || data === void 0 ? void 0 : data.find(image => (image === null || image === void 0 ? void 0 : image.id) == data_id);
-      const imageUrl = profileImage ? profileImage.thumbnail_url.large : "";
-      setImgLink(base_url + imageUrl);
-    }).catch(error => console.log(error));
-  }, [username, cd]);
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
-    className: "profile"
-  }, /*#__PURE__*/react.createElement("div", null, /*#__PURE__*/react.createElement("h1", {
-    className: "profile-text"
-  }, titleName), /*#__PURE__*/react.createElement("div", {
-    className: "profile_container"
-  }, /*#__PURE__*/react.createElement("img", {
-    src: imgLink,
-    alt: `${titleName}`,
-    className: "profile-img"
-  })), /*#__PURE__*/react.createElement("div", {
-    className: "profile-text",
-    dangerouslySetInnerHTML: {
-      __html: content
-    }
-  }))));
-};
-/* harmony default export */ const components_Profile = (Profile);
-;// CONCATENATED MODULE: ./src/js/app/components/Sidebar.js
+/* harmony default export */ const navbar_Navbar = (Navbar);
+;// CONCATENATED MODULE: ./src/js/app/components/sidebar/Sidebar.js
 
 
 function Sidebar() {
-  const [showAccessibilityPanel, setShowAccessibilityPanel] = useState(false);
+  const [showAccessibilityPanel, setShowAccessibilityPanel] = (0,react.useState)(false);
   const handleAccessibilityButtonClick = () => {
     setShowAccessibilityPanel(true);
   };
@@ -6828,83 +6727,231 @@ function Sidebar() {
     document.documentElement.style.fontSize = '';
     document.documentElement.style.wordSpacing = '';
   };
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/react.createElement("div", {
     className: "App"
-  }, /*#__PURE__*/React.createElement("i", {
+  }, /*#__PURE__*/react.createElement("i", {
     className: "fa-brands fa-accessible-icon",
     onClick: handleAccessibilityButtonClick
-  }), showAccessibilityPanel && /*#__PURE__*/React.createElement("div", {
+  }), showAccessibilityPanel && /*#__PURE__*/react.createElement("div", {
     className: `accessibility-panel ${showAccessibilityPanel ? 'active' : ''}`
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/react.createElement("button", {
     className: "accessibility-close-button",
     "aria-label": "Close Accessibility Menu",
     onClick: handleAccessibilityCloseButtonClick
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/react.createElement("span", {
     className: "accessibility-close-icon"
-  })), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/react.createElement("div", {
     className: "accessibility-options"
-  }, /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/react.createElement("ul", null, /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
     className: "accessibility-high-contrast-button",
     onClick: handleHighContrastButtonClick
-  }, "High Contrast")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+  }, "High Contrast")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
     className: "accessibility-greyscale-button",
     onClick: handleGreyscaleButtonClick
-  }, "Greyscale")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+  }, "Greyscale")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
     className: "accessibility-increase-font-size-button",
     onClick: handleIncreaseFontSizeButtonClick
-  }, "Increase Font Size"), /*#__PURE__*/React.createElement("button", {
+  }, "Increase Font Size"), /*#__PURE__*/react.createElement("button", {
     className: "accessibility-decrease-font-size-button",
     onClick: handleDecreaseFontSizeButtonClick
-  }, "Decrease Font Size")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+  }, "Decrease Font Size")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
     className: "accessibility-dark-mode-button",
     onClick: handleDarkModeButtonClick
-  }, "Dark Mode")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+  }, "Dark Mode")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
     className: "accessibility-increase-word-space-button",
     onClick: handleIncreaseWordSpaceButtonClick
-  }, "Increase Word Space"), /*#__PURE__*/React.createElement("button", {
+  }, "Increase Word Space"), /*#__PURE__*/react.createElement("button", {
     className: "accessibility-decrease-word-space-button",
     onClick: handleDecreaseWordSpaceButtonClick
-  }, "Decrease Word Space")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("button", {
+  }, "Decrease Word Space")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement("button", {
     className: "accessibility-reset-button",
     onClick: handleResetButtonClick
   }, "Reset"))))));
 }
-/* harmony default export */ const components_Sidebar = ((/* unused pure expression or super */ null && (Sidebar)));
-;// CONCATENATED MODULE: ./src/js/app/components/NavSites.js
+/* harmony default export */ const sidebar_Sidebar = (Sidebar);
+;// CONCATENATED MODULE: ./src/js/app/components/footer/Footer.js
 
 
 
-const NavSites = () => {
+const Footer = () => {
+  return /*#__PURE__*/react.createElement("div", {
+    className: "footer"
+  }, /*#__PURE__*/react.createElement("h6", {
+    className: "h6"
+  }, "\xA9 Copyright by ", " ", /*#__PURE__*/react.createElement(Link, {
+    to: "/",
+    className: "text-decoration-none"
+  }, "Powersimple")), /*#__PURE__*/react.createElement("h6", {
+    className: "h6"
+  }, /*#__PURE__*/react.createElement(Link, {
+    to: "#",
+    className: "text-decoration-none"
+  }, " Privacy Policy ")), /*#__PURE__*/react.createElement("div", {
+    className: "footer_icons"
+  }, /*#__PURE__*/react.createElement("a", {
+    href: "https://twitter.com/webxrawards",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-twitter fa-xl"
+  }))), /*#__PURE__*/react.createElement("a", {
+    href: "https://www.instagram.com/webxrawards/",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-instagram fa-xl"
+  }))), /*#__PURE__*/react.createElement("a", {
+    href: "https://www.facebook.com/groups/webxrawards",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-facebook fa-xl"
+  }))), /*#__PURE__*/react.createElement("a", {
+    href: "https://www.linkedin.com/company/the-polys/",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-linkedin fa-xl"
+  }))), /*#__PURE__*/react.createElement("a", {
+    href: "https://discord.gg/T5vRuM5cDS",
+    rel: "noreferrer",
+    target: "_blank"
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "dropdown__logo-img"
+  }, /*#__PURE__*/react.createElement("i", {
+    className: "fa-brands fa-discord fa-xl"
+  })))));
+};
+/* harmony default export */ const footer_Footer = (Footer);
+;// CONCATENATED MODULE: ./src/js/app/components/index.js
+
+
+
+
+
+;// CONCATENATED MODULE: ./src/js/app/views/Home.js
+
+
+const Home = () => {
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Outlet, null));
+};
+/* harmony default export */ const views_Home = (Home);
+;// CONCATENATED MODULE: ./src/js/app/views/body/Body.js
+
+
+
+
+
+
+const Body = () => {
+  var _bodyData$post_media, _bodyData$post_media$, _bodyData$post_media2, _bodyData$post_media3, _bodyData$post_media4, _bodyData$post_media5, _bodyData$content;
+  const base_url = AppConfig.SITE_URL;
+  const [loading, setLoading] = (0,react.useState)(true);
+  const [bodyData, setBodyData] = (0,react.useState)("");
   const {
-    sitename,
-    sn
-  } = useParams();
-  const {
-    lang
+    lang,
+    setLang
   } = (0,react.useContext)(utils_DataContext);
-  // const { menuData } = useContext(MenuDataContext);
+  (0,react.useEffect)(() => {
+    fetchBodyData();
+  }, [lang]);
+  const fetchBodyData = async () => {
+    const url = `${base_url}/${lang}/wp-json/wp/v2/pages`;
+    await fetch(url).then(response => response.json()).then(result => {
+      result.map(data => {
+        if (data.link == `${base_url}/${lang}` || data.link == `${base_url}/${lang}/`) {
+          var _data$post_media, _data$post_media$_thu;
+          console.log("image", data === null || data === void 0 ? void 0 : (_data$post_media = data.post_media) === null || _data$post_media === void 0 ? void 0 : (_data$post_media$_thu = _data$post_media._thumbnail_id[0]) === null || _data$post_media$_thu === void 0 ? void 0 : _data$post_media$_thu.full_path);
+          setBodyData(data);
+          setLoading(false);
+        } else {
+          console.log("no data found");
+          setLoading(false);
+        }
+      });
+    }).catch(error => {
+      console.log("Error when getting body data", error);
+    });
+  };
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
+    className: "container"
+  }, loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement("div", null, bodyData ? /*#__PURE__*/react.createElement("div", {
+    className: "dynamic"
+  }, bodyData !== null && bodyData !== void 0 && (_bodyData$post_media = bodyData.post_media) !== null && _bodyData$post_media !== void 0 && (_bodyData$post_media$ = _bodyData$post_media._thumbnail_id[0]) !== null && _bodyData$post_media$ !== void 0 && _bodyData$post_media$.full_path ? /*#__PURE__*/react.createElement("img", {
+    src: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$post_media2 = bodyData.post_media) === null || _bodyData$post_media2 === void 0 ? void 0 : (_bodyData$post_media3 = _bodyData$post_media2._thumbnail_id[0]) === null || _bodyData$post_media3 === void 0 ? void 0 : _bodyData$post_media3.full_path,
+    alt: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$post_media4 = bodyData.post_media) === null || _bodyData$post_media4 === void 0 ? void 0 : (_bodyData$post_media5 = _bodyData$post_media4._thumbnail_id[0]) === null || _bodyData$post_media5 === void 0 ? void 0 : _bodyData$post_media5.alt
+  }) : null, /*#__PURE__*/react.createElement("div", {
+    dangerouslySetInnerHTML: {
+      __html: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$content = bodyData.content) === null || _bodyData$content === void 0 ? void 0 : _bodyData$content.rendered
+    }
+  })) : /*#__PURE__*/react.createElement(_404_NotFound, null)
+  // <div className="container-md">
+  //   <h1 className="h1 text-center">Data not Found...</h1>
+  // </div>
+  )));
+};
+
+/* harmony default export */ const body_Body = (Body);
+;// CONCATENATED MODULE: ./src/js/app/views/profile/Profile.js
+
+
+
+
+
+const Profile = () => {
+  var _cd$, _cd$2;
+  const {
+    username
+  } = useParams();
   const {
     stagingData
   } = (0,react.useContext)(utils_StagingDataContext);
-  const filteredMenuData = (0,react.useMemo)(() => {
-    const curl = "/" + sitename + "/" + (sn != undefined ? sn + "/" : "");
-    const langMenuData = stagingData || [];
-    const filteredData = langMenuData.filter(item => item.url === curl);
-    return filteredData.length > 0 ? filteredData[0] : null;
-  }, [stagingData, lang, sitename, sn]);
+  const {
+    lang,
+    setLang
+  } = (0,react.useContext)(utils_DataContext);
+  const curl = "/profile/" + username + "/";
+  const data = stagingData;
+  const cd = data === null || data === void 0 ? void 0 : data.filter(e => (e === null || e === void 0 ? void 0 : e.url) === curl);
+  const content = ((_cd$ = cd[0]) === null || _cd$ === void 0 ? void 0 : _cd$.content) || "";
+  const titleName = (_cd$2 = cd[0]) === null || _cd$2 === void 0 ? void 0 : _cd$2.title;
+  const [imgLink, setImgLink] = (0,react.useState)("");
+  const base_url = AppConfig.SITE_URL;
+  (0,react.useEffect)(() => {
+    fetch(`${base_url}/${lang}/wp-json/wp/v2/profile?fields=id,link,thumbnail_url,&filter[orderby]=post_title&order=asc&per_page=100&page=1`).then(response => response.json()).then(data => {
+      var _cd$3;
+      const data_id = ((_cd$3 = cd[0]) === null || _cd$3 === void 0 ? void 0 : _cd$3.object_id) || "";
+      const profileImage = data === null || data === void 0 ? void 0 : data.find(image => (image === null || image === void 0 ? void 0 : image.id) == data_id);
+      const imageUrl = profileImage ? profileImage.thumbnail_url.large : "";
+      setImgLink(base_url + imageUrl);
+    }).catch(error => console.log(error));
+  }, [username, cd]);
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
-    className: "navsite"
-  }, " ", /*#__PURE__*/react.createElement("h1", {
+    className: "profile"
+  }, /*#__PURE__*/react.createElement("div", null, /*#__PURE__*/react.createElement("h1", {
+    className: "profile-text"
+  }, titleName), /*#__PURE__*/react.createElement("div", {
+    className: "profile_container"
+  }, /*#__PURE__*/react.createElement("img", {
+    src: imgLink,
+    alt: `${titleName}`,
+    className: "profile-img"
+  })), /*#__PURE__*/react.createElement("div", {
+    className: "profile-text",
     dangerouslySetInnerHTML: {
-      __html: filteredMenuData === null || filteredMenuData === void 0 ? void 0 : filteredMenuData.title
+      __html: content
     }
-  }), /*#__PURE__*/react.createElement("div", {
-    dangerouslySetInnerHTML: {
-      __html: filteredMenuData === null || filteredMenuData === void 0 ? void 0 : filteredMenuData.content
-    }
-  }), " "));
+  }))));
 };
-/* harmony default export */ const components_NavSites = (NavSites);
+/* harmony default export */ const profile_Profile = (Profile);
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function extends_extends() {
   extends_extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -6920,12 +6967,12 @@ function extends_extends() {
   };
   return extends_extends.apply(this, arguments);
 }
-;// CONCATENATED MODULE: ./src/js/app/components/Demo.js
+;// CONCATENATED MODULE: ./src/js/app/views/aframe/Aframe.js
 
 
 
 
-const Demo = () => {
+const AFrame = () => {
   const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = (0,react.useState)(true); // For asset loading
   const [scientistsData, setScientistsData] = (0,react.useState)([]); // For a-images
@@ -6938,7 +6985,7 @@ const Demo = () => {
   const [meshData, setMeshData] = (0,react.useState)([]); // Navmesh
   const data = (0,react.useRef)([{}]); // Data from inspector
 
-  const PAGE_SLUG = new URLSearchParams(document.location.search).get("wordpress_slug");
+  const PAGE_SLUG = "webxros-a-frame-demo";
 
   /*
     Example domain : https://staging.webxr.link/aframe_demo/?wordpress_slug=webxros-a-frame-demo
@@ -7174,7 +7221,7 @@ const Demo = () => {
       }
     });
   }
-  return /*#__PURE__*/react.createElement(react.Fragment, null, " ", loading ? /*#__PURE__*/react.createElement(components_AppLoader, null) : /*#__PURE__*/react.createElement("div", {
+  return /*#__PURE__*/react.createElement(react.Fragment, null, " ", loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement("div", {
     style: {
       height: "100vh",
       width: "100%"
@@ -7353,70 +7400,8 @@ const Demo = () => {
     scale: "6 2 2"
   }))), " ");
 };
-/* harmony default export */ const components_Demo = (Demo);
-;// CONCATENATED MODULE: ./src/js/app/components/Footer.js
-
-
-
-const Footer = () => {
-  return /*#__PURE__*/react.createElement("div", {
-    className: "footer"
-  }, /*#__PURE__*/react.createElement("h6", {
-    className: "h6"
-  }, "\xA9 Copyright by ", " ", /*#__PURE__*/react.createElement(Link, {
-    to: "/",
-    className: "text-decoration-none"
-  }, "Powersimple")), /*#__PURE__*/react.createElement("h6", {
-    className: "h6"
-  }, /*#__PURE__*/react.createElement(Link, {
-    to: "#",
-    className: "text-decoration-none"
-  }, " Privacy Policy ")), /*#__PURE__*/react.createElement("div", {
-    className: "footer_icons"
-  }, /*#__PURE__*/react.createElement("a", {
-    href: "https://twitter.com/webxrawards",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-twitter fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://www.instagram.com/webxrawards/",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-instagram fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://www.facebook.com/groups/webxrawards",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-facebook fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://www.linkedin.com/company/the-polys/",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-linkedin fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
-    href: "https://discord.gg/T5vRuM5cDS",
-    rel: "noreferrer",
-    target: "_blank"
-  }, /*#__PURE__*/react.createElement("span", {
-    className: "dropdown__logo-img"
-  }, /*#__PURE__*/react.createElement("i", {
-    className: "fa-brands fa-discord fa-xl"
-  })))));
-};
-/* harmony default export */ const components_Footer = (Footer);
-;// CONCATENATED MODULE: ./src/js/app/components/NotFound.js
+/* harmony default export */ const Aframe = (AFrame);
+;// CONCATENATED MODULE: ./src/js/app/views/404/NotFound.js
 
 const NotFound = () => {
   return /*#__PURE__*/react.createElement("div", {
@@ -7430,21 +7415,43 @@ const NotFound = () => {
     className: "h3 text-center"
   }, "Data not Found..."));
 };
-/* harmony default export */ const components_NotFound = (NotFound);
-;// CONCATENATED MODULE: ./src/js/app/components/AppLoader.js
+/* harmony default export */ const _404_NotFound = (NotFound);
+;// CONCATENATED MODULE: ./src/js/app/views/body/NavSites.js
 
-const AppLoader = () => {
-  return /*#__PURE__*/react.createElement("div", {
-    className: "container-md",
-    style: {
-      height: '100vh'
+
+
+const NavSites = () => {
+  const {
+    sitename,
+    sn
+  } = useParams();
+  const {
+    lang
+  } = (0,react.useContext)(utils_DataContext);
+  // const { menuData } = useContext(MenuDataContext);
+  const {
+    stagingData
+  } = (0,react.useContext)(utils_StagingDataContext);
+  const filteredMenuData = (0,react.useMemo)(() => {
+    const curl = "/" + sitename + "/" + (sn != undefined ? sn + "/" : "");
+    const langMenuData = stagingData || [];
+    const filteredData = langMenuData.filter(item => item.url === curl);
+    return filteredData.length > 0 ? filteredData[0] : null;
+  }, [stagingData, lang, sitename, sn]);
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
+    className: "navsite"
+  }, " ", /*#__PURE__*/react.createElement("h1", {
+    dangerouslySetInnerHTML: {
+      __html: filteredMenuData === null || filteredMenuData === void 0 ? void 0 : filteredMenuData.title
     }
-  }, /*#__PURE__*/react.createElement("h1", {
-    className: "h1 text-center"
-  }, "Loading!"));
+  }), /*#__PURE__*/react.createElement("div", {
+    dangerouslySetInnerHTML: {
+      __html: filteredMenuData === null || filteredMenuData === void 0 ? void 0 : filteredMenuData.content
+    }
+  }), " "));
 };
-/* harmony default export */ const components_AppLoader = (AppLoader);
-;// CONCATENATED MODULE: ./src/js/app/components/index.js
+/* harmony default export */ const body_NavSites = (NavSites);
+;// CONCATENATED MODULE: ./src/js/app/views/index.js
 
 
 
@@ -7452,38 +7459,41 @@ const AppLoader = () => {
 
 
 
+;// CONCATENATED MODULE: ./src/js/app/routes/routes.js
 
 
 
 
+const routes = createBrowserRouter([{
+  path: "/",
+  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(navbar_Navbar, null), /*#__PURE__*/react.createElement(sidebar_Sidebar, null), /*#__PURE__*/react.createElement(views_Home, null), /*#__PURE__*/react.createElement(footer_Footer, null)),
+  children: [{
+    path: "/",
+    element: /*#__PURE__*/react.createElement(body_Body, null)
+  }, {
+    path: "aframe",
+    element: /*#__PURE__*/react.createElement(Aframe, null)
+  }, {
+    path: "profile/:username",
+    element: /*#__PURE__*/react.createElement(profile_Profile, null)
+  }, {
+    path: "/:sitename/:sn",
+    element: /*#__PURE__*/react.createElement(react.Suspense, {
+      fallback: /*#__PURE__*/react.createElement(loader_AppLoader, null)
+    }, /*#__PURE__*/react.createElement(body_NavSites, null))
+  }, {
+    path: "/:sitename",
+    element: /*#__PURE__*/react.createElement(body_NavSites, null)
+  }]
+}]);
+/* harmony default export */ const routes_routes = (routes);
 ;// CONCATENATED MODULE: ./src/js/app/app.js
 
 
 
 
 
-const appRouter = createBrowserRouter([{
-  path: "/",
-  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(components_Navbar, null), /*#__PURE__*/react.createElement(components_Home, null), /*#__PURE__*/react.createElement(components_Footer, null)),
-  children: [{
-    path: "/",
-    element: /*#__PURE__*/react.createElement(components_Body, null)
-  }, {
-    path: "aframe_demo",
-    element: /*#__PURE__*/react.createElement(components_Demo, null)
-  }, {
-    path: "profile/:username",
-    element: /*#__PURE__*/react.createElement(components_Profile, null)
-  }, {
-    path: "/:sitename/:sn",
-    element: /*#__PURE__*/react.createElement(react.Suspense, {
-      fallback: /*#__PURE__*/react.createElement("h1", null, "Loadinggg...")
-    }, /*#__PURE__*/react.createElement(components_NavSites, null))
-  }, {
-    path: "/:sitename",
-    element: /*#__PURE__*/react.createElement(components_NavSites, null)
-  }]
-}]);
+
 const App = () => {
   const base_url = AppConfig.SITE_URL;
   const [lang, setLang] = (0,react.useState)("");
@@ -7504,7 +7514,7 @@ const App = () => {
       console.log("Error fetching staging data: ", error);
     }
   }
-  return /*#__PURE__*/react.createElement(react.Fragment, null, stagingData.length === 0 ? /*#__PURE__*/react.createElement(components_AppLoader, null) : /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
+  return /*#__PURE__*/react.createElement(react.Fragment, null, stagingData.length === 0 ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
     value: {
       lang: lang,
       setLang: setLang
@@ -7520,7 +7530,7 @@ const App = () => {
       setMenuData
     }
   }, /*#__PURE__*/react.createElement(RouterProvider, {
-    router: appRouter
+    router: routes_routes
   })))));
 };
 /* harmony default export */ const app = (App);
@@ -7532,7 +7542,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(625);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(938);
 
 
 
@@ -8093,7 +8103,7 @@ if (true) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(625);
+/******/ 	__webpack_require__(938);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { AppConfig } from "../config/appConfig";
-import { AppLoader } from "./index";
+import { AppConfig } from "../../config/appConfig";
+import { AppLoader } from "../../components";
 
-const Demo = () => {
+const AFrame = () => {
   const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]); // For a-images
@@ -15,9 +15,7 @@ const Demo = () => {
   const [meshData, setMeshData] = useState([]); // Navmesh
   const data = useRef([{}]); // Data from inspector
 
-  const PAGE_SLUG = new URLSearchParams(document.location.search).get(
-    "wordpress_slug"
-  );
+  const PAGE_SLUG = "webxros-a-frame-demo"
 
   /*
     Example domain : https://staging.webxr.link/aframe_demo/?wordpress_slug=webxros-a-frame-demo
@@ -547,4 +545,4 @@ const Demo = () => {
   );
 };
 
-export default Demo;
+export default AFrame;

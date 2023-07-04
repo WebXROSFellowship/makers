@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-import { StagingDataContext, DataContext } from "../utils";
+import { StagingDataContext, DataContext } from "../../utils";
 import "@styles/style.scss";
 
-import { AppConfig } from "../config/appConfig";
+import { AppConfig } from "../../config/appConfig";
 
 const Profile = () => {
   const { username } = useParams();
