@@ -1,59 +1,10 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { RouterProvider } from "react-router-dom";
 
-import {
-  Body,
-  Demo,
-  Home,
-  NavSites,
-  Navbar,
-  Profile,
-  // Sidebar,
-  Footer,
-  AppLoader
-} from "./components";
-import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
 import { AppConfig } from "./config/appConfig";
-
-const appRouter = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <>
-        <Navbar />
-        {/* <Sidebar /> */}
-        <Home />
-        <Footer/>
-      </>
-    ),
-    children: [
-      {
-        path: "/",
-        element: <Body />,
-      },
-      {
-        path: "aframe_demo",
-        element: <Demo />,
-      },
-      {
-        path: "profile/:username",
-        element: <Profile />,
-      },
-      {
-        path: "/:sitename/:sn",
-        element: (
-          <Suspense fallback={<h1>Loadinggg...</h1>}>
-            <NavSites />
-          </Suspense>
-        ),
-      },
-      {
-        path: "/:sitename",
-        element: <NavSites />,
-      },
-    ],
-  },
-]);
+import routes from "./routes/routes";
+import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
+import { AppLoader } from "./components";
 
 const App = () => {
   const base_url = AppConfig.SITE_URL;
@@ -64,7 +15,6 @@ const App = () => {
   useEffect(() => {
     fetchMenuData();
   }, [lang]);
-
 
   async function fetchMenuData() {
     try {
@@ -87,7 +37,7 @@ const App = () => {
         <DataContext.Provider value={{ lang: lang, setLang: setLang }}>
           <StagingDataContext.Provider value={{ stagingData, setStagingData }}>
             <MenuDataContext.Provider value={{ menuData, setMenuData }}>
-              <RouterProvider router={appRouter} />
+              <RouterProvider router={routes} />
             </MenuDataContext.Provider>
           </StagingDataContext.Provider>
         </DataContext.Provider>
