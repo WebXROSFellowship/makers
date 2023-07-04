@@ -3,19 +3,25 @@ import { AppConfig } from "../config/appConfig";
 import { AppLoader } from "./index";
 
 const Demo = () => {
-  const PAGE_SLUG = "webxros-a-frame-demo";
-  const DEFAULT_LANG = "en";
-
   const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
-  const [scientistsData, setScientistsData] = useState([]);
+  const [scientistsData, setScientistsData] = useState([]); // For a-images
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
-  const langRef = useRef(DEFAULT_LANG);
-  const [allLang, setAllLang] = useState([]);
-  const [furnitureData, setFurnitureData] = useState([]);
-  const [worldData, setWorldData] = useState([]);
-  const [meshData, setMeshData] = useState([]);
-  const data = useRef([{}]);
+  const langRef = useRef(null); // Current language state
+  const prev_langRef = useRef(null); // Previous language state
+  const [allLang, setAllLang] = useState([]); // For all languages supported
+  const [furnitureData, setFurnitureData] = useState([]); // GLTF models
+  const [worldData, setWorldData] = useState([]); // World model
+  const [meshData, setMeshData] = useState([]); // Navmesh
+  const data = useRef([{}]); // Data from inspector
+
+  const PAGE_SLUG = new URLSearchParams(document.location.search).get(
+    "wordpress_slug"
+  );
+
+  /*
+    Example domain : https://staging.webxr.link/aframe_demo/?wordpress_slug=webxros-a-frame-demo
+  */
 
   useEffect(() => {
     fetchLatestData();
@@ -38,6 +44,7 @@ const Demo = () => {
   }, [elementDetected]);
 
   const getLanguages = async () => {
+    // Usage: Gets all active languages in the application
     const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
     let langData = await fetch(langFetchURL);
     let jsonLangData = await langData.json();
@@ -45,8 +52,17 @@ const Demo = () => {
   };
 
   const handleButtonClick = (event) => {
-    const buttonText = event.target.getAttribute("value");
+    // Usage: Handles language change on button click
+    var buttonText = event.target.getAttribute("code");
+    if(buttonText==""){
+      buttonText="en";
+    }
+    prev_langRef.current = langRef.current;
     langRef.current = buttonText;
+    if (prev_langRef.current !== langRef.current) {
+      event.target.click();
+    }
+    
   };
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
@@ -62,8 +78,8 @@ const Demo = () => {
   };
 
   const getFromServer = async () => {
+    // Usage: Loads all assets from server 
     const url = `${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
-
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
@@ -73,6 +89,8 @@ const Demo = () => {
         var navmesh = [];
         result.map((item) => {
           if (item.slug === PAGE_SLUG) {
+            langRef.current = item.languages.default;
+            prev_langRef.current = item.languages.default;
             pagecontents = item.post_media.screen_image;
             furniture = item.properties_3D.furniture;
 
@@ -94,6 +112,7 @@ const Demo = () => {
   };
 
   function ShowDescription(Obj) {
+    // Usage: Handles rendering of language change and toggle
     var children_lang = Obj.querySelectorAll("a-entity");
 
     for (var i = 0; i < children_lang.length; i += 2) {
@@ -140,6 +159,7 @@ const Demo = () => {
   }
 
   async function fetchLatestData() {
+    // Usage: Fetches the latest data from the server saved through Inspector
     const url = `${base_url}/wp-content/themes/makers/data/${PAGE_SLUG}.json`;
     await fetch(url)
       .then((response) => response.json())
@@ -150,6 +170,7 @@ const Demo = () => {
         console.log("Failed to fetch dynamic content", error);
       });
   }
+
   function fetchDataClipboard() {
     // Usage: Fetches the data from the clipboard and stores it in a variable
     var element = document.querySelector(
@@ -175,6 +196,7 @@ const Demo = () => {
       var attr = entityAttributes[i];
       entityObject[attr.name] = attr.value;
     }
+
     // Convert the object to JSON string
     var jsonString = JSON.stringify(entityObject);
     console.log("JSON element: ", jsonString);
@@ -182,6 +204,7 @@ const Demo = () => {
   }
 
   function updateClassData(json) {
+    // Usage: Updates the class data to remove all object specific data
     const { value, id, visible, src, ...newJson } = json;
     return newJson;
   }
@@ -189,6 +212,8 @@ const Demo = () => {
     // Usage: Updates the API data with the new JSON string
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
+    delete newData["gltf-model"];
+    delete newData["show-details-on-click"];
     if (
       Array.isArray(data.current) &&
       data.current.length === 1 &&
@@ -258,12 +283,12 @@ const Demo = () => {
   };
 
   function AddClickEvent() {
+    // Usage: Adds a click event to the entity to show the description
     AFRAME.registerComponent("show-details-on-click", {
       init: function () {
         var el = this.el;
         el.addEventListener("click", function () {
           ShowDescription(el);
-          console.log("Click detected", el);
         });
       },
     });
@@ -271,10 +296,16 @@ const Demo = () => {
 
   return (
     <>
+      {" "}
       {loading ? (
         <AppLoader />
       ) : (
-        <div style={{ height: "100vh", width: "100%" }}>
+        <div
+          style={{
+            height: "100vh",
+            width: "100%",
+          }}
+        >
           <a-scene
             embedded
             environment="preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;"
@@ -372,7 +403,6 @@ const Demo = () => {
                   position: "0 1.6 0",
                 };
               }
-              delete Data_from_Inspector["show-details-on-click"];
 
               return (
                 <a-entity
@@ -403,7 +433,7 @@ const Demo = () => {
                           <a-troika-text
                             class="desc_wrapper"
                             type="wrapper"
-                            value={scientist.trans[lang.code].alt}
+                            value={scientist.trans[lang.code].desc}
                             font={font}
                             visible="true"
                             {...desc_format}
@@ -424,28 +454,39 @@ const Demo = () => {
                             visible="true"
                             {...name_format}
                           ></a-troika-text>
-                          {Object.keys(scientist.trans).map((key) => {
+                          {allLang?.map((lang) => {
+                            var key = lang.code;
                             var classname = "btn-wrapper-" + key;
                             var insData = data.current.find(
                               (obj) => obj.class == classname
                             );
+                            var font =
+                              base_url +
+                              "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
+                            if (lang.code == "zh-hans") {
+                              font =
+                                base_url +
+                                "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
+                            }
+
                             return (
                               <a-troika-text
                                 class={classname}
                                 type="wrapper"
                                 visible="true"
                                 key={classname}
-                                value={key}
+                                value={lang.native_name}
                                 code={key}
+                                font={font}
                                 onClick={handleButtonClick}
                                 {...insData}
                               ></a-troika-text>
                             );
-                          })}
+                          })}{" "}
                         </a-entity>
                       </a-entity>
                     );
-                  })}
+                  })}{" "}
                 </a-entity>
               );
             })}
@@ -501,7 +542,7 @@ const Demo = () => {
             ></a-plane>
           </a-scene>
         </div>
-      )}
+      )}{" "}
     </>
   );
 };

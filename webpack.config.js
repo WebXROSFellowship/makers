@@ -161,10 +161,10 @@ const developmentConfig = {
         terserOptions: {
           compress: false,
           format: {
-            comments: false,
+            comments: true,
           },
         },
-        extractComments: false,
+        extractComments: true,
       }),
       new CssMinimizerPlugin({
         include: /\.css$/,
@@ -172,7 +172,7 @@ const developmentConfig = {
           preset: [
             "default",
             {
-              discardComments: { removeAll: true },
+              discardComments: { removeAll: false },
               normalizeWhitespace: false,
             },
           ],
@@ -202,10 +202,10 @@ const productionConfig = {
         terserOptions: {
           compress: false,
           format: {
-            comments: false,
+            comments: true,
           },
         },
-        extractComments: false,
+        extractComments: true,
       }),
       new CssMinimizerPlugin({
         include: /style\.min\.css$/,
@@ -213,7 +213,7 @@ const productionConfig = {
           preset: [
             "default",
             {
-              discardComments: { removeAll: true },
+              discardComments: { removeAll: false },
               normalizeWhitespace: false,
             },
           ],

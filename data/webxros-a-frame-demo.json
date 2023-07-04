@@ -36,7 +36,7 @@
   {
     "id": "hedy_lamarr-1",
     "type": "wrapper",
-    "position": "-3.712 2.417 -2.597"
+    "position": "-3.712 1.155 -2.597"
   },
   {
     "class": "name_wrapper",
@@ -173,7 +173,7 @@
   {
     "id": "diego-marcus",
     "type": "wrapper",
-    "position": "1.518 1.6 3.052",
+    "position": "1.528 1.6 2.709",
     "rotation": ""
   },
   {
@@ -190,7 +190,12 @@
   {
     "id": "patrick-cozzi",
     "type": "wrapper",
-    "position": "3.85 1.573 -2.472",
+    "position": "-5.582 2.166 3.459"
+  },
+  {
+    "id": "brandonjones",
+    "type": "wrapper",
+    "position": "-3.936 1.6 2.938",
     "show-details-on-click": ""
   }
 ]

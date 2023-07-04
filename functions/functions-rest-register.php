@@ -140,11 +140,17 @@ original: "0",
 post_title: "48 Hours in the Metaverse",
 post_status: "inherit"*/
 foreach ( $translations as $lang => $translation ) {
+	if($lang=='en'){
+		$caption = wp_get_attachment_caption($translation->element_id);
+	} else {
+		$caption = get_post($translation->element_id)->post_excerpt;
+	}
+	
 	$translation_array[$lang] =  [
 								  'translation_id'=>$translation->translation_id,
 								  
 							'alt' => get_post_meta($translation->element_id,"_wp_attachment_image_alt",true),
-	'caption' => wp_get_attachment_caption($translation->element_id),
+		'caption' => $caption,
 		'title'=> get_the_title($translation->element_id),
 		'slug'=> get_post($translation->element_id)->post_name,
 		'desc' =>get_post($translation->element_id)->post_content,
