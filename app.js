@@ -4068,6 +4068,8 @@ const Demo = () => {
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(true); // For asset loading
   const [scientistsData, setScientistsData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]); // For a-images
   const [elementDetected, setElementDetected] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false); // For inspector loaded
+  const [excerptData, setExcerptData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const [skyboxData, setSkyboxData] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const langRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null); // Current language state
   const prev_langRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null); // Previous language state
   const [allLang, setAllLang] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]); // For all languages supported
@@ -4130,7 +4132,7 @@ const Demo = () => {
     }
   };
   const getFromServer = async () => {
-    // Usage: Loads all assets from server 
+    // Usage: Loads all assets from server
     const url = `${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     await fetch(url).then(response => response.json()).then(result => {
       var pagecontents = [];
@@ -4147,6 +4149,8 @@ const Demo = () => {
           world = item.properties_3D.world_model;
           navmesh = item.properties_3D.nav_mesh;
           console.log("Data from server...", result);
+          setExcerptData([item.excerpt.rendered]);
+          setSkyboxData(item.properties_3D.skybox);
           setFurnitureData(furniture);
           setWorldData(world);
           setMeshData(navmesh);
@@ -4253,7 +4257,9 @@ const Demo = () => {
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
     const newData = JSON.parse(jsonString);
     delete newData["gltf-model"];
+    delete newData["value"];
     delete newData["show-details-on-click"];
+    delete newData["troika-text"];
     if (Array.isArray(data.current) && data.current.length === 1 && Object.keys(data.current[0]).length === 0) {
       console.log("!!!!!No data found, adding new data");
       const updatedJsonString = JSON.stringify([newData], null, 2);
@@ -4313,6 +4319,15 @@ const Demo = () => {
         });
       }
     });
+  }
+  function HtmlToText(htmlContent) {
+    // Create a new DOMParser instance
+    const parser = new DOMParser();
+    // Parse the HTML content
+    const document = parser.parseFromString(htmlContent, "text/html");
+    // Extract the plain text using textContent
+    const textContent = document.body.textContent;
+    return textContent;
   }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement((react__WEBPACK_IMPORTED_MODULE_1___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", {
     style: {
@@ -4392,6 +4407,22 @@ const Demo = () => {
     key: meshData.id,
     visible: "false",
     position: "4.762 0 3.739"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-sky", {
+    src: base_url + skyboxData.src
+  }), excerptData?.map(excerpt => {
+    console.log("SKYBOX:", skyboxData);
+    var Obj_id = "Excerpt";
+    var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
+    if (!Data_from_Inspector) {
+      Data_from_Inspector = {
+        position: "0 1.6 0"
+      };
+    }
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("a-troika-text", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      id: "Excerpt"
+    }, Data_from_Inspector, {
+      value: HtmlToText(excerpt)
+    }));
   }), furnitureData?.map(furniture => {
     var Obj_id = furniture.slug;
     var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
