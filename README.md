@@ -1,4 +1,4 @@
-# Makers
+# WebXR for Wordpress theme 
 
 A Pilot Repository for the XROS Fellowship x Powersimple Project.
 
