@@ -102,7 +102,7 @@ One can Navigate to Wordpress to add Language → WPML → Languages section to 
 
 ![Multilingual1](./DocAssests/multilingual1.png)
 
-### Accessibility.
+<!-- ### Accessibility.
 
 This project prioritizes accessibility by incorporating various features to enhance usability and accommodate diverse user needs. The following accessibility features have been implemented:
 
@@ -113,7 +113,7 @@ This project prioritizes accessibility by incorporating various features to enha
 5. Dyslexia Friendly Mode: The project includes a dyslexia-friendly mode that incorporates features like customized fonts and letter spacing to improve readability for individuals with dyslexia or reading difficulties.
 6. Word Spacing Adjustment: Users can adjust the spacing between words, allowing for increased or decreased word spacing based on individual reading preferences. This can benefit users with reading challenges or visual impairments.
 7. Focus Mode: Focus mode helps users concentrate on the content by minimizing distractions. It removes unnecessary elements from the interface and emphasizes the main content area, providing a cleaner and more focused reading experience.
-8. Reset: The project provides a reset option that allows users to revert back to the default settings, undoing any modifications made to the accessibility features. This ensures flexibility and allows users to customize their experience according to their needs.
+8. Reset: The project provides a reset option that allows users to revert back to the default settings, undoing any modifications made to the accessibility features. This ensures flexibility and allows users to customize their experience according to their needs.-->
 
 ###  Added Routing, Profile Pages
 
