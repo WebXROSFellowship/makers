@@ -21,6 +21,9 @@ This hybrid uses AFrame with Wordpress. We are looking forward to building the A
    * Metabox
    * SVG Support
    * WP REST API - filter fields
+
+   For optional Multilingual Support 
+   - WPML is not a free plugin and one will require a licence for downloading it at wpml.org
    * WPML CMS Nav
    * WPML Media
    * WPML Multilingual CMS
@@ -95,13 +98,7 @@ Key WPML Plugins Used:
 
 By incorporating multi-lingual support, it enables users to switch between different languages, ensuring that the content and interface are presented in a language they are comfortable with. This can greatly improve accessibility for users who may not be fluent in the default language.
 
-Currently we have Integrated Four Languages : 
-- English (Default) 
-- Dutch
-- Hindi
-- Chinese
-
-One can Navigate to Wordpress → WPML → Languages section to change the default language or add language.
+One can Navigate to Wordpress to add Language → WPML → Languages section to change the default language or add language.
 
 ![Multilingual1](./DocAssests/multilingual1.png)
 
