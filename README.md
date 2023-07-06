@@ -145,3 +145,34 @@ With the integrated save button, users can effortlessly preserve their modificat
 #### Inspector Update API Integration*
 
 Generated POST requests to update the component data dynamically as is changed using the inspector and the custom save-button functionality.
+
+#### Steps to upload content to A-Frame:
+
+1. Visit the WordPress site.
+2. Access the left panel and select the "Pages" option.
+
+![Aframe-1](./DocAssests/Aframe-1.jpg)
+
+3. Create a new page.   (Note: Currently, there is a page titled "WebXR Wordpress Demo: Museum of Scientists" already created.)
+
+![Aframe-2](./DocAssests/Aframe-2.png)
+
+4. In the right panel of the page, locate the "3D Properties" section and add the world model, navmesh model, and furniture (along with other 3D models).
+
+![Aframe-4](./DocAssests/Aframe-4.png)
+
+5. To include images, go to the "Screen Images" section in the right panel of the page.
+
+![Aframe-5](./DocAssests/Aframe-5.png)
+
+6. After uploading the content, navigate to the A-Frame scene and open the A-Frame inspector.
+7. You will find the uploaded content in its default position, specified as "0 1.6 0".
+8. You can adjust the position and size of the element by moving and resizing it.
+9. Click on each position and press "Enter" once.
+10. Click on each position and press "Enter" once. (This is because of [issue](https://github.com/aframevr/aframe/issues/4084)
+).
+11. Finally, click the "Save" button to save the changes.
+
+
+
+
