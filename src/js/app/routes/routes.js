@@ -1,8 +1,8 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
-import { Navbar, Sidebar, Footer, AppLoader } from "../components";
-import { Home, Body, Profile, AFrame, NotFound, NavSites } from "../views";
+import { Navbar, Sidebar, Footer, Header } from "../components";
+import { Home, Body, Profile, NotFound, Posts } from "../views";
 
 const routes = createBrowserRouter([
   {
@@ -10,6 +10,7 @@ const routes = createBrowserRouter([
     element: (
       <>
         <Navbar />
+        {/* <Header /> */}
         <Sidebar />
         <Home />
         <Footer />
@@ -21,24 +22,20 @@ const routes = createBrowserRouter([
         element: <Body />,
       },
       {
-        path: "aframe",
-        element: <AFrame />,
+        path: "/:slug_name",
+        element: <Body />,
       },
       {
         path: "profile/:username",
         element: <Profile />,
       },
       {
-        path: "/:sitename/:sn",
-        element: (
-          <Suspense fallback={<AppLoader />}>
-            <NavSites />
-          </Suspense>
-        ),
+        path: "posts/:slug_name",
+        element: <Posts />,
       },
-      {
-        path: "/:sitename",
-        element: <NavSites />,
+      { 
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

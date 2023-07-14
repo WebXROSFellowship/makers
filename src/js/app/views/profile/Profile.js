@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-import { StagingDataContext, DataContext } from "../../utils";
+import { MenuDataContext, DataContext } from "../../utils";
 import "@styles/style.scss";
 
 import { AppConfig } from "../../config/appConfig";
 
 const Profile = () => {
   const { username } = useParams();
-  const { stagingData } = useContext(StagingDataContext);
+  const { menuData } = useContext(MenuDataContext);
   const { lang, setLang } = useContext(DataContext);
 
   const curl = "/profile/" + username + "/";
-  const data = stagingData;
+  const data = menuData;
   const cd = data?.filter((e) => e?.url === curl);
   const content = cd[0]?.content || "";
   const titleName = cd[0]?.title;

@@ -1,18 +1,18 @@
 <?php get_header(); ?>
 
 <!-- root tag for react-app content -->
-<div id="root"></div>
+<div id="root" class="container-fluid"></div>
 
 
-<div id="main-content">
+<!-- <div id="main-content"> -->
   <?php
-    if (have_posts()) :
-      while (have_posts()) : the_post();
-      ///  the_content();
-      endwhile;
-    endif;
+    // if (have_posts()) :
+    //   while (have_posts()) : the_post();
+    //     the_content();
+    //   endwhile;
+    // endif;
   ?>
-</div>
+<!-- </div> -->
 
 
 

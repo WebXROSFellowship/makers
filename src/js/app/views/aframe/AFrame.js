@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { AppConfig } from "../../config/appConfig";
 import { AppLoader } from "../../components";
 
-const AFrame = () => {
+const AFrame = (props) => {
   const base_url = AppConfig.SITE_URL;
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]); // For a-images
@@ -17,13 +17,14 @@ const AFrame = () => {
   const [meshData, setMeshData] = useState([]); // Navmesh
   const data = useRef([{}]); // Data from inspector
 
-  const PAGE_SLUG = "webxros-a-frame-demo"
+  const PAGE_SLUG = props?.aframeData?.slug;
 
   /*
     Example domain : https://staging.webxr.link/aframe_demo/?wordpress_slug=webxros-a-frame-demo
   */
 
   useEffect(() => {
+    console.log("Aframe props", props?.aframeData?.slug)
     fetchLatestData();
   }, []);
 

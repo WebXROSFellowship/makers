@@ -3,43 +3,47 @@ import { RouterProvider } from "react-router-dom";
 
 import { AppConfig } from "./config/appConfig";
 import routes from "./routes/routes";
-import { DataContext, MenuDataContext, StagingDataContext } from "./utils";
+import { DataContext, MenuDataContext } from "./utils";
 import { AppLoader } from "./components";
 
 const App = () => {
   const base_url = AppConfig.SITE_URL;
+  const [loading, setLoading] = useState(true);
   const [lang, setLang] = useState("");
-  const [menuData, setMenuData] = useState({});
-  const [stagingData, setStagingData] = useState([]);
+  const [menuData, setMenuData] = useState([]);
 
   useEffect(() => {
-    fetchMenuData();
+    getMenuData();
   }, [lang]);
 
-  async function fetchMenuData() {
-    try {
-      let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
-      let stagingData = await fetch(fetchURL);
-      let jsonData = await stagingData.json();
-      let items = jsonData.filter((item) => item.slug == "main-menu");
-      items = items[0].items;
-      setStagingData([...items]);
-    } catch (error) {
-      console.log("Error fetching staging data: ", error);
-    }
-  }
+  const getMenuData = async () => {
+    console.log("AppConfig...", AppConfig);
+    const url = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("menusdata...", result);
+        let menus = []
+        result.map((menudata) => {
+          menus.push(menudata)
+          setMenuData(menus);
+          setLoading(false);
+        });
+      })
+      .catch((error) => {
+        console.log("Error when getting menu data", error);
+      });
+  };
 
   return (
     <>
-      {stagingData.length === 0 ? (
+      {loading ? (
         <AppLoader />
       ) : (
         <DataContext.Provider value={{ lang: lang, setLang: setLang }}>
-          <StagingDataContext.Provider value={{ stagingData, setStagingData }}>
-            <MenuDataContext.Provider value={{ menuData, setMenuData }}>
-              <RouterProvider router={routes} />
-            </MenuDataContext.Provider>
-          </StagingDataContext.Provider>
+          <MenuDataContext.Provider value={{ menuData, setMenuData }}>
+            <RouterProvider router={routes} />
+          </MenuDataContext.Provider>
         </DataContext.Provider>
       )}
     </>

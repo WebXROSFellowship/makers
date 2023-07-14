@@ -3,6 +3,6 @@ import Body from "./body/Body";
 import Profile from "./profile/Profile";
 import AFrame from "./aframe/AFrame";
 import NotFound from "./404/NotFound";
-import NavSites from "./body/NavSites"
+import Posts from "./posts/Posts"
 
-export { Home, Body, Profile, AFrame, NotFound, NavSites };
+export { Home, Body, Profile, AFrame, NotFound,Posts };

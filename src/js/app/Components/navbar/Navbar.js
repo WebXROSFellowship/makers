@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import "@styles/style.scss";
-import { DataContext, StagingDataContext } from "../../utils";
+import { DataContext, MenuDataContext } from "../../utils";
 import { AppConfig } from "../../config/appConfig";
 
 const Navbar = () => {
@@ -12,19 +12,17 @@ const Navbar = () => {
   const [languageArr, setLanguageArr] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const { setLang } = useContext(DataContext);
-  const { stagingData } = useContext(StagingDataContext);
+  const { menuData } = useContext(MenuDataContext);
   const base_url = AppConfig.SITE_URL;
 
   const [navbarData, setNavbarData] = useState([]);
-
-  let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
     settingMenuData2();
     // settingMenuData();
     setLanguages();
-  }, [stagingData]);
+  }, [menuData]);
 
   function formatNames(name) {
     let allWords = name.toLowerCase().split(" ");
@@ -36,7 +34,9 @@ const Navbar = () => {
   }
 
   function settingMenuData2() {
-    let items = stagingData;
+    let items = menuData.filter((item) => item?.slug === "main-menu");
+    items = items[0].items;
+    console.log("main menus", items);
 
     const parents = {};
     const children = [];
@@ -109,7 +109,7 @@ const Navbar = () => {
   }
 
   function settingMenuData3() {
-    let items = stagingData;
+    let items = menuData;
 
     console.log("Printing Items", items);
 
@@ -142,7 +142,7 @@ const Navbar = () => {
   }
 
   // function settingMenuData() {
-  //   let items = stagingData;
+  //   let items = menuData;
   //   let head = items.filter((e) => e.menu_item_parent === "0")[0];
   //   let childItems = items.filter(
   //     (e) => parseInt(e.menu_item_parent) === head.ID
@@ -190,20 +190,24 @@ const Navbar = () => {
             className="navbar-brand text-white cursor-pointer"
             style={{ fontFamily: "sans-serif" }}
           >
-            <img
-              src={imgBaseURL}
-              alt="logo"
-              className="logo-img cursor-pointer"
-              style={{
-                width: "50px",
-                height: "50px",
-                marginTop: "-5px",
-                borderRadius: "50%",
-                cursor: "default",
-                marginRight: "1rem",
-              }}
-            />
-            <span className="title-head cursor-pointer">{AppConfig.SITE_TITLE}</span>
+            {AppConfig?.SITE_CUSTOM_LOGO && (
+              <img
+                src={AppConfig?.SITE_CUSTOM_LOGO[0]}
+                alt="logo"
+                className="logo-img cursor-pointer"
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  marginTop: "-5px",
+                  borderRadius: "50%",
+                  cursor: "default",
+                  marginRight: "1rem",
+                }}
+              />
+            )}
+            <span className="title-head cursor-pointer">
+              {AppConfig.SITE_TITLE}
+            </span>
           </div>
         </Link>
 
@@ -218,7 +222,7 @@ const Navbar = () => {
               return (
                 <div className="dropdown" key={i}>
                   <Link to={titleUrl}>
-                  <button className="dropbtn">{title}</button>
+                    <button className="dropbtn">{title}</button>
                   </Link>
                   <div className="dropdown__content">
                     {childItems.map((menu, i) => {
@@ -320,7 +324,6 @@ const Navbar = () => {
             </div>
           </div>
           {/* The social media logo section of the Navbar */}
-          
 
           <div className="hamburger">
             <span
