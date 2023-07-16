@@ -9,8 +9,8 @@ const routes = createBrowserRouter([
     path: "/",
     element: (
       <>
-        <Navbar />
-        {/* <Header /> */}
+        {/* <Navbar /> */}
+        <Header />
         <Sidebar />
         <Home />
         <Footer />
@@ -26,7 +26,7 @@ const routes = createBrowserRouter([
         element: <Body />,
       },
       {
-        path: "profile/:username",
+        path: "profile/:slug_name",
         element: <Profile />,
       },
       {

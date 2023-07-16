@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { AppConfig } from "../../config/appConfig";
 import { AppLoader } from "../../components";
+import { DataContext } from "../../utils";
 
 const AFrame = (props) => {
   const base_url = AppConfig.SITE_URL;
+  const { activeLanguages } = useContext(DataContext); // For all languages supported
   const [loading, setLoading] = useState(true); // For asset loading
   const [scientistsData, setScientistsData] = useState([]); // For a-images
   const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
@@ -11,7 +13,6 @@ const AFrame = (props) => {
   const [skyboxData, setSkyboxData] = useState(null);
   const langRef = useRef(null); // Current language state
   const prev_langRef = useRef(null); // Previous language state
-  const [allLang, setAllLang] = useState([]); // For all languages supported
   const [furnitureData, setFurnitureData] = useState([]); // GLTF models
   const [worldData, setWorldData] = useState([]); // World model
   const [meshData, setMeshData] = useState([]); // Navmesh
@@ -24,14 +25,13 @@ const AFrame = (props) => {
   */
 
   useEffect(() => {
-    console.log("Aframe props", props?.aframeData?.slug)
+    console.log("Aframe props", props?.aframeData?.slug);
     fetchLatestData();
   }, []);
 
   useEffect(() => {
     getFromServer();
     checkElement();
-    getLanguages();
 
     // Set up a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(checkElement);
@@ -43,14 +43,6 @@ const AFrame = (props) => {
     // Clean up the observer on component unmount
     return () => observer.disconnect();
   }, [elementDetected]);
-
-  const getLanguages = async () => {
-    // Usage: Gets all active languages in the application
-    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
-    let langData = await fetch(langFetchURL);
-    let jsonLangData = await langData.json();
-    setAllLang(jsonLangData);
-  };
 
   const handleButtonClick = (event) => {
     // Usage: Handles language change on button click
@@ -220,7 +212,7 @@ const AFrame = (props) => {
     delete newData["value"];
     delete newData["show-details-on-click"];
     delete newData["troika-text"];
-    
+
     if (
       Array.isArray(data.current) &&
       data.current.length === 1 &&
@@ -419,9 +411,9 @@ const AFrame = (props) => {
                 visible="false"
                 position="4.762 0 3.739"
               ></a-entity>
-              <a-sky src={base_url + skyboxData?.src} ></a-sky>
-              {excerptData?.map((excerpt) => {
-                console.log("SKYBOX:",skyboxData);
+              <a-sky src={base_url + skyboxData?.src}></a-sky>
+              {excerptData?.map((excerpt, index) => {
+                console.log("SKYBOX:", skyboxData);
                 var Obj_id = "Excerpt";
                 var Data_from_Inspector = data.current.find(
                   (obj) => obj.id == Obj_id
@@ -431,12 +423,15 @@ const AFrame = (props) => {
                     position: "0 1.6 0",
                   };
                 }
-                  return(
-                <a-troika-text id="Excerpt"  {...Data_from_Inspector} value={HtmlToText(excerpt)}></a-troika-text>
-                  );
-
+                return (
+                  <a-troika-text
+                  key={index}
+                    id="Excerpt"
+                    {...Data_from_Inspector}
+                    value={HtmlToText(excerpt)}
+                  ></a-troika-text>
+                );
               })}
-              
 
               {furnitureData?.map((furniture) => {
                 var Obj_id = furniture.slug;
@@ -495,7 +490,7 @@ const AFrame = (props) => {
                       type="wrapper"
                       class="image_wrapper"
                     ></a-image>
-                    {allLang?.map((lang) => {
+                    {activeLanguages?.map((lang) => {
                       var font =
                         base_url +
                         "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
@@ -535,7 +530,7 @@ const AFrame = (props) => {
                               visible="true"
                               {...name_format}
                             ></a-troika-text>
-                            {allLang?.map((lang) => {
+                            {activeLanguages?.map((lang) => {
                               var key = lang.code;
                               var classname = "btn-wrapper-" + key;
                               var insData = data.current.find(

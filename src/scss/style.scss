@@ -11,19 +11,22 @@ DO NOT EDIT IN STYLE.CSS
     PUT YOUR COLOR PALETTE HERE:
 */
 @import "./partials/colors";
-@import "./partials/App.scss";
-@import "./partials/Navbar.scss";
+// @import "./partials/Navbar.scss";
+@import "./partials/Header.scss";
+@import "./partials/Footer.scss";
 @import "./partials/Sidebar.scss";
 @import "./partials/Profile.scss";
+@import "./partials/AFrame.scss";
 
 *,
 body {
   padding: 0;
   margin: 0;
-  background-color: rgba(221, 230, 237, 0.9);
-  color: #00000f;
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root{
@@ -32,83 +35,31 @@ body {
 
 main {
   min-height: 100vh;
-}
-
-.content {
-  min-height: calc(100vh - 140px);
-  width: 100%;
-  padding: 2rem;
-}
-
-/* CSS for the featured image */
-.content img {
   width: 100%;
 }
 
-/* CSS for the loading text */
-.content p {
+.content div{
   width: 100%;
   height: 100%;
-  font-family: sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16.2px;
-  line-height: 30px;
-  text-align: justify;
-  text-transform: capitalize;
-  color: #00000f;
-  padding: 0.6% 7%;
-  margin-bottom: 0;
-}
-
-.content h1,
-.content h2,
-.content h3,
-.content h4,
-.content h5,
-.content h6 {
-  margin-bottom: 1%;
-  margin-top: 1%;
-  font-family: sans-serif;
-  font-weight: 350;
-  line-height: 3rem;
-}
-
-.footer {
-  // position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background-color: #252544;
-  text-align: center;
-  line-height: 60px;
-  color: #9db2bf;
-  align-items: center;
+  display: block;
+  align-content: center;
   justify-content: center;
-  display: flex;
-}
-.footer_icons {
-  margin-left: 2rem;
-  float: right;
-  color: #9db2bf;
-}
-.footer_icons a {
-  color: #9db2bf;
-}
-
-.otgs-development-site-front-end {
-  display: none;
-}
-
-@media only screen and (max-width: 550px) {
-  .footer_icons {
-    display: none;
+  P{
+    word-break: break-all;
   }
 }
 
-.a-enter-vr-button {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
+.App-Loader{
+  background-color: transparent;
+  color:   #252544;
+  width: 100%;
+  height: 100%;
+  display: block;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.otgs-development-site-front-end {
+  display: none;
 }

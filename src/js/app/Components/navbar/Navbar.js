@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import "@styles/style.scss";
-import { DataContext, MenuDataContext } from "../../utils";
+import { DataContext } from "../../utils";
 import { AppConfig } from "../../config/appConfig";
 
 const Navbar = () => {
@@ -11,8 +11,7 @@ const Navbar = () => {
   const [c2IDs, setC2IDs] = useState([]);
   const [languageArr, setLanguageArr] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
-  const { setLang } = useContext(DataContext);
-  const { menuData } = useContext(MenuDataContext);
+  const { setLang, menuData } = useContext(DataContext);
   const base_url = AppConfig.SITE_URL;
 
   const [navbarData, setNavbarData] = useState([]);

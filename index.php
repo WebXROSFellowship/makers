@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 
 <!-- root tag for react-app content -->
-<div id="root" class="container-fluid"></div>
+<div id="root"></div>
 
 
 <!-- <div id="main-content"> -->
