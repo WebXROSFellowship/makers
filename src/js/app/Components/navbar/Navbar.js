@@ -13,14 +13,13 @@ const Navbar = () => {
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const { setLang, menuData } = useContext(DataContext);
   const base_url = AppConfig.SITE_URL;
+  const { activeLanguages, setActiveLanguages } = useContext(DataContext);
 
   const [navbarData, setNavbarData] = useState([]);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
-    settingMenuData2();
-    // settingMenuData();
-    setLanguages();
+    settingMenuData();
   }, [menuData]);
 
   function formatNames(name) {
@@ -32,7 +31,7 @@ const Navbar = () => {
     return formattedName;
   }
 
-  function settingMenuData2() {
+  function settingMenuData() {
     let items = menuData.filter((item) => item?.slug === "main-menu");
     items = items[0].items;
     console.log("main menus", items);
@@ -62,7 +61,6 @@ const Navbar = () => {
       }
     });
 
-
     grandchildren.forEach((grandchild) => {
       const { menu_item_parent } = grandchild;
       let parent = Object.values(parents);
@@ -86,15 +84,6 @@ const Navbar = () => {
       .map((gcc) => gcc);
 
     setNavbarData(navbarData2);
-  }
-
-
-
-  async function setLanguages() {
-    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
-    let langData = await fetch(langFetchURL);
-    let jsonLangData = await langData.json();
-    setLanguageArr(jsonLangData);
   }
 
   /**
@@ -174,76 +163,32 @@ const Navbar = () => {
             <></>
           )}
 
-          {/* {navbarMenus ? (
-            navbarMenus.map((currEle, i) => {
-              let { head, childItems, nestedItems } = currEle;
-
-              return (
-                <div className="dropdown" key={i}>
-                  <button className="dropbtn">{head.title}</button>
-                  <div className="dropdown__content">
-                    {childItems.map((menu, i) => {
-                      const c = c2IDs.includes(menu.ID);
-                      return (
-                        <Link
-                          className="dropdown__items"
-                          key={i}
-                          onMouseEnter={() => setHoveredIndex(i)}
-                          onMouseLeave={() => setHoveredIndex(-1)}
-                          to={menu.url}
-                        >
-                          {formatNames(menu.title)}
-                          {c && (
-                            <span className="n2-drop">
-                              <i className="fa-solid fa-circle-chevron-down"></i>
-                            </span>
-                          )}
-                          {c && hoveredIndex === i && (
-                            <div className="n2">
-                              {nestedItems.map((cur, i) => (
-                                <Link
-                                  to={cur.url}
-                                  className="dropdown__items d2"
-                                  key={i}
-                                >
-                                  {cur.title}
-                                </Link>
-                              ))}
-                            </div>
-                          )}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })
+          {/* The Language Section of Navbar*/}
+          {activeLanguages?.length > 0 ? (
+            <div className="dropdown">
+              <button className="dropbtn"> Languages </button>
+              <div className="dropdown__content">
+                {activeLanguages?.map((currLang) => {
+                  let cLang = currLang.native_name;
+                  let code = currLang.code;
+                  if (code == "en") {
+                    code = "";
+                  }
+                  return (
+                    <span
+                      onClick={() => setLang(`${code}`)}
+                      key={code}
+                      className="dropdown__items"
+                    >
+                      {cLang}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
           ) : (
             <></>
-          )} */}
-          {/* The Language Section of Navbar*/}
-          <div className="dropdown">
-            <button className="dropbtn"> Languages </button>
-            <div className="dropdown__content">
-              {languageArr.map((currLang) => {
-                let cLang = currLang.native_name;
-                let code = currLang.code;
-                if (code == "en") {
-                  code = "";
-                }
-                return (
-                  <span
-                    onClick={() => setLang(`${code}`)}
-                    key={code}
-                    className="dropdown__items"
-                  >
-                    {cLang}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-          {/* The social media logo section of the Navbar */}
+          )}
 
           <div className="hamburger">
             <span
@@ -333,27 +278,31 @@ const Navbar = () => {
               ) : (
                 <></>
               )}
-              <div className="dropdown2">
-                <button className="dropbtn"> Languages </button>
-                <div className="dropdown__content">
-                  {languageArr.map((currLang) => {
-                    let cLang = currLang.native_name;
-                    let code = currLang.code;
-                    if (code == "en") {
-                      code = "";
-                    }
-                    return (
-                      <span
-                        onClick={() => setLang(`${code}`)}
-                        key={code}
-                        className="dropdown__items"
-                      >
-                        {cLang}
-                      </span>
-                    );
-                  })}
+              {activeLanguages?.length > 0 ? (
+                <div className="dropdown2">
+                  <button className="dropbtn"> Languages </button>
+                  <div className="dropdown__content">
+                    {activeLanguages?.map((currLang) => {
+                      let cLang = currLang.native_name;
+                      let code = currLang.code;
+                      if (code == "en") {
+                        code = "";
+                      }
+                      return (
+                        <span
+                          onClick={() => setLang(`${code}`)}
+                          key={code}
+                          className="dropdown__items"
+                        >
+                          {cLang}
+                        </span>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <></>
+              )}
             </div>
           ) : (
             <></>

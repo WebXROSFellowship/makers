@@ -4024,22 +4024,28 @@ const App = () => {
   const [activeLanguages, setActiveLanguages] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [menuData, setMenuData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [lang, setLang] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [languageArr, setLanguageArr] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     getActiveLanguages();
     getMenuData();
   }, [lang]);
   const getActiveLanguages = async () => {
-    console.log("AppConfig...", _config_appConfig__WEBPACK_IMPORTED_MODULE_1__.AppConfig);
-    const url = `${base_url}/wp-json/wpml/v1/active_languages`;
-    await fetch(url).then(response => response.json()).then(result => {
-      console.log("active languages...", result);
-      setActiveLanguages(result);
-    }).catch(error => {
-      console.log("Error when getting ActiveLanguages data", error);
-    });
+    let SITE_ACTIVE_PLUGINS = _config_appConfig__WEBPACK_IMPORTED_MODULE_1__.AppConfig.SITE_ACTIVE_PLUGINS;
+    let wpml = "wpml-media-translation/plugin.php";
+    wpml = wpml.trim();
+    if (SITE_ACTIVE_PLUGINS.includes(wpml)) {
+      setActiveLanguages();
+    } else {
+      const url = `${base_url}/wp-json/wpml/v1/active_languages`;
+      await fetch(url).then(response => response.json()).then(result => {
+        setActiveLanguages(result);
+        setLanguageArr(result);
+      }).catch(error => {
+        console.log("Error when getting ActiveLanguages data", error);
+      });
+    }
   };
   const getMenuData = async () => {
-    console.log("AppConfig...", _config_appConfig__WEBPACK_IMPORTED_MODULE_1__.AppConfig);
     const url = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
     await fetch(url).then(response => response.json()).then(result => {
       console.log("menusdata...", result);
@@ -4373,13 +4379,15 @@ const Navbar = () => {
     menuData
   } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_2__.DataContext);
   const base_url = _config_appConfig__WEBPACK_IMPORTED_MODULE_3__.AppConfig.SITE_URL;
+  const {
+    activeLanguages,
+    setActiveLanguages
+  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_utils__WEBPACK_IMPORTED_MODULE_2__.DataContext);
   const [navbarData, setNavbarData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    settingMenuData2();
-    // settingMenuData();
-    setLanguages();
+    settingMenuData();
   }, [menuData]);
   function formatNames(name) {
     let allWords = name.toLowerCase().split(" ");
@@ -4389,7 +4397,7 @@ const Navbar = () => {
     let formattedName = allWords.join(" ");
     return formattedName;
   }
-  function settingMenuData2() {
+  function settingMenuData() {
     let items = menuData.filter(item => (item === null || item === void 0 ? void 0 : item.slug) === "main-menu");
     items = items[0].items;
     console.log("main menus", items);
@@ -4436,12 +4444,6 @@ const Navbar = () => {
     });
     const navbarData2 = Object.values(parents).map(parent => parent).map(child => child).map(gcc => gcc);
     setNavbarData(navbarData2);
-  }
-  async function setLanguages() {
-    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
-    let langData = await fetch(langFetchURL);
-    let jsonLangData = await langData.json();
-    setLanguageArr(jsonLangData);
   }
 
   /**
@@ -4505,13 +4507,13 @@ const Navbar = () => {
         key: i
       }, cur.title))));
     })));
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null), (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dropdown"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     className: "dropbtn"
   }, " Languages "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dropdown__content"
-  }, languageArr.map(currLang => {
+  }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(currLang => {
     let cLang = currLang.native_name;
     let code = currLang.code;
     if (code == "en") {
@@ -4522,7 +4524,7 @@ const Navbar = () => {
       key: code,
       className: "dropdown__items"
     }, cLang);
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "hamburger"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
     className: "hamburger__logo",
@@ -4587,13 +4589,13 @@ const Navbar = () => {
         key: i
       }, cur.title))));
     })));
-  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+  }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null), (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dropdown2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
     className: "dropbtn"
   }, " Languages "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "dropdown__content"
-  }, languageArr.map(currLang => {
+  }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(currLang => {
     let cLang = currLang.native_name;
     let code = currLang.code;
     if (code == "en") {
@@ -4604,7 +4606,7 @@ const Navbar = () => {
       key: code,
       className: "dropdown__items"
     }, cLang);
-  })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null))));
+  }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Navbar);
 
