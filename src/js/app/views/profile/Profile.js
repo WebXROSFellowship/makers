@@ -1,53 +1,87 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-import { StagingDataContext, DataContext } from "../../utils";
 import "@styles/style.scss";
 
 import { AppConfig } from "../../config/appConfig";
+import { AppLoader } from "../../components";
+import {NotFound} from "../index";
+import { DataContext } from "../../utils";
 
 const Profile = () => {
-  const { username } = useParams();
-  const { stagingData } = useContext(StagingDataContext);
-  const { lang, setLang } = useContext(DataContext);
-
-  const curl = "/profile/" + username + "/";
-  const data = stagingData;
-  const cd = data?.filter((e) => e?.url === curl);
-  const content = cd[0]?.content || "";
-  const titleName = cd[0]?.title;
-  const [imgLink, setImgLink] = useState("");
-
   const base_url = AppConfig.SITE_URL;
+  const { slug_name } = useParams();
+  const { lang, menuData } = useContext(DataContext);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState();
+
+  const curl = slug_name !== undefined && "/profile/" + slug_name + "/";
 
   useEffect(() => {
-    fetch(
-      `${base_url}/${lang}/wp-json/wp/v2/profile?fields=id,link,thumbnail_url,&filter[orderby]=post_title&order=asc&per_page=100&page=1`
-    )
+    fetchdata();
+  }, [lang, menuData, slug_name]);
+
+  const fetchdata = async () => {
+    const url = `${base_url}/${lang}/wp-json/wp/v2/profile?fields=id,type,title,content,slug,excerpt,post_media,languages,meta,info,seo,featured_media,screen_images,featured_video,type,industry,support_hardware,feature,thumbnail_url,collaboration_type,platform,cats,tags&filter[orderby]=post_title&order=asc&per_page=100&page=1`;
+    await fetch(url)
       .then((response) => response.json())
-      .then((data) => {
-        const data_id = cd[0]?.object_id || "";
-        const profileImage = data?.find((image) => image?.id == data_id);
-        const imageUrl = profileImage ? profileImage.thumbnail_url.large : "";
-        setImgLink(base_url + imageUrl);
+      .then((result) => {
+        result.map((profileData) => {
+          if (profileData?.id == AppConfig?.SITE_FRONT_PAGE) {
+            setData(profileData);
+            setLoading(false);
+          } else {
+            if (profileData?.slug === slug_name) {
+              console.log(
+                "menuItem with page",
+                profileData?.slug,
+                slug_name,
+                curl
+              );
+              setData(profileData);
+              setLoading(false);
+            } else {
+              setLoading(false);
+              // console.log("menuItem without page", profileData, curl);
+            }
+          }
+        });
       })
-      .catch((error) => console.log(error));
-  }, [username, cd]);
+      .catch((error) => {
+        console.log("Error when getting body data", error);
+      });
+  };
 
   return (
     <>
-      <div className="profile">
-        <div>
-          <h1 className="profile-text">{titleName}</h1>
-          <div className="profile_container">
-            <img src={imgLink} alt={`${titleName}`} className="profile-img" />
-          </div>
-          <div
-            className="profile-text"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
-        </div>
-      </div>
+      {loading ? (
+        <AppLoader />
+      ) : (
+        <>
+          {data ? (
+            <div className="profile">
+              <div>
+                <h1 className="profile-text"> {data?.title?.rendered}</h1>
+                {data?.post_media?._thumbnail_id[0]?.full_path && (
+                  <div className="profile_container">
+                    <img
+                      src={data?.post_media?._thumbnail_id[0]?.full_path}
+                      alt={data?.post_media?._thumbnail_id[0]?.alt}
+                      className="profile-img"
+                    />
+                  </div>
+                )}
+                <div
+                  className="profile-text"
+                  dangerouslySetInnerHTML={{ __html: data?.content?.rendered }}
+                />
+              </div>
+            </div>
+          ) : (
+            <NotFound />
+          )}
+        </>
+      )}
     </>
   );
 };

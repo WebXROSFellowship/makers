@@ -10,117 +10,56 @@ DO NOT EDIT IN STYLE.CSS
 /*
     PUT YOUR COLOR PALETTE HERE:
 */
-@import "partials/colors";
-@import "App.scss";
-@import "Navbar.scss";
-@import "Sidebar.scss";
-@import "Profile.scss";
+@import "./partials/colors";
+// @import "./partials/Navbar.scss";
+@import "./partials/Header.scss";
+@import "./partials/Footer.scss";
+@import "./partials/Sidebar.scss";
+@import "./partials/Profile.scss";
+@import "./partials/AFrame.scss";
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
+*,
 body {
-  min-height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  background-color: rgba(221, 230, 237, 0.9);
-  color: #00000f;
-  font-family: sans-serif;
+#root{
   min-height: 100vh;
 }
 
-.main {
-  height: 100vh;
+main {
+  min-height: 100vh;
+  width: 100%;
 }
 
-/* CSS for the featured image */
-.dynamic img {
-  width: 55%;
-  margin-left: 22%;
-  margin-top: 7%;
-}
-
-/* CSS for the loading text */
-.dynamic p {
+.content div{
   width: 100%;
   height: 100%;
-  font-family: sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16.2px;
-  line-height: 30px;
-  text-align: justify;
-  text-transform: capitalize;
-  color: #00000f;
-  padding: 0.6% 7%;
-  margin-bottom: 0;
-}
-
-.dynamic b {
-  padding-left: 10%;
-}
-.otgs-development-site-front-end {
-  display: none;
-}
-
-.footer {
-  // position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background-color: #252544;
-  text-align: center;
-  line-height: 60px;
-  color: #9db2bf;
-  align-items: center;
+  display: block;
+  align-content: center;
   justify-content: center;
-  display: flex;
-}
-.footer_icons {
-  margin-left: 2rem;
-  float: right;
-  color: #9db2bf;
-}
-.footer_icons a {
-  color: #9db2bf;
-}
-@media only screen and (max-width: 550px) {
-  .footer_icons {
-    display: none;
+  P{
+    word-break: break-all;
   }
 }
-.navsite {
-  min-height: calc(100vh - 140px);
-  padding: 2rem;
-}
 
-.navsite p {
-  line-height: 2rem;
-  margin-bottom: 1%;
-  font-family: sans-serif;
-  text-align: justify;
-}
-
-.navsite h1,
-.navsite h2,
-.navsite h3,
-.navsite h4,
-.navsite h5,
-.navsite h6 {
-  margin-bottom: 1%;
-  margin-top: 1%;
-  font-family: sans-serif;
-  font-weight: 350;
-  line-height: 3rem;
+.App-Loader{
+  background-color: transparent;
+  color:   #252544;
+  width: 100%;
+  height: 100%;
+  display: block;
+  align-items: center;
+  justify-content: center;
 }
 
 
-.a-enter-vr-button {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
+.otgs-development-site-front-end {
+  display: none;
 }

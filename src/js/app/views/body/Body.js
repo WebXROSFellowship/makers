@@ -1,35 +1,50 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import "@styles/style.scss";
-import {AppConfig} from "../../config/appConfig";
+import { AppConfig } from "../../config/appConfig";
 import { DataContext } from "../../utils";
-import {AppLoader} from '../../components'
-import {NotFound} from "../index";
-
+import { AppLoader } from "../../components";
+import { AFrame, NotFound } from "../index";
 
 const Body = () => {
   const base_url = AppConfig.SITE_URL;
+  const { slug_name  } = useParams();
+  const param = useParams();
+  const { lang, menuData } = useContext(DataContext);
   const [loading, setLoading] = useState(true);
-  const [bodyData, setBodyData] = useState("");
-  const {lang, setLang} = useContext(DataContext);
+  const [data, setData] = useState();
+
+  const curl = slug_name !== undefined && "/" + slug_name + "/";
 
   useEffect(() => {
-    fetchBodyData();
-  }, [lang]);
+    console.log("params", param);
+    fetchdata();
+  }, [lang, menuData, slug_name]);
 
-  const fetchBodyData = async () => {
-    const url = `${base_url}/${lang}/wp-json/wp/v2/pages`;
+  const fetchdata = async () => {
+    const url = `${base_url}/${lang}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
-        result.map((data) => {
-          if (data.link == `${base_url}/${lang}` || data.link == `${base_url}/${lang}/`) {
-            console.log("image", data?.post_media?._thumbnail_id[0]?.full_path);
-            setBodyData(data);
+        result.map((pageData) => {
+          if (pageData?.id == AppConfig?.SITE_FRONT_PAGE) {
+            setData(pageData);
             setLoading(false);
           } else {
-            console.log("no data found");
-            setLoading(false);
+            if (pageData?.slug === slug_name) {
+              console.log(
+                "menuItem with page",
+                pageData?.slug,
+                slug_name,
+                curl
+              );
+              setData(pageData);
+              setLoading(false);
+            } else {
+              setLoading(false);
+              // console.log("menuItem without page", pageData, curl);
+            }
           }
         });
       })
@@ -40,35 +55,38 @@ const Body = () => {
 
   return (
     <>
-    <div className="container" >
       {loading ? (
         <AppLoader />
       ) : (
-        <div>
-          {bodyData ? (
-            <div className="dynamic">
-              {bodyData?.post_media?._thumbnail_id[0]?.full_path ? (
-                <img
-                  src={bodyData?.post_media?._thumbnail_id[0]?.full_path}
-                  alt={bodyData?.post_media?._thumbnail_id[0]?.alt}
-                />
-              ) : null}
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: bodyData?.content?.rendered,
-                }}
-              />
+        <>
+          {data ? (
+            <div className="content">
+              {data?.properties_3D?.use_aframe ? (
+                <AFrame aframeData={data} />
+              ) : (
+                <div className="container">
+                  <h1>{data?.title?.rendered}</h1>
+
+                  {data?.post_media?._thumbnail_id[0]?.full_path && (
+                    <img
+                      src={data?.post_media?._thumbnail_id[0]?.full_path}
+                      alt={data?.post_media?._thumbnail_id[0]?.alt}
+                    />
+                  )}
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: data?.content?.rendered,
+                    }}
+                  />
+                </div>
+              )}
             </div>
           ) : (
             <NotFound />
-            // <div className="container-md">
-            //   <h1 className="h1 text-center">Data not Found...</h1>
-            // </div>
           )}
-        </div>
+        </>
       )}
-    </div>
-  </>
+    </>
   );
 };
 

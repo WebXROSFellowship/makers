@@ -739,9 +739,9 @@ add_action( 'rest_api_init', 'register_support_hardware' );
 //without this the widgets and menus options in wp-admin disappear.
 if ( function_exists('register_sidebars') ){
     register_sidebar( array(
-        'name' => __( 'Footer', 'powersimple' ),
+        'name' => __( 'Footer', 'makers' ),
         'id' => 'footer',
-        'description' => __( '', 'powersimple' ),
+        'description' => __( '', 'makers' ),
         'before_widget' => '',
 	'after_widget'  => '',
 	'before_title'  => '',
@@ -790,7 +790,7 @@ function register_data_publish() {
 	register_rest_route('myroutes', '/data_publish',array(
 		'methods' => 'POST',
 		'callback' => 'publish_data',
-		// 'permission_callback' => '__return_true',
+		'permission_callback' => '__return_true',
 	)
 	);
 }

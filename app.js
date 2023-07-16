@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 776:
+/***/ 401:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -5248,7 +5248,7 @@ function createMemoryRouter(routes, opts) {
 //# sourceMappingURL=index.js.map
 
 ;// CONCATENATED MODULE: ./src/js/app/config/appConfig.js
-const AppConfig = configData;
+const appConfig_AppConfig = configData;
 
 ;// CONCATENATED MODULE: ./node_modules/react-router-dom/dist/index.js
 /**
@@ -5656,7 +5656,7 @@ const dist_ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
 /**
  * The public API for rendering a history-aware <a>.
  */
-const Link = /*#__PURE__*/react.forwardRef(function LinkWithRef(_ref4, ref) {
+const dist_Link = /*#__PURE__*/react.forwardRef(function LinkWithRef(_ref4, ref) {
   let {
       onClick,
       relative,
@@ -5775,7 +5775,7 @@ const NavLink = /*#__PURE__*/(/* unused pure expression or super */ null && (Rea
     isActive,
     isPending
   }) : styleProp;
-  return /*#__PURE__*/React.createElement(Link, react_router_dom_dist_extends({}, rest, {
+  return /*#__PURE__*/React.createElement(dist_Link, react_router_dom_dist_extends({}, rest, {
     "aria-current": ariaCurrent,
     className: className,
     ref: ref,
@@ -6296,12 +6296,10 @@ function usePrompt(_ref8) {
 
 ;// CONCATENATED MODULE: ./src/js/app/components/loader/AppLoader.js
 
+
 const AppLoader = () => {
   return /*#__PURE__*/react.createElement("div", {
-    className: "container-md",
-    style: {
-      height: '100vh'
-    }
+    className: "App-Loader container"
   }, /*#__PURE__*/react.createElement("h1", {
     className: "h1 text-center"
   }, "Loading!"));
@@ -6309,28 +6307,12 @@ const AppLoader = () => {
 /* harmony default export */ const loader_AppLoader = (AppLoader);
 ;// CONCATENATED MODULE: ./src/js/app/utils/DataContext.js
 
-const DataContext = /*#__PURE__*/(0,react.createContext)({
+const DataContext_DataContext = /*#__PURE__*/(0,react.createContext)({
   data: {}
 });
-DataContext.displayName = "DataContext";
-/* harmony default export */ const utils_DataContext = (DataContext);
-;// CONCATENATED MODULE: ./src/js/app/utils/MenuDataContext.js
-
-const MenuDataContext = /*#__PURE__*/(0,react.createContext)({
-  menuData: {}
-});
-MenuDataContext.displayName = "Menu Data";
-/* harmony default export */ const utils_MenuDataContext = (MenuDataContext);
-;// CONCATENATED MODULE: ./src/js/app/utils/StagingDataContext.js
-
-const StagingDataContext = /*#__PURE__*/(0,react.createContext)({
-  stagingData: []
-});
-StagingDataContext.displayName = "Staging Data";
-/* harmony default export */ const utils_StagingDataContext = (StagingDataContext);
+DataContext_DataContext.displayName = "DataContext";
+/* harmony default export */ const utils_DataContext = (DataContext_DataContext);
 ;// CONCATENATED MODULE: ./src/js/app/utils/index.js
-
-
 
 
 ;// CONCATENATED MODULE: ./src/js/app/components/navbar/Navbar.js
@@ -6340,27 +6322,24 @@ StagingDataContext.displayName = "Staging Data";
 
 
 const Navbar = () => {
-  const [showMenu, setShowMenu] = (0,react.useState)(false);
-  const [navbarMenus, setNavbarMenus] = (0,react.useState)([]);
-  const [c2IDs, setC2IDs] = (0,react.useState)([]);
-  const [languageArr, setLanguageArr] = (0,react.useState)([]);
-  const [hoveredIndex, setHoveredIndex] = (0,react.useState)(-1);
+  const [showMenu, setShowMenu] = useState(false);
+  const [navbarMenus, setNavbarMenus] = useState([]);
+  const [c2IDs, setC2IDs] = useState([]);
+  const [languageArr, setLanguageArr] = useState([]);
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
   const {
-    setLang
-  } = (0,react.useContext)(utils_DataContext);
-  const {
-    stagingData
-  } = (0,react.useContext)(utils_StagingDataContext);
+    setLang,
+    menuData
+  } = useContext(DataContext);
   const base_url = AppConfig.SITE_URL;
-  const [navbarData, setNavbarData] = (0,react.useState)([]);
-  let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
+  const [navbarData, setNavbarData] = useState([]);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
-  (0,react.useEffect)(() => {
+  useEffect(() => {
     settingMenuData2();
     // settingMenuData();
     setLanguages();
-  }, [stagingData]);
+  }, [menuData]);
   function formatNames(name) {
     let allWords = name.toLowerCase().split(" ");
     for (let i = 0; i < allWords.length; i++) {
@@ -6370,7 +6349,9 @@ const Navbar = () => {
     return formattedName;
   }
   function settingMenuData2() {
-    let items = stagingData;
+    let items = menuData.filter(item => (item === null || item === void 0 ? void 0 : item.slug) === "main-menu");
+    items = items[0].items;
+    console.log("main menus", items);
     const parents = {};
     const children = [];
     const grandchildren = [];
@@ -6437,7 +6418,7 @@ const Navbar = () => {
     setNavbarData(navbarData2);
   }
   function settingMenuData3() {
-    let items = stagingData;
+    let items = menuData;
     console.log("Printing Items", items);
     const parents = {};
     const children = [];
@@ -6474,7 +6455,7 @@ const Navbar = () => {
   }
 
   // function settingMenuData() {
-  //   let items = stagingData;
+  //   let items = menuData;
   //   let head = items.filter((e) => e.menu_item_parent === "0")[0];
   //   let childItems = items.filter(
   //     (e) => parseInt(e.menu_item_parent) === head.ID
@@ -6513,18 +6494,18 @@ const Navbar = () => {
    * This is a functional React component that returns a Navbar.
    */
 
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("nav", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("nav", {
     className: "navbar"
-  }, /*#__PURE__*/react.createElement(Link, {
+  }, /*#__PURE__*/React.createElement(Link, {
     to: "/",
     className: "text-decoration-none cursor-pointer"
-  }, /*#__PURE__*/react.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "navbar-brand text-white cursor-pointer",
     style: {
       fontFamily: "sans-serif"
     }
-  }, /*#__PURE__*/react.createElement("img", {
-    src: imgBaseURL,
+  }, (AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/React.createElement("img", {
+    src: AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO[0],
     alt: "logo",
     className: "logo-img cursor-pointer",
     style: {
@@ -6535,22 +6516,22 @@ const Navbar = () => {
       cursor: "default",
       marginRight: "1rem"
     }
-  }), /*#__PURE__*/react.createElement("span", {
+  }), /*#__PURE__*/React.createElement("span", {
     className: "title-head cursor-pointer"
-  }, AppConfig.SITE_TITLE))), /*#__PURE__*/react.createElement("div", {
+  }, AppConfig.SITE_TITLE))), /*#__PURE__*/React.createElement("div", {
     className: "navbar-right"
   }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map((currNavBarItem, i) => {
     let title = currNavBarItem.title;
     let titleUrl = currNavBarItem.url;
     let childItems = currNavBarItem.childItems;
-    return /*#__PURE__*/react.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "dropdown",
       key: i
-    }, /*#__PURE__*/react.createElement(Link, {
+    }, /*#__PURE__*/React.createElement(Link, {
       to: titleUrl
-    }, /*#__PURE__*/react.createElement("button", {
+    }, /*#__PURE__*/React.createElement("button", {
       className: "dropbtn"
-    }, title)), /*#__PURE__*/react.createElement("div", {
+    }, title)), /*#__PURE__*/React.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const {
@@ -6558,23 +6539,23 @@ const Navbar = () => {
         url,
         childItems: nestedChildItems
       } = menu;
-      return /*#__PURE__*/react.createElement(Link, {
+      return /*#__PURE__*/React.createElement(Link, {
         className: "dropdown__items",
         key: i,
         to: url
-      }, formatNames(title), nestedChildItems && nestedChildItems.length > 0 && /*#__PURE__*/react.createElement("div", {
+      }, formatNames(title), nestedChildItems && nestedChildItems.length > 0 && /*#__PURE__*/React.createElement("div", {
         className: "n2"
-      }, nestedChildItems.map((cur, i) => /*#__PURE__*/react.createElement(Link, {
+      }, nestedChildItems.map((cur, i) => /*#__PURE__*/React.createElement(Link, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
       }, cur.title))));
     })));
-  }) : /*#__PURE__*/react.createElement(react.Fragment, null), /*#__PURE__*/react.createElement("div", {
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement("div", {
     className: "dropdown"
-  }, /*#__PURE__*/react.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     className: "dropbtn"
-  }, " Languages "), /*#__PURE__*/react.createElement("div", {
+  }, " Languages "), /*#__PURE__*/React.createElement("div", {
     className: "dropdown__content"
   }, languageArr.map(currLang => {
     let cLang = currLang.native_name;
@@ -6582,81 +6563,81 @@ const Navbar = () => {
     if (code == "en") {
       code = "";
     }
-    return /*#__PURE__*/react.createElement("span", {
+    return /*#__PURE__*/React.createElement("span", {
       onClick: () => setLang(`${code}`),
       key: code,
       className: "dropdown__items"
     }, cLang);
-  }))), /*#__PURE__*/react.createElement("div", {
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "hamburger"
-  }, /*#__PURE__*/react.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "hamburger__logo",
     onClick: () => {
       setShowMenu(!showMenu);
     }
-  }, /*#__PURE__*/react.createElement("i", {
+  }, /*#__PURE__*/React.createElement("i", {
     className: "fa-solid fa-bars fa-xl"
-  }))), showMenu === true ? /*#__PURE__*/react.createElement("div", {
+  }))), showMenu === true ? /*#__PURE__*/React.createElement("div", {
     className: "sideMenu"
   }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map(currNavBarItem => {
     let title = currNavBarItem.title;
     let childItems = currNavBarItem.childItems;
-    return /*#__PURE__*/react.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "dropdown2",
       key: currNavBarItem
-    }, /*#__PURE__*/react.createElement("button", {
+    }, /*#__PURE__*/React.createElement("button", {
       className: "dropbtn"
-    }, title), /*#__PURE__*/react.createElement("div", {
+    }, title), /*#__PURE__*/React.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const {
         title,
         url
       } = menu;
-      return /*#__PURE__*/react.createElement(Link, {
+      return /*#__PURE__*/React.createElement(Link, {
         className: "dropdown__items",
         key: title,
         to: url
       }, formatNames(title));
     })));
-  }) : /*#__PURE__*/react.createElement(react.Fragment, null), navbarMenus ? navbarMenus.map((currEle, i) => {
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null), navbarMenus ? navbarMenus.map((currEle, i) => {
     let {
       head,
       childItems,
       nestedItems
     } = currEle;
-    return /*#__PURE__*/react.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "dropdown2",
       key: i
-    }, /*#__PURE__*/react.createElement("button", {
+    }, /*#__PURE__*/React.createElement("button", {
       className: "dropbtn"
-    }, head.title), /*#__PURE__*/react.createElement("div", {
+    }, head.title), /*#__PURE__*/React.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/react.createElement(Link, {
+      return /*#__PURE__*/React.createElement(Link, {
         className: "dropdown__items",
         key: i,
         onMouseEnter: () => setHoveredIndex(i),
         onMouseLeave: () => setHoveredIndex(-1),
         to: menu.url
-      }, formatNames(menu.title), c && /*#__PURE__*/react.createElement("span", {
+      }, formatNames(menu.title), c && /*#__PURE__*/React.createElement("span", {
         className: "n2-drop"
-      }, /*#__PURE__*/react.createElement("i", {
+      }, /*#__PURE__*/React.createElement("i", {
         className: "fa-solid fa-circle-chevron-down"
-      })), c && hoveredIndex === i && /*#__PURE__*/react.createElement("div", {
+      })), c && hoveredIndex === i && /*#__PURE__*/React.createElement("div", {
         className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(Link, {
+      }, nestedItems.map((cur, i) => /*#__PURE__*/React.createElement(Link, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
       }, cur.title))));
     })));
-  }) : /*#__PURE__*/react.createElement(react.Fragment, null), /*#__PURE__*/react.createElement("div", {
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement("div", {
     className: "dropdown2"
-  }, /*#__PURE__*/react.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     className: "dropbtn"
-  }, " Languages "), /*#__PURE__*/react.createElement("div", {
+  }, " Languages "), /*#__PURE__*/React.createElement("div", {
     className: "dropdown__content"
   }, languageArr.map(currLang => {
     let cLang = currLang.native_name;
@@ -6664,14 +6645,14 @@ const Navbar = () => {
     if (code == "en") {
       code = "";
     }
-    return /*#__PURE__*/react.createElement("span", {
+    return /*#__PURE__*/React.createElement("span", {
       onClick: () => setLang(`${code}`),
       key: code,
       className: "dropdown__items"
     }, cLang);
-  })))) : /*#__PURE__*/react.createElement(react.Fragment, null))));
+  })))) : /*#__PURE__*/React.createElement(React.Fragment, null))));
 };
-/* harmony default export */ const navbar_Navbar = (Navbar);
+/* harmony default export */ const navbar_Navbar = ((/* unused pure expression or super */ null && (Navbar)));
 ;// CONCATENATED MODULE: ./src/js/app/components/sidebar/Sidebar.js
 
 
@@ -6684,32 +6665,32 @@ function Sidebar() {
     setShowAccessibilityPanel(false);
   };
   const handleHighContrastButtonClick = () => {
-    document.body.classList.toggle('high-contrast');
+    document.body.classList.toggle("high-contrast");
   };
   const handleGreyscaleButtonClick = () => {
-    document.body.classList.toggle('greyscale');
+    document.body.classList.toggle("greyscale");
   };
   const handleIncreaseFontSizeButtonClick = () => {
     const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    document.documentElement.style.fontSize = currentFontSize + 1 + 'px';
+    document.documentElement.style.fontSize = currentFontSize + 1 + "px";
   };
   const handleDecreaseFontSizeButtonClick = () => {
     const currentFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    document.documentElement.style.fontSize = currentFontSize - 1 + 'px';
+    document.documentElement.style.fontSize = currentFontSize - 1 + "px";
   };
   const handleLightModeButtonClick = () => {
-    document.body.classList.toggle('light-mode');
+    document.body.classList.toggle("light-mode");
   };
   const handleDarkModeButtonClick = () => {
-    document.body.classList.toggle('dark-mode');
+    document.body.classList.toggle("dark-mode");
   };
   const handleIncreaseWordSpaceButtonClick = () => {
     const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
-    document.documentElement.style.wordSpacing = currentWordSpacing + 1 + 'px';
+    document.documentElement.style.wordSpacing = currentWordSpacing + 1 + "px";
   };
   const handleDecreaseWordSpaceButtonClick = () => {
     const currentWordSpacing = parseFloat(getComputedStyle(document.documentElement).wordSpacing);
-    document.documentElement.style.wordSpacing = currentWordSpacing - 1 + 'px';
+    document.documentElement.style.wordSpacing = currentWordSpacing - 1 + "px";
   };
 
   // const handleFocusModeButtonClick = () => {
@@ -6718,22 +6699,20 @@ function Sidebar() {
 
   const handleResetButtonClick = () => {
     // Reset body classList
-    document.body.classList.remove('high-contrast');
-    document.body.classList.remove('greyscale');
-    document.body.classList.remove('light-mode');
-    document.body.classList.remove('dark-mode');
+    document.body.classList.remove("high-contrast");
+    document.body.classList.remove("greyscale");
+    document.body.classList.remove("light-mode");
+    document.body.classList.remove("dark-mode");
 
     // Reset font size and word spacing
-    document.documentElement.style.fontSize = '';
-    document.documentElement.style.wordSpacing = '';
+    document.documentElement.style.fontSize = "";
+    document.documentElement.style.wordSpacing = "";
   };
-  return /*#__PURE__*/react.createElement("div", {
-    className: "App"
-  }, /*#__PURE__*/react.createElement("i", {
+  return /*#__PURE__*/react.createElement("div", null, /*#__PURE__*/react.createElement("i", {
     className: "fa-brands fa-accessible-icon",
     onClick: handleAccessibilityButtonClick
   }), showAccessibilityPanel && /*#__PURE__*/react.createElement("div", {
-    className: `accessibility-panel ${showAccessibilityPanel ? 'active' : ''}`
+    className: `accessibility-panel ${showAccessibilityPanel ? "active" : ""}`
   }, /*#__PURE__*/react.createElement("button", {
     className: "accessibility-close-button",
     "aria-label": "Close Accessibility Menu",
@@ -6773,22 +6752,18 @@ function Sidebar() {
 
 
 
+
 const Footer = () => {
-  return /*#__PURE__*/react.createElement("div", {
-    className: "footer"
-  }, /*#__PURE__*/react.createElement("h6", {
-    className: "h6"
-  }, "\xA9 Copyright by ", " ", /*#__PURE__*/react.createElement(Link, {
-    to: "/",
-    className: "text-decoration-none"
-  }, "Powersimple")), /*#__PURE__*/react.createElement("h6", {
-    className: "h6"
-  }, /*#__PURE__*/react.createElement(Link, {
-    to: "#",
-    className: "text-decoration-none"
-  }, " Privacy Policy ")), /*#__PURE__*/react.createElement("div", {
-    className: "footer_icons"
-  }, /*#__PURE__*/react.createElement("a", {
+  return /*#__PURE__*/react.createElement("footer", null, /*#__PURE__*/react.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/react.createElement("div", {
+    className: "d-flex justify-content-between py-4 my-4 border-top"
+  }, /*#__PURE__*/react.createElement("p", null, "\xA9 2023", appConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("span", null, " ", appConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("span", null, " Site Title "), ". All rights reserved."), /*#__PURE__*/react.createElement("ul", {
+    className: "list-unstyled d-flex"
+  }, /*#__PURE__*/react.createElement("li", {
+    className: "ms-3"
+  }, /*#__PURE__*/react.createElement(dist_Link, {
+    className: "link-light",
     href: "https://twitter.com/webxrawards",
     rel: "noreferrer",
     target: "_blank"
@@ -6796,7 +6771,10 @@ const Footer = () => {
     className: "dropdown__logo-img"
   }, /*#__PURE__*/react.createElement("i", {
     className: "fa-brands fa-twitter fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
+  })))), /*#__PURE__*/react.createElement("li", {
+    className: "ms-3"
+  }, /*#__PURE__*/react.createElement(dist_Link, {
+    className: "link-light",
     href: "https://www.instagram.com/webxrawards/",
     rel: "noreferrer",
     target: "_blank"
@@ -6804,7 +6782,10 @@ const Footer = () => {
     className: "dropdown__logo-img"
   }, /*#__PURE__*/react.createElement("i", {
     className: "fa-brands fa-instagram fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
+  })))), /*#__PURE__*/react.createElement("li", {
+    className: "ms-3"
+  }, /*#__PURE__*/react.createElement(dist_Link, {
+    className: "link-light",
     href: "https://www.facebook.com/groups/webxrawards",
     rel: "noreferrer",
     target: "_blank"
@@ -6812,7 +6793,10 @@ const Footer = () => {
     className: "dropdown__logo-img"
   }, /*#__PURE__*/react.createElement("i", {
     className: "fa-brands fa-facebook fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
+  })))), /*#__PURE__*/react.createElement("li", {
+    className: "ms-3"
+  }, /*#__PURE__*/react.createElement(dist_Link, {
+    className: "link-light",
     href: "https://www.linkedin.com/company/the-polys/",
     rel: "noreferrer",
     target: "_blank"
@@ -6820,7 +6804,10 @@ const Footer = () => {
     className: "dropdown__logo-img"
   }, /*#__PURE__*/react.createElement("i", {
     className: "fa-brands fa-linkedin fa-xl"
-  }))), /*#__PURE__*/react.createElement("a", {
+  })))), /*#__PURE__*/react.createElement("li", {
+    className: "ms-3"
+  }, /*#__PURE__*/react.createElement(dist_Link, {
+    className: "link-light",
     href: "https://discord.gg/T5vRuM5cDS",
     rel: "noreferrer",
     target: "_blank"
@@ -6828,10 +6815,127 @@ const Footer = () => {
     className: "dropdown__logo-img"
   }, /*#__PURE__*/react.createElement("i", {
     className: "fa-brands fa-discord fa-xl"
-  })))));
+  }))))))));
 };
 /* harmony default export */ const footer_Footer = (Footer);
+;// CONCATENATED MODULE: ./src/js/app/components/header/Header.js
+
+
+
+
+
+const Header = () => {
+  const [mainMenus, setMainMenus] = (0,react.useState)([]);
+  const [parentMenus, setParentMenus] = (0,react.useState)([]);
+  const [childMenus, setChildMenus] = (0,react.useState)([]);
+  const {
+    activeLanguages,
+    menuData,
+    lang,
+    setLang
+  } = (0,react.useContext)(utils_DataContext);
+  (0,react.useMemo)(() => {
+    menuData.filter(item => {
+      if ((item === null || item === void 0 ? void 0 : item.slug) == "main-menu") {
+        var _item$items;
+        setMainMenus(item === null || item === void 0 ? void 0 : item.items);
+        item === null || item === void 0 ? void 0 : (_item$items = item.items) === null || _item$items === void 0 ? void 0 : _item$items.map(menuItem => {
+          let parent = [];
+          let child = [];
+          if ((menuItem === null || menuItem === void 0 ? void 0 : menuItem.menu_item_parent) === "0") {
+            parent.push(menuItem);
+            // console.log("Parent menu", parent);
+            setParentMenus(parent);
+          } else {
+            child.push(menuItem);
+            // console.log("child menu", child);
+            setChildMenus(child);
+          }
+        });
+      }
+    });
+  }, [menuData, lang]);
+  return /*#__PURE__*/react.createElement("header", {
+    className: "App-header"
+  }, /*#__PURE__*/react.createElement("div", {
+    className: "App-header-left"
+  }, /*#__PURE__*/react.createElement(dist_Link, {
+    className: "",
+    to: "/"
+  }, (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/react.createElement("div", {
+    className: "App-logo"
+  }, /*#__PURE__*/react.createElement("img", {
+    src: appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_CUSTOM_LOGO[0],
+    alt: "logo"
+  })), /*#__PURE__*/react.createElement("div", {
+    className: "App-title"
+  }, appConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("h4", {
+    className: "title-head"
+  }, " ", appConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("h4", {
+    className: "title-head"
+  }, " Site Title ")))), /*#__PURE__*/react.createElement("div", {
+    className: "App-header-right  d-flex flex-row-reverse "
+  }, /*#__PURE__*/react.createElement("nav", {
+    className: "navbar navbar-expand-lg navbar-dark  "
+  }, /*#__PURE__*/react.createElement("div", {
+    className: "container-fluid navbar-container "
+  }, /*#__PURE__*/react.createElement("button", {
+    className: "navbar-toggler",
+    type: "button",
+    "data-bs-toggle": "collapse",
+    "data-bs-target": "#navbarToggleBtn",
+    "aria-controls": "navbarToggleBtn",
+    "aria-expanded": "false",
+    "aria-label": "Toggle navigation"
+  }, /*#__PURE__*/react.createElement("span", {
+    className: "navbar-toggler-icon"
+  })), /*#__PURE__*/react.createElement("div", {
+    className: "collapse navbar-collapse",
+    id: "navbarToggleBtn"
+  }, /*#__PURE__*/react.createElement("ul", {
+    className: "navbar-nav me-auto mb-2 mb-lg-0 "
+  }, /* The main dropdown menu items of the Navbar */mainMenus === null || mainMenus === void 0 ? void 0 : mainMenus.map((menusItem, index) => {
+    let parnetMenuID = menusItem === null || menusItem === void 0 ? void 0 : menusItem.menu_item_parent;
+    let childMenu = [];
+    return parnetMenuID === "0" && /*#__PURE__*/react.createElement("li", {
+      className: "nav-item dropdown ",
+      key: index
+    }, /*#__PURE__*/react.createElement(dist_Link, {
+      className: "dropdownbtn nav-link active",
+      to: menusItem === null || menusItem === void 0 ? void 0 : menusItem.url
+    }, menusItem === null || menusItem === void 0 ? void 0 : menusItem.title), parnetMenuID !== "0" && /*#__PURE__*/react.createElement("ul", {
+      className: "dropdown-menu dropdown__content"
+    }, /*#__PURE__*/react.createElement("li", {
+      className: "nav-item"
+    }, /*#__PURE__*/react.createElement(dist_Link, {
+      className: "dropdown-item",
+      href: "#"
+    }, menusItem === null || menusItem === void 0 ? void 0 : menusItem.title))));
+  }), /* The activeLanguages items of the Navbar */
+  activeLanguages && /*#__PURE__*/react.createElement("li", {
+    className: "nav-item dropdown "
+  }, /*#__PURE__*/react.createElement(dist_Link, {
+    className: "dropdownbtn nav-link active",
+    to: "#"
+  }, "Languages"), /*#__PURE__*/react.createElement("ul", {
+    className: "dropdown-menu dropdown__content"
+  }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map((item, index) => {
+    let code = item === null || item === void 0 ? void 0 : item.code;
+    if (code == "en") {
+      code = "";
+    }
+    return /*#__PURE__*/react.createElement("li", {
+      className: "nav-item",
+      key: index
+    }, /*#__PURE__*/react.createElement("span", {
+      className: "dropdown-item",
+      onClick: () => setLang(`${code}`)
+    }, item === null || item === void 0 ? void 0 : item.native_name));
+  })))))))));
+};
+/* harmony default export */ const header_Header = (Header);
 ;// CONCATENATED MODULE: ./src/js/app/components/index.js
+
 
 
 
@@ -6841,7 +6945,7 @@ const Footer = () => {
 
 
 const Home = () => {
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Outlet, null));
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("main", null, /*#__PURE__*/react.createElement(Outlet, null)));
 };
 /* harmony default export */ const views_Home = (Home);
 ;// CONCATENATED MODULE: ./src/js/app/views/body/Body.js
@@ -6851,54 +6955,62 @@ const Home = () => {
 
 
 
+
 const Body = () => {
-  var _bodyData$post_media, _bodyData$post_media$, _bodyData$post_media2, _bodyData$post_media3, _bodyData$post_media4, _bodyData$post_media5, _bodyData$content;
-  const base_url = AppConfig.SITE_URL;
-  const [loading, setLoading] = (0,react.useState)(true);
-  const [bodyData, setBodyData] = (0,react.useState)("");
+  var _data$properties_3D, _data$title, _data$post_media, _data$post_media$_thu, _data$post_media2, _data$post_media2$_th, _data$post_media3, _data$post_media3$_th, _data$content;
+  const base_url = appConfig_AppConfig.SITE_URL;
+  const {
+    slug_name
+  } = useParams();
+  const param = useParams();
   const {
     lang,
-    setLang
+    menuData
   } = (0,react.useContext)(utils_DataContext);
+  const [loading, setLoading] = (0,react.useState)(true);
+  const [data, setData] = (0,react.useState)();
+  const curl = slug_name !== undefined && "/" + slug_name + "/";
   (0,react.useEffect)(() => {
-    fetchBodyData();
-  }, [lang]);
-  const fetchBodyData = async () => {
-    const url = `${base_url}/${lang}/wp-json/wp/v2/pages`;
+    console.log("params", param);
+    fetchdata();
+  }, [lang, menuData, slug_name]);
+  const fetchdata = async () => {
+    const url = `${base_url}/${lang}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     await fetch(url).then(response => response.json()).then(result => {
-      result.map(data => {
-        if (data.link == `${base_url}/${lang}` || data.link == `${base_url}/${lang}/`) {
-          var _data$post_media, _data$post_media$_thu;
-          console.log("image", data === null || data === void 0 ? void 0 : (_data$post_media = data.post_media) === null || _data$post_media === void 0 ? void 0 : (_data$post_media$_thu = _data$post_media._thumbnail_id[0]) === null || _data$post_media$_thu === void 0 ? void 0 : _data$post_media$_thu.full_path);
-          setBodyData(data);
+      result.map(pageData => {
+        if ((pageData === null || pageData === void 0 ? void 0 : pageData.id) == (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_FRONT_PAGE)) {
+          setData(pageData);
           setLoading(false);
         } else {
-          console.log("no data found");
-          setLoading(false);
+          if ((pageData === null || pageData === void 0 ? void 0 : pageData.slug) === slug_name) {
+            console.log("menuItem with page", pageData === null || pageData === void 0 ? void 0 : pageData.slug, slug_name, curl);
+            setData(pageData);
+            setLoading(false);
+          } else {
+            setLoading(false);
+            // console.log("menuItem without page", pageData, curl);
+          }
         }
       });
     }).catch(error => {
       console.log("Error when getting body data", error);
     });
   };
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
+  return /*#__PURE__*/react.createElement(react.Fragment, null, loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement(react.Fragment, null, data ? /*#__PURE__*/react.createElement("div", {
+    className: "content"
+  }, data !== null && data !== void 0 && (_data$properties_3D = data.properties_3D) !== null && _data$properties_3D !== void 0 && _data$properties_3D.use_aframe ? /*#__PURE__*/react.createElement(aframe_AFrame, {
+    aframeData: data
+  }) : /*#__PURE__*/react.createElement("div", {
     className: "container"
-  }, loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement("div", null, bodyData ? /*#__PURE__*/react.createElement("div", {
-    className: "dynamic"
-  }, bodyData !== null && bodyData !== void 0 && (_bodyData$post_media = bodyData.post_media) !== null && _bodyData$post_media !== void 0 && (_bodyData$post_media$ = _bodyData$post_media._thumbnail_id[0]) !== null && _bodyData$post_media$ !== void 0 && _bodyData$post_media$.full_path ? /*#__PURE__*/react.createElement("img", {
-    src: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$post_media2 = bodyData.post_media) === null || _bodyData$post_media2 === void 0 ? void 0 : (_bodyData$post_media3 = _bodyData$post_media2._thumbnail_id[0]) === null || _bodyData$post_media3 === void 0 ? void 0 : _bodyData$post_media3.full_path,
-    alt: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$post_media4 = bodyData.post_media) === null || _bodyData$post_media4 === void 0 ? void 0 : (_bodyData$post_media5 = _bodyData$post_media4._thumbnail_id[0]) === null || _bodyData$post_media5 === void 0 ? void 0 : _bodyData$post_media5.alt
-  }) : null, /*#__PURE__*/react.createElement("div", {
+  }, /*#__PURE__*/react.createElement("h1", null, data === null || data === void 0 ? void 0 : (_data$title = data.title) === null || _data$title === void 0 ? void 0 : _data$title.rendered), (data === null || data === void 0 ? void 0 : (_data$post_media = data.post_media) === null || _data$post_media === void 0 ? void 0 : (_data$post_media$_thu = _data$post_media._thumbnail_id[0]) === null || _data$post_media$_thu === void 0 ? void 0 : _data$post_media$_thu.full_path) && /*#__PURE__*/react.createElement("img", {
+    src: data === null || data === void 0 ? void 0 : (_data$post_media2 = data.post_media) === null || _data$post_media2 === void 0 ? void 0 : (_data$post_media2$_th = _data$post_media2._thumbnail_id[0]) === null || _data$post_media2$_th === void 0 ? void 0 : _data$post_media2$_th.full_path,
+    alt: data === null || data === void 0 ? void 0 : (_data$post_media3 = data.post_media) === null || _data$post_media3 === void 0 ? void 0 : (_data$post_media3$_th = _data$post_media3._thumbnail_id[0]) === null || _data$post_media3$_th === void 0 ? void 0 : _data$post_media3$_th.alt
+  }), /*#__PURE__*/react.createElement("div", {
     dangerouslySetInnerHTML: {
-      __html: bodyData === null || bodyData === void 0 ? void 0 : (_bodyData$content = bodyData.content) === null || _bodyData$content === void 0 ? void 0 : _bodyData$content.rendered
+      __html: data === null || data === void 0 ? void 0 : (_data$content = data.content) === null || _data$content === void 0 ? void 0 : _data$content.rendered
     }
-  })) : /*#__PURE__*/react.createElement(_404_NotFound, null)
-  // <div className="container-md">
-  //   <h1 className="h1 text-center">Data not Found...</h1>
-  // </div>
-  )));
+  }))) : /*#__PURE__*/react.createElement(_404_NotFound, null)));
 };
-
 /* harmony default export */ const body_Body = (Body);
 ;// CONCATENATED MODULE: ./src/js/app/views/profile/Profile.js
 
@@ -6906,50 +7018,62 @@ const Body = () => {
 
 
 
+
+
 const Profile = () => {
-  var _cd$, _cd$2;
+  var _data$title, _data$post_media, _data$post_media$_thu, _data$post_media2, _data$post_media2$_th, _data$post_media3, _data$post_media3$_th, _data$content;
+  const base_url = appConfig_AppConfig.SITE_URL;
   const {
-    username
+    slug_name
   } = useParams();
   const {
-    stagingData
-  } = (0,react.useContext)(utils_StagingDataContext);
-  const {
     lang,
-    setLang
+    menuData
   } = (0,react.useContext)(utils_DataContext);
-  const curl = "/profile/" + username + "/";
-  const data = stagingData;
-  const cd = data === null || data === void 0 ? void 0 : data.filter(e => (e === null || e === void 0 ? void 0 : e.url) === curl);
-  const content = ((_cd$ = cd[0]) === null || _cd$ === void 0 ? void 0 : _cd$.content) || "";
-  const titleName = (_cd$2 = cd[0]) === null || _cd$2 === void 0 ? void 0 : _cd$2.title;
-  const [imgLink, setImgLink] = (0,react.useState)("");
-  const base_url = AppConfig.SITE_URL;
+  const [loading, setLoading] = (0,react.useState)(true);
+  const [data, setData] = (0,react.useState)();
+  const curl = slug_name !== undefined && "/profile/" + slug_name + "/";
   (0,react.useEffect)(() => {
-    fetch(`${base_url}/${lang}/wp-json/wp/v2/profile?fields=id,link,thumbnail_url,&filter[orderby]=post_title&order=asc&per_page=100&page=1`).then(response => response.json()).then(data => {
-      var _cd$3;
-      const data_id = ((_cd$3 = cd[0]) === null || _cd$3 === void 0 ? void 0 : _cd$3.object_id) || "";
-      const profileImage = data === null || data === void 0 ? void 0 : data.find(image => (image === null || image === void 0 ? void 0 : image.id) == data_id);
-      const imageUrl = profileImage ? profileImage.thumbnail_url.large : "";
-      setImgLink(base_url + imageUrl);
-    }).catch(error => console.log(error));
-  }, [username, cd]);
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
+    fetchdata();
+  }, [lang, menuData, slug_name]);
+  const fetchdata = async () => {
+    const url = `${base_url}/${lang}/wp-json/wp/v2/profile?fields=id,type,title,content,slug,excerpt,post_media,languages,meta,info,seo,featured_media,screen_images,featured_video,type,industry,support_hardware,feature,thumbnail_url,collaboration_type,platform,cats,tags&filter[orderby]=post_title&order=asc&per_page=100&page=1`;
+    await fetch(url).then(response => response.json()).then(result => {
+      result.map(profileData => {
+        if ((profileData === null || profileData === void 0 ? void 0 : profileData.id) == (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_FRONT_PAGE)) {
+          setData(profileData);
+          setLoading(false);
+        } else {
+          if ((profileData === null || profileData === void 0 ? void 0 : profileData.slug) === slug_name) {
+            console.log("menuItem with page", profileData === null || profileData === void 0 ? void 0 : profileData.slug, slug_name, curl);
+            setData(profileData);
+            setLoading(false);
+          } else {
+            setLoading(false);
+            // console.log("menuItem without page", profileData, curl);
+          }
+        }
+      });
+    }).catch(error => {
+      console.log("Error when getting body data", error);
+    });
+  };
+  return /*#__PURE__*/react.createElement(react.Fragment, null, loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement(react.Fragment, null, data ? /*#__PURE__*/react.createElement("div", {
     className: "profile"
   }, /*#__PURE__*/react.createElement("div", null, /*#__PURE__*/react.createElement("h1", {
     className: "profile-text"
-  }, titleName), /*#__PURE__*/react.createElement("div", {
+  }, " ", data === null || data === void 0 ? void 0 : (_data$title = data.title) === null || _data$title === void 0 ? void 0 : _data$title.rendered), (data === null || data === void 0 ? void 0 : (_data$post_media = data.post_media) === null || _data$post_media === void 0 ? void 0 : (_data$post_media$_thu = _data$post_media._thumbnail_id[0]) === null || _data$post_media$_thu === void 0 ? void 0 : _data$post_media$_thu.full_path) && /*#__PURE__*/react.createElement("div", {
     className: "profile_container"
   }, /*#__PURE__*/react.createElement("img", {
-    src: imgLink,
-    alt: `${titleName}`,
+    src: data === null || data === void 0 ? void 0 : (_data$post_media2 = data.post_media) === null || _data$post_media2 === void 0 ? void 0 : (_data$post_media2$_th = _data$post_media2._thumbnail_id[0]) === null || _data$post_media2$_th === void 0 ? void 0 : _data$post_media2$_th.full_path,
+    alt: data === null || data === void 0 ? void 0 : (_data$post_media3 = data.post_media) === null || _data$post_media3 === void 0 ? void 0 : (_data$post_media3$_th = _data$post_media3._thumbnail_id[0]) === null || _data$post_media3$_th === void 0 ? void 0 : _data$post_media3$_th.alt,
     className: "profile-img"
   })), /*#__PURE__*/react.createElement("div", {
     className: "profile-text",
     dangerouslySetInnerHTML: {
-      __html: content
+      __html: data === null || data === void 0 ? void 0 : (_data$content = data.content) === null || _data$content === void 0 ? void 0 : _data$content.rendered
     }
-  }))));
+  }))) : /*#__PURE__*/react.createElement(_404_NotFound, null)));
 };
 /* harmony default export */ const profile_Profile = (Profile);
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
@@ -6972,8 +7096,13 @@ function extends_extends() {
 
 
 
-const AFrame = () => {
-  const base_url = AppConfig.SITE_URL;
+
+const AFrame = props => {
+  var _props$aframeData;
+  const base_url = appConfig_AppConfig.SITE_URL;
+  const {
+    activeLanguages
+  } = (0,react.useContext)(utils_DataContext); // For all languages supported
   const [loading, setLoading] = (0,react.useState)(true); // For asset loading
   const [scientistsData, setScientistsData] = (0,react.useState)([]); // For a-images
   const [elementDetected, setElementDetected] = (0,react.useState)(false); // For inspector loaded
@@ -6981,25 +7110,25 @@ const AFrame = () => {
   const [skyboxData, setSkyboxData] = (0,react.useState)(null);
   const langRef = (0,react.useRef)(null); // Current language state
   const prev_langRef = (0,react.useRef)(null); // Previous language state
-  const [allLang, setAllLang] = (0,react.useState)([]); // For all languages supported
   const [furnitureData, setFurnitureData] = (0,react.useState)([]); // GLTF models
   const [worldData, setWorldData] = (0,react.useState)([]); // World model
   const [meshData, setMeshData] = (0,react.useState)([]); // Navmesh
   const data = (0,react.useRef)([{}]); // Data from inspector
 
-  const PAGE_SLUG = "webxros-a-frame-demo";
+  const PAGE_SLUG = props === null || props === void 0 ? void 0 : (_props$aframeData = props.aframeData) === null || _props$aframeData === void 0 ? void 0 : _props$aframeData.slug;
 
   /*
     Example domain : https://staging.webxr.link/aframe_demo/?wordpress_slug=webxros-a-frame-demo
   */
 
   (0,react.useEffect)(() => {
+    var _props$aframeData2;
+    console.log("Aframe props", props === null || props === void 0 ? void 0 : (_props$aframeData2 = props.aframeData) === null || _props$aframeData2 === void 0 ? void 0 : _props$aframeData2.slug);
     fetchLatestData();
   }, []);
   (0,react.useEffect)(() => {
     getFromServer();
     checkElement();
-    getLanguages();
 
     // Set up a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(checkElement);
@@ -7011,13 +7140,6 @@ const AFrame = () => {
     // Clean up the observer on component unmount
     return () => observer.disconnect();
   }, [elementDetected]);
-  const getLanguages = async () => {
-    // Usage: Gets all active languages in the application
-    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
-    let langData = await fetch(langFetchURL);
-    let jsonLangData = await langData.json();
-    setAllLang(jsonLangData);
-  };
   const handleButtonClick = event => {
     // Usage: Handles language change on button click
     var buttonText = event.target.getAttribute("code");
@@ -7318,7 +7440,7 @@ const AFrame = () => {
     position: "4.762 0 3.739"
   }), /*#__PURE__*/react.createElement("a-sky", {
     src: base_url + (skyboxData === null || skyboxData === void 0 ? void 0 : skyboxData.src)
-  }), excerptData === null || excerptData === void 0 ? void 0 : excerptData.map(excerpt => {
+  }), excerptData === null || excerptData === void 0 ? void 0 : excerptData.map((excerpt, index) => {
     console.log("SKYBOX:", skyboxData);
     var Obj_id = "Excerpt";
     var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
@@ -7328,6 +7450,7 @@ const AFrame = () => {
       };
     }
     return /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+      key: index,
       id: "Excerpt"
     }, Data_from_Inspector, {
       value: HtmlToText(excerpt)
@@ -7368,7 +7491,7 @@ const AFrame = () => {
     }, img_format, {
       type: "wrapper",
       class: "image_wrapper"
-    })), allLang === null || allLang === void 0 ? void 0 : allLang.map(lang => {
+    })), activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(lang => {
       var font = base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
       if (lang.code == "zh-hans") {
         font = base_url + "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
@@ -7398,7 +7521,7 @@ const AFrame = () => {
         value: scientist.trans[lang.code].title,
         font: font,
         visible: "true"
-      }, name_format)), allLang === null || allLang === void 0 ? void 0 : allLang.map(lang => {
+      }, name_format)), activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(lang => {
         var key = lang.code;
         var classname = "btn-wrapper-" + key;
         var insData = data.current.find(obj => obj.class == classname);
@@ -7466,10 +7589,7 @@ const AFrame = () => {
 
 const NotFound = () => {
   return /*#__PURE__*/react.createElement("div", {
-    className: "container-md",
-    style: {
-      height: '100vh'
-    }
+    className: "container"
   }, /*#__PURE__*/react.createElement("h1", {
     className: "h1 text-center"
   }, "Oops!"), /*#__PURE__*/react.createElement("h3", {
@@ -7477,41 +7597,68 @@ const NotFound = () => {
   }, "Data not Found..."));
 };
 /* harmony default export */ const _404_NotFound = (NotFound);
-;// CONCATENATED MODULE: ./src/js/app/views/body/NavSites.js
+;// CONCATENATED MODULE: ./src/js/app/views/posts/Posts.js
 
 
 
-const NavSites = () => {
+
+
+
+
+const Posts = () => {
+  var _data$post_media, _data$post_media$_thu, _data$post_media2, _data$post_media2$_th, _data$post_media3, _data$post_media3$_th, _data$content;
+  const base_url = appConfig_AppConfig.SITE_URL;
   const {
-    sitename,
-    sn
+    slug_name
   } = useParams();
   const {
-    lang
+    lang,
+    menuData
   } = (0,react.useContext)(utils_DataContext);
-  // const { menuData } = useContext(MenuDataContext);
-  const {
-    stagingData
-  } = (0,react.useContext)(utils_StagingDataContext);
-  const filteredMenuData = (0,react.useMemo)(() => {
-    const curl = "/" + sitename + "/" + (sn != undefined ? sn + "/" : "");
-    const langMenuData = stagingData || [];
-    const filteredData = langMenuData.filter(item => item.url === curl);
-    return filteredData.length > 0 ? filteredData[0] : null;
-  }, [stagingData, lang, sitename, sn]);
+  const [loading, setLoading] = (0,react.useState)(true);
+  const [data, setData] = (0,react.useState)();
+  const curl = slug_name !== undefined ? "/" + slug_name + "/" : "";
+  (0,react.useEffect)(() => {
+    console.log("param", slug_name);
+    fetchdata();
+  }, [lang, menuData, slug_name]);
+  const fetchdata = async () => {
+    const url = `${base_url}/${lang}/wp-json/wp/v2/posts?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,video,type,cats,tags&filter[orderby]=ID&order=asc&per_page=100`;
+    await fetch(url).then(response => response.json()).then(result => {
+      console.log("posts result", result);
+      result.map(postData => {
+        if ((postData === null || postData === void 0 ? void 0 : postData.id) == (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_FRONT_PAGE)) {
+          setData(postData);
+          setLoading(false);
+        } else {
+          if ((postData === null || postData === void 0 ? void 0 : postData.slug) === slug_name) {
+            console.log("menuItem with page", postData === null || postData === void 0 ? void 0 : postData.slug, slug_name, curl);
+            setData(postData);
+            setLoading(false);
+          } else {
+            setLoading(false);
+            // console.log("menuItem without page", postData, curl);
+          }
+        }
+      });
+    }).catch(error => {
+      console.log("Error when getting body data", error);
+    });
+  };
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
-    className: "navsite"
-  }, " ", /*#__PURE__*/react.createElement("h1", {
-    dangerouslySetInnerHTML: {
-      __html: filteredMenuData === null || filteredMenuData === void 0 ? void 0 : filteredMenuData.title
-    }
+    className: "container"
+  }, loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement("div", null, data ? /*#__PURE__*/react.createElement("div", {
+    className: "dynamic"
+  }, (data === null || data === void 0 ? void 0 : (_data$post_media = data.post_media) === null || _data$post_media === void 0 ? void 0 : (_data$post_media$_thu = _data$post_media._thumbnail_id[0]) === null || _data$post_media$_thu === void 0 ? void 0 : _data$post_media$_thu.full_path) && /*#__PURE__*/react.createElement("img", {
+    src: data === null || data === void 0 ? void 0 : (_data$post_media2 = data.post_media) === null || _data$post_media2 === void 0 ? void 0 : (_data$post_media2$_th = _data$post_media2._thumbnail_id[0]) === null || _data$post_media2$_th === void 0 ? void 0 : _data$post_media2$_th.full_path,
+    alt: data === null || data === void 0 ? void 0 : (_data$post_media3 = data.post_media) === null || _data$post_media3 === void 0 ? void 0 : (_data$post_media3$_th = _data$post_media3._thumbnail_id[0]) === null || _data$post_media3$_th === void 0 ? void 0 : _data$post_media3$_th.alt
   }), /*#__PURE__*/react.createElement("div", {
     dangerouslySetInnerHTML: {
-      __html: filteredMenuData === null || filteredMenuData === void 0 ? void 0 : filteredMenuData.content
+      __html: data === null || data === void 0 ? void 0 : (_data$content = data.content) === null || _data$content === void 0 ? void 0 : _data$content.rendered
     }
-  }), " "));
+  })) : /*#__PURE__*/react.createElement(_404_NotFound, null))));
 };
-/* harmony default export */ const body_NavSites = (NavSites);
+/* harmony default export */ const posts_Posts = (Posts);
 ;// CONCATENATED MODULE: ./src/js/app/views/index.js
 
 
@@ -7527,24 +7674,22 @@ const NavSites = () => {
 
 const routes = createBrowserRouter([{
   path: "/",
-  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(navbar_Navbar, null), /*#__PURE__*/react.createElement(sidebar_Sidebar, null), /*#__PURE__*/react.createElement(views_Home, null), /*#__PURE__*/react.createElement(footer_Footer, null)),
+  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(header_Header, null), /*#__PURE__*/react.createElement(sidebar_Sidebar, null), /*#__PURE__*/react.createElement(views_Home, null), /*#__PURE__*/react.createElement(footer_Footer, null)),
   children: [{
     path: "/",
     element: /*#__PURE__*/react.createElement(body_Body, null)
   }, {
-    path: "aframe",
-    element: /*#__PURE__*/react.createElement(aframe_AFrame, null)
+    path: "/:slug_name",
+    element: /*#__PURE__*/react.createElement(body_Body, null)
   }, {
-    path: "profile/:username",
+    path: "profile/:slug_name",
     element: /*#__PURE__*/react.createElement(profile_Profile, null)
   }, {
-    path: "/:sitename/:sn",
-    element: /*#__PURE__*/react.createElement(react.Suspense, {
-      fallback: /*#__PURE__*/react.createElement(loader_AppLoader, null)
-    }, /*#__PURE__*/react.createElement(body_NavSites, null))
+    path: "posts/:slug_name",
+    element: /*#__PURE__*/react.createElement(posts_Posts, null)
   }, {
-    path: "/:sitename",
-    element: /*#__PURE__*/react.createElement(body_NavSites, null)
+    path: "*",
+    element: /*#__PURE__*/react.createElement(_404_NotFound, null)
   }]
 }]);
 /* harmony default export */ const routes_routes = (routes);
@@ -7556,43 +7701,48 @@ const routes = createBrowserRouter([{
 
 
 const App = () => {
-  const base_url = AppConfig.SITE_URL;
-  const [lang, setLang] = (0,react.useState)("");
-  const [menuData, setMenuData] = (0,react.useState)({});
-  const [stagingData, setStagingData] = (0,react.useState)([]);
+  const base_url = appConfig_AppConfig.SITE_URL;
+  const [loading, setLoading] = (0,react.useState)(true);
+  const [activeLanguages, setActiveLanguages] = (0,react.useState)([]);
+  const [menuData, setMenuData] = (0,react.useState)([]);
+  const [lang, setLang] = (0,react.useState)([]);
   (0,react.useEffect)(() => {
-    fetchMenuData();
+    getActiveLanguages();
+    getMenuData();
   }, [lang]);
-  async function fetchMenuData() {
-    try {
-      let fetchURL = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
-      let stagingData = await fetch(fetchURL);
-      let jsonData = await stagingData.json();
-      let items = jsonData.filter(item => item.slug == "main-menu");
-      items = items[0].items;
-      setStagingData([...items]);
-    } catch (error) {
-      console.log("Error fetching staging data: ", error);
-    }
-  }
-  return /*#__PURE__*/react.createElement(react.Fragment, null, stagingData.length === 0 ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
+  const getActiveLanguages = async () => {
+    console.log("AppConfig...", appConfig_AppConfig);
+    const url = `${base_url}/wp-json/wpml/v1/active_languages`;
+    await fetch(url).then(response => response.json()).then(result => {
+      console.log("active languages...", result);
+      setActiveLanguages(result);
+    }).catch(error => {
+      console.log("Error when getting ActiveLanguages data", error);
+    });
+  };
+  const getMenuData = async () => {
+    console.log("AppConfig...", appConfig_AppConfig);
+    const url = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
+    await fetch(url).then(response => response.json()).then(result => {
+      console.log("menusdata...", result);
+      setMenuData(result);
+      setLoading(false);
+    }).catch(error => {
+      console.log("Error when getting menu data", error);
+    });
+  };
+  return /*#__PURE__*/react.createElement(react.Fragment, null, loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
     value: {
+      activeLanguages: activeLanguages,
+      setActiveLanguages: setActiveLanguages,
+      menuData: menuData,
+      setMenuData: setMenuData,
       lang: lang,
       setLang: setLang
     }
-  }, /*#__PURE__*/react.createElement(utils_StagingDataContext.Provider, {
-    value: {
-      stagingData,
-      setStagingData
-    }
-  }, /*#__PURE__*/react.createElement(utils_MenuDataContext.Provider, {
-    value: {
-      menuData,
-      setMenuData
-    }
   }, /*#__PURE__*/react.createElement(RouterProvider, {
     router: routes_routes
-  })))));
+  })));
 };
 /* harmony default export */ const app = (App);
 
@@ -7603,7 +7753,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(776);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(401);
 
 
 
@@ -8164,7 +8314,7 @@ if (true) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(776);
+/******/ 	__webpack_require__(401);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()
