@@ -4,9 +4,9 @@
 /*
 Theme Name: Makers
 
-Author: Ben Erwin, Powersimple, LLC
+Author: WebXR Open Source Fellowship
 Author URI: https://Powersimple/
-Description: 
+Description: The Team of the WebXR Open Source Fellowship Ben Erwin, Aryan Grover, Pratham Gupta, Ananya Jain, Shravani Kaware, Kunaal Mangal, Surbhi Sharma.
 Text Domain: makers
 DO NOT EDIT IN STYLE.CSS
 */
@@ -15,63 +15,16 @@ DO NOT EDIT IN STYLE.CSS
 */
 /*Light Mode*/
 /*Dark Mode*/
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 .navbar {
   padding-top: 20px;
   height: 80px;
-  width: 100vw;
+  width: 100%;
   opacity: 0.8;
   background-color: #00000F;
   color: #9DB2BF;
   cursor: default;
   position: fixed;
   top: 0;
-  z-index: 2;
-}
-
-.nav-shimmer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  min-width: 100%;
 }
 
 .navbar-brand {
@@ -91,20 +44,6 @@ DO NOT EDIT IN STYLE.CSS
 
 .navbar-right {
   display: flex;
-  align-items: center;
-}
-
-.img-shimmer {
-  width: 550px;
-  height: 550px;
-  border-radius: 10%;
-  display: flex;
-  margin-top: 5rem;
-}
-
-.img-container {
-  display: flex;
-  justify-content: center;
   align-items: center;
 }
 
@@ -128,7 +67,7 @@ DO NOT EDIT IN STYLE.CSS
 .dropbtn {
   background-color: #00000F;
   color: #9DB2BF;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   border: none;
   cursor: pointer;
   margin-top: -10px;
@@ -252,7 +191,7 @@ DO NOT EDIT IN STYLE.CSS
   background: darkgrey;
 }
 
-@media only screen and (max-width: 1063px) {
+@media only screen and (max-width: 982px) {
   .navbar-brand {
     font-size: 0.95rem;
   }
@@ -300,6 +239,22 @@ DO NOT EDIT IN STYLE.CSS
     font-size: 14px;
   }
 }
+.navbar text-white {
+  color: white;
+}
+
+footer {
+  width: 100%;
+  background-color: #252544;
+  color: #9db2bf;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+footer li, footer a {
+  color: #9db2bf;
+}
+
 /* Accessibility button */
 .fa-accessible-icon {
   position: fixed;
@@ -355,7 +310,6 @@ DO NOT EDIT IN STYLE.CSS
 
 ul {
   list-style: none;
-  padding: 0rem 2rem;
 }
 
 li {
@@ -442,87 +396,51 @@ p {
     margin-top: 6rem;
   }
 }
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+.a-enter-vr-button {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
 }
 
+*,
 body {
-  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
-  background-color: rgba(221, 230, 237, 0.9);
-  color: #00000F;
-  font-family: sans-serif;
   min-height: 100vh;
 }
 
-/* CSS for the featured image */
-.dynamic img {
-  width: 55%;
-  margin-left: 22%;
-  margin-top: 7%;
+main {
+  min-height: 100vh;
+  width: 100%;
 }
 
-/* CSS for the loading text */
-.dynamic p {
+.content div {
   width: 100%;
   height: 100%;
-  font-family: sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16.2px;
-  line-height: 30px;
-  text-align: justify;
-  text-transform: capitalize;
-  color: #00000F;
-  padding: 0.6% 7%;
-  margin-bottom: 0;
+  display: block;
+  align-content: center;
+  justify-content: center;
+}
+.content div P {
+  word-break: break-all;
 }
 
-.dynamic b {
-  padding-left: 10%;
+.App-Loader {
+  background-color: transparent;
+  color: #252544;
+  width: 100%;
+  height: 100%;
+  display: block;
+  align-items: center;
+  justify-content: center;
 }
 
 .otgs-development-site-front-end {
   display: none;
-}
-
-.footer {
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background-color: #252544;
-  text-align: center;
-  line-height: 60px;
-  color: #9DB2BF;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-}
-
-.navsite {
-  min-height: calc(100vh - 140px);
-  padding: 2rem;
-}
-
-.navsite p {
-  line-height: 2rem;
-  margin-bottom: 1%;
-  font-family: sans-serif;
-  text-align: justify;
-}
-
-.navsite h1,
-.navsite h2,
-.navsite h3,
-.navsite h4,
-.navsite h5,
-.navsite h6 {
-  margin-bottom: 1%;
-  margin-top: 1%;
-  font-family: sans-serif;
-  font-weight: 350;
-  line-height: 3rem;
 }

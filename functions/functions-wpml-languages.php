@@ -241,6 +241,7 @@ function getWPMLData(){ // callback used by initRestLanguages register_rest_rout
         register_rest_route( 'wpml/v1', '/active_languages', array(
             'methods' => 'GET',
             'callback' => 'get_active_languages',
+            'permission_callback' => '__return_true',
         ) );
     } );
 

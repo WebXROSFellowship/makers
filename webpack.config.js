@@ -9,7 +9,7 @@ const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 const ModuleResolverPlugin = require("babel-plugin-module-resolver");
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const proxyUrl = "https://makers/";
+const proxyUrl = "https://makers:8893/";
 
 function getEntries(pattern, outputName) {
   const files = glob.sync(pattern);
@@ -161,10 +161,10 @@ const developmentConfig = {
         terserOptions: {
           compress: false,
           format: {
-            comments: false,
+            comments: true,
           },
         },
-        extractComments: false,
+        extractComments: true,
       }),
       new CssMinimizerPlugin({
         include: /\.css$/,
@@ -172,7 +172,7 @@ const developmentConfig = {
           preset: [
             "default",
             {
-              discardComments: { removeAll: true },
+              discardComments: { removeAll: false },
               normalizeWhitespace: false,
             },
           ],
@@ -202,10 +202,10 @@ const productionConfig = {
         terserOptions: {
           compress: false,
           format: {
-            comments: false,
+            comments: true,
           },
         },
-        extractComments: false,
+        extractComments: true,
       }),
       new CssMinimizerPlugin({
         include: /style\.min\.css$/,
@@ -213,7 +213,7 @@ const productionConfig = {
           preset: [
             "default",
             {
-              discardComments: { removeAll: true },
+              discardComments: { removeAll: false },
               normalizeWhitespace: false,
             },
           ],

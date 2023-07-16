@@ -1,11 +1,7 @@
-import Navbar from "./Navbar";
-import Home from "./Home";
-import Body from "./Body";
-import Profile from "./Profile";
-import Sidebar from "./Sidebar";
-import NavSites from "./NavSites";
-import Demo from "./Demo";
-import Footer from "./Footer";
-import Shimmer from "./Shimmer";
+import AppLoader from "./loader/AppLoader";
+import Navbar from "./navbar/Navbar";
+import Sidebar from "./sidebar/Sidebar";
+import Footer from "./footer/Footer";
+import Header from "./header/Header";
 
-export { Navbar, Home, Body, Profile, Sidebar, NavSites, Demo, Footer, Shimmer };
+export { Navbar, Footer, Sidebar, AppLoader, Header };

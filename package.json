@@ -1,10 +1,10 @@
 {
   "name": "makers",
   "version": "1.0.0",
-  "description": "We create a virtual reality.",
+  "description": "A wordpress theme that enables WebXR in WordPress.",
   "main": "src/js/app/index.js",
   "repository": "https://github.com/WebXROSFellowship/makers.git",
-  "author": "KUNAAL MANGAL <ksmangal1998@gmail.com>",
+  "author": "The Team of the WebXR Open Source Fellowship Ben Erwin, Aryan Grover, Pratham Gupta, Ananya Jain, Shravani Kaware, Kunaal Mangal, Surbhi Sharma.",
   "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

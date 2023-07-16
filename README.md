@@ -1,4 +1,4 @@
-# Makers
+# WebXR for Wordpress theme 
 
 A Pilot Repository for the XROS Fellowship x Powersimple Project.
 
@@ -21,6 +21,9 @@ This hybrid uses AFrame with Wordpress. We are looking forward to building the A
    * Metabox
    * SVG Support
    * WP REST API - filter fields
+
+   For optional Multilingual Support 
+   - WPML is not a free plugin and one will require a licence for downloading it at wpml.org
    * WPML CMS Nav
    * WPML Media
    * WPML Multilingual CMS
@@ -56,13 +59,13 @@ This hybrid uses AFrame with Wordpress. We are looking forward to building the A
 
 ## Description
 
-### * Data access through REST API in JSON Format:
+###  Data access through REST API in JSON Format:
 
 This project leverages the WordPress REST API to enable data access in JSON format. The REST API allows for seamless communication between the front-end and back-end of the application.
 The REST API returns data in JSON (JavaScript Object Notation) format, which is a lightweight and widely supported data interchange format.
 Using JavaScript, you can make HTTP requests to the REST API endpoints to retrieve data.
 
-### * Responsive Mega Navigation Menu
+###  Responsive Mega Navigation Menu
 
 This project includes a responsive mega navigation menu, designed to provide an enhanced user experience on different devices and screen sizes. The menu is optimised to handle a large number of navigation items and accommodate additional content, such as dropdown menus,  and icons.
 
@@ -82,13 +85,24 @@ Currently the navbar is designed in such a way that it has the following section
    - Languages Dropdown: Also located on the right side of the navbar, typically adjacent to the profile dropdown. When clicked or hovered over, it expands to display a list of available languages or language settings for the website. Users can choose their preferred language from this dropdown.
    - Social Media Icons: Positioned on the rightmost side of the navbar. These icons represent links to social media profiles. Common icons include those for Facebook, Twitter, Github LinkedIn, YouTube, etc. Clicking on these icons would redirect users to your social media pages.
 
-### * Multi-lingualism for accessibility.
+###  Multi-lingualism.
 
-In order to make the project more accessible and inclusive to a global audience, multi-lingualism is implemented. This feature allows users to interact with the website or application in their preferred language, providing a localized experience and breaking language barriers.
+In order to make the project more accessible and inclusive to a global audience, multilingualism is implemented. This feature allows users to interact with the website or application in their preferred language, providing a localized experience and breaking language barriers.
+To achieve this, we have integrated the WPML (WordPress Multilingual) plugin into our project. WPML is a robust and widely-used tool specifically designed for translating and localizing WordPress websites.
+Key WPML Plugins Used:
+1. WPML CMS Nav : This plugin adds CMS navigation elements to our website/application, making it easier for users to navigate through the content in their preferred language. It ensures a seamless multi-lingual experience.
+2. WPML Media : With WPML Media, we have added multilingual support for media files. Users can now enjoy our content with translated media, ensuring a consistent experience across different languages.
+3. WPML Multilingual CMS : WPML Multilingual CMS is a core plugin that forms the foundation of our multilingual implementation. It provides a robust translation management system, allowing us to efficiently manage and translate our website/application content.
+4. WPML Sticky Links: The WPML Sticky Links plugin prevents internal links from breaking, ensuring that users can navigate through our website/application seamlessly, regardless of the language they choose.
+5. WPML String Translation: WPML String Translation helps us translate strings and texts from themes, plugins, and other elements within our website/application. It ensures that all aspects of our content are accurately translated.
 
 By incorporating multi-lingual support, it enables users to switch between different languages, ensuring that the content and interface are presented in a language they are comfortable with. This can greatly improve accessibility for users who may not be fluent in the default language.
 
-### * Accessibility.
+One can Navigate to Wordpress to add Language → WPML → Languages section to change the default language or add language.
+
+![Multilingual1](./DocAssests/multilingual1.png)
+
+<!-- ### Accessibility.
 
 This project prioritizes accessibility by incorporating various features to enhance usability and accommodate diverse user needs. The following accessibility features have been implemented:
 
@@ -99,9 +113,9 @@ This project prioritizes accessibility by incorporating various features to enha
 5. Dyslexia Friendly Mode: The project includes a dyslexia-friendly mode that incorporates features like customized fonts and letter spacing to improve readability for individuals with dyslexia or reading difficulties.
 6. Word Spacing Adjustment: Users can adjust the spacing between words, allowing for increased or decreased word spacing based on individual reading preferences. This can benefit users with reading challenges or visual impairments.
 7. Focus Mode: Focus mode helps users concentrate on the content by minimizing distractions. It removes unnecessary elements from the interface and emphasizes the main content area, providing a cleaner and more focused reading experience.
-8. Reset: The project provides a reset option that allows users to revert back to the default settings, undoing any modifications made to the accessibility features. This ensures flexibility and allows users to customize their experience according to their needs.
+8. Reset: The project provides a reset option that allows users to revert back to the default settings, undoing any modifications made to the accessibility features. This ensures flexibility and allows users to customize their experience according to their needs.-->
 
-### * Added Routing, Profile Pages
+###  Added Routing, Profile Pages
 
 The project includes profile pages that showcase information about individuals. Each profile page typically consists of the following components:
 
@@ -109,22 +123,53 @@ The project includes profile pages that showcase information about individuals. 
 2. Profile Photo: A profile photo is included on the page, providing a visual representation of the person.
 3. Profile Information: The profile page contains relevant information about the person.
 
-### * Dynamic *A-Frame Integration with WordPress.*
+###  Dynamic A-Frame Integration with WordPress.
 
 This integration allows users to seamlessly incorporate A-Frame, a powerful virtual reality framework, into your WordPress website. One of the standout features of this integration is the A-Frame inspector, which enables users to make real-time changes to the virtual reality environment.
 
-#### *Inspector Functionality*
+#### Inspector Functionality*
 
 When the A-Frame inspector is activated, users gain access to a set of intuitive tools for modifying the virtual reality scene. These tools allow users to manipulate objects, adjust positions, modify textures, and more, all within the browser window.
 
-#### *Save Button*
+#### Save Button*
 
 To enhance the functionality of the A-Frame inspector, we have implemented a convenient "save" button. Once the user has made changes using the inspector for a particular entity, they can simply click on the "save" button. This action triggers the saving of the modified code directly back into the original JSON code file associated with the A-Frame environment for rendering of the entity.
 
-#### *Seamless Code Management*
+#### Seamless Code Management*
 
 With the integrated save button, users can effortlessly preserve their modifications and ensure that the changes persist across sessions. By saving the updated code back into the JSON file, the virtual reality environment maintains the latest changes made by users, providing a seamless and dynamic user experience.
 
-#### *Inspector Update API Integration*
+#### Inspector Update API Integration*
 
 Generated POST requests to update the component data dynamically as is changed using the inspector and the custom save-button functionality.
+
+#### Steps to upload content to A-Frame:
+
+1. Visit the WordPress site.
+2. Access the left panel and select the "Pages" option.
+
+![Aframe-1](./DocAssests/Aframe-1.jpg)
+
+3. Create a new page.   (Note: Currently, there is a page titled "WebXR Wordpress Demo: Museum of Scientists" already created.)
+
+![Aframe-2](./DocAssests/Aframe-2.png)
+
+4. In the right panel of the page, locate the "3D Properties" section and add the world model, navmesh model, and furniture (along with other 3D models).
+
+![Aframe-4](./DocAssests/Aframe-4.png)
+
+5. To include images, go to the "Screen Images" section in the right panel of the page.
+
+![Aframe-5](./DocAssests/Aframe-5.png)
+
+6. After uploading the content, navigate to the A-Frame scene and open the A-Frame inspector.
+7. You will find the uploaded content in its default position, specified as "0 1.6 0".
+8. You can adjust the position and size of the element by moving and resizing it.
+9. Click on each position and press "Enter" once.
+10. Click on each position and press "Enter" once. (This is because of [issue](https://github.com/aframevr/aframe/issues/4084)
+).
+11. Finally, click the "Save" button to save the changes.
+
+
+
+

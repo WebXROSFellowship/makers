@@ -140,11 +140,17 @@ original: "0",
 post_title: "48 Hours in the Metaverse",
 post_status: "inherit"*/
 foreach ( $translations as $lang => $translation ) {
+	if($lang=='en'){
+		$caption = wp_get_attachment_caption($translation->element_id);
+	} else {
+		$caption = get_post($translation->element_id)->post_excerpt;
+	}
+	
 	$translation_array[$lang] =  [
 								  'translation_id'=>$translation->translation_id,
 								  
 							'alt' => get_post_meta($translation->element_id,"_wp_attachment_image_alt",true),
-	'caption' => wp_get_attachment_caption($translation->element_id),
+		'caption' => $caption,
 		'title'=> get_the_title($translation->element_id),
 		'slug'=> get_post($translation->element_id)->post_name,
 		'desc' =>get_post($translation->element_id)->post_content,
@@ -733,9 +739,9 @@ add_action( 'rest_api_init', 'register_support_hardware' );
 //without this the widgets and menus options in wp-admin disappear.
 if ( function_exists('register_sidebars') ){
     register_sidebar( array(
-        'name' => __( 'Footer', 'powersimple' ),
+        'name' => __( 'Footer', 'makers' ),
         'id' => 'footer',
-        'description' => __( '', 'powersimple' ),
+        'description' => __( '', 'makers' ),
         'before_widget' => '',
 	'after_widget'  => '',
 	'before_title'  => '',
@@ -757,10 +763,9 @@ function register_inspecter_changes() {
 }
 
 function update_inspecter_data($request) {
-	// var_dump( $request);
+	$file_name = $_POST['page'];
 	$file = $request->get_file_params();
-    $upload_dir = wp_upload_dir();
-    $file_name = 'dynamicContent_demo.json';
+    $upload_dir = wp_upload_dir();;
 	$file_type = $file["file"]["type"]; 
 	$file_tmp_name = $file["file"]['tmp_name'];
     $file_path = get_stylesheet_directory() . '/data/' . $file_name;
@@ -785,7 +790,7 @@ function register_data_publish() {
 	register_rest_route('myroutes', '/data_publish',array(
 		'methods' => 'POST',
 		'callback' => 'publish_data',
-		// 'permission_callback' => '__return_true',
+		'permission_callback' => '__return_true',
 	)
 	);
 }

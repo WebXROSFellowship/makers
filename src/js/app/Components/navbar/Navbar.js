@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import "@styles/style.scss";
-import { DataContext, StagingDataContext } from "../utils";
-import { AppConfig } from "../config/appConfig";
+import { DataContext } from "../../utils";
+import { AppConfig } from "../../config/appConfig";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -11,20 +11,17 @@ const Navbar = () => {
   const [c2IDs, setC2IDs] = useState([]);
   const [languageArr, setLanguageArr] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
-  const { setLang } = useContext(DataContext);
-  const { stagingData } = useContext(StagingDataContext);
+  const { setLang, menuData } = useContext(DataContext);
   const base_url = AppConfig.SITE_URL;
 
   const [navbarData, setNavbarData] = useState([]);
-
-  let imgBaseURL = `${base_url}/wp-content/uploads/2023/05/webxros.png`;
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
     settingMenuData2();
     // settingMenuData();
     setLanguages();
-  }, [stagingData]);
+  }, [menuData]);
 
   function formatNames(name) {
     let allWords = name.toLowerCase().split(" ");
@@ -36,7 +33,9 @@ const Navbar = () => {
   }
 
   function settingMenuData2() {
-    let items = stagingData;
+    let items = menuData.filter((item) => item?.slug === "main-menu");
+    items = items[0].items;
+    console.log("main menus", items);
 
     const parents = {};
     const children = [];
@@ -89,34 +88,6 @@ const Navbar = () => {
     setNavbarData(navbarData2);
   }
 
-  function settingMenuData3() {
-    let items = stagingData;
-
-
-    const parents = {};
-    const children = [];
-
-    items.forEach((item) => {
-      const { ID, menu_item_parent, title, content, url } = item;
-      if (menu_item_parent === "0") {
-        parents[ID] = {
-          ...item,
-          childItems: [],
-        };
-      } else {
-        children.push(item);
-      }
-    });
-
-    children.forEach((child) => {
-      const { menu_item_parent } = child;
-      if (parents[menu_item_parent]) {
-        parents[menu_item_parent].childItems.push(child);
-      }
-    });
-    let navbarData2 = Object.values(parents);
-    setNavbarData(navbarData2);
-  }
 
 
   async function setLanguages() {
@@ -134,27 +105,31 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         {/* The brand section of the Navbar */}
-        <Link to="/" className="text-decoration-none cursor-pointer">
+        <NavLink to="/" className="text-decoration-none cursor-pointer">
           <div
             className="navbar-brand text-white cursor-pointer"
             style={{ fontFamily: "sans-serif" }}
           >
-            <img
-              src={imgBaseURL}
-              alt="logo"
-              className="logo-img cursor-pointer"
-              style={{
-                width: "50px",
-                height: "50px",
-                marginTop: "-5px",
-                borderRadius: "50%",
-                cursor: "default",
-                marginRight: "1rem",
-              }}
-            />
-            <span className="title-head cursor-pointer">{AppConfig.SITE_TITLE}</span>
+            {AppConfig?.SITE_CUSTOM_LOGO && (
+              <img
+                src={AppConfig?.SITE_CUSTOM_LOGO[0]}
+                alt="logo"
+                className="logo-img cursor-pointer"
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  marginTop: "-5px",
+                  borderRadius: "50%",
+                  cursor: "default",
+                  marginRight: "1rem",
+                }}
+              />
+            )}
+            <span className="title-head cursor-pointer">
+              {AppConfig.SITE_TITLE}
+            </span>
           </div>
-        </Link>
+        </NavLink>
 
         <div className="navbar-right">
           {/* The main dropdown menu items of the Navbar */}
@@ -166,29 +141,29 @@ const Navbar = () => {
 
               return (
                 <div className="dropdown" key={i}>
-                  <Link to={titleUrl}>
-                  <button className="dropbtn">{title}</button>
-                  </Link>
+                  <NavLink to={titleUrl}>
+                    <button className="dropbtn">{title}</button>
+                  </NavLink>
                   <div className="dropdown__content">
                     {childItems.map((menu, i) => {
                       const { title, url, childItems: nestedChildItems } = menu;
                       return (
-                        <Link className="dropdown__items" key={i} to={url}>
+                        <NavLink className="dropdown__items" key={i} to={url}>
                           {formatNames(title)}
                           {nestedChildItems && nestedChildItems.length > 0 && (
                             <div className="n2">
                               {nestedChildItems.map((cur, i) => (
-                                <Link
+                                <NavLink
                                   to={cur.url}
                                   className="dropdown__items d2"
                                   key={i}
                                 >
                                   {cur.title}
-                                </Link>
+                                </NavLink>
                               ))}
                             </div>
                           )}
-                        </Link>
+                        </NavLink>
                       );
                     })}
                   </div>
@@ -269,53 +244,6 @@ const Navbar = () => {
             </div>
           </div>
           {/* The social media logo section of the Navbar */}
-          <div className="dropdown dropdown--logos dropdown__socials">
-            <a
-              href="https://twitter.com/webxrawards"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <span className="dropdown__logo-img">
-                <i className="fa-brands fa-twitter fa-xl"></i>
-              </span>
-            </a>
-            <a
-              href="https://www.instagram.com/webxrawards/"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <span className="dropdown__logo-img">
-                <i className="fa-brands fa-instagram fa-xl"></i>
-              </span>
-            </a>
-            <a
-              href="https://www.facebook.com/groups/webxrawards"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <span className="dropdown__logo-img">
-                <i className="fa-brands fa-facebook fa-xl"></i>
-              </span>
-            </a>
-            <a
-              href="https://www.linkedin.com/company/the-polys/"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <span className="dropdown__logo-img">
-                <i className="fa-brands fa-linkedin fa-xl"></i>
-              </span>
-            </a>
-            <a
-              href="https://discord.gg/T5vRuM5cDS"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <span className="dropdown__logo-img">
-                <i className="fa-brands fa-discord fa-xl"></i>
-              </span>
-            </a>
-          </div>
 
           <div className="hamburger">
             <span
@@ -342,13 +270,13 @@ const Navbar = () => {
                         {childItems.map((menu, i) => {
                           const { title, url } = menu;
                           return (
-                            <Link
+                            <NavLink
                               className="dropdown__items"
                               key={title}
                               to={url}
                             >
                               {formatNames(title)}
-                            </Link>
+                            </NavLink>
                           );
                         })}
                       </div>
@@ -369,7 +297,7 @@ const Navbar = () => {
                         {childItems.map((menu, i) => {
                           const c = c2IDs.includes(menu.ID);
                           return (
-                            <Link
+                            <NavLink
                               className="dropdown__items"
                               key={i}
                               onMouseEnter={() => setHoveredIndex(i)}
@@ -385,17 +313,17 @@ const Navbar = () => {
                               {c && hoveredIndex === i && (
                                 <div className="n2">
                                   {nestedItems.map((cur, i) => (
-                                    <Link
+                                    <NavLink
                                       to={cur.url}
                                       className="dropdown__items d2"
                                       key={i}
                                     >
                                       {cur.title}
-                                    </Link>
+                                    </NavLink>
                                   ))}
                                 </div>
                               )}
-                            </Link>
+                            </NavLink>
                           );
                         })}
                       </div>
