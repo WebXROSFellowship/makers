@@ -81,18 +81,18 @@ const AFrame = (props) => {
         var navmesh = [];
         console.log("RESULT!!!!!!!!!!", result);
         result.map((item) => {
-          if (item.slug === PAGE_SLUG) {
-            langRef.current = item.languages.default;
-            prev_langRef.current = item.languages.default;
-            pagecontents = item.post_media.screen_image;
-            furniture = item.properties_3D.furniture;
+          if (item?.slug === PAGE_SLUG) {
+            langRef.current = item?.languages?.default;
+            prev_langRef.current = item?.languages?.default;
+            pagecontents = item?.post_media?.screen_image;
+            furniture = item?.properties_3D?.furniture;
 
-            world = item.properties_3D.world_model;
+            world = item?.properties_3D?.world_model;
 
-            navmesh = item.properties_3D.nav_mesh;
+            navmesh = item?.properties_3D?.nav_mesh;
             console.log("Data from server...", result);
-            setExcerptData([item.excerpt.rendered]);
-            setSkyboxData(item.properties_3D.skybox);
+            setExcerptData([item?.excerpt?.rendered]);
+            setSkyboxData(item?.properties_3D?.skybox);
             setFurnitureData(furniture);
             setWorldData(world);
             setMeshData(navmesh);
@@ -227,14 +227,14 @@ const AFrame = (props) => {
     var foundClassData = false;
     const updatedData = data.current.map((item) => {
       if (
-        item.class !== undefined &&
-        newData.class !== undefined &&
-        newData.class === item.class
+        item?.class !== undefined &&
+        newData?.class !== undefined &&
+        newData?.class === item?.class
       ) {
         foundClassData = true;
         var alteredClassData = updateClassData(newData);
         return alteredClassData;
-      } else if (newData.id !== undefined && item.id === newData.id) {
+      } else if (newData?.id !== undefined && item?.id === newData?.id) {
         foundData = true;
         return newData;
       } else {
@@ -242,10 +242,10 @@ const AFrame = (props) => {
       }
     });
 
-    if (!foundData && newData.id !== undefined && newData.class === undefined)
+    if (!foundData && newData?.id !== undefined && newData?.class === undefined)
       updatedData.push(newData);
 
-    if (newData.class !== undefined && !foundClassData) {
+    if (newData?.class !== undefined && !foundClassData) {
       var alteredClassData = updateClassData(newData);
       updatedData.push(alteredClassData);
     }
@@ -360,23 +360,23 @@ const AFrame = (props) => {
 
           <a-assets>
             <a-asset-item
-              id={worldData.id}
+              id={worldData?.id}
               src={base_url + "/wp-content/uploads/" + worldData?.src}
               crossOrigin="anonymous"
-              key={worldData.id}
+              key={worldData?.id}
             ></a-asset-item>
             <a-asset-item
-              id={meshData.id}
+              id={meshData?.id}
               src={base_url + "/wp-content/uploads/" + meshData?.src}
               crossOrigin="anonymous"
-              key={meshData.id}
+              key={meshData?.id}
             ></a-asset-item>
             {furnitureData?.map((furniture) => {
               return (
                 <a-asset-item
-                  id={furniture.id}
-                  src={base_url + furniture.full_path}
-                  key={furniture.id}
+                  id={furniture?.id}
+                  src={base_url + furniture?.full_path}
+                  key={furniture?.id}
                   crossOrigin="anonymous"
                 ></a-asset-item>
               );
@@ -385,9 +385,9 @@ const AFrame = (props) => {
             {scientistsData?.map((scientist) => {
               return (
                 <img
-                  id={scientist.id}
-                  src={base_url + scientist.full_path}
-                  key={scientist.id}
+                  id={scientist?.id}
+                  src={base_url + scientist?.full_path}
+                  key={scientist?.id}
                   crossOrigin="anonymous"
                 ></img>
               );
@@ -398,16 +398,16 @@ const AFrame = (props) => {
           ) : (
             <>
               <a-entity
-                id={worldData.id}
-                gltf-model={"#" + worldData.id}
-                key={worldData.id}
+                id={worldData?.id}
+                gltf-model={"#" + worldData?.id}
+                key={worldData?.id}
                 position="4.537 0 3.468"
               ></a-entity>
               <a-entity
                 nav-mesh=""
-                id={meshData.id}
-                gltf-model={"#" + meshData.id}
-                key={meshData.id}
+                id={meshData?.id}
+                gltf-model={"#" + meshData?.id}
+                key={meshData?.id}
                 visible="false"
                 position="4.762 0 3.739"
               ></a-entity>
@@ -415,8 +415,8 @@ const AFrame = (props) => {
               {excerptData?.map((excerpt, index) => {
                 console.log("SKYBOX:", skyboxData);
                 var Obj_id = "Excerpt";
-                var Data_from_Inspector = data.current.find(
-                  (obj) => obj.id == Obj_id
+                var Data_from_Inspector = data?.current?.find(
+                  (obj) => obj?.id == Obj_id
                 );
                 if (!Data_from_Inspector) {
                   Data_from_Inspector = {
@@ -434,9 +434,9 @@ const AFrame = (props) => {
               })}
 
               {furnitureData?.map((furniture) => {
-                var Obj_id = furniture.slug;
-                var Data_from_Inspector = data.current.find(
-                  (obj) => obj.id == Obj_id
+                var Obj_id = furniture?.slug;
+                var Data_from_Inspector = data?.current?.find(
+                  (obj) => obj?.id == Obj_id
                 );
                 if (!Data_from_Inspector) {
                   Data_from_Inspector = {
@@ -445,29 +445,29 @@ const AFrame = (props) => {
                 }
                 return (
                   <a-entity
-                    id={furniture.slug}
-                    gltf-model={"#" + furniture.id}
-                    key={furniture.id}
+                    id={furniture?.slug}
+                    gltf-model={"#" + furniture?.id}
+                    key={furniture?.id}
                     {...Data_from_Inspector}
                   ></a-entity>
                 );
               })}
               {scientistsData?.map((scientist) => {
-                var Obj_id = scientist.slug;
-                var Data_from_Inspector = data.current.find(
-                  (obj) => obj.id == Obj_id
+                var Obj_id = scientist?.slug;
+                var Data_from_Inspector = data?.current?.find(
+                  (obj) => obj?.id == Obj_id
                 );
-                var desc_format = data.current.find(
-                  (obj) => obj.class == "desc_wrapper"
+                var desc_format = data?.current?.find(
+                  (obj) => obj?.class == "desc_wrapper"
                 );
-                var cap_format = data.current.find(
-                  (obj) => obj.class == "caption_wrapper"
+                var cap_format = data?.current?.find(
+                  (obj) => obj?.class == "caption_wrapper"
                 );
-                var name_format = data.current.find(
-                  (obj) => obj.class == "name_wrapper"
+                var name_format = data?.current?.find(
+                  (obj) => obj?.class == "name_wrapper"
                 );
-                var img_format = data.current.find(
-                  (obj) => obj.class == "image_wrapper"
+                var img_format = data?.current?.find(
+                  (obj) => obj?.class == "image_wrapper"
                 );
 
                 if (!Data_from_Inspector) {
@@ -478,14 +478,14 @@ const AFrame = (props) => {
 
                 return (
                   <a-entity
-                    id={scientist.slug}
+                    id={scientist?.slug}
                     type="wrapper"
-                    key={scientist.id}
+                    key={scientist?.id}
                     {...Data_from_Inspector}
                     show-details-on-click=""
                   >
                     <a-image
-                      src={"#" + scientist.id}
+                      src={"#" + scientist?.id}
                       {...img_format}
                       type="wrapper"
                       class="image_wrapper"
@@ -494,22 +494,22 @@ const AFrame = (props) => {
                       var font =
                         base_url +
                         "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
-                      if (lang.code == "zh-hans") {
+                      if (lang?.code == "zh-hans") {
                         font =
                           base_url +
                           "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
                       }
                       return (
                         <a-entity
-                          key={lang.code}
-                          id={lang.code}
+                          key={lang?.code}
+                          id={lang?.code}
                           visible="false"
                         >
                           <a-entity id="toggle" visible="false">
                             <a-troika-text
                               class="desc_wrapper"
                               type="wrapper"
-                              value={scientist.trans[lang.code].desc}
+                              value={scientist?.trans[lang?.code]?.desc}
                               font={font}
                               visible="true"
                               {...desc_format}
@@ -517,7 +517,7 @@ const AFrame = (props) => {
                             <a-troika-text
                               class="caption_wrapper"
                               type="wrapper"
-                              value={scientist.trans[lang.code].caption}
+                              value={scientist?.trans[lang?.code]?.caption}
                               font={font}
                               visible="true"
                               {...cap_format}
@@ -525,16 +525,16 @@ const AFrame = (props) => {
                             <a-troika-text
                               class="name_wrapper"
                               type="wrapper"
-                              value={scientist.trans[lang.code].title}
+                              value={scientist?.trans[lang?.code]?.title}
                               font={font}
                               visible="true"
                               {...name_format}
                             ></a-troika-text>
                             {activeLanguages?.map((lang) => {
-                              var key = lang.code;
+                              var key = lang?.code;
                               var classname = "btn-wrapper-" + key;
-                              var insData = data.current.find(
-                                (obj) => obj.class == classname
+                              var insData = data?.current?.find(
+                                (obj) => obj?.class == classname
                               );
                               var font =
                                 base_url +
@@ -551,7 +551,7 @@ const AFrame = (props) => {
                                   type="wrapper"
                                   visible="true"
                                   key={classname}
-                                  value={lang.native_name}
+                                  value={lang?.native_name}
                                   code={key}
                                   font={font}
                                   onClick={handleButtonClick}

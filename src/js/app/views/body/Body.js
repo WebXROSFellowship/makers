@@ -18,7 +18,7 @@ const Body = () => {
   const curl = slug_name !== undefined && "/" + slug_name + "/";
 
   useEffect(() => {
-    console.log("params", param);
+    // console.log("params", param);
     fetchdata();
   }, [lang, menuData, slug_name]);
 
@@ -33,12 +33,12 @@ const Body = () => {
             setLoading(false);
           } else {
             if (pageData?.slug === slug_name) {
-              console.log(
-                "menuItem with page",
-                pageData?.slug,
-                slug_name,
-                curl
-              );
+              // console.log(
+              //   "menuItem with page",
+              //   pageData?.slug,
+              //   slug_name,
+              //   curl
+              // );
               setData(pageData);
               setLoading(false);
             } else {
@@ -68,10 +68,12 @@ const Body = () => {
                   <h1>{data?.title?.rendered}</h1>
 
                   {data?.post_media?._thumbnail_id[0]?.full_path && (
-                    <img
+                    <div className="featured-image">
+                      <img
                       src={data?.post_media?._thumbnail_id[0]?.full_path}
                       alt={data?.post_media?._thumbnail_id[0]?.alt}
                     />
+                    </div>
                   )}
                   <div
                     dangerouslySetInnerHTML={{

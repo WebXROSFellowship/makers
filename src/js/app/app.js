@@ -19,7 +19,7 @@ const App = () => {
   }, [lang]);
 
   const getActiveLanguages = async () => {
-    console.log("AppConfig...", AppConfig);
+    console.log("AppConfig...", AppConfig?.SITE_ACTIVE_PLUGINS);
     const url = `${base_url}/wp-json/wpml/v1/active_languages`;
     await fetch(url)
       .then((response) => response.json())

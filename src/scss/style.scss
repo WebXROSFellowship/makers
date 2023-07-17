@@ -11,8 +11,8 @@ DO NOT EDIT IN STYLE.CSS
     PUT YOUR COLOR PALETTE HERE:
 */
 @import "./partials/colors";
-// @import "./partials/Navbar.scss";
-@import "./partials/Header.scss";
+@import "./partials/Navbar.scss";
+// @import "./partials/Header.scss";
 @import "./partials/Footer.scss";
 @import "./partials/Sidebar.scss";
 @import "./partials/Profile.scss";
@@ -44,8 +44,20 @@ main {
   display: block;
   align-content: center;
   justify-content: center;
-  P{
+  p{
     word-break: break-all;
+  }
+  .featured-image {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 
@@ -54,7 +66,8 @@ main {
   color:   #252544;
   width: 100%;
   height: 100%;
-  display: block;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }

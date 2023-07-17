@@ -9,8 +9,8 @@ const routes = createBrowserRouter([
     path: "/",
     element: (
       <>
-        {/* <Navbar /> */}
-        <Header />
+        <Navbar />
+        {/* <Header /> */}
         <Sidebar />
         <Home />
         <Footer />
