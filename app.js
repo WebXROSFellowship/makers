@@ -6322,24 +6322,24 @@ DataContext_DataContext.displayName = "DataContext";
 
 
 const Navbar = () => {
-  const [showMenu, setShowMenu] = useState(false);
-  const [navbarMenus, setNavbarMenus] = useState([]);
-  const [c2IDs, setC2IDs] = useState([]);
-  const [languageArr, setLanguageArr] = useState([]);
-  const [hoveredIndex, setHoveredIndex] = useState(-1);
+  const [showMenu, setShowMenu] = (0,react.useState)(false);
+  const [navbarMenus, setNavbarMenus] = (0,react.useState)([]);
+  const [c2IDs, setC2IDs] = (0,react.useState)([]);
+  const [hoveredIndex, setHoveredIndex] = (0,react.useState)(-1);
   const {
-    setLang,
-    menuData
-  } = useContext(DataContext);
-  const base_url = AppConfig.SITE_URL;
-  const [navbarData, setNavbarData] = useState([]);
+    activeLanguages,
+    menuData,
+    lang,
+    setLang
+  } = (0,react.useContext)(utils_DataContext);
+  const base_url = appConfig_AppConfig.SITE_URL;
+  const [navbarData, setNavbarData] = (0,react.useState)([]);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
-  useEffect(() => {
+  (0,react.useEffect)(() => {
     settingMenuData2();
     // settingMenuData();
-    setLanguages();
-  }, [menuData]);
+  }, [menuData, lang]);
   function formatNames(name) {
     let allWords = name.toLowerCase().split(" ");
     for (let i = 0; i < allWords.length; i++) {
@@ -6483,29 +6483,22 @@ const Navbar = () => {
   //   setNavbarMenus(cData);
   // }
 
-  async function setLanguages() {
-    const langFetchURL = `${base_url}/wp-json/wpml/v1/active_languages`;
-    let langData = await fetch(langFetchURL);
-    let jsonLangData = await langData.json();
-    setLanguageArr(jsonLangData);
-  }
-
   /**
    * This is a functional React component that returns a Navbar.
    */
 
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("nav", {
+  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("nav", {
     className: "navbar"
-  }, /*#__PURE__*/React.createElement(Link, {
+  }, /*#__PURE__*/react.createElement(dist_Link, {
     to: "/",
     className: "text-decoration-none cursor-pointer"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/react.createElement("div", {
     className: "navbar-brand text-white cursor-pointer",
     style: {
       fontFamily: "sans-serif"
     }
-  }, (AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/React.createElement("img", {
-    src: AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO[0],
+  }, (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/react.createElement("img", {
+    src: appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_CUSTOM_LOGO[0],
     alt: "logo",
     className: "logo-img cursor-pointer",
     style: {
@@ -6516,22 +6509,22 @@ const Navbar = () => {
       cursor: "default",
       marginRight: "1rem"
     }
-  }), /*#__PURE__*/React.createElement("span", {
+  }), /*#__PURE__*/react.createElement("span", {
     className: "title-head cursor-pointer"
-  }, AppConfig.SITE_TITLE))), /*#__PURE__*/React.createElement("div", {
+  }, appConfig_AppConfig.SITE_TITLE))), /*#__PURE__*/react.createElement("div", {
     className: "navbar-right"
-  }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map((currNavBarItem, i) => {
+  }, navbarData && (navbarData === null || navbarData === void 0 ? void 0 : navbarData.map((currNavBarItem, i) => {
     let title = currNavBarItem.title;
     let titleUrl = currNavBarItem.url;
     let childItems = currNavBarItem.childItems;
-    return /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/react.createElement("div", {
       className: "dropdown",
       key: i
-    }, /*#__PURE__*/React.createElement(Link, {
+    }, /*#__PURE__*/react.createElement(dist_Link, {
       to: titleUrl
-    }, /*#__PURE__*/React.createElement("button", {
+    }, /*#__PURE__*/react.createElement("button", {
       className: "dropbtn"
-    }, title)), /*#__PURE__*/React.createElement("div", {
+    }, title)), /*#__PURE__*/react.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const {
@@ -6539,120 +6532,121 @@ const Navbar = () => {
         url,
         childItems: nestedChildItems
       } = menu;
-      return /*#__PURE__*/React.createElement(Link, {
+      return /*#__PURE__*/react.createElement(dist_Link, {
         className: "dropdown__items",
         key: i,
         to: url
-      }, formatNames(title), nestedChildItems && nestedChildItems.length > 0 && /*#__PURE__*/React.createElement("div", {
+      }, formatNames(title), nestedChildItems && nestedChildItems.length > 0 && /*#__PURE__*/react.createElement("div", {
         className: "n2"
-      }, nestedChildItems.map((cur, i) => /*#__PURE__*/React.createElement(Link, {
+      }, nestedChildItems.map((cur, i) => /*#__PURE__*/react.createElement(dist_Link, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
       }, cur.title))));
     })));
-  }) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement("div", {
+  })), /* The Language Section of Navbar*/
+  activeLanguages && /*#__PURE__*/react.createElement("div", {
     className: "dropdown"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/react.createElement("button", {
     className: "dropbtn"
-  }, " Languages "), /*#__PURE__*/React.createElement("div", {
+  }, " Languages "), /*#__PURE__*/react.createElement("div", {
     className: "dropdown__content"
-  }, languageArr.map(currLang => {
-    let cLang = currLang.native_name;
-    let code = currLang.code;
+  }, activeLanguages.map(currLang => {
+    let cLang = currLang === null || currLang === void 0 ? void 0 : currLang.native_name;
+    let code = currLang === null || currLang === void 0 ? void 0 : currLang.code;
     if (code == "en") {
       code = "";
     }
-    return /*#__PURE__*/React.createElement("span", {
+    return /*#__PURE__*/react.createElement("span", {
       onClick: () => setLang(`${code}`),
       key: code,
       className: "dropdown__items"
     }, cLang);
-  }))), /*#__PURE__*/React.createElement("div", {
+  }))), /*#__PURE__*/react.createElement("div", {
     className: "hamburger"
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/react.createElement("span", {
     className: "hamburger__logo",
     onClick: () => {
       setShowMenu(!showMenu);
     }
-  }, /*#__PURE__*/React.createElement("i", {
+  }, /*#__PURE__*/react.createElement("i", {
     className: "fa-solid fa-bars fa-xl"
-  }))), showMenu === true ? /*#__PURE__*/React.createElement("div", {
+  }))), showMenu === true ? /*#__PURE__*/react.createElement("div", {
     className: "sideMenu"
   }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map(currNavBarItem => {
     let title = currNavBarItem.title;
     let childItems = currNavBarItem.childItems;
-    return /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/react.createElement("div", {
       className: "dropdown2",
       key: currNavBarItem
-    }, /*#__PURE__*/React.createElement("button", {
+    }, /*#__PURE__*/react.createElement("button", {
       className: "dropbtn"
-    }, title), /*#__PURE__*/React.createElement("div", {
+    }, title), /*#__PURE__*/react.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const {
         title,
         url
       } = menu;
-      return /*#__PURE__*/React.createElement(Link, {
+      return /*#__PURE__*/react.createElement(dist_Link, {
         className: "dropdown__items",
         key: title,
         to: url
       }, formatNames(title));
     })));
-  }) : /*#__PURE__*/React.createElement(React.Fragment, null), navbarMenus ? navbarMenus.map((currEle, i) => {
+  }) : /*#__PURE__*/react.createElement(react.Fragment, null), navbarMenus ? navbarMenus.map((currEle, i) => {
     let {
       head,
       childItems,
       nestedItems
     } = currEle;
-    return /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/react.createElement("div", {
       className: "dropdown2",
       key: i
-    }, /*#__PURE__*/React.createElement("button", {
+    }, /*#__PURE__*/react.createElement("button", {
       className: "dropbtn"
-    }, head.title), /*#__PURE__*/React.createElement("div", {
+    }, head.title), /*#__PURE__*/react.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/React.createElement(Link, {
+      return /*#__PURE__*/react.createElement(dist_Link, {
         className: "dropdown__items",
         key: i,
         onMouseEnter: () => setHoveredIndex(i),
         onMouseLeave: () => setHoveredIndex(-1),
         to: menu.url
-      }, formatNames(menu.title), c && /*#__PURE__*/React.createElement("span", {
+      }, formatNames(menu.title), c && /*#__PURE__*/react.createElement("span", {
         className: "n2-drop"
-      }, /*#__PURE__*/React.createElement("i", {
+      }, /*#__PURE__*/react.createElement("i", {
         className: "fa-solid fa-circle-chevron-down"
-      })), c && hoveredIndex === i && /*#__PURE__*/React.createElement("div", {
+      })), c && hoveredIndex === i && /*#__PURE__*/react.createElement("div", {
         className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/React.createElement(Link, {
+      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(dist_Link, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
       }, cur.title))));
     })));
-  }) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement("div", {
+  }) : /*#__PURE__*/react.createElement(react.Fragment, null), activeLanguages && /*#__PURE__*/react.createElement("div", {
     className: "dropdown2"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/react.createElement("button", {
     className: "dropbtn"
-  }, " Languages "), /*#__PURE__*/React.createElement("div", {
+  }, " Languages "), /*#__PURE__*/react.createElement("div", {
     className: "dropdown__content"
-  }, languageArr.map(currLang => {
-    let cLang = currLang.native_name;
-    let code = currLang.code;
+  }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(currLang => {
+    let cLang = currLang === null || currLang === void 0 ? void 0 : currLang.native_name;
+    let code = currLang === null || currLang === void 0 ? void 0 : currLang.code;
     if (code == "en") {
       code = "";
     }
-    return /*#__PURE__*/React.createElement("span", {
+    return /*#__PURE__*/react.createElement("span", {
       onClick: () => setLang(`${code}`),
       key: code,
       className: "dropdown__items"
     }, cLang);
-  })))) : /*#__PURE__*/React.createElement(React.Fragment, null))));
+  })))) : /*#__PURE__*/react.createElement(react.Fragment, null))));
 };
-/* harmony default export */ const navbar_Navbar = ((/* unused pure expression or super */ null && (Navbar)));
+/* harmony default export */ const navbar_Navbar = (Navbar);
 ;// CONCATENATED MODULE: ./src/js/app/components/sidebar/Sidebar.js
 
 
@@ -6825,16 +6819,16 @@ const Footer = () => {
 
 
 const Header = () => {
-  const [mainMenus, setMainMenus] = (0,react.useState)([]);
-  const [parentMenus, setParentMenus] = (0,react.useState)([]);
-  const [childMenus, setChildMenus] = (0,react.useState)([]);
+  const [mainMenus, setMainMenus] = useState([]);
+  const [parentMenus, setParentMenus] = useState([]);
+  const [childMenus, setChildMenus] = useState([]);
   const {
     activeLanguages,
     menuData,
     lang,
     setLang
-  } = (0,react.useContext)(utils_DataContext);
-  (0,react.useMemo)(() => {
+  } = useContext(DataContext);
+  useMemo(() => {
     menuData.filter(item => {
       if ((item === null || item === void 0 ? void 0 : item.slug) == "main-menu") {
         var _item$items;
@@ -6855,31 +6849,31 @@ const Header = () => {
       }
     });
   }, [menuData, lang]);
-  return /*#__PURE__*/react.createElement("header", {
+  return /*#__PURE__*/React.createElement("header", {
     className: "App-header"
-  }, /*#__PURE__*/react.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "App-header-left"
-  }, /*#__PURE__*/react.createElement(dist_Link, {
+  }, /*#__PURE__*/React.createElement(Link, {
     className: "",
     to: "/"
-  }, (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/react.createElement("div", {
+  }, (AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/React.createElement("div", {
     className: "App-logo"
-  }, /*#__PURE__*/react.createElement("img", {
-    src: appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_CUSTOM_LOGO[0],
+  }, /*#__PURE__*/React.createElement("img", {
+    src: AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO[0],
     alt: "logo"
-  })), /*#__PURE__*/react.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "App-title"
-  }, appConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("h4", {
+  }, AppConfig.SITE_TITLE ? /*#__PURE__*/React.createElement("h4", {
     className: "title-head"
-  }, " ", appConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("h4", {
+  }, " ", AppConfig.SITE_TITLE) : /*#__PURE__*/React.createElement("h4", {
     className: "title-head"
-  }, " Site Title ")))), /*#__PURE__*/react.createElement("div", {
+  }, " Site Title ")))), /*#__PURE__*/React.createElement("div", {
     className: "App-header-right  d-flex flex-row-reverse "
-  }, /*#__PURE__*/react.createElement("nav", {
+  }, /*#__PURE__*/React.createElement("nav", {
     className: "navbar navbar-expand-lg navbar-dark  "
-  }, /*#__PURE__*/react.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "container-fluid navbar-container "
-  }, /*#__PURE__*/react.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     className: "navbar-toggler",
     type: "button",
     "data-bs-toggle": "collapse",
@@ -6887,53 +6881,53 @@ const Header = () => {
     "aria-controls": "navbarToggleBtn",
     "aria-expanded": "false",
     "aria-label": "Toggle navigation"
-  }, /*#__PURE__*/react.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "navbar-toggler-icon"
-  })), /*#__PURE__*/react.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "collapse navbar-collapse",
     id: "navbarToggleBtn"
-  }, /*#__PURE__*/react.createElement("ul", {
+  }, /*#__PURE__*/React.createElement("ul", {
     className: "navbar-nav me-auto mb-2 mb-lg-0 "
   }, /* The main dropdown menu items of the Navbar */mainMenus === null || mainMenus === void 0 ? void 0 : mainMenus.map((menusItem, index) => {
     let parnetMenuID = menusItem === null || menusItem === void 0 ? void 0 : menusItem.menu_item_parent;
     let childMenu = [];
-    return parnetMenuID === "0" && /*#__PURE__*/react.createElement("li", {
+    return parnetMenuID === "0" && /*#__PURE__*/React.createElement("li", {
       className: "nav-item dropdown ",
       key: index
-    }, /*#__PURE__*/react.createElement(dist_Link, {
+    }, /*#__PURE__*/React.createElement(Link, {
       className: "dropdownbtn nav-link active",
       to: menusItem === null || menusItem === void 0 ? void 0 : menusItem.url
-    }, menusItem === null || menusItem === void 0 ? void 0 : menusItem.title), parnetMenuID !== "0" && /*#__PURE__*/react.createElement("ul", {
+    }, menusItem === null || menusItem === void 0 ? void 0 : menusItem.title), parnetMenuID !== "0" && /*#__PURE__*/React.createElement("ul", {
       className: "dropdown-menu dropdown__content"
-    }, /*#__PURE__*/react.createElement("li", {
+    }, /*#__PURE__*/React.createElement("li", {
       className: "nav-item"
-    }, /*#__PURE__*/react.createElement(dist_Link, {
+    }, /*#__PURE__*/React.createElement(Link, {
       className: "dropdown-item",
       href: "#"
     }, menusItem === null || menusItem === void 0 ? void 0 : menusItem.title))));
   }), /* The activeLanguages items of the Navbar */
-  activeLanguages && /*#__PURE__*/react.createElement("li", {
+  activeLanguages && /*#__PURE__*/React.createElement("li", {
     className: "nav-item dropdown "
-  }, /*#__PURE__*/react.createElement(dist_Link, {
+  }, /*#__PURE__*/React.createElement(Link, {
     className: "dropdownbtn nav-link active",
     to: "#"
-  }, "Languages"), /*#__PURE__*/react.createElement("ul", {
+  }, "Languages"), /*#__PURE__*/React.createElement("ul", {
     className: "dropdown-menu dropdown__content"
   }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map((item, index) => {
     let code = item === null || item === void 0 ? void 0 : item.code;
     if (code == "en") {
       code = "";
     }
-    return /*#__PURE__*/react.createElement("li", {
+    return /*#__PURE__*/React.createElement("li", {
       className: "nav-item",
       key: index
-    }, /*#__PURE__*/react.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "dropdown-item",
       onClick: () => setLang(`${code}`)
     }, item === null || item === void 0 ? void 0 : item.native_name));
   })))))))));
 };
-/* harmony default export */ const header_Header = (Header);
+/* harmony default export */ const header_Header = ((/* unused pure expression or super */ null && (Header)));
 ;// CONCATENATED MODULE: ./src/js/app/components/index.js
 
 
@@ -6971,7 +6965,7 @@ const Body = () => {
   const [data, setData] = (0,react.useState)();
   const curl = slug_name !== undefined && "/" + slug_name + "/";
   (0,react.useEffect)(() => {
-    console.log("params", param);
+    // console.log("params", param);
     fetchdata();
   }, [lang, menuData, slug_name]);
   const fetchdata = async () => {
@@ -6983,7 +6977,12 @@ const Body = () => {
           setLoading(false);
         } else {
           if ((pageData === null || pageData === void 0 ? void 0 : pageData.slug) === slug_name) {
-            console.log("menuItem with page", pageData === null || pageData === void 0 ? void 0 : pageData.slug, slug_name, curl);
+            // console.log(
+            //   "menuItem with page",
+            //   pageData?.slug,
+            //   slug_name,
+            //   curl
+            // );
             setData(pageData);
             setLoading(false);
           } else {
@@ -7002,10 +7001,12 @@ const Body = () => {
     aframeData: data
   }) : /*#__PURE__*/react.createElement("div", {
     className: "container"
-  }, /*#__PURE__*/react.createElement("h1", null, data === null || data === void 0 ? void 0 : (_data$title = data.title) === null || _data$title === void 0 ? void 0 : _data$title.rendered), (data === null || data === void 0 ? void 0 : (_data$post_media = data.post_media) === null || _data$post_media === void 0 ? void 0 : (_data$post_media$_thu = _data$post_media._thumbnail_id[0]) === null || _data$post_media$_thu === void 0 ? void 0 : _data$post_media$_thu.full_path) && /*#__PURE__*/react.createElement("img", {
+  }, /*#__PURE__*/react.createElement("h1", null, data === null || data === void 0 ? void 0 : (_data$title = data.title) === null || _data$title === void 0 ? void 0 : _data$title.rendered), (data === null || data === void 0 ? void 0 : (_data$post_media = data.post_media) === null || _data$post_media === void 0 ? void 0 : (_data$post_media$_thu = _data$post_media._thumbnail_id[0]) === null || _data$post_media$_thu === void 0 ? void 0 : _data$post_media$_thu.full_path) && /*#__PURE__*/react.createElement("div", {
+    className: "featured-image"
+  }, /*#__PURE__*/react.createElement("img", {
     src: data === null || data === void 0 ? void 0 : (_data$post_media2 = data.post_media) === null || _data$post_media2 === void 0 ? void 0 : (_data$post_media2$_th = _data$post_media2._thumbnail_id[0]) === null || _data$post_media2$_th === void 0 ? void 0 : _data$post_media2$_th.full_path,
     alt: data === null || data === void 0 ? void 0 : (_data$post_media3 = data.post_media) === null || _data$post_media3 === void 0 ? void 0 : (_data$post_media3$_th = _data$post_media3._thumbnail_id[0]) === null || _data$post_media3$_th === void 0 ? void 0 : _data$post_media3$_th.alt
-  }), /*#__PURE__*/react.createElement("div", {
+  })), /*#__PURE__*/react.createElement("div", {
     dangerouslySetInnerHTML: {
       __html: data === null || data === void 0 ? void 0 : (_data$content = data.content) === null || _data$content === void 0 ? void 0 : _data$content.rendered
     }
@@ -7172,16 +7173,17 @@ const AFrame = props => {
       var navmesh = [];
       console.log("RESULT!!!!!!!!!!", result);
       result.map(item => {
-        if (item.slug === PAGE_SLUG) {
-          langRef.current = item.languages.default;
-          prev_langRef.current = item.languages.default;
-          pagecontents = item.post_media.screen_image;
-          furniture = item.properties_3D.furniture;
-          world = item.properties_3D.world_model;
-          navmesh = item.properties_3D.nav_mesh;
+        if ((item === null || item === void 0 ? void 0 : item.slug) === PAGE_SLUG) {
+          var _item$languages, _item$languages2, _item$post_media, _item$properties_3D, _item$properties_3D2, _item$properties_3D3, _item$excerpt, _item$properties_3D4;
+          langRef.current = item === null || item === void 0 ? void 0 : (_item$languages = item.languages) === null || _item$languages === void 0 ? void 0 : _item$languages.default;
+          prev_langRef.current = item === null || item === void 0 ? void 0 : (_item$languages2 = item.languages) === null || _item$languages2 === void 0 ? void 0 : _item$languages2.default;
+          pagecontents = item === null || item === void 0 ? void 0 : (_item$post_media = item.post_media) === null || _item$post_media === void 0 ? void 0 : _item$post_media.screen_image;
+          furniture = item === null || item === void 0 ? void 0 : (_item$properties_3D = item.properties_3D) === null || _item$properties_3D === void 0 ? void 0 : _item$properties_3D.furniture;
+          world = item === null || item === void 0 ? void 0 : (_item$properties_3D2 = item.properties_3D) === null || _item$properties_3D2 === void 0 ? void 0 : _item$properties_3D2.world_model;
+          navmesh = item === null || item === void 0 ? void 0 : (_item$properties_3D3 = item.properties_3D) === null || _item$properties_3D3 === void 0 ? void 0 : _item$properties_3D3.nav_mesh;
           console.log("Data from server...", result);
-          setExcerptData([item.excerpt.rendered]);
-          setSkyboxData(item.properties_3D.skybox);
+          setExcerptData([item === null || item === void 0 ? void 0 : (_item$excerpt = item.excerpt) === null || _item$excerpt === void 0 ? void 0 : _item$excerpt.rendered]);
+          setSkyboxData(item === null || item === void 0 ? void 0 : (_item$properties_3D4 = item.properties_3D) === null || _item$properties_3D4 === void 0 ? void 0 : _item$properties_3D4.skybox);
           setFurnitureData(furniture);
           setWorldData(world);
           setMeshData(navmesh);
@@ -7300,19 +7302,19 @@ const AFrame = props => {
     var foundData = false;
     var foundClassData = false;
     const updatedData = data.current.map(item => {
-      if (item.class !== undefined && newData.class !== undefined && newData.class === item.class) {
+      if ((item === null || item === void 0 ? void 0 : item.class) !== undefined && (newData === null || newData === void 0 ? void 0 : newData.class) !== undefined && (newData === null || newData === void 0 ? void 0 : newData.class) === (item === null || item === void 0 ? void 0 : item.class)) {
         foundClassData = true;
         var alteredClassData = updateClassData(newData);
         return alteredClassData;
-      } else if (newData.id !== undefined && item.id === newData.id) {
+      } else if ((newData === null || newData === void 0 ? void 0 : newData.id) !== undefined && (item === null || item === void 0 ? void 0 : item.id) === (newData === null || newData === void 0 ? void 0 : newData.id)) {
         foundData = true;
         return newData;
       } else {
         return item;
       }
     });
-    if (!foundData && newData.id !== undefined && newData.class === undefined) updatedData.push(newData);
-    if (newData.class !== undefined && !foundClassData) {
+    if (!foundData && (newData === null || newData === void 0 ? void 0 : newData.id) !== undefined && (newData === null || newData === void 0 ? void 0 : newData.class) === undefined) updatedData.push(newData);
+    if ((newData === null || newData === void 0 ? void 0 : newData.class) !== undefined && !foundClassData) {
       var alteredClassData = updateClassData(newData);
       updatedData.push(alteredClassData);
     }
@@ -7403,47 +7405,48 @@ const AFrame = props => {
     "hand-controls": "hand: right; handModelStyle: highPoly; color: #0055ff",
     "blink-controls": "cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
   })), /*#__PURE__*/react.createElement("a-assets", null, /*#__PURE__*/react.createElement("a-asset-item", {
-    id: worldData.id,
+    id: worldData === null || worldData === void 0 ? void 0 : worldData.id,
     src: base_url + "/wp-content/uploads/" + (worldData === null || worldData === void 0 ? void 0 : worldData.src),
     crossOrigin: "anonymous",
-    key: worldData.id
+    key: worldData === null || worldData === void 0 ? void 0 : worldData.id
   }), /*#__PURE__*/react.createElement("a-asset-item", {
-    id: meshData.id,
+    id: meshData === null || meshData === void 0 ? void 0 : meshData.id,
     src: base_url + "/wp-content/uploads/" + (meshData === null || meshData === void 0 ? void 0 : meshData.src),
     crossOrigin: "anonymous",
-    key: meshData.id
+    key: meshData === null || meshData === void 0 ? void 0 : meshData.id
   }), furnitureData === null || furnitureData === void 0 ? void 0 : furnitureData.map(furniture => {
     return /*#__PURE__*/react.createElement("a-asset-item", {
-      id: furniture.id,
-      src: base_url + furniture.full_path,
-      key: furniture.id,
+      id: furniture === null || furniture === void 0 ? void 0 : furniture.id,
+      src: base_url + (furniture === null || furniture === void 0 ? void 0 : furniture.full_path),
+      key: furniture === null || furniture === void 0 ? void 0 : furniture.id,
       crossOrigin: "anonymous"
     });
   }), scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
     return /*#__PURE__*/react.createElement("img", {
-      id: scientist.id,
-      src: base_url + scientist.full_path,
-      key: scientist.id,
+      id: scientist === null || scientist === void 0 ? void 0 : scientist.id,
+      src: base_url + (scientist === null || scientist === void 0 ? void 0 : scientist.full_path),
+      key: scientist === null || scientist === void 0 ? void 0 : scientist.id,
       crossOrigin: "anonymous"
     });
   })), loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("a-entity", {
-    id: worldData.id,
-    "gltf-model": "#" + worldData.id,
-    key: worldData.id,
+    id: worldData === null || worldData === void 0 ? void 0 : worldData.id,
+    "gltf-model": "#" + (worldData === null || worldData === void 0 ? void 0 : worldData.id),
+    key: worldData === null || worldData === void 0 ? void 0 : worldData.id,
     position: "4.537 0 3.468"
   }), /*#__PURE__*/react.createElement("a-entity", {
     "nav-mesh": "",
-    id: meshData.id,
-    "gltf-model": "#" + meshData.id,
-    key: meshData.id,
+    id: meshData === null || meshData === void 0 ? void 0 : meshData.id,
+    "gltf-model": "#" + (meshData === null || meshData === void 0 ? void 0 : meshData.id),
+    key: meshData === null || meshData === void 0 ? void 0 : meshData.id,
     visible: "false",
     position: "4.762 0 3.739"
   }), /*#__PURE__*/react.createElement("a-sky", {
     src: base_url + (skyboxData === null || skyboxData === void 0 ? void 0 : skyboxData.src)
   }), excerptData === null || excerptData === void 0 ? void 0 : excerptData.map((excerpt, index) => {
+    var _data$current;
     console.log("SKYBOX:", skyboxData);
     var Obj_id = "Excerpt";
-    var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
+    var Data_from_Inspector = data === null || data === void 0 ? void 0 : (_data$current = data.current) === null || _data$current === void 0 ? void 0 : _data$current.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
         position: "0 1.6 0"
@@ -7456,49 +7459,52 @@ const AFrame = props => {
       value: HtmlToText(excerpt)
     }));
   }), furnitureData === null || furnitureData === void 0 ? void 0 : furnitureData.map(furniture => {
-    var Obj_id = furniture.slug;
-    var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
+    var _data$current2;
+    var Obj_id = furniture === null || furniture === void 0 ? void 0 : furniture.slug;
+    var Data_from_Inspector = data === null || data === void 0 ? void 0 : (_data$current2 = data.current) === null || _data$current2 === void 0 ? void 0 : _data$current2.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
         position: "0 1.6 0"
       };
     }
     return /*#__PURE__*/react.createElement("a-entity", extends_extends({
-      id: furniture.slug,
-      "gltf-model": "#" + furniture.id,
-      key: furniture.id
+      id: furniture === null || furniture === void 0 ? void 0 : furniture.slug,
+      "gltf-model": "#" + (furniture === null || furniture === void 0 ? void 0 : furniture.id),
+      key: furniture === null || furniture === void 0 ? void 0 : furniture.id
     }, Data_from_Inspector));
   }), scientistsData === null || scientistsData === void 0 ? void 0 : scientistsData.map(scientist => {
-    var Obj_id = scientist.slug;
-    var Data_from_Inspector = data.current.find(obj => obj.id == Obj_id);
-    var desc_format = data.current.find(obj => obj.class == "desc_wrapper");
-    var cap_format = data.current.find(obj => obj.class == "caption_wrapper");
-    var name_format = data.current.find(obj => obj.class == "name_wrapper");
-    var img_format = data.current.find(obj => obj.class == "image_wrapper");
+    var _data$current3, _data$current4, _data$current5, _data$current6, _data$current7;
+    var Obj_id = scientist === null || scientist === void 0 ? void 0 : scientist.slug;
+    var Data_from_Inspector = data === null || data === void 0 ? void 0 : (_data$current3 = data.current) === null || _data$current3 === void 0 ? void 0 : _data$current3.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
+    var desc_format = data === null || data === void 0 ? void 0 : (_data$current4 = data.current) === null || _data$current4 === void 0 ? void 0 : _data$current4.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "desc_wrapper");
+    var cap_format = data === null || data === void 0 ? void 0 : (_data$current5 = data.current) === null || _data$current5 === void 0 ? void 0 : _data$current5.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "caption_wrapper");
+    var name_format = data === null || data === void 0 ? void 0 : (_data$current6 = data.current) === null || _data$current6 === void 0 ? void 0 : _data$current6.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "name_wrapper");
+    var img_format = data === null || data === void 0 ? void 0 : (_data$current7 = data.current) === null || _data$current7 === void 0 ? void 0 : _data$current7.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "image_wrapper");
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
         position: "0 1.6 0"
       };
     }
     return /*#__PURE__*/react.createElement("a-entity", extends_extends({
-      id: scientist.slug,
+      id: scientist === null || scientist === void 0 ? void 0 : scientist.slug,
       type: "wrapper",
-      key: scientist.id
+      key: scientist === null || scientist === void 0 ? void 0 : scientist.id
     }, Data_from_Inspector, {
       "show-details-on-click": ""
     }), /*#__PURE__*/react.createElement("a-image", extends_extends({
-      src: "#" + scientist.id
+      src: "#" + (scientist === null || scientist === void 0 ? void 0 : scientist.id)
     }, img_format, {
       type: "wrapper",
       class: "image_wrapper"
     })), activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(lang => {
+      var _scientist$trans$lang, _scientist$trans$lang2, _scientist$trans$lang3;
       var font = base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
-      if (lang.code == "zh-hans") {
+      if ((lang === null || lang === void 0 ? void 0 : lang.code) == "zh-hans") {
         font = base_url + "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
       }
       return /*#__PURE__*/react.createElement("a-entity", {
-        key: lang.code,
-        id: lang.code,
+        key: lang === null || lang === void 0 ? void 0 : lang.code,
+        id: lang === null || lang === void 0 ? void 0 : lang.code,
         visible: "false"
       }, /*#__PURE__*/react.createElement("a-entity", {
         id: "toggle",
@@ -7506,25 +7512,26 @@ const AFrame = props => {
       }, /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
         class: "desc_wrapper",
         type: "wrapper",
-        value: scientist.trans[lang.code].desc,
+        value: scientist === null || scientist === void 0 ? void 0 : (_scientist$trans$lang = scientist.trans[lang === null || lang === void 0 ? void 0 : lang.code]) === null || _scientist$trans$lang === void 0 ? void 0 : _scientist$trans$lang.desc,
         font: font,
         visible: "true"
       }, desc_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
         class: "caption_wrapper",
         type: "wrapper",
-        value: scientist.trans[lang.code].caption,
+        value: scientist === null || scientist === void 0 ? void 0 : (_scientist$trans$lang2 = scientist.trans[lang === null || lang === void 0 ? void 0 : lang.code]) === null || _scientist$trans$lang2 === void 0 ? void 0 : _scientist$trans$lang2.caption,
         font: font,
         visible: "true"
       }, cap_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
         class: "name_wrapper",
         type: "wrapper",
-        value: scientist.trans[lang.code].title,
+        value: scientist === null || scientist === void 0 ? void 0 : (_scientist$trans$lang3 = scientist.trans[lang === null || lang === void 0 ? void 0 : lang.code]) === null || _scientist$trans$lang3 === void 0 ? void 0 : _scientist$trans$lang3.title,
         font: font,
         visible: "true"
       }, name_format)), activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(lang => {
-        var key = lang.code;
+        var _data$current8;
+        var key = lang === null || lang === void 0 ? void 0 : lang.code;
         var classname = "btn-wrapper-" + key;
-        var insData = data.current.find(obj => obj.class == classname);
+        var insData = data === null || data === void 0 ? void 0 : (_data$current8 = data.current) === null || _data$current8 === void 0 ? void 0 : _data$current8.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == classname);
         var font = base_url + "/wp-content/uploads/2023/06/NotoSans-Medium.ttf";
         if (lang.code == "zh-hans") {
           font = base_url + "/wp-content/uploads/2023/06/NotoSansSC-Medium.otf";
@@ -7534,7 +7541,7 @@ const AFrame = props => {
           type: "wrapper",
           visible: "true",
           key: classname,
-          value: lang.native_name,
+          value: lang === null || lang === void 0 ? void 0 : lang.native_name,
           code: key,
           font: font,
           onClick: handleButtonClick
@@ -7674,7 +7681,7 @@ const Posts = () => {
 
 const routes = createBrowserRouter([{
   path: "/",
-  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(header_Header, null), /*#__PURE__*/react.createElement(sidebar_Sidebar, null), /*#__PURE__*/react.createElement(views_Home, null), /*#__PURE__*/react.createElement(footer_Footer, null)),
+  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(navbar_Navbar, null), /*#__PURE__*/react.createElement(sidebar_Sidebar, null), /*#__PURE__*/react.createElement(views_Home, null), /*#__PURE__*/react.createElement(footer_Footer, null)),
   children: [{
     path: "/",
     element: /*#__PURE__*/react.createElement(body_Body, null)
@@ -7711,7 +7718,7 @@ const App = () => {
     getMenuData();
   }, [lang]);
   const getActiveLanguages = async () => {
-    console.log("AppConfig...", appConfig_AppConfig);
+    console.log("AppConfig...", appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_ACTIVE_PLUGINS);
     const url = `${base_url}/wp-json/wpml/v1/active_languages`;
     await fetch(url).then(response => response.json()).then(result => {
       console.log("active languages...", result);
