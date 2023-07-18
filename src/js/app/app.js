@@ -12,18 +12,17 @@ const App = () => {
   const [activeLanguages, setActiveLanguages] = useState([]);
   const [menuData, setMenuData] = useState([]);
   const [lang, setLang] = useState([]);
-  const [languageArr, setLanguageArr] = useState([]);
 
   useEffect(() => {
+    console.log("app config", AppConfig);
     getActiveLanguages();
     getMenuData();
   }, [lang]);
 
   const getActiveLanguages = async () => {
     let SITE_ACTIVE_PLUGINS = AppConfig.SITE_ACTIVE_PLUGINS;
-    let wpml = "wpml-media-translation/plugin.php";
-    wpml = wpml.trim();
-    if (SITE_ACTIVE_PLUGINS.includes(wpml)) {
+    let wpml = "sitepress-multilingual-cms/sitepress.php";
+    if (!SITE_ACTIVE_PLUGINS.includes(wpml)) {
       setActiveLanguages();
     } else {
       const url = `${base_url}/wp-json/wpml/v1/active_languages`;
@@ -31,7 +30,6 @@ const App = () => {
         .then((response) => response.json())
         .then((result) => {
           setActiveLanguages(result);
-          setLanguageArr(result);
         })
         .catch((error) => {
           console.log("Error when getting ActiveLanguages data", error);
