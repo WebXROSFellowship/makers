@@ -5455,7 +5455,7 @@ function getFormSubmissionInfo(target, basename) {
 }
 
 const _excluded = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset"],
-  _excluded2 = (/* unused pure expression or super */ null && (["aria-current", "caseSensitive", "className", "end", "style", "to", "children"])),
+  _excluded2 = ["aria-current", "caseSensitive", "className", "end", "style", "to", "children"],
   _excluded3 = (/* unused pure expression or super */ null && (["reloadDocument", "replace", "method", "action", "onSubmit", "submit", "relative", "preventScrollReset"]));
 function createBrowserRouter(routes, opts) {
   return router_createRouter({
@@ -5727,7 +5727,7 @@ if (false) {}
 /**
  * A <Link> wrapper that knows if it's "active" or not.
  */
-const NavLink = /*#__PURE__*/(/* unused pure expression or super */ null && (React.forwardRef(function NavLinkWithRef(_ref5, ref) {
+const NavLink = /*#__PURE__*/react.forwardRef(function NavLinkWithRef(_ref5, ref) {
   let {
       "aria-current": ariaCurrentProp = "page",
       caseSensitive = false,
@@ -5738,14 +5738,14 @@ const NavLink = /*#__PURE__*/(/* unused pure expression or super */ null && (Rea
       children
     } = _ref5,
     rest = _objectWithoutPropertiesLoose(_ref5, _excluded2);
-  let path = useResolvedPath(to, {
+  let path = dist_useResolvedPath(to, {
     relative: rest.relative
   });
-  let location = useLocation();
-  let routerState = React.useContext(UNSAFE_DataRouterStateContext);
+  let location = dist_useLocation();
+  let routerState = react.useContext(DataRouterStateContext);
   let {
     navigator
-  } = React.useContext(UNSAFE_NavigationContext);
+  } = react.useContext(NavigationContext);
   let toPathname = navigator.encodeLocation ? navigator.encodeLocation(path).pathname : path.pathname;
   let locationPathname = location.pathname;
   let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
@@ -5775,7 +5775,7 @@ const NavLink = /*#__PURE__*/(/* unused pure expression or super */ null && (Rea
     isActive,
     isPending
   }) : styleProp;
-  return /*#__PURE__*/React.createElement(dist_Link, react_router_dom_dist_extends({}, rest, {
+  return /*#__PURE__*/react.createElement(dist_Link, react_router_dom_dist_extends({}, rest, {
     "aria-current": ariaCurrent,
     className: className,
     ref: ref,
@@ -5785,7 +5785,7 @@ const NavLink = /*#__PURE__*/(/* unused pure expression or super */ null && (Rea
     isActive,
     isPending
   }) : children);
-})));
+});
 if (false) {}
 /**
  * A `@remix-run/router`-aware `<form>`. It behaves like a normal form except
@@ -6322,23 +6322,21 @@ DataContext_DataContext.displayName = "DataContext";
 
 
 const Navbar = () => {
-  const [showMenu, setShowMenu] = (0,react.useState)(false);
-  const [navbarMenus, setNavbarMenus] = (0,react.useState)([]);
-  const [c2IDs, setC2IDs] = (0,react.useState)([]);
-  const [hoveredIndex, setHoveredIndex] = (0,react.useState)(-1);
   const {
     activeLanguages,
     menuData,
     lang,
     setLang
   } = (0,react.useContext)(utils_DataContext);
-  const base_url = appConfig_AppConfig.SITE_URL;
+  const [showMenu, setShowMenu] = (0,react.useState)(false);
+  const [navbarMenus, setNavbarMenus] = (0,react.useState)([]);
+  const [c2IDs, setC2IDs] = (0,react.useState)([]);
+  const [hoveredIndex, setHoveredIndex] = (0,react.useState)(-1);
   const [navbarData, setNavbarData] = (0,react.useState)([]);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   (0,react.useEffect)(() => {
-    settingMenuData2();
-    // settingMenuData();
+    settingMenuData();
   }, [menuData, lang]);
   function formatNames(name) {
     let allWords = name.toLowerCase().split(" ");
@@ -6348,7 +6346,7 @@ const Navbar = () => {
     let formattedName = allWords.join(" ");
     return formattedName;
   }
-  function settingMenuData2() {
+  function settingMenuData() {
     let items = menuData.filter(item => (item === null || item === void 0 ? void 0 : item.slug) === "main-menu");
     items = items[0].items;
     console.log("main menus", items);
@@ -6368,7 +6366,6 @@ const Navbar = () => {
       } else if (parents[menu_item_parent]) {
         children.push(item);
       } else {
-        console.log(item);
         grandchildren.push(item);
       }
     });
@@ -6380,147 +6377,58 @@ const Navbar = () => {
         parents[menu_item_parent].childItems.push(child);
       }
     });
-    console.log("Grand Children", grandchildren);
     grandchildren.forEach(grandchild => {
-      console.log("GC in FE", grandchild);
       const {
         menu_item_parent
       } = grandchild;
-      console.log(menu_item_parent);
       let parent = Object.values(parents);
-      console.log("Parent", parent);
       parent = parent.find(parent => parent.childItems.filter(child => child.ID === menu_item_parent));
-      console.log("Parent", parent);
       if (parent) {
         const child = parent.childItems.find(child => child.ID == menu_item_parent);
-        console.log("Child", child);
         if (child) {
-          console.log("Setting nowww");
           child.childItems = child.childItems || [];
           child.childItems.push(grandchild);
         }
       }
     });
     const navbarData2 = Object.values(parents).map(parent => parent).map(child => child).map(gcc => gcc);
-
-    // Logging the grandchildren
-    navbarData2.forEach(parent => {
-      parent.childItems.forEach(child => {
-        var _child$childItems;
-        if ((child === null || child === void 0 ? void 0 : (_child$childItems = child.childItems) === null || _child$childItems === void 0 ? void 0 : _child$childItems.length) > 0) {
-          console.log("Parent:", parent);
-          console.log("Child:", child);
-          console.log("Grandchildren:", child.childItems);
-        }
-      });
-    });
-    console.log(navbarData2);
     setNavbarData(navbarData2);
   }
-  function settingMenuData3() {
-    let items = menuData;
-    console.log("Printing Items", items);
-    const parents = {};
-    const children = [];
-    items.forEach(item => {
-      const {
-        ID,
-        menu_item_parent,
-        title,
-        content,
-        url
-      } = item;
-      if (menu_item_parent === "0") {
-        parents[ID] = {
-          ...item,
-          childItems: []
-        };
-      } else {
-        children.push(item);
-      }
-    });
-    children.forEach(child => {
-      const {
-        menu_item_parent
-      } = child;
-      if (parents[menu_item_parent]) {
-        parents[menu_item_parent].childItems.push(child);
-      }
-    });
-    console.log("Settingggg");
-    console.log(parents);
-    let navbarData2 = Object.values(parents);
-    console.log("Printing values", navbarData2);
-    setNavbarData(navbarData2);
-  }
-
-  // function settingMenuData() {
-  //   let items = menuData;
-  //   let head = items.filter((e) => e.menu_item_parent === "0")[0];
-  //   let childItems = items.filter(
-  //     (e) => parseInt(e.menu_item_parent) === head.ID
-  //   );
-  //   let nestedItems = [];
-  //   let currIDs = [];
-  //   for (let i = 0; i < childItems.length; i++) {
-  //     let currChild = childItems[i];
-  //     let allNestedChild = items.filter(
-  //       (e) => parseInt(e.menu_item_parent) === currChild.ID
-  //     );
-  //     if (allNestedChild.length > 0) {
-  //       currIDs.push(currChild.ID);
-  //       allNestedChild.map((ele) => nestedItems.push(ele));
-  //     }
-  //   }
-  //   setC2IDs(currIDs);
-  //   let cData = [
-  //     {
-  //       head,
-  //       childItems,
-  //       nestedItems,
-  //     },
-  //   ];
-  //   setNavbarMenus(cData);
-  // }
 
   /**
    * This is a functional React component that returns a Navbar.
    */
 
-  return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("nav", {
-    className: "navbar"
-  }, /*#__PURE__*/react.createElement(dist_Link, {
-    to: "/",
-    className: "text-decoration-none cursor-pointer"
+  return /*#__PURE__*/react.createElement("header", {
+    className: "App-header"
   }, /*#__PURE__*/react.createElement("div", {
-    className: "navbar-brand text-white cursor-pointer",
-    style: {
-      fontFamily: "sans-serif"
-    }
-  }, (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/react.createElement("img", {
+    className: "App-header-left"
+  }, /*#__PURE__*/react.createElement(dist_Link, {
+    className: "",
+    to: "/"
+  }, (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/react.createElement("div", {
+    className: "App-logo"
+  }, /*#__PURE__*/react.createElement("img", {
     src: appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_CUSTOM_LOGO[0],
-    alt: "logo",
-    className: "logo-img cursor-pointer",
-    style: {
-      width: "50px",
-      height: "50px",
-      marginTop: "-5px",
-      borderRadius: "50%",
-      cursor: "default",
-      marginRight: "1rem"
-    }
-  }), /*#__PURE__*/react.createElement("span", {
-    className: "title-head cursor-pointer"
-  }, appConfig_AppConfig.SITE_TITLE))), /*#__PURE__*/react.createElement("div", {
+    alt: "logo"
+  })), /*#__PURE__*/react.createElement("div", {
+    className: "App-title"
+  }, appConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("h4", {
+    className: "title-head"
+  }, " ", appConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("h4", {
+    className: "title-head"
+  }, " Site Title ")))), /*#__PURE__*/react.createElement("nav", {
+    className: "navbar"
+  }, /*#__PURE__*/react.createElement("div", {
     className: "navbar-right"
   }, navbarData && (navbarData === null || navbarData === void 0 ? void 0 : navbarData.map((currNavBarItem, i) => {
-    let title = currNavBarItem.title;
-    let titleUrl = currNavBarItem.url;
-    let childItems = currNavBarItem.childItems;
+    let title = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.title;
+    let titleUrl = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.url;
+    let childItems = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.childItems;
     return /*#__PURE__*/react.createElement("div", {
       className: "dropdown",
       key: i
-    }, /*#__PURE__*/react.createElement(dist_Link, {
+    }, /*#__PURE__*/react.createElement(NavLink, {
       to: titleUrl
     }, /*#__PURE__*/react.createElement("button", {
       className: "dropbtn"
@@ -6532,28 +6440,28 @@ const Navbar = () => {
         url,
         childItems: nestedChildItems
       } = menu;
-      return /*#__PURE__*/react.createElement(dist_Link, {
+      return /*#__PURE__*/react.createElement(NavLink, {
         className: "dropdown__items",
         key: i,
         to: url
       }, formatNames(title), nestedChildItems && nestedChildItems.length > 0 && /*#__PURE__*/react.createElement("div", {
         className: "n2"
-      }, nestedChildItems.map((cur, i) => /*#__PURE__*/react.createElement(dist_Link, {
+      }, nestedChildItems.map((cur, i) => /*#__PURE__*/react.createElement(NavLink, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
-      }, cur.title))));
+      }, cur === null || cur === void 0 ? void 0 : cur.title))));
     })));
   })), /* The Language Section of Navbar*/
-  activeLanguages && /*#__PURE__*/react.createElement("div", {
+  (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 && /*#__PURE__*/react.createElement("div", {
     className: "dropdown"
   }, /*#__PURE__*/react.createElement("button", {
     className: "dropbtn"
   }, " Languages "), /*#__PURE__*/react.createElement("div", {
     className: "dropdown__content"
-  }, activeLanguages.map(currLang => {
-    let cLang = currLang === null || currLang === void 0 ? void 0 : currLang.native_name;
-    let code = currLang === null || currLang === void 0 ? void 0 : currLang.code;
+  }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(currLang => {
+    let cLang = currLang.native_name;
+    let code = currLang.code;
     if (code == "en") {
       code = "";
     }
@@ -6571,10 +6479,10 @@ const Navbar = () => {
     }
   }, /*#__PURE__*/react.createElement("i", {
     className: "fa-solid fa-bars fa-xl"
-  }))), showMenu === true ? /*#__PURE__*/react.createElement("div", {
+  }))), showMenu === true && /*#__PURE__*/react.createElement("div", {
     className: "sideMenu"
   }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map(currNavBarItem => {
-    let title = currNavBarItem.title;
+    let title = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.title;
     let childItems = currNavBarItem.childItems;
     return /*#__PURE__*/react.createElement("div", {
       className: "dropdown2",
@@ -6588,13 +6496,13 @@ const Navbar = () => {
         title,
         url
       } = menu;
-      return /*#__PURE__*/react.createElement(dist_Link, {
+      return /*#__PURE__*/react.createElement(NavLink, {
         className: "dropdown__items",
         key: title,
         to: url
       }, formatNames(title));
     })));
-  }) : /*#__PURE__*/react.createElement(react.Fragment, null), navbarMenus ? navbarMenus.map((currEle, i) => {
+  }) : /*#__PURE__*/react.createElement(react.Fragment, null), navbarData && navbarData.map((currEle, i) => {
     let {
       head,
       childItems,
@@ -6605,37 +6513,37 @@ const Navbar = () => {
       key: i
     }, /*#__PURE__*/react.createElement("button", {
       className: "dropbtn"
-    }, head.title), /*#__PURE__*/react.createElement("div", {
+    }, head === null || head === void 0 ? void 0 : head.title), /*#__PURE__*/react.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/react.createElement(dist_Link, {
+      return /*#__PURE__*/react.createElement(NavLink, {
         className: "dropdown__items",
         key: i,
         onMouseEnter: () => setHoveredIndex(i),
         onMouseLeave: () => setHoveredIndex(-1),
         to: menu.url
-      }, formatNames(menu.title), c && /*#__PURE__*/react.createElement("span", {
+      }, formatNames(menu === null || menu === void 0 ? void 0 : menu.title), c && /*#__PURE__*/react.createElement("span", {
         className: "n2-drop"
       }, /*#__PURE__*/react.createElement("i", {
         className: "fa-solid fa-circle-chevron-down"
       })), c && hoveredIndex === i && /*#__PURE__*/react.createElement("div", {
         className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(dist_Link, {
+      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(NavLink, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
-      }, cur.title))));
+      }, cur === null || cur === void 0 ? void 0 : cur.title))));
     })));
-  }) : /*#__PURE__*/react.createElement(react.Fragment, null), activeLanguages && /*#__PURE__*/react.createElement("div", {
+  }), (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 && /*#__PURE__*/react.createElement("div", {
     className: "dropdown2"
   }, /*#__PURE__*/react.createElement("button", {
     className: "dropbtn"
   }, " Languages "), /*#__PURE__*/react.createElement("div", {
     className: "dropdown__content"
   }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(currLang => {
-    let cLang = currLang === null || currLang === void 0 ? void 0 : currLang.native_name;
-    let code = currLang === null || currLang === void 0 ? void 0 : currLang.code;
+    let cLang = currLang.native_name;
+    let code = currLang.code;
     if (code == "en") {
       code = "";
     }
@@ -6644,7 +6552,7 @@ const Navbar = () => {
       key: code,
       className: "dropdown__items"
     }, cLang);
-  })))) : /*#__PURE__*/react.createElement(react.Fragment, null))));
+  })))))));
 };
 /* harmony default export */ const navbar_Navbar = (Navbar);
 ;// CONCATENATED MODULE: ./src/js/app/components/sidebar/Sidebar.js
@@ -7117,11 +7025,6 @@ const AFrame = props => {
   const data = (0,react.useRef)([{}]); // Data from inspector
 
   const PAGE_SLUG = props === null || props === void 0 ? void 0 : (_props$aframeData = props.aframeData) === null || _props$aframeData === void 0 ? void 0 : _props$aframeData.slug;
-
-  /*
-    Example domain : https://staging.webxr.link/aframe_demo/?wordpress_slug=webxros-a-frame-demo
-  */
-
   (0,react.useEffect)(() => {
     var _props$aframeData2;
     console.log("Aframe props", props === null || props === void 0 ? void 0 : (_props$aframeData2 = props.aframeData) === null || _props$aframeData2 === void 0 ? void 0 : _props$aframeData2.slug);
@@ -7165,7 +7068,7 @@ const AFrame = props => {
   };
   const getFromServer = async () => {
     // Usage: Loads all assets from server
-    const url = `${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
+    const url = `${base_url}/${lang}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     await fetch(url).then(response => response.json()).then(result => {
       var pagecontents = [];
       var furniture = [];
@@ -7200,7 +7103,8 @@ const AFrame = props => {
     // Usage: Handles rendering of language change and toggle
     var children_lang = Obj.querySelectorAll("a-entity");
     for (var i = 0; i < children_lang.length; i += 2) {
-      if (children_lang[i].getAttribute("id") === langRef.current) {
+      var _children_lang$i;
+      if (((_children_lang$i = children_lang[i]) === null || _children_lang$i === void 0 ? void 0 : _children_lang$i.getAttribute("id")) === langRef.current) {
         children_lang[i].setAttribute("visible", "true");
         var state = !children_lang[i + 1].getAttribute("visible");
         children_lang[i + 1].setAttribute("visible", state);
@@ -7714,21 +7618,25 @@ const App = () => {
   const [menuData, setMenuData] = (0,react.useState)([]);
   const [lang, setLang] = (0,react.useState)([]);
   (0,react.useEffect)(() => {
+    console.log("app config", appConfig_AppConfig);
     getActiveLanguages();
     getMenuData();
   }, [lang]);
   const getActiveLanguages = async () => {
-    console.log("AppConfig...", appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_ACTIVE_PLUGINS);
-    const url = `${base_url}/wp-json/wpml/v1/active_languages`;
-    await fetch(url).then(response => response.json()).then(result => {
-      console.log("active languages...", result);
-      setActiveLanguages(result);
-    }).catch(error => {
-      console.log("Error when getting ActiveLanguages data", error);
-    });
+    let SITE_ACTIVE_PLUGINS = appConfig_AppConfig.SITE_ACTIVE_PLUGINS;
+    let wpml = "sitepress-multilingual-cms/sitepress.php";
+    if (!SITE_ACTIVE_PLUGINS.includes(wpml)) {
+      setActiveLanguages();
+    } else {
+      const url = `${base_url}/wp-json/wpml/v1/active_languages`;
+      await fetch(url).then(response => response.json()).then(result => {
+        setActiveLanguages(result);
+      }).catch(error => {
+        console.log("Error when getting ActiveLanguages data", error);
+      });
+    }
   };
   const getMenuData = async () => {
-    console.log("AppConfig...", appConfig_AppConfig);
     const url = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
     await fetch(url).then(response => response.json()).then(result => {
       console.log("menusdata...", result);

@@ -1,24 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import "@styles/style.scss";
 import { DataContext } from "../../utils";
 import { AppConfig } from "../../config/appConfig";
 
 const Navbar = () => {
+  const { activeLanguages, menuData, lang, setLang } = useContext(DataContext);
   const [showMenu, setShowMenu] = useState(false);
   const [navbarMenus, setNavbarMenus] = useState([]);
   const [c2IDs, setC2IDs] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
-  const { activeLanguages, menuData, lang, setLang } = useContext(DataContext);
-  const base_url = AppConfig.SITE_URL;
 
   const [navbarData, setNavbarData] = useState([]);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
   useEffect(() => {
-    settingMenuData2();
-    // settingMenuData();
+    settingMenuData();
   }, [menuData, lang]);
 
   function formatNames(name) {
@@ -30,7 +28,7 @@ const Navbar = () => {
     return formattedName;
   }
 
-  function settingMenuData2() {
+  function settingMenuData() {
     let items = menuData.filter((item) => item?.slug === "main-menu");
     items = items[0].items;
     console.log("main menus", items);
@@ -49,7 +47,6 @@ const Navbar = () => {
       } else if (parents[menu_item_parent]) {
         children.push(item);
       } else {
-        console.log(item);
         grandchildren.push(item);
       }
     });
@@ -61,25 +58,17 @@ const Navbar = () => {
       }
     });
 
-    console.log("Grand Children", grandchildren);
-
     grandchildren.forEach((grandchild) => {
-      console.log("GC in FE", grandchild);
       const { menu_item_parent } = grandchild;
-      console.log(menu_item_parent);
       let parent = Object.values(parents);
-      console.log("Parent", parent);
       parent = parent.find((parent) =>
         parent.childItems.filter((child) => child.ID === menu_item_parent)
       );
-      console.log("Parent", parent);
       if (parent) {
         const child = parent.childItems.find(
           (child) => child.ID == menu_item_parent
         );
-        console.log("Child", child);
         if (child) {
-          console.log("Setting nowww");
           child.childItems = child.childItems || [];
           child.childItems.push(grandchild);
         }
@@ -91,149 +80,66 @@ const Navbar = () => {
       .map((child) => child)
       .map((gcc) => gcc);
 
-    // Logging the grandchildren
-    navbarData2.forEach((parent) => {
-      parent.childItems.forEach((child) => {
-        if (child?.childItems?.length > 0) {
-          console.log("Parent:", parent);
-          console.log("Child:", child);
-          console.log("Grandchildren:", child.childItems);
-        }
-      });
-    });
-    console.log(navbarData2);
     setNavbarData(navbarData2);
   }
-
-  function settingMenuData3() {
-    let items = menuData;
-
-    console.log("Printing Items", items);
-
-    const parents = {};
-    const children = [];
-
-    items.forEach((item) => {
-      const { ID, menu_item_parent, title, content, url } = item;
-      if (menu_item_parent === "0") {
-        parents[ID] = {
-          ...item,
-          childItems: [],
-        };
-      } else {
-        children.push(item);
-      }
-    });
-
-    children.forEach((child) => {
-      const { menu_item_parent } = child;
-      if (parents[menu_item_parent]) {
-        parents[menu_item_parent].childItems.push(child);
-      }
-    });
-    console.log("Settingggg");
-    console.log(parents);
-    let navbarData2 = Object.values(parents);
-    console.log("Printing values", navbarData2);
-    setNavbarData(navbarData2);
-  }
-
-  // function settingMenuData() {
-  //   let items = menuData;
-  //   let head = items.filter((e) => e.menu_item_parent === "0")[0];
-  //   let childItems = items.filter(
-  //     (e) => parseInt(e.menu_item_parent) === head.ID
-  //   );
-  //   let nestedItems = [];
-  //   let currIDs = [];
-  //   for (let i = 0; i < childItems.length; i++) {
-  //     let currChild = childItems[i];
-  //     let allNestedChild = items.filter(
-  //       (e) => parseInt(e.menu_item_parent) === currChild.ID
-  //     );
-  //     if (allNestedChild.length > 0) {
-  //       currIDs.push(currChild.ID);
-  //       allNestedChild.map((ele) => nestedItems.push(ele));
-  //     }
-  //   }
-  //   setC2IDs(currIDs);
-  //   let cData = [
-  //     {
-  //       head,
-  //       childItems,
-  //       nestedItems,
-  //     },
-  //   ];
-  //   setNavbarMenus(cData);
-  // }
 
   /**
    * This is a functional React component that returns a Navbar.
    */
 
   return (
-    <>
-      <nav className="navbar">
-        {/* The brand section of the Navbar */}
-        <Link to="/" className="text-decoration-none cursor-pointer">
-          <div
-            className="navbar-brand text-white cursor-pointer"
-            style={{ fontFamily: "sans-serif" }}
-          >
-            {AppConfig?.SITE_CUSTOM_LOGO && (
-              <img
-                src={AppConfig?.SITE_CUSTOM_LOGO[0]}
-                alt="logo"
-                className="logo-img cursor-pointer"
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  marginTop: "-5px",
-                  borderRadius: "50%",
-                  cursor: "default",
-                  marginRight: "1rem",
-                }}
-              />
+    <header className="App-header">
+      <div className="App-header-left">
+        <Link className="" to="/">
+          {AppConfig?.SITE_CUSTOM_LOGO && (
+            <div className="App-logo">
+              <img src={AppConfig?.SITE_CUSTOM_LOGO[0]} alt="logo" />
+            </div>
+          )}
+          <div className="App-title">
+            {AppConfig.SITE_TITLE ? (
+              <h4 className="title-head"> {AppConfig.SITE_TITLE}</h4>
+            ) : (
+              <h4 className="title-head"> Site Title </h4>
             )}
-            <span className="title-head cursor-pointer">
-              {AppConfig.SITE_TITLE}
-            </span>
           </div>
         </Link>
+      </div>
 
+      <nav className="navbar">
         <div className="navbar-right">
           {/* The main dropdown menu items of the Navbar */}
           {navbarData &&
             navbarData?.map((currNavBarItem, i) => {
-              let title = currNavBarItem.title;
-              let titleUrl = currNavBarItem.url;
-              let childItems = currNavBarItem.childItems;
+              let title = currNavBarItem?.title;
+              let titleUrl = currNavBarItem?.url;
+              let childItems = currNavBarItem?.childItems;
 
               return (
                 <div className="dropdown" key={i}>
-                  <Link to={titleUrl}>
+                  <NavLink to={titleUrl}>
                     <button className="dropbtn">{title}</button>
-                  </Link>
+                  </NavLink>
                   <div className="dropdown__content">
                     {childItems.map((menu, i) => {
                       const { title, url, childItems: nestedChildItems } = menu;
                       return (
-                        <Link className="dropdown__items" key={i} to={url}>
+                        <NavLink className="dropdown__items" key={i} to={url}>
                           {formatNames(title)}
                           {nestedChildItems && nestedChildItems.length > 0 && (
                             <div className="n2">
                               {nestedChildItems.map((cur, i) => (
-                                <Link
+                                <NavLink
                                   to={cur.url}
                                   className="dropdown__items d2"
                                   key={i}
                                 >
-                                  {cur.title}
-                                </Link>
+                                  {cur?.title}
+                                </NavLink>
                               ))}
                             </div>
                           )}
-                        </Link>
+                        </NavLink>
                       );
                     })}
                   </div>
@@ -241,62 +147,15 @@ const Navbar = () => {
               );
             })}
 
-          {/* {navbarMenus ? (
-            navbarMenus.map((currEle, i) => {
-              let { head, childItems, nestedItems } = currEle;
-
-              return (
-                <div className="dropdown" key={i}>
-                  <button className="dropbtn">{head.title}</button>
-                  <div className="dropdown__content">
-                    {childItems.map((menu, i) => {
-                      const c = c2IDs.includes(menu.ID);
-                      return (
-                        <Link
-                          className="dropdown__items"
-                          key={i}
-                          onMouseEnter={() => setHoveredIndex(i)}
-                          onMouseLeave={() => setHoveredIndex(-1)}
-                          to={menu.url}
-                        >
-                          {formatNames(menu.title)}
-                          {c && (
-                            <span className="n2-drop">
-                              <i className="fa-solid fa-circle-chevron-down"></i>
-                            </span>
-                          )}
-                          {c && hoveredIndex === i && (
-                            <div className="n2">
-                              {nestedItems.map((cur, i) => (
-                                <Link
-                                  to={cur.url}
-                                  className="dropdown__items d2"
-                                  key={i}
-                                >
-                                  {cur.title}
-                                </Link>
-                              ))}
-                            </div>
-                          )}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <></>
-          )} */}
           {
             /* The Language Section of Navbar*/
-            activeLanguages && (
+            activeLanguages?.length > 0 && (
               <div className="dropdown">
                 <button className="dropbtn"> Languages </button>
                 <div className="dropdown__content">
-                  {activeLanguages.map((currLang) => {
-                    let cLang = currLang?.native_name;
-                    let code = currLang?.code;
+                  {activeLanguages?.map((currLang) => {
+                    let cLang = currLang.native_name;
+                    let code = currLang.code;
                     if (code == "en") {
                       code = "";
                     }
@@ -314,7 +173,6 @@ const Navbar = () => {
               </div>
             )
           }
-          {/* The social media logo section of the Navbar */}
 
           <div className="hamburger">
             <span
@@ -327,11 +185,11 @@ const Navbar = () => {
             </span>
           </div>
           {/* The side menu that appears when the hamburger icon is clicked */}
-          {showMenu === true ? (
+          {showMenu === true && (
             <div className="sideMenu">
               {navbarData ? (
                 navbarData?.map((currNavBarItem) => {
-                  let title = currNavBarItem.title;
+                  let title = currNavBarItem?.title;
                   let childItems = currNavBarItem.childItems;
 
                   return (
@@ -341,13 +199,13 @@ const Navbar = () => {
                         {childItems.map((menu, i) => {
                           const { title, url } = menu;
                           return (
-                            <Link
+                            <NavLink
                               className="dropdown__items"
                               key={title}
                               to={url}
                             >
                               {formatNames(title)}
-                            </Link>
+                            </NavLink>
                           );
                         })}
                       </div>
@@ -357,25 +215,25 @@ const Navbar = () => {
               ) : (
                 <></>
               )}
-              {navbarMenus ? (
-                navbarMenus.map((currEle, i) => {
+              {navbarData &&
+                navbarData.map((currEle, i) => {
                   let { head, childItems, nestedItems } = currEle;
 
                   return (
                     <div className="dropdown2" key={i}>
-                      <button className="dropbtn">{head.title}</button>
+                      <button className="dropbtn">{head?.title}</button>
                       <div className="dropdown__content">
                         {childItems.map((menu, i) => {
                           const c = c2IDs.includes(menu.ID);
                           return (
-                            <Link
+                            <NavLink
                               className="dropdown__items"
                               key={i}
                               onMouseEnter={() => setHoveredIndex(i)}
                               onMouseLeave={() => setHoveredIndex(-1)}
                               to={menu.url}
                             >
-                              {formatNames(menu.title)}
+                              {formatNames(menu?.title)}
                               {c && (
                                 <span className="n2-drop">
                                   <i className="fa-solid fa-circle-chevron-down"></i>
@@ -384,33 +242,30 @@ const Navbar = () => {
                               {c && hoveredIndex === i && (
                                 <div className="n2">
                                   {nestedItems.map((cur, i) => (
-                                    <Link
+                                    <NavLink
                                       to={cur.url}
                                       className="dropdown__items d2"
                                       key={i}
                                     >
-                                      {cur.title}
-                                    </Link>
+                                      {cur?.title}
+                                    </NavLink>
                                   ))}
                                 </div>
                               )}
-                            </Link>
+                            </NavLink>
                           );
                         })}
                       </div>
                     </div>
                   );
-                })
-              ) : (
-                <></>
-              )}
-              {activeLanguages && (
+                })}
+              {activeLanguages?.length > 0 && (
                 <div className="dropdown2">
                   <button className="dropbtn"> Languages </button>
                   <div className="dropdown__content">
                     {activeLanguages?.map((currLang) => {
-                      let cLang = currLang?.native_name;
-                      let code = currLang?.code;
+                      let cLang = currLang.native_name;
+                      let code = currLang.code;
                       if (code == "en") {
                         code = "";
                       }
@@ -428,12 +283,10 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-          ) : (
-            <></>
           )}
         </div>
       </nav>
-    </>
+    </header>
   );
 };
 

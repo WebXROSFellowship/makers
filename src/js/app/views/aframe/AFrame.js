@@ -20,10 +20,6 @@ const AFrame = (props) => {
 
   const PAGE_SLUG = props?.aframeData?.slug;
 
-  /*
-    Example domain : https://staging.webxr.link/aframe_demo/?wordpress_slug=webxros-a-frame-demo
-  */
-
   useEffect(() => {
     console.log("Aframe props", props?.aframeData?.slug);
     fetchLatestData();
@@ -71,7 +67,7 @@ const AFrame = (props) => {
 
   const getFromServer = async () => {
     // Usage: Loads all assets from server
-    const url = `${base_url}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
+    const url = `${base_url}/${lang}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
@@ -112,7 +108,7 @@ const AFrame = (props) => {
     var children_lang = Obj.querySelectorAll("a-entity");
 
     for (var i = 0; i < children_lang.length; i += 2) {
-      if (children_lang[i].getAttribute("id") === langRef.current) {
+      if (children_lang[i]?.getAttribute("id") === langRef.current) {
         children_lang[i].setAttribute("visible", "true");
         var state = !children_lang[i + 1].getAttribute("visible");
         children_lang[i + 1].setAttribute("visible", state);

@@ -14,26 +14,30 @@ const App = () => {
   const [lang, setLang] = useState([]);
 
   useEffect(() => {
+    console.log("app config", AppConfig);
     getActiveLanguages();
     getMenuData();
   }, [lang]);
 
   const getActiveLanguages = async () => {
-    console.log("AppConfig...", AppConfig?.SITE_ACTIVE_PLUGINS);
-    const url = `${base_url}/wp-json/wpml/v1/active_languages`;
-    await fetch(url)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("active languages...", result);
-        setActiveLanguages(result);
-      })
-      .catch((error) => {
-        console.log("Error when getting ActiveLanguages data", error);
-      });
+    let SITE_ACTIVE_PLUGINS = AppConfig.SITE_ACTIVE_PLUGINS;
+    let wpml = "sitepress-multilingual-cms/sitepress.php";
+    if (!SITE_ACTIVE_PLUGINS.includes(wpml)) {
+      setActiveLanguages();
+    } else {
+      const url = `${base_url}/wp-json/wpml/v1/active_languages`;
+      await fetch(url)
+        .then((response) => response.json())
+        .then((result) => {
+          setActiveLanguages(result);
+        })
+        .catch((error) => {
+          console.log("Error when getting ActiveLanguages data", error);
+        });
+    }
   };
 
   const getMenuData = async () => {
-    console.log("AppConfig...", AppConfig);
     const url = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
     await fetch(url)
       .then((response) => response.json())
@@ -47,8 +51,6 @@ const App = () => {
       });
   };
 
-  
-
   return (
     <>
       {loading ? (
@@ -61,7 +63,7 @@ const App = () => {
             menuData: menuData,
             setMenuData: setMenuData,
             lang: lang,
-            setLang: setLang
+            setLang: setLang,
           }}
         >
           <RouterProvider router={routes} />
