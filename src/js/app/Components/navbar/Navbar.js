@@ -29,8 +29,12 @@ const Navbar = () => {
   }
 
   function settingMenuData() {
-    let items = menuData.filter((item) => item?.slug === "main-menu");
-    items = items[0].items;
+    let items;
+    menuData.filter((item) => {
+      if (item?.slug === "main-menu") {
+        items = item?.items;
+      }
+    });
     console.log("main menus", items);
 
     const parents = {};
