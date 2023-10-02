@@ -59,27 +59,28 @@ function theme_scripts() {
         wp_enqueue_script('bootstrap');
 
         // A-Frame CDN's
-        wp_register_script( 'aframe', 'https://aframe.io/releases/1.4.0/aframe.min.js', array('jquery'), '1.4.0' , false );
+        wp_register_script( 'aframe', 'https://aframe.io/releases/1.4.2/aframe.min.js', array('jquery'), '1.4.2' , false );
         wp_enqueue_script( 'aframe' );
         
-        wp_register_script('aframe-troika-text', 'https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js', array('jquery'),rand(100000,999999), true);
-        wp_enqueue_script('aframe-troika-text');
-
-        wp_register_script('aframe-environment', 'https://unpkg.com/aframe-environment-component@1.3.0/dist/aframe-environment-component.min.js', array('jquery'),'1.3.0', true);
+        wp_register_script('aframe-environment', 'https://unpkg.com/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js', array('aframe'),'1.3.3', false);
         wp_enqueue_script('aframe-environment');
 
         // TODO: uncomment to fix nav-mesh movement issues
-        wp_register_script('aframe-physics', 'https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js', array('jquery'),'7.0.0', true);
-        wp_enqueue_script('aframe-physics');
+        wp_register_script('aframe-extras', 'https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js', array('aframe'),'7.0.0', true);
+        wp_enqueue_script('aframe-extras');
 
-        wp_register_script('aframe-superHands','https://unpkg.com/super-hands@^3.0.3/dist/super-hands.min.js', array('jquery'),'3.0.3', true);
+        wp_register_script('aframe-superHands','https://unpkg.com/super-hands@^3.0.3/dist/super-hands.min.js', array('aframe'),'3.0.3', true);
         wp_enqueue_script('aframe-superHands');
 
-        wp_register_script('aframe-teleport','https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js', array('jquery'),'', true);
+        wp_register_script('aframe-teleport','https://unpkg.com/aframe-teleport-controls@0.3.x/dist/aframe-teleport-controls.min.js', array('aframe'),'0.3.x', true);
         wp_enqueue_script('aframe-teleport');
-        
 
+        // wp_register_script('aframe-teleport','https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js', array('jquery'),'', true);
+        // wp_enqueue_script('aframe-teleport');
         
+        wp_register_script('aframe-troika-text', 'https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js', array('aframe'),'0.11.0', true);
+        wp_enqueue_script('aframe-troika-text');
+
        
 }
 add_action( 'wp_enqueue_scripts', 'theme_scripts' );  

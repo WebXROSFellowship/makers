@@ -4,8 +4,10 @@ import "@styles/style.scss";
 
 const AppLoader = () => {
   return (
-    <div className="App-Loader container">
-      <h1 className="h1 text-center">Loading!</h1>
+    <div className="App-Loader">
+      <div className="App-Loader-Circle">Loading...
+        <span></span>
+      </div>
     </div>
   );
 };
