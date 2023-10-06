@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import "@styles/style.scss";
 
-import { AppConfig } from "../../config/appConfig";
+import { AppConfig } from "../../config/AppConfig";
 import { AppLoader } from "../../components";
 import {NotFound} from "../index";
 import { DataContext } from "../../utils";

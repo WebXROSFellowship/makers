@@ -2,14 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import "@styles/style.scss";
-import { AppConfig } from "../../config/appConfig";
+import { AppConfig } from "../../config/AppConfig";
 import { DataContext } from "../../utils";
 import { AppLoader } from "../../components";
 import { AFrame, NotFound } from "../index";
+import { ApiEndpoint } from "../../config/ApiEndpoint";
 
 const Body = () => {
   const base_url = AppConfig.SITE_URL;
-  const { slug_name  } = useParams();
+  const { slug_name } = useParams();
   const param = useParams();
   const { lang, menuData } = useContext(DataContext);
   const [loading, setLoading] = useState(true);
@@ -23,7 +24,7 @@ const Body = () => {
   }, [lang, menuData, slug_name]);
 
   const fetchdata = async () => {
-    const url = `${base_url}/${lang}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
+    const url = `${base_url}/${lang}${ApiEndpoint.GET_PAGES}?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     await fetch(url)
       .then((response) => response.json())
       .then((result) => {
@@ -70,9 +71,9 @@ const Body = () => {
                   {data?.post_media?._thumbnail_id[0]?.full_path && (
                     <div className="featured-image">
                       <img
-                      src={data?.post_media?._thumbnail_id[0]?.full_path}
-                      alt={data?.post_media?._thumbnail_id[0]?.alt}
-                    />
+                        src={data?.post_media?._thumbnail_id[0]?.full_path}
+                        alt={data?.post_media?._thumbnail_id[0]?.alt}
+                      />
                     </div>
                   )}
                   <div

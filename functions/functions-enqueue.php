@@ -45,7 +45,7 @@ function theme_scripts() {
             );
   
 
-        wp_register_script('config-script', get_template_directory_uri() . '/src/js/app/config/appConfig.js', array( 'jquery' ), '1.0.0', true);
+        wp_register_script('config-script', get_template_directory_uri() . '/src/js/app/config/AppConfig.js', array( 'jquery' ), '1.0.0', true);
         wp_enqueue_script('config-script');
         wp_localize_script('config-script', 'configData', $config_wp);
 

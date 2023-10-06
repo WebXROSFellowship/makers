@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import "@styles/style.scss";
-import { AppConfig } from "../../config/appConfig";
+import { AppConfig } from "../../config/AppConfig";
 import { DataContext } from "../../utils";
 import { AppLoader } from "../../components";
 import { NotFound } from "../index";

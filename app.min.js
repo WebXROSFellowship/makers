@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 806:
+/***/ 466:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -5247,9 +5247,6 @@ function createMemoryRouter(routes, opts) {
 
 //# sourceMappingURL=index.js.map
 
-;// CONCATENATED MODULE: ./src/js/app/config/appConfig.js
-const appConfig_AppConfig = configData;
-
 ;// CONCATENATED MODULE: ./node_modules/react-router-dom/dist/index.js
 /**
  * React Router DOM v6.14.0
@@ -6315,6 +6312,9 @@ DataContext_DataContext.displayName = "DataContext";
 ;// CONCATENATED MODULE: ./src/js/app/utils/index.js
 
 
+;// CONCATENATED MODULE: ./src/js/app/config/AppConfig.js
+const AppConfig_AppConfig = configData;
+
 ;// CONCATENATED MODULE: ./src/js/app/components/navbar/Navbar.js
 
 
@@ -6410,16 +6410,16 @@ const Navbar = () => {
   }, /*#__PURE__*/react.createElement(dist_Link, {
     className: "",
     to: "/"
-  }, (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/react.createElement("div", {
+  }, (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/react.createElement("div", {
     className: "App-logo"
   }, /*#__PURE__*/react.createElement("img", {
-    src: appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_CUSTOM_LOGO[0],
+    src: AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_CUSTOM_LOGO[0],
     alt: "logo"
   })), /*#__PURE__*/react.createElement("div", {
     className: "App-title"
-  }, appConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("h4", {
+  }, AppConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("h4", {
     className: "title-head"
-  }, " ", appConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("h4", {
+  }, " ", AppConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("h4", {
     className: "title-head"
   }, " Site Title ")))), /*#__PURE__*/react.createElement("nav", {
     className: "navbar"
@@ -6664,7 +6664,7 @@ const Footer = () => {
     className: "container"
   }, /*#__PURE__*/react.createElement("div", {
     className: "d-flex justify-content-between py-4 my-4 border-top"
-  }, /*#__PURE__*/react.createElement("p", null, "\xA9 2023", appConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("span", null, " ", appConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("span", null, " Site Title "), ". All rights reserved."), /*#__PURE__*/react.createElement("ul", {
+  }, /*#__PURE__*/react.createElement("p", null, "\xA9 2023", AppConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("span", null, " ", AppConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("span", null, " Site Title "), ". All rights reserved."), /*#__PURE__*/react.createElement("ul", {
     className: "list-unstyled d-flex"
   }, /*#__PURE__*/react.createElement("li", {
     className: "ms-3"
@@ -6854,7 +6854,19 @@ const Home = () => {
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("main", null, /*#__PURE__*/react.createElement(Outlet, null)));
 };
 /* harmony default export */ const views_Home = (Home);
+;// CONCATENATED MODULE: ./src/js/app/config/ApiEndpoint.js
+const ApiEndpoint = {
+  GET_ACTIVE_LANGUAGES: "/wp-json/wpml/v1/active_languages",
+  GET_CATEGORIES: "",
+  GET_MEDIA: "",
+  GET_MENUS: "/wp-json/wp/v2/menus?menus",
+  GET_POSTS: "",
+  GET_PAGES: "/wp-json/wp/v2/pages",
+  PROFILES: "",
+  GET_TAGS: ""
+};
 ;// CONCATENATED MODULE: ./src/js/app/views/body/Body.js
+
 
 
 
@@ -6864,7 +6876,7 @@ const Home = () => {
 
 const Body = () => {
   var _data$properties_3D, _data$title, _data$post_media, _data$post_media$_thu, _data$post_media2, _data$post_media2$_th, _data$post_media3, _data$post_media3$_th, _data$content;
-  const base_url = appConfig_AppConfig.SITE_URL;
+  const base_url = AppConfig_AppConfig.SITE_URL;
   const {
     slug_name
   } = useParams();
@@ -6881,10 +6893,10 @@ const Body = () => {
     fetchdata();
   }, [lang, menuData, slug_name]);
   const fetchdata = async () => {
-    const url = `${base_url}/${lang}/wp-json/wp/v2/pages?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
+    const url = `${base_url}/${lang}${ApiEndpoint.GET_PAGES}?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
     await fetch(url).then(response => response.json()).then(result => {
       result.map(pageData => {
-        if ((pageData === null || pageData === void 0 ? void 0 : pageData.id) == (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_FRONT_PAGE)) {
+        if ((pageData === null || pageData === void 0 ? void 0 : pageData.id) == (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_FRONT_PAGE)) {
           setData(pageData);
           setLoading(false);
         } else {
@@ -6935,7 +6947,7 @@ const Body = () => {
 
 const Profile = () => {
   var _data$title, _data$post_media, _data$post_media$_thu, _data$post_media2, _data$post_media2$_th, _data$post_media3, _data$post_media3$_th, _data$content;
-  const base_url = appConfig_AppConfig.SITE_URL;
+  const base_url = AppConfig_AppConfig.SITE_URL;
   const {
     slug_name
   } = useParams();
@@ -6953,7 +6965,7 @@ const Profile = () => {
     const url = `${base_url}/${lang}/wp-json/wp/v2/profile?fields=id,type,title,content,slug,excerpt,post_media,languages,meta,info,seo,featured_media,screen_images,featured_video,type,industry,support_hardware,feature,thumbnail_url,collaboration_type,platform,cats,tags&filter[orderby]=post_title&order=asc&per_page=100&page=1`;
     await fetch(url).then(response => response.json()).then(result => {
       result.map(profileData => {
-        if ((profileData === null || profileData === void 0 ? void 0 : profileData.id) == (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_FRONT_PAGE)) {
+        if ((profileData === null || profileData === void 0 ? void 0 : profileData.id) == (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_FRONT_PAGE)) {
           setData(profileData);
           setLoading(false);
         } else {
@@ -6996,7 +7008,7 @@ const Profile = () => {
 
 const AFrame = props => {
   var _AFrameData$propertie, _AFrameData$propertie2, _AFrameData$propertie3, _AFrameData$propertie4, _AFrameData$propertie5, _AFrameData$propertie6, _AFrameData$post_medi, _AFrameData$post_medi2;
-  const base_url = appConfig_AppConfig.SITE_URL;
+  const base_url = AppConfig_AppConfig.SITE_URL;
   const upload_dir = `${base_url}/wp-content/uploads/`;
   const AFrameData = props === null || props === void 0 ? void 0 : props.aframeData;
   // const PAGE_SLUG = AFrameData?.slug;
@@ -7030,7 +7042,32 @@ const AFrame = props => {
     webxr: "requiredFeatures: hit-test,local-floor;\r optionalFeatures: dom-overlay,unbounded;\r overlayElement: #overlay;",
     cursor: "rayOrigin: mouse; fuse: false",
     raycaster: "objects: .raycastable"
-  }, /*#__PURE__*/react.createElement("a-entity", {
+  }, /*#__PURE__*/react.createElement("a-assets", {
+    timeout: "5000"
+  }, /*#__PURE__*/react.createElement("a-asset-item", {
+    id: "world_model",
+    src: upload_dir + (AFrameData === null || AFrameData === void 0 ? void 0 : (_AFrameData$propertie = AFrameData.properties_3D) === null || _AFrameData$propertie === void 0 ? void 0 : (_AFrameData$propertie2 = _AFrameData$propertie.world_model) === null || _AFrameData$propertie2 === void 0 ? void 0 : _AFrameData$propertie2.src),
+    crossOrigin: "anonymous"
+  }), /*#__PURE__*/react.createElement("a-asset-item", {
+    id: "nav_mesh",
+    src: upload_dir + ((_AFrameData$propertie3 = AFrameData.properties_3D) === null || _AFrameData$propertie3 === void 0 ? void 0 : (_AFrameData$propertie4 = _AFrameData$propertie3.nav_mesh) === null || _AFrameData$propertie4 === void 0 ? void 0 : _AFrameData$propertie4.src),
+    crossOrigin: "anonymous"
+  }), AFrameData === null || AFrameData === void 0 ? void 0 : (_AFrameData$propertie5 = AFrameData.properties_3D) === null || _AFrameData$propertie5 === void 0 ? void 0 : (_AFrameData$propertie6 = _AFrameData$propertie5.furniture) === null || _AFrameData$propertie6 === void 0 ? void 0 : _AFrameData$propertie6.map(furniture => {
+    return /*#__PURE__*/react.createElement("a-asset-item", {
+      key: furniture === null || furniture === void 0 ? void 0 : furniture.id,
+      id: furniture === null || furniture === void 0 ? void 0 : furniture.id,
+      src: base_url + (furniture === null || furniture === void 0 ? void 0 : furniture.full_path),
+      crossOrigin: "anonymous"
+    });
+  }), AFrameData === null || AFrameData === void 0 ? void 0 : (_AFrameData$post_medi = AFrameData.post_media) === null || _AFrameData$post_medi === void 0 ? void 0 : (_AFrameData$post_medi2 = _AFrameData$post_medi.screen_image) === null || _AFrameData$post_medi2 === void 0 ? void 0 : _AFrameData$post_medi2.map(scientist => {
+    return /*#__PURE__*/react.createElement("img", {
+      key: scientist === null || scientist === void 0 ? void 0 : scientist.id,
+      id: scientist === null || scientist === void 0 ? void 0 : scientist.id,
+      src: base_url + (scientist === null || scientist === void 0 ? void 0 : scientist.full_path),
+      alt: scientist === null || scientist === void 0 ? void 0 : scientist.alt,
+      crossOrigin: "anonymous"
+    });
+  })), /*#__PURE__*/react.createElement("a-entity", {
     id: "cameraRig",
     position: "25 10 0",
     "rotation-reader": true,
@@ -7121,32 +7158,7 @@ const AFrame = props => {
   }), /*#__PURE__*/react.createElement("a-entity", {
     id: "windows-motion-controls-right-hand",
     "windows-motion-controls": "hand: right"
-  }))), /*#__PURE__*/react.createElement("a-assets", {
-    timeout: "5000"
-  }, /*#__PURE__*/react.createElement("a-asset-item", {
-    id: "world_model",
-    src: upload_dir + (AFrameData === null || AFrameData === void 0 ? void 0 : (_AFrameData$propertie = AFrameData.properties_3D) === null || _AFrameData$propertie === void 0 ? void 0 : (_AFrameData$propertie2 = _AFrameData$propertie.world_model) === null || _AFrameData$propertie2 === void 0 ? void 0 : _AFrameData$propertie2.src),
-    crossOrigin: "anonymous"
-  }), /*#__PURE__*/react.createElement("a-asset-item", {
-    id: "nav_mesh",
-    src: upload_dir + ((_AFrameData$propertie3 = AFrameData.properties_3D) === null || _AFrameData$propertie3 === void 0 ? void 0 : (_AFrameData$propertie4 = _AFrameData$propertie3.nav_mesh) === null || _AFrameData$propertie4 === void 0 ? void 0 : _AFrameData$propertie4.src),
-    crossOrigin: "anonymous"
-  }), AFrameData === null || AFrameData === void 0 ? void 0 : (_AFrameData$propertie5 = AFrameData.properties_3D) === null || _AFrameData$propertie5 === void 0 ? void 0 : (_AFrameData$propertie6 = _AFrameData$propertie5.furniture) === null || _AFrameData$propertie6 === void 0 ? void 0 : _AFrameData$propertie6.map(furniture => {
-    return /*#__PURE__*/react.createElement("a-asset-item", {
-      key: furniture === null || furniture === void 0 ? void 0 : furniture.id,
-      id: furniture === null || furniture === void 0 ? void 0 : furniture.id,
-      src: base_url + (furniture === null || furniture === void 0 ? void 0 : furniture.full_path),
-      crossOrigin: "anonymous"
-    });
-  }), AFrameData === null || AFrameData === void 0 ? void 0 : (_AFrameData$post_medi = AFrameData.post_media) === null || _AFrameData$post_medi === void 0 ? void 0 : (_AFrameData$post_medi2 = _AFrameData$post_medi.screen_image) === null || _AFrameData$post_medi2 === void 0 ? void 0 : _AFrameData$post_medi2.map(scientist => {
-    return /*#__PURE__*/react.createElement("img", {
-      key: scientist === null || scientist === void 0 ? void 0 : scientist.id,
-      id: scientist === null || scientist === void 0 ? void 0 : scientist.id,
-      src: base_url + (scientist === null || scientist === void 0 ? void 0 : scientist.full_path),
-      alt: scientist === null || scientist === void 0 ? void 0 : scientist.alt,
-      crossOrigin: "anonymous"
-    });
-  })), !loading && /*#__PURE__*/react.createElement("a-entity", {
+  }))), !loading && /*#__PURE__*/react.createElement("a-entity", {
     id: "meta-world"
   }, /*#__PURE__*/react.createElement("a-entity", {
     id: "world_model",
@@ -7233,7 +7245,7 @@ const NotFound = () => {
 
 const Posts = () => {
   var _data$post_media, _data$post_media$_thu, _data$post_media2, _data$post_media2$_th, _data$post_media3, _data$post_media3$_th, _data$content;
-  const base_url = appConfig_AppConfig.SITE_URL;
+  const base_url = AppConfig_AppConfig.SITE_URL;
   const {
     slug_name
   } = useParams();
@@ -7253,7 +7265,7 @@ const Posts = () => {
     await fetch(url).then(response => response.json()).then(result => {
       console.log("posts result", result);
       result.map(postData => {
-        if ((postData === null || postData === void 0 ? void 0 : postData.id) == (appConfig_AppConfig === null || appConfig_AppConfig === void 0 ? void 0 : appConfig_AppConfig.SITE_FRONT_PAGE)) {
+        if ((postData === null || postData === void 0 ? void 0 : postData.id) == (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_FRONT_PAGE)) {
           setData(postData);
           setLoading(false);
         } else {
@@ -7319,6 +7331,84 @@ const routes = createBrowserRouter([{
   }]
 }]);
 /* harmony default export */ const routes_routes = (routes);
+;// CONCATENATED MODULE: ./src/js/app/config/ApiConfig.js
+
+const HttpRequest = () => {
+  const baseUrl = AppConfig_AppConfig.SITE_URL;
+  const timeout = 10000; // Set a timeout for HTTP requests (e.g., 10 seconds)
+  const headers = {
+    "Content-Type": "application/json"
+    // 'Content-Type': 'application/x-www-form-urlencoded',
+  };
+
+  const makeRequest = async (endpoint, method, payload) => {
+    console.log(`http request data \n endpoint: ${endpoint} \n method: ${method} \n payload: ${payload}`);
+    const url = `${baseUrl}${endpoint}`;
+    const options = {
+      method,
+      // GET, POST, PUT, DELETE, etc.
+      mode: "cors",
+      // no-cors, *cors, same-origin
+      cache: "no-cache",
+      // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin",
+      // include, *same-origin, omit
+      headers: {
+        ...headers
+      },
+      redirect: "follow",
+      // manual, *follow, error
+      referrerPolicy: "no-referrer" // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    };
+
+    if (method !== "GET") {
+      options.body = JSON.stringify(payload); // body data type must match "Content-Type" header
+    }
+
+    console.log("options Data", options);
+    try {
+      return await fetch(url, options).then(response => {
+        console.log("Getting API RESPONSE....", response);
+        if (response !== null && response !== void 0 && response.ok) {
+          return response.json();
+        } else {
+          console.error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+      }).then(result => {
+        console.log("Getting API RESULT....", result);
+        return result;
+      }).catch(error => {
+        console.error("Error While Getting API RESPONSE & RESULT...", error);
+        throw new Error(`HTTP Error While Getting API RESPONSE & RESULT... ${error}`);
+      }).finally(result => {
+        console.log("Final http result", result);
+        return result;
+      });
+    } catch (error) {
+      console.log("Exception occured while making a http request.!", error);
+      return error;
+    }
+  };
+  const httpGet = async endpoint => {
+    return makeRequest(endpoint, "GET", null);
+  };
+  const httpPost = async (endpoint, payload) => {
+    return makeRequest(endpoint, "POST", payload);
+  };
+  const httpPut = async (endpoint, payload) => {
+    return makeRequest(endpoint, "PUT", payload);
+  };
+  const httpDelete = async endpoint => {
+    return makeRequest(endpoint, "DELETE", null);
+  };
+  return {
+    httpGet,
+    httpPost,
+    httpPut,
+    httpDelete
+  };
+};
 ;// CONCATENATED MODULE: ./src/js/app/app.js
 
 
@@ -7326,40 +7416,58 @@ const routes = createBrowserRouter([{
 
 
 
+
+
 const App = () => {
-  const base_url = appConfig_AppConfig.SITE_URL;
+  const base_url = AppConfig_AppConfig.SITE_URL;
+  const httpRequest = HttpRequest(); // Create an instance of the HttpRequest module
   const [loading, setLoading] = (0,react.useState)(true);
-  const [activeLanguages, setActiveLanguages] = (0,react.useState)([]);
+  const [activeLanguages, setActiveLanguages] = (0,react.useState)([{
+    code: "en",
+    native_name: "English",
+    is_default: true
+  }]);
   const [menuData, setMenuData] = (0,react.useState)([]);
   const [lang, setLang] = (0,react.useState)([]);
   (0,react.useEffect)(() => {
-    console.log("app config", appConfig_AppConfig);
+    console.log("app config", AppConfig_AppConfig);
     getActiveLanguages();
     getMenuData();
   }, [lang]);
   const getActiveLanguages = async () => {
-    let SITE_ACTIVE_PLUGINS = appConfig_AppConfig.SITE_ACTIVE_PLUGINS;
+    let SITE_ACTIVE_PLUGINS = AppConfig_AppConfig.SITE_ACTIVE_PLUGINS;
     let wpml = "sitepress-multilingual-cms/sitepress.php";
     if (!SITE_ACTIVE_PLUGINS.includes(wpml)) {
       setActiveLanguages();
     } else {
-      const url = `${base_url}/wp-json/wpml/v1/active_languages`;
-      await fetch(url).then(response => response.json()).then(result => {
-        setActiveLanguages(result);
-      }).catch(error => {
-        console.log("Error when getting ActiveLanguages data", error);
-      });
+      const url = `${ApiEndpoint.GET_ACTIVE_LANGUAGES}`;
+      try {
+        httpRequest.httpGet(url).then(result => {
+          console.log("GET_ACTIVE_LANGUAGES Api Result...", result);
+          setActiveLanguages(result);
+        }).catch(error => {
+          console.log("Error when getting ActiveLanguages data", error);
+        });
+      } catch (error) {
+        console.log("Exception comming while making menus http request", error);
+      }
     }
   };
   const getMenuData = async () => {
-    const url = `${base_url}/${lang}/wp-json/wp/v2/menus?menus`;
-    await fetch(url).then(response => response.json()).then(result => {
-      console.log("menusdata...", result);
-      setMenuData(result);
-      setLoading(false);
-    }).catch(error => {
-      console.log("Error when getting menu data", error);
-    });
+    const url = `/${lang}${ApiEndpoint.GET_MENUS}`;
+    try {
+      httpRequest.httpGet(url).then(result => {
+        console.log("GET_MENUS Api Result...", result);
+        setMenuData(result);
+      }).catch(error => {
+        console.log("Error when getting menu data", error);
+      }).finally(result => {
+        console.log("finaly response", result);
+        setLoading(false);
+      });
+    } catch (error) {
+      console.log("Exception comming while making menus http request", error);
+    }
   };
   return /*#__PURE__*/react.createElement(react.Fragment, null, loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
     value: {
@@ -7383,7 +7491,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(806);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(466);
 
 
 
@@ -7944,7 +8052,7 @@ if (true) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(806);
+/******/ 	__webpack_require__(466);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()

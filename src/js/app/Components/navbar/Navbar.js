@@ -3,7 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 
 import "@styles/style.scss";
 import { DataContext } from "../../utils";
-import { AppConfig } from "../../config/appConfig";
+import { AppConfig } from "../../config/AppConfig";
 
 const Navbar = () => {
   const { activeLanguages, menuData, lang, setLang } = useContext(DataContext);

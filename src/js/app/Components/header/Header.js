@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import "@styles/style.scss";
 import { DataContext } from "../../utils";
-import { AppConfig } from "../../config/appConfig";
+import { AppConfig } from "../../config/AppConfig";
 
 const Header = () => {
   const [mainMenus, setMainMenus] = useState([]);

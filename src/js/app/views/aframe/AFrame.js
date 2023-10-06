@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { AppConfig } from "../../config/appConfig";
+import { AppConfig } from "../../config/AppConfig";
 import { AppLoader } from "../../components";
 import { DataContext } from "../../utils";
 
@@ -45,6 +45,49 @@ const AFrame = (props) => {
           cursor="rayOrigin: mouse; fuse: false"
           raycaster="objects: .raycastable"
         >
+          {/* assets loading */}
+          <a-assets timeout="5000">
+            {/* <a-asset-item
+              id="skybox"
+              src={upload_dir + AFrameData?.properties_3D?.skybox?.src}
+              crossOrigin="anonymous"
+            ></a-asset-item> */}
+
+            <a-asset-item
+              id="world_model"
+              src={upload_dir + AFrameData?.properties_3D?.world_model?.src}
+              crossOrigin="anonymous"
+            ></a-asset-item>
+            <a-asset-item
+              id="nav_mesh"
+              src={upload_dir + AFrameData.properties_3D?.nav_mesh?.src}
+              crossOrigin="anonymous"
+            ></a-asset-item>
+            {AFrameData?.properties_3D?.furniture?.map((furniture) => {
+              return (
+                <a-asset-item
+                  key={furniture?.id}
+                  id={furniture?.id}
+                  src={base_url + furniture?.full_path}
+                  crossOrigin="anonymous"
+                ></a-asset-item>
+              );
+            })}
+
+            {AFrameData?.post_media?.screen_image?.map((scientist) => {
+              return (
+                <img
+                  key={scientist?.id}
+                  id={scientist?.id}
+                  src={base_url + scientist?.full_path}
+                  alt={scientist?.alt}
+                  crossOrigin="anonymous"
+                ></img>
+              );
+            })}
+          </a-assets>
+
+          {/* CameraRig, Camera and Conrols */}
           <a-entity
             id="cameraRig"
             position="25 10 0"
@@ -176,47 +219,6 @@ const AFrame = (props) => {
               />
             </a-entity>
           </a-entity>
-
-          <a-assets timeout="5000">
-            {/* <a-asset-item
-              id="skybox"
-              src={upload_dir + AFrameData?.properties_3D?.skybox?.src}
-              crossOrigin="anonymous"
-            ></a-asset-item> */}
-
-            <a-asset-item
-              id="world_model"
-              src={upload_dir + AFrameData?.properties_3D?.world_model?.src}
-              crossOrigin="anonymous"
-            ></a-asset-item>
-            <a-asset-item
-              id="nav_mesh"
-              src={upload_dir + AFrameData.properties_3D?.nav_mesh?.src}
-              crossOrigin="anonymous"
-            ></a-asset-item>
-            {AFrameData?.properties_3D?.furniture?.map((furniture) => {
-              return (
-                <a-asset-item
-                  key={furniture?.id}
-                  id={furniture?.id}
-                  src={base_url + furniture?.full_path}
-                  crossOrigin="anonymous"
-                ></a-asset-item>
-              );
-            })}
-
-            {AFrameData?.post_media?.screen_image?.map((scientist) => {
-              return (
-                <img
-                  key={scientist?.id}
-                  id={scientist?.id}
-                  src={base_url + scientist?.full_path}
-                  alt={scientist?.alt}
-                  crossOrigin="anonymous"
-                ></img>
-              );
-            })}
-          </a-assets>
 
           {!loading && (
             <a-entity id="meta-world">
