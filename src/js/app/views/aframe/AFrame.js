@@ -1,29 +1,57 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
+
 import { AppConfig } from "../../config/AppConfig";
+import { ApiEndpoint } from "../../config/ApiEndpoint";
+import { HttpRequest } from "../../config/ApiConfig";
 import { AppLoader } from "../../components";
 import { DataContext } from "../../utils";
+import NotFound from "../404/NotFound";
 
 const AFrame = (props) => {
   const base_url = AppConfig.SITE_URL;
   const upload_dir = `${base_url}/wp-content/uploads/`;
-  const AFrameData = props?.aframeData;
-  // const PAGE_SLUG = AFrameData?.slug;
+  const httpRequest = HttpRequest(); // Create an instance of the HttpRequest module
+  const aFrameData = props?.aFrameData;
+  const PAGE_SLUG = aFrameData?.slug;
   // const { activeLanguages } = useContext(DataContext); // For all languages supported
   const [loading, setLoading] = useState(true); // For asset loading
   // const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
   // const langRef = useRef(null); // Current language state
   // const prev_langRef = useRef(null); // Previous language state
-  // const data = useRef([{}]); // Data from inspector
+  // let data = useRef([{}]); // Data from inspector
+  const [assetsData, setAssetsData] = useState([]);
 
-  // langRef.current = AFrameData?.languages?.default;
-  // prev_langRef.current = AFrameData?.languages?.default;
+  // langRef.current = aFrameData?.languages?.default;
+  // prev_langRef.current = aFrameData?.languages?.default;
 
   useEffect(() => {
-    console.log("AFrame Data....", AFrameData);
+    console.log("AFrame Data....", aFrameData);
     setTimeout(() => {
-      setLoading(false);
+      getAssetsData();
     }, 5000);
   }, []);
+
+  const getAssetsData = () => {
+    const url = `/${ApiEndpoint.GET_ASSETS_DATA}/${PAGE_SLUG}.json`;
+    try {
+      setLoading(true);
+      httpRequest
+        .httpGet(url)
+        .then((result) => {
+          console.log("GET_ASSETS_DATA Api Result...", result);
+          setAssetsData(result?.data);
+        })
+        .catch((error) => {
+          console.log("Error when getting Assets data", error);
+        })
+        .finally((result) => {
+          console.log("finaly response", result);
+          setLoading(false);
+        });
+    } catch (error) {
+      console.log("Exception comming while getAssetsData", error);
+    }
+  };
 
   return (
     <div
@@ -32,7 +60,7 @@ const AFrame = (props) => {
         width: "100%",
       }}
     >
-      {AFrameData && (
+      {aFrameData ? (
         <a-scene
           embedded
           environment="preset: forest; ground: canyon; groundTexture: checkerboard; groundColor: #445; grid: cross;"
@@ -49,21 +77,21 @@ const AFrame = (props) => {
           <a-assets timeout="5000">
             {/* <a-asset-item
               id="skybox"
-              src={upload_dir + AFrameData?.properties_3D?.skybox?.src}
+              src={upload_dir + aFrameData?.properties_3D?.skybox?.src}
               crossOrigin="anonymous"
             ></a-asset-item> */}
 
             <a-asset-item
               id="world_model"
-              src={upload_dir + AFrameData?.properties_3D?.world_model?.src}
+              src={upload_dir + aFrameData?.properties_3D?.world_model?.src}
               crossOrigin="anonymous"
             ></a-asset-item>
             <a-asset-item
               id="nav_mesh"
-              src={upload_dir + AFrameData.properties_3D?.nav_mesh?.src}
+              src={upload_dir + aFrameData.properties_3D?.nav_mesh?.src}
               crossOrigin="anonymous"
             ></a-asset-item>
-            {AFrameData?.properties_3D?.furniture?.map((furniture) => {
+            {aFrameData?.properties_3D?.furniture?.map((furniture) => {
               return (
                 <a-asset-item
                   key={furniture?.id}
@@ -74,7 +102,7 @@ const AFrame = (props) => {
               );
             })}
 
-            {AFrameData?.post_media?.screen_image?.map((scientist) => {
+            {aFrameData?.post_media?.screen_image?.map((scientist) => {
               return (
                 <img
                   key={scientist?.id}
@@ -111,9 +139,9 @@ const AFrame = (props) => {
                 animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1"
                 animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1"
                 animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
-                cursor="fuse: true; fuseTimeout: 500"
+                // cursor="fuse: true; fuseTimeout: 500"
                 position="0 0 -1"
-                // geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
                 material="color: black; shader: flat"
                 raycaster="far: 5; objects: .clickable"
               ></a-entity>
@@ -149,24 +177,24 @@ const AFrame = (props) => {
               />
 
               {/* Gear VR Controls */}
-              <a-entity
+              {/* <a-entity
                 id="gearvr-controls-left-hand"
                 gearvr-controls="hand: left"
               />
               <a-entity
                 id="gearvr-controls-left-hand"
                 gearvr-controls="hand: right"
-              />
+              /> */}
 
               {/* Magic-leap Controls */}
-              <a-entity
+              {/* <a-entity
                 id="magicleap-controls-left-hand"
                 magicleap-controls="hand: left"
               />
               <a-entity
                 id="magicleap-controls-right-hand"
                 magicleap-controls="hand: right"
-              />
+              /> */}
 
               {/* Oculus go Controls */}
               <a-entity
@@ -221,75 +249,75 @@ const AFrame = (props) => {
           </a-entity>
 
           {!loading && (
-            <a-entity id="meta-world">
+            <a-entity id="meta-world" position="0 0 0" scale="1.0, 1.0, 1.0">
               <a-entity
                 id="world_model"
                 gltf-model="#world_model"
                 position="4.537 0 3.468"
               >
                 {/* <a-troika-text
-            id="Excerpt"
-            value={HtmlToText(AFrameData?.excerpt?.rendered)}
-            // {...Data_from_Inspector}
-          ></a-troika-text>
+                  id="Excerpt"
+                  value={HtmlToText(aFrameData?.excerpt?.rendered)}
+                  {...Data_from_Inspector}
+                ></a-troika-text> */}
 
-           {AFrameData?.properties_3D?.furniture?.map((furniture) => {
-            var Obj_id = furniture?.slug;
-            var Data_from_Inspector = data?.current?.find(
-              (obj) => obj?.id == Obj_id
-            );
-            if (!Data_from_Inspector) {
-              Data_from_Inspector = {
-                position: "0 1.6 0",
-              };
-            }
-            return (
-              <a-entity
-                id={furniture?.slug}
-                gltf-model={"#" + furniture?.id}
-                key={furniture?.id}
-                {...Data_from_Inspector}
-              ></a-entity>
-            );
-          })}
-          {AFrameData?.post_media?.screen_image?.map((scientist) => {
-            var Obj_id = scientist?.slug;
-            var Data_from_Inspector = data?.current?.find(
-              (obj) => obj?.id == Obj_id
-            );
-            var desc_format = data?.current?.find(
-              (obj) => obj?.class == "desc_wrapper"
-            );
-            var cap_format = data?.current?.find(
-              (obj) => obj?.class == "caption_wrapper"
-            );
-            var name_format = data?.current?.find(
-              (obj) => obj?.class == "name_wrapper"
-            );
-            var img_format = data?.current?.find(
-              (obj) => obj?.class == "image_wrapper"
-            );
+                {aFrameData?.properties_3D?.furniture?.map((furniture) => {
+                  let Obj_id = furniture?.slug;
+                  let Data_from_Inspector = assetsData?.find(
+                    (obj) => obj?.id == Obj_id
+                  );
+                  if (!Data_from_Inspector) {
+                    Data_from_Inspector = {
+                      position: "0 1.6 0",
+                    };
+                  }
+                  return (
+                    <a-entity
+                      key={furniture?.id}
+                      id={furniture?.slug}
+                      gltf-model={"#" + furniture?.id}
+                      {...Data_from_Inspector}
+                    ></a-entity>
+                  );
+                })}
+                {aFrameData?.post_media?.screen_image?.map((scientist) => {
+                  var Obj_id = scientist?.slug;
+                  var Data_from_Inspector = assetsData?.find(
+                    (obj) => obj?.id == Obj_id
+                  );
+                  var desc_format = assetsData?.find(
+                    (obj) => obj?.class == "desc_wrapper"
+                  );
+                  var cap_format = assetsData?.find(
+                    (obj) => obj?.class == "caption_wrapper"
+                  );
+                  var name_format = assetsData?.find(
+                    (obj) => obj?.class == "name_wrapper"
+                  );
+                  var img_format = assetsData?.find(
+                    (obj) => obj?.class == "image_wrapper"
+                  );
 
-            if (!Data_from_Inspector) {
-              Data_from_Inspector = {
-                position: "0 1.6 0",
-              };
-            }
+                  if (!Data_from_Inspector) {
+                    Data_from_Inspector = {
+                      position: "0 1.6 0",
+                    };
+                  }
 
-            return (
-              <a-entity
-                id={scientist?.slug}
-                type="wrapper"
-                key={scientist?.id}
-                {...Data_from_Inspector}
-              >
-                <a-image
-                  src={"#" + scientist?.id}
-                  {...img_format}
-                  type="wrapper"
-                  class="image_wrapper"
-                ></a-image>
-                {activeLanguages?.map((lang) => {
+                  return (
+                    <a-entity
+                      id={scientist?.slug}
+                      type="wrapper"
+                      key={scientist?.id}
+                      {...Data_from_Inspector}
+                    >
+                      <a-image
+                        src={"#" + scientist?.id}
+                        {...img_format}
+                        type="wrapper"
+                        class="image_wrapper"
+                      ></a-image>
+                      {/* {activeLanguages?.map((lang) => {
                   var font = `${upload_dir}2023/06/NotoSans-Medium.ttf`;
                   if (lang?.code == "zh-hans") {
                     font = `${upload_dir}2023/06/NotoSansSC-Medium.otf`;
@@ -349,10 +377,10 @@ const AFrame = (props) => {
                       </a-entity>
                     </a-entity>
                   );
+                })} */}
+                    </a-entity>
+                  );
                 })}
-              </a-entity>
-            );
-          })}  */}
               </a-entity>
 
               <a-entity
@@ -369,12 +397,12 @@ const AFrame = (props) => {
           <a-sky
             id="skybox"
             color="#6EBAA7"
-            // src={
-            //   "#" +
-            //   Object.keys(AFrameData?.properties_3D).find(
-            //     (key) => key == "skybox"
-            //   )
-            // }
+            src={
+              "#" +
+              Object.keys(aFrameData?.properties_3D).find(
+                (key) => key == "skybox"
+              )
+            }
           ></a-sky>
 
           {/* floor collider */}
@@ -431,6 +459,8 @@ const AFrame = (props) => {
             rotation="-0.3 50.509 147.30229250797848"
           ></a-light>
         </a-scene>
+      ) : (
+        <NotFound />
       )}
     </div>
   );

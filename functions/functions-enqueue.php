@@ -65,9 +65,12 @@ function theme_scripts() {
         wp_register_script('aframe-environment', 'https://unpkg.com/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js', array('aframe'),'1.3.3', false);
         wp_enqueue_script('aframe-environment');
 
-        // TODO: uncomment to fix nav-mesh movement issues
-        wp_register_script('aframe-extras', 'https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js', array('aframe'),'7.0.0', true);
-        wp_enqueue_script('aframe-extras');
+        //uncomment to add aframe-extras full support
+        // wp_register_script('aframe-extras', 'https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.1.0/dist/aframe-extras.min.js', array('aframe'),'7.1.0', true);
+        // wp_enqueue_script('aframe-extras');
+        // uncomment to add aframe-extras-control partial support
+        wp_register_script('aframe-extras-controls', 'https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.1.0/dist/aframe-extras.controls.min.js', array('aframe'),'7.1.0', true);
+        wp_enqueue_script('aframe-extras-controls');
 
         wp_register_script('aframe-superHands','https://unpkg.com/super-hands@^3.0.3/dist/super-hands.min.js', array('aframe'),'3.0.3', true);
         wp_enqueue_script('aframe-superHands');
@@ -75,8 +78,8 @@ function theme_scripts() {
         wp_register_script('aframe-teleport','https://unpkg.com/aframe-teleport-controls@0.3.x/dist/aframe-teleport-controls.min.js', array('aframe'),'0.3.x', true);
         wp_enqueue_script('aframe-teleport');
 
-        // wp_register_script('aframe-teleport','https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js', array('jquery'),'', true);
-        // wp_enqueue_script('aframe-teleport');
+        wp_register_script('aframe-teleport','https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js', array('jquery'),'', true);
+        wp_enqueue_script('aframe-teleport');
         
         wp_register_script('aframe-troika-text', 'https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js', array('aframe'),'0.11.0', true);
         wp_enqueue_script('aframe-troika-text');

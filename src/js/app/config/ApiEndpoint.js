@@ -3,8 +3,9 @@ export const ApiEndpoint = {
   GET_CATEGORIES: "",
   GET_MEDIA: "",
   GET_MENUS: "/wp-json/wp/v2/menus?menus",
-  GET_POSTS: "",
+  GET_POSTS: "/wp-json/wp/v2/posts",
   GET_PAGES: "/wp-json/wp/v2/pages",
-  PROFILES: "",
+  GET_PROFILES: "/wp-json/wp/v2/profile",
   GET_TAGS: "",
+  GET_ASSETS_DATA: "/wp-content/themes/makers/data",
 };
