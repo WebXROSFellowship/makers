@@ -4,10 +4,9 @@ import "@styles/style.scss";
 
 const AppLoader = () => {
   return (
-    <div className="App-Loader">
-      <div className="App-Loader-Circle">Loading...
-        <span></span>
-      </div>
+    <div className="appLoader">
+      <div className="loaderCircle"></div>
+       <span class="loaderText">Loading...</span>
     </div>
   );
 };

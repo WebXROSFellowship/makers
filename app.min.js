@@ -6296,10 +6296,12 @@ function usePrompt(_ref8) {
 
 const AppLoader = () => {
   return /*#__PURE__*/react.createElement("div", {
-    className: "App-Loader"
+    className: "appLoader"
   }, /*#__PURE__*/react.createElement("div", {
-    className: "App-Loader-Circle"
-  }, "Loading...", /*#__PURE__*/react.createElement("span", null)));
+    className: "loaderCircle"
+  }), /*#__PURE__*/react.createElement("span", {
+    class: "loaderText"
+  }, "Loading..."));
 };
 /* harmony default export */ const loader_AppLoader = (AppLoader);
 ;// CONCATENATED MODULE: ./src/js/app/utils/DataContext.js
