@@ -1,3 +1,2 @@
-const AppConfig = configData;
+export const AppConfig = configData;
 
-export { AppConfig };

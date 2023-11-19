@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "@styles/style.scss";
 import { AppConfig } from "../../config/AppConfig";
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer>
       <div className="container">
@@ -196,5 +196,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;

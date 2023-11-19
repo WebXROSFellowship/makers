@@ -5,7 +5,7 @@ import "@styles/style.scss";
 import { DataContext } from "../../utils";
 import { AppConfig } from "../../config/AppConfig";
 
-const Header = () => {
+export const Header = () => {
   const [mainMenus, setMainMenus] = useState([]);
   const [parentMenus, setParentMenus] = useState([]);
   const [childMenus, setChildMenus] = useState([]);
@@ -32,7 +32,7 @@ const Header = () => {
     });
   }, [menuData, lang]);
 
-  const SubNestedMenus = ({items}) => {
+  const SubNestedMenus = ({ items }) => {
     console.log("SubNested Menus Item", items);
     return (
       items &&
@@ -53,7 +53,7 @@ const Header = () => {
         </ul>
       )
     );
-  }
+  };
 
   const NestedMenu = ({ items }) => {
     console.log("Nested Item", items);
@@ -178,5 +178,3 @@ const Header = () => {
     </header>
   );
 };
-
-export default Header;

@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 820:
+/***/ 725:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -25,8 +25,8 @@ var react_namespaceObject = /*#__PURE__*/__webpack_require__.t(react, 2);
  *
  * @license MIT
  */
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function (target) {
+function router_extends() {
+  router_extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
       for (var key in source) {
@@ -37,7 +37,7 @@ function _extends() {
     }
     return target;
   };
-  return _extends.apply(this, arguments);
+  return router_extends.apply(this, arguments);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -284,7 +284,7 @@ function createLocation(current, to, state, key) {
   if (state === void 0) {
     state = null;
   }
-  let location = _extends({
+  let location = router_extends({
     pathname: typeof current === "string" ? current : current.pathname,
     search: "",
     hash: ""
@@ -350,7 +350,7 @@ function getUrlBasedHistory(getLocation, createHref, validateLocation, options) 
   // case we should log a warning as it will result in bugs.
   if (index == null) {
     index = 0;
-    globalHistory.replaceState(_extends({}, globalHistory.state, {
+    globalHistory.replaceState(router_extends({}, globalHistory.state, {
       idx: index
     }), "");
   }
@@ -495,13 +495,13 @@ function convertRoutesToDataRoutes(routes, mapRouteProperties, parentPath, manif
     invariant(route.index !== true || !route.children, "Cannot specify children on an index route");
     invariant(!manifest[id], "Found a route id collision on id \"" + id + "\".  Route " + "id's must be globally unique within Data Router usages");
     if (isIndexRoute(route)) {
-      let indexRoute = _extends({}, route, mapRouteProperties(route), {
+      let indexRoute = router_extends({}, route, mapRouteProperties(route), {
         id
       });
       manifest[id] = indexRoute;
       return indexRoute;
     } else {
-      let pathOrLayoutRoute = _extends({}, route, mapRouteProperties(route), {
+      let pathOrLayoutRoute = router_extends({}, route, mapRouteProperties(route), {
         id,
         children: undefined
       });
@@ -929,7 +929,7 @@ function router_resolveTo(toArg, routePathnames, locationPathname, isPathRelativ
   if (typeof toArg === "string") {
     to = parsePath(toArg);
   } else {
-    to = _extends({}, toArg);
+    to = router_extends({}, toArg);
     invariant(!to.pathname || !to.pathname.includes("?"), getInvalidPathError("?", "pathname", "search", to));
     invariant(!to.pathname || !to.pathname.includes("#"), getInvalidPathError("#", "pathname", "hash", to));
     invariant(!to.search || !to.search.includes("#"), getInvalidPathError("#", "search", "hash", to));
@@ -1013,7 +1013,7 @@ const json = function json(data, init) {
   if (!headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json; charset=utf-8");
   }
-  return new Response(JSON.stringify(data), _extends({}, responseInit, {
+  return new Response(JSON.stringify(data), router_extends({}, responseInit, {
     headers
   }));
 };
@@ -1170,7 +1170,7 @@ const redirect = function redirect(url, init) {
   }
   let headers = new Headers(responseInit.headers);
   headers.set("Location", url);
-  return new Response(null, _extends({}, responseInit, {
+  return new Response(null, router_extends({}, responseInit, {
     headers
   }));
 };
@@ -1269,7 +1269,7 @@ function router_createRouter(init) {
   let inFlightDataRoutes;
   let basename = init.basename || "/";
   // Config driven behavior flags
-  let future = _extends({
+  let future = router_extends({
     v7_normalizeFormMethod: false,
     v7_prependBasename: false
   }, init.future);
@@ -1458,7 +1458,7 @@ function router_createRouter(init) {
   }
   // Update our state and notify the calling context of the change
   function updateState(newState) {
-    state = _extends({}, state, newState);
+    state = router_extends({}, state, newState);
     subscribers.forEach(subscriber => subscriber(state));
   }
   // Complete a navigation returning the state.navigation back to the IDLE_NAVIGATION
@@ -1507,7 +1507,7 @@ function router_createRouter(init) {
     } else if (pendingAction === Action.Replace) {
       init.history.replace(location, location.state);
     }
-    updateState(_extends({}, newState, {
+    updateState(router_extends({}, newState, {
       actionData,
       loaderData,
       historyAction: pendingAction,
@@ -1547,7 +1547,7 @@ function router_createRouter(init) {
     // remains the same as POP and non-data-router usages.  new URL() does all
     // the same encoding we'd get from a history.pushState/window.location read
     // without having to touch history
-    nextLocation = _extends({}, nextLocation, init.history.encodeLocation(nextLocation));
+    nextLocation = router_extends({}, nextLocation, init.history.encodeLocation(nextLocation));
     let userReplace = opts && opts.replace != null ? opts.replace : undefined;
     let historyAction = Action.Push;
     if (userReplace === true) {
@@ -1720,7 +1720,7 @@ function router_createRouter(init) {
     // we short circuited because pendingNavigationController will have already
     // been assigned to a new controller for the next navigation
     pendingNavigationController = null;
-    completeNavigation(location, _extends({
+    completeNavigation(location, router_extends({
       matches
     }, pendingActionData ? {
       actionData: pendingActionData
@@ -1826,7 +1826,7 @@ function router_createRouter(init) {
     // Short circuit if we have no loaders to run
     if (matchesToLoad.length === 0 && revalidatingFetchers.length === 0) {
       let updatedFetchers = markFetchRedirectsDone();
-      completeNavigation(location, _extends({
+      completeNavigation(location, router_extends({
         matches,
         loaderData: {},
         // Commit pending error if we're short circuiting
@@ -1851,7 +1851,7 @@ function router_createRouter(init) {
         state.fetchers.set(rf.key, revalidatingFetcher);
       });
       let actionData = pendingActionData || state.actionData;
-      updateState(_extends({
+      updateState(router_extends({
         navigation: loadingNavigation
       }, actionData ? Object.keys(actionData).length === 0 ? {
         actionData: null
@@ -1924,7 +1924,7 @@ function router_createRouter(init) {
     let updatedFetchers = markFetchRedirectsDone();
     let didAbortFetchLoads = abortStaleFetchLoads(pendingNavigationLoadId);
     let shouldUpdateFetchers = updatedFetchers || didAbortFetchLoads || revalidatingFetchers.length > 0;
-    return _extends({
+    return router_extends({
       loaderData,
       errors
     }, shouldUpdateFetchers ? {
@@ -2108,7 +2108,7 @@ function router_createRouter(init) {
       // otherwise just update with the fetcher data, preserving any existing
       // loaderData for loaders that did not need to reload.  We have to
       // manually merge here since we aren't going through completeNavigation
-      updateState(_extends({
+      updateState(router_extends({
         errors,
         loaderData: mergeLoaderData(state.loaderData, loaderData, matches, errors)
       }, didAbortFetchLoads || revalidatingFetchers.length > 0 ? {
@@ -2204,7 +2204,7 @@ function router_createRouter(init) {
       isRevalidationRequired = true;
     }
     let redirectLocation = createLocation(state.location, redirect.location, // TODO: This can be removed once we get rid of useTransition in Remix v2
-    _extends({
+    router_extends({
       _isRedirect: true
     }, isFetchActionRedirect ? {
       _isFetchActionRedirect: true
@@ -2235,7 +2235,7 @@ function router_createRouter(init) {
     // redirected location
     if (redirectPreserveMethodStatusCodes.has(redirect.status) && activeSubmission && isMutationMethod(activeSubmission.formMethod)) {
       await startNavigation(redirectHistoryAction, redirectLocation, {
-        submission: _extends({}, activeSubmission, {
+        submission: router_extends({}, activeSubmission, {
           formAction: redirect.location
         }),
         // Preserve this flag across redirects
@@ -2622,7 +2622,7 @@ function createStaticHandler(routes, opts) {
     // When returning StaticHandlerContext, we patch back in the location here
     // since we need it for React Context.  But this helps keep our submit and
     // loadRouteData operating on a Request instead of a Location
-    return _extends({
+    return router_extends({
       location,
       basename
     }, result);
@@ -2712,7 +2712,7 @@ function createStaticHandler(routes, opts) {
         return result;
       }
       let result = await loadRouteData(request, matches, requestContext, routeMatch);
-      return isResponse(result) ? result : _extends({}, result, {
+      return isResponse(result) ? result : router_extends({}, result, {
         actionData: null,
         actionHeaders: {}
       });
@@ -2813,10 +2813,10 @@ function createStaticHandler(routes, opts) {
         [boundaryMatch.route.id]: result.error
       });
       // action status codes take precedence over loader status codes
-      return _extends({}, context, {
+      return router_extends({}, context, {
         statusCode: isRouteErrorResponse(result.error) ? result.error.status : 500,
         actionData: null,
-        actionHeaders: _extends({}, result.headers ? {
+        actionHeaders: router_extends({}, result.headers ? {
           [actionMatch.route.id]: result.headers
         } : {})
       });
@@ -2828,13 +2828,13 @@ function createStaticHandler(routes, opts) {
       signal: request.signal
     });
     let context = await loadRouteData(loaderRequest, matches, requestContext);
-    return _extends({}, context, result.statusCode ? {
+    return router_extends({}, context, result.statusCode ? {
       statusCode: result.statusCode
     } : {}, {
       actionData: {
         [actionMatch.route.id]: result.data
       },
-      actionHeaders: _extends({}, result.headers ? {
+      actionHeaders: router_extends({}, result.headers ? {
         [actionMatch.route.id]: result.headers
       } : {})
     });
@@ -2884,7 +2884,7 @@ function createStaticHandler(routes, opts) {
         context.loaderData[match.route.id] = null;
       }
     });
-    return _extends({}, context, {
+    return router_extends({}, context, {
       matches,
       activeDeferreds: activeDeferreds.size > 0 ? Object.fromEntries(activeDeferreds.entries()) : null
     });
@@ -2904,7 +2904,7 @@ function createStaticHandler(routes, opts) {
  * provide an updated StaticHandlerContext suitable for a second SSR render
  */
 function getStaticContextFromError(routes, context, error) {
-  let newContext = _extends({}, context, {
+  let newContext = router_extends({}, context, {
     statusCode: 500,
     errors: {
       [context._deepestRenderedBoundaryId || routes[0].id]: error
@@ -3118,7 +3118,7 @@ function getMatchesToLoad(history, state, matches, submission, location, isReval
     // their own specific use cases
     let currentRouteMatch = state.matches[index];
     let nextRouteMatch = match;
-    return shouldRevalidateLoader(match, _extends({
+    return shouldRevalidateLoader(match, router_extends({
       currentUrl,
       currentParams: currentRouteMatch.params,
       nextUrl,
@@ -3171,7 +3171,7 @@ function getMatchesToLoad(history, state, matches, submission, location, isReval
     // so ensure we're not processing the redirect from this fetcher
     !fetchRedirectIds.has(key);
     let fetcherMatch = getTargetMatch(fetcherMatches, f.path);
-    let shouldRevalidate = cancelledFetcherLoads.includes(key) || isPerformingInitialLoad || shouldRevalidateLoader(fetcherMatch, _extends({
+    let shouldRevalidate = cancelledFetcherLoads.includes(key) || isPerformingInitialLoad || shouldRevalidateLoader(fetcherMatch, router_extends({
       currentUrl,
       currentParams: state.matches[state.matches.length - 1].params,
       nextUrl,
@@ -3268,7 +3268,7 @@ async function loadLazyRouteModule(route, mapRouteProperties, manifest) {
   // Mutate the `hasErrorBoundary` property on the route based on the route
   // updates and remove the `lazy` function so we don't resolve the lazy
   // route again.
-  Object.assign(routeToUpdate, _extends({}, mapRouteProperties(routeToUpdate), {
+  Object.assign(routeToUpdate, router_extends({}, mapRouteProperties(routeToUpdate), {
     lazy: undefined
   }));
 }
@@ -3571,7 +3571,7 @@ function processLoaderData(state, matches, matchesToLoad, results, pendingError,
     } else if (isErrorResult(result)) {
       let boundaryMatch = findNearestBoundary(state.matches, match == null ? void 0 : match.route.id);
       if (!(errors && errors[boundaryMatch.route.id])) {
-        errors = _extends({}, errors, {
+        errors = router_extends({}, errors, {
           [boundaryMatch.route.id]: result.error
         });
       }
@@ -3595,7 +3595,7 @@ function processLoaderData(state, matches, matchesToLoad, results, pendingError,
   };
 }
 function mergeLoaderData(loaderData, newLoaderData, matches, errors) {
-  let mergedLoaderData = _extends({}, newLoaderData);
+  let mergedLoaderData = router_extends({}, newLoaderData);
   for (let match of matches) {
     let id = match.route.id;
     if (newLoaderData.hasOwnProperty(id)) {
@@ -3681,7 +3681,7 @@ function findRedirect(results) {
 }
 function stripHashFromPath(path) {
   let parsedPath = typeof path === "string" ? parsePath(path) : path;
-  return router_createPath(_extends({}, parsedPath, {
+  return router_createPath(router_extends({}, parsedPath, {
     hash: ""
   }));
 }
@@ -5452,7 +5452,7 @@ function getFormSubmissionInfo(target, basename) {
 }
 
 const _excluded = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset"],
-  _excluded2 = (/* unused pure expression or super */ null && (["aria-current", "caseSensitive", "className", "end", "style", "to", "children"])),
+  _excluded2 = ["aria-current", "caseSensitive", "className", "end", "style", "to", "children"],
   _excluded3 = (/* unused pure expression or super */ null && (["reloadDocument", "replace", "method", "action", "onSubmit", "submit", "relative", "preventScrollReset"]));
 function createBrowserRouter(routes, opts) {
   return router_createRouter({
@@ -5724,7 +5724,7 @@ if (false) {}
 /**
  * A <Link> wrapper that knows if it's "active" or not.
  */
-const dist_NavLink = /*#__PURE__*/(/* unused pure expression or super */ null && (React.forwardRef(function NavLinkWithRef(_ref5, ref) {
+const NavLink = /*#__PURE__*/react.forwardRef(function NavLinkWithRef(_ref5, ref) {
   let {
       "aria-current": ariaCurrentProp = "page",
       caseSensitive = false,
@@ -5735,14 +5735,14 @@ const dist_NavLink = /*#__PURE__*/(/* unused pure expression or super */ null &&
       children
     } = _ref5,
     rest = _objectWithoutPropertiesLoose(_ref5, _excluded2);
-  let path = useResolvedPath(to, {
+  let path = dist_useResolvedPath(to, {
     relative: rest.relative
   });
-  let location = useLocation();
-  let routerState = React.useContext(UNSAFE_DataRouterStateContext);
+  let location = dist_useLocation();
+  let routerState = react.useContext(DataRouterStateContext);
   let {
     navigator
-  } = React.useContext(UNSAFE_NavigationContext);
+  } = react.useContext(NavigationContext);
   let toPathname = navigator.encodeLocation ? navigator.encodeLocation(path).pathname : path.pathname;
   let locationPathname = location.pathname;
   let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
@@ -5772,7 +5772,7 @@ const dist_NavLink = /*#__PURE__*/(/* unused pure expression or super */ null &&
     isActive,
     isPending
   }) : styleProp;
-  return /*#__PURE__*/React.createElement(dist_Link, react_router_dom_dist_extends({}, rest, {
+  return /*#__PURE__*/react.createElement(dist_Link, react_router_dom_dist_extends({}, rest, {
     "aria-current": ariaCurrent,
     className: className,
     ref: ref,
@@ -5782,7 +5782,7 @@ const dist_NavLink = /*#__PURE__*/(/* unused pure expression or super */ null &&
     isActive,
     isPending
   }) : children);
-})));
+});
 if (false) {}
 /**
  * A `@remix-run/router`-aware `<form>`. It behaves like a normal form except
@@ -6300,18 +6300,148 @@ const AppLoader = () => {
   }, /*#__PURE__*/react.createElement("div", {
     className: "loaderCircle"
   }), /*#__PURE__*/react.createElement("span", {
-    class: "loaderText"
+    className: "loaderText"
   }, "Loading..."));
 };
-/* harmony default export */ const loader_AppLoader = (AppLoader);
 ;// CONCATENATED MODULE: ./src/js/app/utils/DataContext.js
 
 const DataContext_DataContext = /*#__PURE__*/(0,react.createContext)({
   data: {}
 });
 DataContext_DataContext.displayName = "DataContext";
-/* harmony default export */ const utils_DataContext = (DataContext_DataContext);
+;// CONCATENATED MODULE: ./src/js/app/utils/GetDeviceType.js
+const getUserAgentDeviceInfo = () => {
+  const userAgent = navigator.userAgent;
+  let deviceType = "Unknown";
+
+  // Check for specific keywords in the user agent string to identify device type
+  if (/Android/i.test(userAgent)) {
+    deviceType = "Android";
+  } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
+    deviceType = "iOS";
+  } else if (/Windows Phone/i.test(userAgent)) {
+    deviceType = "Windows Phone";
+  } else if (/Windows/i.test(userAgent)) {
+    deviceType = "Windows";
+  } else if (/Macintosh/i.test(userAgent)) {
+    deviceType = "Macintosh";
+  } else if (/Linux/i.test(userAgent)) {
+    deviceType = "Linux";
+  }
+  return deviceType;
+};
+;// CONCATENATED MODULE: ./src/js/app/utils/HtmlToText.js
+const HtmlToText_HtmlToText = htmlContent => {
+  // Create a new DOMParser instance
+  const parser = new DOMParser();
+  // Parse the HTML content
+  const document = parser.parseFromString(htmlContent, "text/html");
+  // Extract the plain text using textContent
+  const textContent = document.body.textContent;
+  return textContent;
+};
 ;// CONCATENATED MODULE: ./src/js/app/utils/index.js
+
+
+
+;// CONCATENATED MODULE: ./src/js/app/config/AppConfig.js
+const AppConfig_AppConfig = configData;
+;// CONCATENATED MODULE: ./src/js/app/config/ApiConfig.js
+
+
+const BASE_URL = AppConfig_AppConfig.SITE_URL;
+const TIMEOUT_DURATION = 20000; // Timeout for HTTP requests (20 seconds)
+const DEFAULT_HEADERS = {
+  "Content-Type": "application/json"
+  // Other headers can be added here
+};
+
+const handleErrors = async response => {
+  if (!response.ok) {
+    let errorData;
+    try {
+      errorData = await response.json();
+    } catch (error) {
+      errorData = {
+        message: "Response is not in JSON format"
+      };
+    }
+    const errorMessage = `HTTP error! Status: ${response.status}. ${errorData.message || ""}`;
+    const error = new Error(errorMessage);
+    error.response = response;
+    throw error;
+  }
+  return response.json();
+};
+const requestInterceptor = async options => {
+  // Modify request options here if needed before sending the request
+  const deviceType = getUserAgentDeviceInfo();
+  return {
+    ...options,
+    headers: {
+      ...options.headers,
+      "X-Device-Type": deviceType
+    }
+  };
+};
+const responseInterceptor = async response => {
+  // Modify response data here if needed before returning the result
+  return handleErrors(response);
+};
+const makeRequest = async (endpoint, method, payload) => {
+  const url = `${BASE_URL}${endpoint}`;
+  const options = {
+    method,
+    headers: DEFAULT_HEADERS,
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+    body: method !== "GET" ? JSON.stringify(payload) : undefined,
+    timeout: TIMEOUT_DURATION
+  };
+  try {
+    const interceptedOptions = await requestInterceptor(options);
+    console.log("requestInterceptor", interceptedOptions);
+    const response = await fetch(url, interceptedOptions);
+    const result = await responseInterceptor(response);
+    console.log("responseInterceptor", result);
+    return result;
+  } catch (error) {
+    console.error("Error occurred while making the HTTP request:", error);
+    throw new Error(`HTTP Request Error: ${error.message}`);
+  }
+};
+const ApiConfig_HttpRequest = {
+  httpGet: endpoint => {
+    return makeRequest(endpoint, "GET", null);
+  },
+  httpPost: (endpoint, payload) => {
+    return makeRequest(endpoint, "POST", payload);
+  },
+  httpPut: (endpoint, payload) => {
+    return makeRequest(endpoint, "PUT", payload);
+  },
+  httpDelete: endpoint => {
+    return makeRequest(endpoint, "DELETE", null);
+  }
+};
+;// CONCATENATED MODULE: ./src/js/app/config/ApiEndpoint.js
+const ApiEndpoint_ApiEndpoint = {
+  GET_ACTIVE_LANGUAGES: "/wp-json/wpml/v1/active_languages",
+  GET_CATEGORIES: "",
+  GET_MEDIA: "",
+  GET_MENUS: "/wp-json/wp/v2/menus",
+  GET_POSTS: "/wp-json/wp/v2/posts",
+  GET_PAGES: "/wp-json/wp/v2/pages",
+  GET_PROFILES: "/wp-json/wp/v2/profile",
+  GET_TAGS: "",
+  GET_ASSETS_DATA: "/wp-content/themes/makers/data",
+  UPDATE_INSPECTOR_DATA: '/wp-json/myroutes/update_inspecter'
+};
+;// CONCATENATED MODULE: ./src/js/app/config/index.js
+
 
 
 ;// CONCATENATED MODULE: ./src/js/app/components/navbar/Navbar.js
@@ -6326,15 +6456,15 @@ const Navbar = () => {
     menuData,
     lang,
     setLang
-  } = useContext(DataContext);
-  const [showMenu, setShowMenu] = useState(false);
-  const [navbarMenus, setNavbarMenus] = useState([]);
-  const [c2IDs, setC2IDs] = useState([]);
-  const [hoveredIndex, setHoveredIndex] = useState(-1);
-  const [navbarData, setNavbarData] = useState([]);
+  } = (0,react.useContext)(DataContext_DataContext);
+  const [showMenu, setShowMenu] = (0,react.useState)(false);
+  const [navbarMenus, setNavbarMenus] = (0,react.useState)([]);
+  const [c2IDs, setC2IDs] = (0,react.useState)([]);
+  const [hoveredIndex, setHoveredIndex] = (0,react.useState)(-1);
+  const [navbarData, setNavbarData] = (0,react.useState)([]);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
-  useEffect(() => {
+  (0,react.useEffect)(() => {
     settingMenuData();
   }, [menuData, lang]);
   function formatNames(name) {
@@ -6346,8 +6476,9 @@ const Navbar = () => {
     return formattedName;
   }
   function settingMenuData() {
+    var _items;
     let items;
-    menuData.filter(item => {
+    menuData === null || menuData === void 0 ? void 0 : menuData.filter(item => {
       if ((item === null || item === void 0 ? void 0 : item.slug) === "main-menu") {
         items = item === null || item === void 0 ? void 0 : item.items;
       }
@@ -6356,7 +6487,7 @@ const Navbar = () => {
     const parents = {};
     const children = [];
     const grandchildren = [];
-    items.forEach(item => {
+    (_items = items) === null || _items === void 0 ? void 0 : _items.forEach(item => {
       const {
         ID,
         menu_item_parent
@@ -6372,7 +6503,7 @@ const Navbar = () => {
         grandchildren.push(item);
       }
     });
-    children.forEach(child => {
+    children === null || children === void 0 ? void 0 : children.forEach(child => {
       const {
         menu_item_parent
       } = child;
@@ -6380,7 +6511,7 @@ const Navbar = () => {
         parents[menu_item_parent].childItems.push(child);
       }
     });
-    grandchildren.forEach(grandchild => {
+    grandchildren === null || grandchildren === void 0 ? void 0 : grandchildren.forEach(grandchild => {
       const {
         menu_item_parent
       } = grandchild;
@@ -6402,40 +6533,40 @@ const Navbar = () => {
    * This is a functional React component that returns a Navbar.
    */
 
-  return /*#__PURE__*/React.createElement("header", {
+  return /*#__PURE__*/react.createElement("header", {
     className: "App-header"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/react.createElement("div", {
     className: "App-header-left"
-  }, /*#__PURE__*/React.createElement(Link, {
+  }, /*#__PURE__*/react.createElement(dist_Link, {
     className: "",
     to: "/"
-  }, (AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/React.createElement("div", {
+  }, (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/react.createElement("div", {
     className: "App-logo"
-  }, /*#__PURE__*/React.createElement("img", {
-    src: AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO[0],
+  }, /*#__PURE__*/react.createElement("img", {
+    src: AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_CUSTOM_LOGO[0],
     alt: "logo"
-  })), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/react.createElement("div", {
     className: "App-title"
-  }, AppConfig.SITE_TITLE ? /*#__PURE__*/React.createElement("h4", {
+  }, AppConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("h4", {
     className: "title-head"
-  }, " ", AppConfig.SITE_TITLE) : /*#__PURE__*/React.createElement("h4", {
+  }, " ", AppConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("h4", {
     className: "title-head"
-  }, " Site Title ")))), /*#__PURE__*/React.createElement("nav", {
+  }, " Site Title ")))), /*#__PURE__*/react.createElement("nav", {
     className: "navbar"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/react.createElement("div", {
     className: "navbar-right"
   }, navbarData && (navbarData === null || navbarData === void 0 ? void 0 : navbarData.map((currNavBarItem, i) => {
     let title = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.title;
     let titleUrl = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.url;
     let childItems = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.childItems;
-    return /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/react.createElement("div", {
       className: "dropdown",
       key: i
-    }, /*#__PURE__*/React.createElement(NavLink, {
+    }, /*#__PURE__*/react.createElement(NavLink, {
       to: titleUrl
-    }, /*#__PURE__*/React.createElement("button", {
+    }, /*#__PURE__*/react.createElement("button", {
       className: "dropbtn"
-    }, title)), /*#__PURE__*/React.createElement("div", {
+    }, title)), /*#__PURE__*/react.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const {
@@ -6443,24 +6574,24 @@ const Navbar = () => {
         url,
         childItems: nestedChildItems
       } = menu;
-      return /*#__PURE__*/React.createElement(NavLink, {
+      return /*#__PURE__*/react.createElement(NavLink, {
         className: "dropdown__items",
         key: i,
         to: url
-      }, formatNames(title), nestedChildItems && nestedChildItems.length > 0 && /*#__PURE__*/React.createElement("div", {
+      }, formatNames(title), nestedChildItems && nestedChildItems.length > 0 && /*#__PURE__*/react.createElement("div", {
         className: "n2"
-      }, nestedChildItems.map((cur, i) => /*#__PURE__*/React.createElement(NavLink, {
+      }, nestedChildItems.map((cur, i) => /*#__PURE__*/react.createElement(NavLink, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
       }, cur === null || cur === void 0 ? void 0 : cur.title))));
     })));
   })), /* The Language Section of Navbar*/
-  (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 && /*#__PURE__*/React.createElement("div", {
+  (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 && /*#__PURE__*/react.createElement("div", {
     className: "dropdown"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/react.createElement("button", {
     className: "dropbtn"
-  }, " Languages "), /*#__PURE__*/React.createElement("div", {
+  }, " Languages "), /*#__PURE__*/react.createElement("div", {
     className: "dropdown__content"
   }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(currLang => {
     let cLang = currLang.native_name;
@@ -6468,81 +6599,81 @@ const Navbar = () => {
     if (code == "en") {
       code = "";
     }
-    return /*#__PURE__*/React.createElement("span", {
+    return /*#__PURE__*/react.createElement("span", {
       onClick: () => setLang(`${code}`),
       key: code,
       className: "dropdown__items"
     }, cLang);
-  }))), /*#__PURE__*/React.createElement("div", {
+  }))), /*#__PURE__*/react.createElement("div", {
     className: "hamburger"
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/react.createElement("span", {
     className: "hamburger__logo",
     onClick: () => {
       setShowMenu(!showMenu);
     }
-  }, /*#__PURE__*/React.createElement("i", {
+  }, /*#__PURE__*/react.createElement("i", {
     className: "fa-solid fa-bars fa-xl"
-  }))), showMenu === true && /*#__PURE__*/React.createElement("div", {
+  }))), showMenu === true && /*#__PURE__*/react.createElement("div", {
     className: "sideMenu"
   }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map(currNavBarItem => {
     let title = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.title;
     let childItems = currNavBarItem.childItems;
-    return /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/react.createElement("div", {
       className: "dropdown2",
       key: currNavBarItem
-    }, /*#__PURE__*/React.createElement("button", {
+    }, /*#__PURE__*/react.createElement("button", {
       className: "dropbtn"
-    }, title), /*#__PURE__*/React.createElement("div", {
+    }, title), /*#__PURE__*/react.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const {
         title,
         url
       } = menu;
-      return /*#__PURE__*/React.createElement(NavLink, {
+      return /*#__PURE__*/react.createElement(NavLink, {
         className: "dropdown__items",
         key: title,
         to: url
       }, formatNames(title));
     })));
-  }) : /*#__PURE__*/React.createElement(React.Fragment, null), navbarData && navbarData.map((currEle, i) => {
+  }) : /*#__PURE__*/react.createElement(react.Fragment, null), navbarData && navbarData.map((currEle, i) => {
     let {
       head,
       childItems,
       nestedItems
     } = currEle;
-    return /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/react.createElement("div", {
       className: "dropdown2",
       key: i
-    }, /*#__PURE__*/React.createElement("button", {
+    }, /*#__PURE__*/react.createElement("button", {
       className: "dropbtn"
-    }, head === null || head === void 0 ? void 0 : head.title), /*#__PURE__*/React.createElement("div", {
+    }, head === null || head === void 0 ? void 0 : head.title), /*#__PURE__*/react.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/React.createElement(NavLink, {
+      return /*#__PURE__*/react.createElement(NavLink, {
         className: "dropdown__items",
         key: i,
         onMouseEnter: () => setHoveredIndex(i),
         onMouseLeave: () => setHoveredIndex(-1),
         to: menu.url
-      }, formatNames(menu === null || menu === void 0 ? void 0 : menu.title), c && /*#__PURE__*/React.createElement("span", {
+      }, formatNames(menu === null || menu === void 0 ? void 0 : menu.title), c && /*#__PURE__*/react.createElement("span", {
         className: "n2-drop"
-      }, /*#__PURE__*/React.createElement("i", {
+      }, /*#__PURE__*/react.createElement("i", {
         className: "fa-solid fa-circle-chevron-down"
-      })), c && hoveredIndex === i && /*#__PURE__*/React.createElement("div", {
+      })), c && hoveredIndex === i && /*#__PURE__*/react.createElement("div", {
         className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/React.createElement(NavLink, {
+      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(NavLink, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
       }, cur === null || cur === void 0 ? void 0 : cur.title))));
     })));
-  }), (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 && /*#__PURE__*/React.createElement("div", {
+  }), (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 && /*#__PURE__*/react.createElement("div", {
     className: "dropdown2"
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/react.createElement("button", {
     className: "dropbtn"
-  }, " Languages "), /*#__PURE__*/React.createElement("div", {
+  }, " Languages "), /*#__PURE__*/react.createElement("div", {
     className: "dropdown__content"
   }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(currLang => {
     let cLang = currLang.native_name;
@@ -6550,14 +6681,13 @@ const Navbar = () => {
     if (code == "en") {
       code = "";
     }
-    return /*#__PURE__*/React.createElement("span", {
+    return /*#__PURE__*/react.createElement("span", {
       onClick: () => setLang(`${code}`),
       key: code,
       className: "dropdown__items"
     }, cLang);
   })))))));
 };
-/* harmony default export */ const navbar_Navbar = ((/* unused pure expression or super */ null && (Navbar)));
 ;// CONCATENATED MODULE: ./src/js/app/components/sidebar/Sidebar.js
 
 
@@ -6652,10 +6782,6 @@ function Sidebar() {
     onClick: handleResetButtonClick
   }, "Reset"))))));
 }
-/* harmony default export */ const sidebar_Sidebar = (Sidebar);
-;// CONCATENATED MODULE: ./src/js/app/config/AppConfig.js
-const AppConfig_AppConfig = configData;
-
 ;// CONCATENATED MODULE: ./src/js/app/components/footer/Footer.js
 
 
@@ -6725,7 +6851,6 @@ const Footer = () => {
     className: "fa-brands fa-discord fa-xl"
   }))))))));
 };
-/* harmony default export */ const footer_Footer = (Footer);
 ;// CONCATENATED MODULE: ./src/js/app/components/header/Header.js
 
 
@@ -6733,16 +6858,16 @@ const Footer = () => {
 
 
 const Header = () => {
-  const [mainMenus, setMainMenus] = (0,react.useState)([]);
-  const [parentMenus, setParentMenus] = (0,react.useState)([]);
-  const [childMenus, setChildMenus] = (0,react.useState)([]);
+  const [mainMenus, setMainMenus] = useState([]);
+  const [parentMenus, setParentMenus] = useState([]);
+  const [childMenus, setChildMenus] = useState([]);
   const {
     activeLanguages,
     menuData,
     lang,
     setLang
-  } = (0,react.useContext)(utils_DataContext);
-  (0,react.useMemo)(() => {
+  } = useContext(DataContext);
+  useMemo(() => {
     menuData.filter(item => {
       if ((item === null || item === void 0 ? void 0 : item.slug) == "main-menu") {
         setMainMenus(item === null || item === void 0 ? void 0 : item.items);
@@ -6767,12 +6892,12 @@ const Header = () => {
       items
     } = _ref;
     console.log("SubNested Menus Item", items);
-    return items && items.length > 0 && /*#__PURE__*/react.createElement("ul", {
+    return items && items.length > 0 && /*#__PURE__*/React.createElement("ul", {
       className: "dropdown-menu dropdown__content subNested-Menus"
-    }, items.map(childItem => /*#__PURE__*/react.createElement("li", {
+    }, items.map(childItem => /*#__PURE__*/React.createElement("li", {
       key: childItem.ID,
       className: "nav-item"
-    }, /*#__PURE__*/react.createElement(dist_Link, {
+    }, /*#__PURE__*/React.createElement(Link, {
       className: "dropdown-item",
       to: childItem.url
     }, childItem.title))));
@@ -6782,43 +6907,43 @@ const Header = () => {
       items
     } = _ref2;
     console.log("Nested Item", items);
-    return items && items.length > 0 && /*#__PURE__*/react.createElement("ul", {
+    return items && items.length > 0 && /*#__PURE__*/React.createElement("ul", {
       className: "dropdown-menu dropdown__content"
-    }, items.map(childItem => /*#__PURE__*/react.createElement("li", {
+    }, items.map(childItem => /*#__PURE__*/React.createElement("li", {
       key: childItem === null || childItem === void 0 ? void 0 : childItem.ID,
       className: "nav-item"
-    }, /*#__PURE__*/react.createElement(dist_Link, {
+    }, /*#__PURE__*/React.createElement(Link, {
       className: "dropdown-item",
       to: childItem === null || childItem === void 0 ? void 0 : childItem.url
-    }, childItem === null || childItem === void 0 ? void 0 : childItem.title), /*#__PURE__*/react.createElement(NestedMenu, {
+    }, childItem === null || childItem === void 0 ? void 0 : childItem.title), /*#__PURE__*/React.createElement(NestedMenu, {
       items: items.filter(subItem => (subItem === null || subItem === void 0 ? void 0 : subItem.ID) == (childItem === null || childItem === void 0 ? void 0 : childItem.menu_item_parent))
     }))));
   };
-  return /*#__PURE__*/react.createElement("header", {
+  return /*#__PURE__*/React.createElement("header", {
     className: "App-header"
-  }, /*#__PURE__*/react.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "App-header-left"
-  }, /*#__PURE__*/react.createElement(dist_Link, {
+  }, /*#__PURE__*/React.createElement(Link, {
     className: "",
     to: "/"
-  }, (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/react.createElement("div", {
+  }, (AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/React.createElement("div", {
     className: "App-logo"
-  }, /*#__PURE__*/react.createElement("img", {
-    src: AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_CUSTOM_LOGO[0],
+  }, /*#__PURE__*/React.createElement("img", {
+    src: AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO[0],
     alt: "logo"
-  })), /*#__PURE__*/react.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "App-title"
-  }, AppConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("h4", {
+  }, AppConfig.SITE_TITLE ? /*#__PURE__*/React.createElement("h4", {
     className: "title-head"
-  }, " ", AppConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("h4", {
+  }, " ", AppConfig.SITE_TITLE) : /*#__PURE__*/React.createElement("h4", {
     className: "title-head"
-  }, " Site Title ")))), /*#__PURE__*/react.createElement("div", {
+  }, " Site Title ")))), /*#__PURE__*/React.createElement("div", {
     className: "App-header-right  d-flex flex-row-reverse "
-  }, /*#__PURE__*/react.createElement("nav", {
+  }, /*#__PURE__*/React.createElement("nav", {
     className: "navbar navbar-expand-lg navbar-dark  "
-  }, /*#__PURE__*/react.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "container-fluid navbar-container "
-  }, /*#__PURE__*/react.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     className: "navbar-toggler",
     type: "button",
     "data-bs-toggle": "collapse",
@@ -6826,53 +6951,51 @@ const Header = () => {
     "aria-controls": "navbarToggleBtn",
     "aria-expanded": "false",
     "aria-label": "Toggle navigation"
-  }, /*#__PURE__*/react.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "navbar-toggler-icon"
-  })), /*#__PURE__*/react.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "collapse navbar-collapse",
     id: "navbarToggleBtn"
-  }, /*#__PURE__*/react.createElement("ul", {
+  }, /*#__PURE__*/React.createElement("ul", {
     className: "navbar-nav me-auto mb-2 mb-lg-0 "
   }, /* The main dropdown menu items of the Navbar */
 
   mainMenus && mainMenus.length > 0 && mainMenus.map(menuItem => {
     if (menuItem.menu_item_parent === "0") {
-      return /*#__PURE__*/react.createElement("li", {
+      return /*#__PURE__*/React.createElement("li", {
         className: "nav-item dropdown",
         key: menuItem.ID
-      }, /*#__PURE__*/react.createElement(dist_Link, {
+      }, /*#__PURE__*/React.createElement(Link, {
         className: "dropdownbtn nav-link active",
         to: menuItem.url
-      }, menuItem.title), /*#__PURE__*/react.createElement(NestedMenu, {
+      }, menuItem.title), /*#__PURE__*/React.createElement(NestedMenu, {
         items: mainMenus.filter(childItem => childItem.menu_item_parent == menuItem.ID)
       }));
     }
     return null; // Ignore items that are not top-level
   }), /* The activeLanguages items of the Navbar */
-  activeLanguages && /*#__PURE__*/react.createElement("li", {
+  activeLanguages && /*#__PURE__*/React.createElement("li", {
     className: "nav-item dropdown"
-  }, /*#__PURE__*/react.createElement(dist_Link, {
+  }, /*#__PURE__*/React.createElement(Link, {
     className: "dropdownbtn nav-link active",
     to: "#"
-  }, "Languages"), /*#__PURE__*/react.createElement("ul", {
+  }, "Languages"), /*#__PURE__*/React.createElement("ul", {
     className: "dropdown-menu dropdown__content"
   }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map((item, index) => {
     let code = item === null || item === void 0 ? void 0 : item.code;
     if (code == "en") {
       code = "";
     }
-    return /*#__PURE__*/react.createElement("li", {
+    return /*#__PURE__*/React.createElement("li", {
       className: "nav-item",
       key: index
-    }, /*#__PURE__*/react.createElement("span", {
+    }, /*#__PURE__*/React.createElement("span", {
       className: "dropdown-item",
       onClick: () => setLang(`${code}`)
     }, item === null || item === void 0 ? void 0 : item.native_name));
   })))))))));
 };
-/* harmony default export */ const header_Header = (Header);
 ;// CONCATENATED MODULE: ./src/js/app/components/index.js
-
 
 
 
@@ -6885,99 +7008,7 @@ const Home = () => {
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("main", null, /*#__PURE__*/react.createElement(Outlet, null)));
 };
 /* harmony default export */ const views_Home = (Home);
-;// CONCATENATED MODULE: ./src/js/app/config/ApiEndpoint.js
-const ApiEndpoint = {
-  GET_ACTIVE_LANGUAGES: "/wp-json/wpml/v1/active_languages",
-  GET_CATEGORIES: "",
-  GET_MEDIA: "",
-  GET_MENUS: "/wp-json/wp/v2/menus?menus",
-  GET_POSTS: "/wp-json/wp/v2/posts",
-  GET_PAGES: "/wp-json/wp/v2/pages",
-  GET_PROFILES: "/wp-json/wp/v2/profile",
-  GET_TAGS: "",
-  GET_ASSETS_DATA: "/wp-content/themes/makers/data"
-};
-;// CONCATENATED MODULE: ./src/js/app/config/ApiConfig.js
-
-const HttpRequest = () => {
-  const baseUrl = AppConfig_AppConfig.SITE_URL;
-  const timeout = 10000; // Set a timeout for HTTP requests (e.g., 10 seconds)
-  const headers = {
-    "Content-Type": "application/json"
-    // 'Content-Type': 'application/x-www-form-urlencoded',
-  };
-
-  const makeRequest = async (endpoint, method, payload) => {
-    console.log(`http request data \n endpoint: ${endpoint} \n method: ${method} \n payload: ${payload}`);
-    const url = `${baseUrl}${endpoint}`;
-    const options = {
-      method,
-      // GET, POST, PUT, DELETE, etc.
-      mode: "cors",
-      // no-cors, *cors, same-origin
-      cache: "no-cache",
-      // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin",
-      // include, *same-origin, omit
-      headers: {
-        ...headers
-      },
-      redirect: "follow",
-      // manual, *follow, error
-      referrerPolicy: "no-referrer" // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    };
-
-    if (method !== "GET") {
-      options.body = JSON.stringify(payload); // body data type must match "Content-Type" header
-    }
-
-    console.log("options Data", options);
-    try {
-      return await fetch(url, options).then(response => {
-        console.log("Getting API RESPONSE....", response);
-        if (response !== null && response !== void 0 && response.ok) {
-          return response.json();
-        } else {
-          console.error(`HTTP error! Status: ${response.status}`);
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-      }).then(result => {
-        console.log("Getting API RESULT....", result);
-        return result;
-      }).catch(error => {
-        console.error("Error While Getting API RESPONSE & RESULT...", error);
-        throw new Error(`HTTP Error While Getting API RESPONSE & RESULT... ${error}`);
-      }).finally(result => {
-        console.log("Final http result", result);
-        return result;
-      });
-    } catch (error) {
-      console.log("Exception occured while making a http request.!", error);
-      return error;
-    }
-  };
-  const httpGet = async endpoint => {
-    return makeRequest(endpoint, "GET", null);
-  };
-  const httpPost = async (endpoint, payload) => {
-    return makeRequest(endpoint, "POST", payload);
-  };
-  const httpPut = async (endpoint, payload) => {
-    return makeRequest(endpoint, "PUT", payload);
-  };
-  const httpDelete = async endpoint => {
-    return makeRequest(endpoint, "DELETE", null);
-  };
-  return {
-    httpGet,
-    httpPost,
-    httpPut,
-    httpDelete
-  };
-};
 ;// CONCATENATED MODULE: ./src/js/app/views/body/Body.js
-
-
 
 
 
@@ -6988,58 +7019,54 @@ const HttpRequest = () => {
 const Body = () => {
   var _data$properties_3D, _data$title, _data$post_media, _data$post_media$_thu, _data$post_media2, _data$post_media2$_th, _data$post_media3, _data$post_media3$_th, _data$content;
   const base_url = AppConfig_AppConfig.SITE_URL;
-  const httpRequest = HttpRequest(); // Create an instance of the HttpRequest module
   const {
     slug_name
   } = useParams();
   const {
     lang,
     menuData
-  } = (0,react.useContext)(utils_DataContext);
-  const [loading, setLoading] = (0,react.useState)(true);
+  } = (0,react.useContext)(DataContext_DataContext);
+  const [loading, setLoading] = (0,react.useState)(false);
   const [data, setData] = (0,react.useState)();
   const curl = slug_name !== undefined && "/" + slug_name + "/";
   (0,react.useEffect)(() => {
     getPagesData();
   }, [lang, menuData, slug_name]);
   const getPagesData = async () => {
-    const url = `/${lang}${ApiEndpoint.GET_PAGES}?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
-    try {
-      setLoading(true);
-      httpRequest.httpGet(url).then(result => {
-        console.log("GET_PAGES Api Result...", result);
-        result === null || result === void 0 ? void 0 : result.map(pageData => {
-          if ((pageData === null || pageData === void 0 ? void 0 : pageData.id) == (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_FRONT_PAGE)) {
+    setLoading(true);
+    const url = `/${lang}${ApiEndpoint_ApiEndpoint.GET_PAGES}?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
+    ApiConfig_HttpRequest.httpGet(url).then(result => {
+      result === null || result === void 0 ? void 0 : result.map(pageData => {
+        if ((pageData === null || pageData === void 0 ? void 0 : pageData.id) == (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_FRONT_PAGE)) {
+          setData(pageData);
+        } else {
+          if ((pageData === null || pageData === void 0 ? void 0 : pageData.slug) === slug_name) {
+            // console.log(
+            //   "menuItem with page",
+            //   pageData?.slug,
+            //   slug_name,
+            //   curl
+            // );
             setData(pageData);
           } else {
-            if ((pageData === null || pageData === void 0 ? void 0 : pageData.slug) === slug_name) {
-              // console.log(
-              //   "menuItem with page",
-              //   pageData?.slug,
-              //   slug_name,
-              //   curl
-              // );
-              setData(pageData);
-            } else {
-              // console.log("menuItem without page", pageData, curl);
-            }
+            // console.log("menuItem without page", pageData, curl);
           }
-        });
-      }).catch(error => {
-        console.log("Error when getting PAGES data", error);
-      }).finally(result => {
-        console.log("finaly response", result);
-        setLoading(false);
+        }
       });
-    } catch (error) {
-      console.log("Exception comming while getPagesData", error);
-    }
+    }).catch(error => {
+      console.log("Error when getting PAGES data", error);
+    }).finally(() => {
+      console.log("GET_PAGES finaly response");
+      setLoading(false);
+    });
   };
-  return /*#__PURE__*/react.createElement(react.Fragment, null, loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement(react.Fragment, null, data ? /*#__PURE__*/react.createElement("div", {
+  return /*#__PURE__*/react.createElement(react.Fragment, null, loading ? /*#__PURE__*/react.createElement(AppLoader, null) : /*#__PURE__*/react.createElement(react.Fragment, null, data ? /*#__PURE__*/react.createElement("div", {
     className: "content"
   }, data !== null && data !== void 0 && (_data$properties_3D = data.properties_3D) !== null && _data$properties_3D !== void 0 && _data$properties_3D.use_aframe ? /*#__PURE__*/react.createElement(aframe_AFrame, {
     aFrameData: data
-  }) : /*#__PURE__*/react.createElement("div", {
+  })
+  // <AFrameOld aFrameData={data} />
+  : /*#__PURE__*/react.createElement("div", {
     className: "container"
   }, /*#__PURE__*/react.createElement("h1", null, data === null || data === void 0 ? void 0 : (_data$title = data.title) === null || _data$title === void 0 ? void 0 : _data$title.rendered), (data === null || data === void 0 ? void 0 : (_data$post_media = data.post_media) === null || _data$post_media === void 0 ? void 0 : (_data$post_media$_thu = _data$post_media._thumbnail_id[0]) === null || _data$post_media$_thu === void 0 ? void 0 : _data$post_media$_thu.full_path) && /*#__PURE__*/react.createElement("div", {
     className: "featured-image"
@@ -7061,54 +7088,46 @@ const Body = () => {
 
 
 
-
-
 const Profile = () => {
   var _data$title, _data$post_media, _data$post_media$_thu, _data$post_media2, _data$post_media2$_th, _data$post_media3, _data$post_media3$_th, _data$content;
   const base_url = AppConfig_AppConfig.SITE_URL;
-  const httpRequest = HttpRequest(); // Create an instance of the HttpRequest module
   const {
     slug_name
   } = useParams();
   const {
     lang,
     menuData
-  } = (0,react.useContext)(utils_DataContext);
-  const [loading, setLoading] = (0,react.useState)(true);
+  } = (0,react.useContext)(DataContext_DataContext);
+  const [loading, setLoading] = (0,react.useState)(false);
   const [data, setData] = (0,react.useState)();
   const curl = slug_name !== undefined && "/profile/" + slug_name + "/";
   (0,react.useEffect)(() => {
     getProfilesData();
   }, [lang, menuData, slug_name]);
   const getProfilesData = async () => {
-    const url = `/${lang}${ApiEndpoint.GET_PROFILES}?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
-    try {
-      setLoading(true);
-      httpRequest.httpGet(url).then(result => {
-        result.map(profileData => {
-          if ((profileData === null || profileData === void 0 ? void 0 : profileData.id) == (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_FRONT_PAGE)) {
+    setLoading(true);
+    const url = `/${lang}${ApiEndpoint_ApiEndpoint.GET_PROFILES}?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
+    ApiConfig_HttpRequest.httpGet(url).then(result => {
+      result.map(profileData => {
+        if ((profileData === null || profileData === void 0 ? void 0 : profileData.id) == (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_FRONT_PAGE)) {
+          setData(profileData);
+        } else {
+          if ((profileData === null || profileData === void 0 ? void 0 : profileData.slug) === slug_name) {
+            console.log("menuItem with page", profileData === null || profileData === void 0 ? void 0 : profileData.slug, slug_name, curl);
             setData(profileData);
           } else {
-            if ((profileData === null || profileData === void 0 ? void 0 : profileData.slug) === slug_name) {
-              console.log("menuItem with page", profileData === null || profileData === void 0 ? void 0 : profileData.slug, slug_name, curl);
-              setData(profileData);
-            } else {
-              setLoading(false);
-              // console.log("menuItem without page", profileData, curl);
-            }
+            // console.log("menuItem without page", profileData, curl);
           }
-        });
-      }).catch(error => {
-        console.log("Error when getting body data", error);
-      }).finally(result => {
-        console.log("finaly response", result);
-        setLoading(false);
+        }
       });
-    } catch (error) {
-      console.log("Exception comming while getProfilesData", error);
-    }
+    }).catch(error => {
+      console.log("Error when getting body data", error);
+    }).finally(() => {
+      console.log("GET_PROFILES finaly response");
+      setLoading(false);
+    });
   };
-  return /*#__PURE__*/react.createElement(react.Fragment, null, loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement(react.Fragment, null, data ? /*#__PURE__*/react.createElement("div", {
+  return /*#__PURE__*/react.createElement(react.Fragment, null, loading ? /*#__PURE__*/react.createElement(AppLoader, null) : /*#__PURE__*/react.createElement(react.Fragment, null, data ? /*#__PURE__*/react.createElement("div", {
     className: "profile"
   }, /*#__PURE__*/react.createElement("div", null, /*#__PURE__*/react.createElement("h1", {
     className: "profile-text"
@@ -7141,18 +7160,20 @@ function extends_extends() {
   };
   return extends_extends.apply(this, arguments);
 }
-;// CONCATENATED MODULE: ./src/js/app/views/404/NotFound.js
+;// CONCATENATED MODULE: ./src/js/app/constants/AppFonts.js
 
-const NotFound = () => {
-  return /*#__PURE__*/react.createElement("div", {
-    className: "container"
-  }, /*#__PURE__*/react.createElement("h1", {
-    className: "h1 text-center"
-  }, "Oops!"), /*#__PURE__*/react.createElement("h3", {
-    className: "h3 text-center"
-  }, "Data not Found..."));
+const THEME_DIR_URL = AppConfig_AppConfig.THEME_DIR_URL;
+const FONT_DIR_URL = `${THEME_DIR_URL}/src/js/app`;
+const AppFonts_AppFonts = {
+  NotoSans_Medium: `${FONT_DIR_URL}/assets/fonts/NotoSans-Medium.ttf`,
+  NotoSansSC_Medium: `${FONT_DIR_URL}/assets/fonts/NotoSansSC-Medium.otf`
 };
-/* harmony default export */ const _404_NotFound = (NotFound);
+;// CONCATENATED MODULE: ./src/js/app/constants/AppImagesPath.js
+const SVG = {};
+const Image = {};
+;// CONCATENATED MODULE: ./src/js/app/constants/index.js
+
+
 ;// CONCATENATED MODULE: ./src/js/app/views/aframe/AFrame.js
 
 
@@ -7160,91 +7181,83 @@ const NotFound = () => {
 
 
 
-
-
 const AFrame = props => {
-  var _aFrameData$propertie, _aFrameData$propertie2, _aFrameData$propertie3, _aFrameData$propertie4, _aFrameData$propertie5, _aFrameData$propertie6, _aFrameData$post_medi, _aFrameData$post_medi2, _aFrameData$propertie7, _aFrameData$propertie8, _aFrameData$post_medi3, _aFrameData$post_medi4;
+  var _aFrameData$propertie, _aFrameData$propertie2, _aFrameData$propertie3, _aFrameData$propertie4, _aFrameData$propertie5, _aFrameData$propertie6, _aFrameData$propertie7, _aFrameData$propertie8, _aFrameData$propertie9, _aFrameData$propertie10, _aFrameData$propertie11, _aFrameData$propertie12, _aFrameData$propertie13, _aFrameData$post_medi, _aFrameData$post_medi2, _aFrameData$post_medi3, _aFrameData$post_medi4, _aFrameData$propertie14, _aFrameData$excerpt, _aFrameData$propertie15, _aFrameData$propertie16, _aFrameData$propertie17, _aFrameData$post_medi5, _aFrameData$post_medi6, _aFrameData$post_medi7, _aFrameData$propertie18, _aFrameData$propertie19;
   const base_url = AppConfig_AppConfig.SITE_URL;
-  const upload_dir = `${base_url}/wp-content/uploads/`;
-  const httpRequest = HttpRequest(); // Create an instance of the HttpRequest module
+  const upload_dir = AppConfig_AppConfig.UPLOAD_DIR_URL["baseurl"];
   const aFrameData = props === null || props === void 0 ? void 0 : props.aFrameData;
   const PAGE_SLUG = aFrameData === null || aFrameData === void 0 ? void 0 : aFrameData.slug;
-  // const { activeLanguages } = useContext(DataContext); // For all languages supported
-  const [loading, setLoading] = (0,react.useState)(true); // For asset loading
-  // const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
-  // const langRef = useRef(null); // Current language state
-  // const prev_langRef = useRef(null); // Previous language state
-  // let data = useRef([{}]); // Data from inspector
+  const {
+    activeLanguages
+  } = (0,react.useContext)(DataContext_DataContext); // For all languages supported
+  const [loading, setLoading] = (0,react.useState)(false); // For asset loading
   const [assetsData, setAssetsData] = (0,react.useState)([]);
-
-  // langRef.current = aFrameData?.languages?.default;
-  // prev_langRef.current = aFrameData?.languages?.default;
-
   (0,react.useEffect)(() => {
     console.log("AFrame Data....", aFrameData);
-    setTimeout(() => {
-      getAssetsData();
-    }, 5000);
+    getAssetsData();
   }, []);
   const getAssetsData = () => {
-    const url = `/${ApiEndpoint.GET_ASSETS_DATA}/${PAGE_SLUG}.json`;
-    try {
-      setLoading(true);
-      httpRequest.httpGet(url).then(result => {
-        console.log("GET_ASSETS_DATA Api Result...", result);
-        setAssetsData(result === null || result === void 0 ? void 0 : result.data);
-      }).catch(error => {
-        console.log("Error when getting Assets data", error);
-      }).finally(result => {
-        console.log("finaly response", result);
-        setLoading(false);
-      });
-    } catch (error) {
-      console.log("Exception comming while getAssetsData", error);
-    }
+    setLoading(true);
+    const url = `/${ApiEndpoint_ApiEndpoint.GET_ASSETS_DATA}/${PAGE_SLUG}.json`;
+    ApiConfig_HttpRequest.httpGet(url).then(result => {
+      setAssetsData(result);
+    }).catch(error => {
+      console.log("Error when getting Assets data", error);
+    }).finally(() => {
+      console.log("GET_ASSETS_DATA finaly response");
+      setLoading(false);
+    });
   };
   return /*#__PURE__*/react.createElement("div", {
     style: {
       height: "100vh",
       width: "100%"
     }
-  }, aFrameData ? /*#__PURE__*/react.createElement("a-scene", {
+  }, /*#__PURE__*/react.createElement("a-scene", {
     embedded: true,
-    environment: "preset: forest; ground: canyon; groundTexture: checkerboard; groundColor: #445; grid: cross;",
-    "loading-screen": "enabled: true;dotsColor: red; backgroundColor: black",
+    environment: "preset: forest; ground: canyon;groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017; grid: cross;",
+    "loading-screen": "enabled: true;dotsColor: #FF3D00; backgroundColor: #252544",
     "device-orientation-permission-ui": "enabled: false",
-    "vr-mode-ui": "enabled: true",
-    webxr: "requiredFeatures: hit-test,local-floor;\r optionalFeatures: dom-overlay,unbounded;\r overlayElement: #overlay;",
+    "vr-mode-ui": "enabled: false"
+    // webxr="requiredFeatures: hit-test,local-floor;
+    //         optionalFeatures: dom-overlay,unbounded;
+    //         overlayElement: #overlay;"
+    ,
     cursor: "rayOrigin: mouse; fuse: false",
     raycaster: "objects: .raycastable"
   }, /*#__PURE__*/react.createElement("a-assets", {
     timeout: "5000"
-  }, /*#__PURE__*/react.createElement("a-asset-item", {
+  }, (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie = aFrameData.properties_3D) === null || _aFrameData$propertie === void 0 ? void 0 : _aFrameData$propertie.world_model) && /*#__PURE__*/react.createElement("a-asset-item", {
     id: "world_model",
-    src: upload_dir + (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie = aFrameData.properties_3D) === null || _aFrameData$propertie === void 0 ? void 0 : (_aFrameData$propertie2 = _aFrameData$propertie.world_model) === null || _aFrameData$propertie2 === void 0 ? void 0 : _aFrameData$propertie2.src),
+    src: aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie2 = aFrameData.properties_3D) === null || _aFrameData$propertie2 === void 0 ? void 0 : (_aFrameData$propertie3 = _aFrameData$propertie2.world_model) === null || _aFrameData$propertie3 === void 0 ? void 0 : _aFrameData$propertie3.src,
     crossOrigin: "anonymous"
-  }), /*#__PURE__*/react.createElement("a-asset-item", {
+  }), ((_aFrameData$propertie4 = aFrameData.properties_3D) === null || _aFrameData$propertie4 === void 0 ? void 0 : _aFrameData$propertie4.nav_mesh) && /*#__PURE__*/react.createElement("a-asset-item", {
     id: "nav_mesh",
-    src: upload_dir + ((_aFrameData$propertie3 = aFrameData.properties_3D) === null || _aFrameData$propertie3 === void 0 ? void 0 : (_aFrameData$propertie4 = _aFrameData$propertie3.nav_mesh) === null || _aFrameData$propertie4 === void 0 ? void 0 : _aFrameData$propertie4.src),
+    src: (_aFrameData$propertie5 = aFrameData.properties_3D) === null || _aFrameData$propertie5 === void 0 ? void 0 : (_aFrameData$propertie6 = _aFrameData$propertie5.nav_mesh) === null || _aFrameData$propertie6 === void 0 ? void 0 : _aFrameData$propertie6.src,
     crossOrigin: "anonymous"
-  }), aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie5 = aFrameData.properties_3D) === null || _aFrameData$propertie5 === void 0 ? void 0 : (_aFrameData$propertie6 = _aFrameData$propertie5.furniture) === null || _aFrameData$propertie6 === void 0 ? void 0 : _aFrameData$propertie6.map(furniture => {
+  }), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie7 = aFrameData.properties_3D) === null || _aFrameData$propertie7 === void 0 ? void 0 : _aFrameData$propertie7.skybox) && /*#__PURE__*/react.createElement("a-asset-item", {
+    id: "skybox",
+    src: aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie8 = aFrameData.properties_3D) === null || _aFrameData$propertie8 === void 0 ? void 0 : (_aFrameData$propertie9 = _aFrameData$propertie8.skybox) === null || _aFrameData$propertie9 === void 0 ? void 0 : _aFrameData$propertie9.src,
+    crossOrigin: "anonymous"
+  }), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie10 = aFrameData.properties_3D) === null || _aFrameData$propertie10 === void 0 ? void 0 : (_aFrameData$propertie11 = _aFrameData$propertie10.furniture) === null || _aFrameData$propertie11 === void 0 ? void 0 : _aFrameData$propertie11.length) > 0 && (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie12 = aFrameData.properties_3D) === null || _aFrameData$propertie12 === void 0 ? void 0 : (_aFrameData$propertie13 = _aFrameData$propertie12.furniture) === null || _aFrameData$propertie13 === void 0 ? void 0 : _aFrameData$propertie13.map(furniture => {
     return /*#__PURE__*/react.createElement("a-asset-item", {
       key: furniture === null || furniture === void 0 ? void 0 : furniture.id,
-      id: furniture === null || furniture === void 0 ? void 0 : furniture.id,
+      id: furniture === null || furniture === void 0 ? void 0 : furniture.slug,
       src: base_url + (furniture === null || furniture === void 0 ? void 0 : furniture.full_path),
       crossOrigin: "anonymous"
     });
-  }), aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi = aFrameData.post_media) === null || _aFrameData$post_medi === void 0 ? void 0 : (_aFrameData$post_medi2 = _aFrameData$post_medi.screen_image) === null || _aFrameData$post_medi2 === void 0 ? void 0 : _aFrameData$post_medi2.map(scientist => {
+  })), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi = aFrameData.post_media) === null || _aFrameData$post_medi === void 0 ? void 0 : (_aFrameData$post_medi2 = _aFrameData$post_medi.screen_image) === null || _aFrameData$post_medi2 === void 0 ? void 0 : _aFrameData$post_medi2.length) > 0 && (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi3 = aFrameData.post_media) === null || _aFrameData$post_medi3 === void 0 ? void 0 : (_aFrameData$post_medi4 = _aFrameData$post_medi3.screen_image) === null || _aFrameData$post_medi4 === void 0 ? void 0 : _aFrameData$post_medi4.map(scientist => {
     return /*#__PURE__*/react.createElement("img", {
       key: scientist === null || scientist === void 0 ? void 0 : scientist.id,
-      id: scientist === null || scientist === void 0 ? void 0 : scientist.id,
+      id: scientist === null || scientist === void 0 ? void 0 : scientist.slug,
       src: base_url + (scientist === null || scientist === void 0 ? void 0 : scientist.full_path),
       alt: scientist === null || scientist === void 0 ? void 0 : scientist.alt,
       crossOrigin: "anonymous"
     });
-  })), /*#__PURE__*/react.createElement("a-entity", {
-    id: "cameraRig",
-    position: "25 10 0",
+  }))), /*#__PURE__*/react.createElement("a-entity", {
+    id: "cameraRig"
+    // position="25 10 0"
+    ,
     "rotation-reader": true,
     "thumbstick-logging": true,
     "movement-controls": "constrainToNavMesh: true; speed:1; controls: checkpoint, gamepad, trackpad, keyboard, touch, nipple;",
@@ -7255,31 +7268,33 @@ const AFrame = props => {
     camera: "active: true",
     position: "0 1.6 0",
     rotation: "-4.469070802020421 -84.91234523838803 0",
-    "look-controls": "pointerLockEnabled: true",
-    "wasd-controls": "acceleration: 100",
-    raycaster: "far: 5; objects: .clickable"
+    "look-controls": "fly:true"
+    // wasd-controls="acceleration: 100"
+    ,
+    raycaster: "far: 5; objects: .clickable",
+    "super-hands": "colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
   }, /*#__PURE__*/react.createElement("a-entity", {
     id: "cursor",
     animation__click: "property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1",
     animation__fusing: "property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1",
-    animation__mouseleave: "property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
-    // cursor="fuse: true; fuseTimeout: 500"
-    ,
-    position: "0 0 -1",
-    geometry: "primitive: ring; radiusInner: 0.02; radiusOuter: 0.03",
+    animation__mouseleave: "property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1",
+    cursor: "rayOrigin:mouse",
+    position: "0 0 -0.2",
+    geometry: "primitive: ring; radiusInner: 0.002; radiusOuter: 0.003",
     material: "color: black; shader: flat",
-    raycaster: "far: 5; objects: .clickable"
+    raycaster: "far: 5; objects: .clickable",
+    visible: "false"
   })), /*#__PURE__*/react.createElement("a-entity", {
     id: "controls"
   }, /*#__PURE__*/react.createElement("a-entity", {
     id: "leftHand",
-    "hand-controls": "hand: left; handModelStyle: lowPoly; color: #ffcccc",
+    "hand-controls": "hand: left; handModelStyle: highPoly; color: #ffcccc",
     raycaster: "far: 5; objects: .clickable"
     // teleport-controls="cameraRig: #cameraRig; teleportOrigin: #camera;"
   }), /*#__PURE__*/react.createElement("a-entity", {
     id: "rightHand",
     raycaster: "far: 5; objects: .clickable",
-    "hand-controls": "hand: right; handModelStyle: lowPoly; color: #ffcccc"
+    "hand-controls": "hand: right; handModelStyle: highPoly; color: #ffcccc"
     // teleport-controls="cameraRig: #cameraRig; teleportOrigin: #camera;"
   }), /*#__PURE__*/react.createElement("a-entity", {
     id: "laser-controls-left-hand",
@@ -7292,17 +7307,34 @@ const AFrame = props => {
     raycaster: "objects: .clickable",
     cursor: "rayOrigin: mouse"
   }), /*#__PURE__*/react.createElement("a-entity", {
+    id: "gearvr-controls-left-hand",
+    "gearvr-controls": "hand: left"
+  }), /*#__PURE__*/react.createElement("a-entity", {
+    id: "gearvr-controls-left-hand",
+    "gearvr-controls": "hand: right"
+  }), /*#__PURE__*/react.createElement("a-entity", {
+    id: "magicleap-controls-left-hand",
+    "magicleap-controls": "hand: left"
+  }), /*#__PURE__*/react.createElement("a-entity", {
+    id: "magicleap-controls-right-hand",
+    "magicleap-controls": "hand: right"
+  }), /*#__PURE__*/react.createElement("a-entity", {
     id: "oculus-go-controls-left-hand",
     "oculus-go-controls": "hand: left"
   }), /*#__PURE__*/react.createElement("a-entity", {
     id: "oculus-go-controls-right-hand",
     "oculus-go-controls": "hand: right"
   }), /*#__PURE__*/react.createElement("a-entity", {
+    mixin: "hand",
     id: "oculus-touch-controls-left-hand",
-    "oculus-touch-controls": "hand: left"
+    "oculus-touch-controls": "hand: left",
+    "hand-controls": "hand: left; handModelStyle: highPoly; color: #0055ff"
   }), /*#__PURE__*/react.createElement("a-entity", {
+    mixin: "hand",
     id: "oculus-touch-controls-right-hand",
-    "oculus-touch-controls": "hand: right"
+    "oculus-touch-controls": "hand: right",
+    "hand-controls": "hand: right; handModelStyle: highPoly; color: #0055ff",
+    "blink-controls": "cameraRig: #cameraRig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
   }), /*#__PURE__*/react.createElement("a-entity", {
     id: "vive-controls-left-hand",
     "vive-controls": "hand: left"
@@ -7321,69 +7353,7 @@ const AFrame = props => {
   }), /*#__PURE__*/react.createElement("a-entity", {
     id: "windows-motion-controls-right-hand",
     "windows-motion-controls": "hand: right"
-  }))), !loading && /*#__PURE__*/react.createElement("a-entity", {
-    id: "meta-world",
-    position: "0 0 0",
-    scale: "1.0, 1.0, 1.0"
-  }, /*#__PURE__*/react.createElement("a-entity", {
-    id: "world_model",
-    "gltf-model": "#world_model",
-    position: "4.537 0 3.468"
-  }, aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie7 = aFrameData.properties_3D) === null || _aFrameData$propertie7 === void 0 ? void 0 : (_aFrameData$propertie8 = _aFrameData$propertie7.furniture) === null || _aFrameData$propertie8 === void 0 ? void 0 : _aFrameData$propertie8.map(furniture => {
-    let Obj_id = furniture === null || furniture === void 0 ? void 0 : furniture.slug;
-    let Data_from_Inspector = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
-    if (!Data_from_Inspector) {
-      Data_from_Inspector = {
-        position: "0 1.6 0"
-      };
-    }
-    return /*#__PURE__*/react.createElement("a-entity", extends_extends({
-      key: furniture === null || furniture === void 0 ? void 0 : furniture.id,
-      id: furniture === null || furniture === void 0 ? void 0 : furniture.slug,
-      "gltf-model": "#" + (furniture === null || furniture === void 0 ? void 0 : furniture.id)
-    }, Data_from_Inspector));
-  }), aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi3 = aFrameData.post_media) === null || _aFrameData$post_medi3 === void 0 ? void 0 : (_aFrameData$post_medi4 = _aFrameData$post_medi3.screen_image) === null || _aFrameData$post_medi4 === void 0 ? void 0 : _aFrameData$post_medi4.map(scientist => {
-    var Obj_id = scientist === null || scientist === void 0 ? void 0 : scientist.slug;
-    var Data_from_Inspector = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
-    var desc_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "desc_wrapper");
-    var cap_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "caption_wrapper");
-    var name_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "name_wrapper");
-    var img_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "image_wrapper");
-    if (!Data_from_Inspector) {
-      Data_from_Inspector = {
-        position: "0 1.6 0"
-      };
-    }
-    return /*#__PURE__*/react.createElement("a-entity", extends_extends({
-      id: scientist === null || scientist === void 0 ? void 0 : scientist.slug,
-      type: "wrapper",
-      key: scientist === null || scientist === void 0 ? void 0 : scientist.id
-    }, Data_from_Inspector), /*#__PURE__*/react.createElement("a-image", extends_extends({
-      src: "#" + (scientist === null || scientist === void 0 ? void 0 : scientist.id)
-    }, img_format, {
-      type: "wrapper",
-      class: "image_wrapper"
-    })));
-  })), /*#__PURE__*/react.createElement("a-entity", {
-    "nav-mesh": true,
-    id: "nav_mesh",
-    "gltf-model": "#nav_mesh",
-    visible: "false",
-    position: "4.762 0 3.739"
-  })), /*#__PURE__*/react.createElement("a-sky", {
-    id: "skybox",
-    color: "#6EBAA7",
-    src: "#" + Object.keys(aFrameData === null || aFrameData === void 0 ? void 0 : aFrameData.properties_3D).find(key => key == "skybox")
-  }), /*#__PURE__*/react.createElement("a-plane", {
-    "static-body": "shape:  mesh",
-    position: "0 0 -4",
-    visible: "false",
-    rotation: "-90 0 0",
-    width: "4",
-    height: "4",
-    color: "#7BC8A4",
-    scale: "6 2 2"
-  }), /*#__PURE__*/react.createElement("a-light", {
+  }))), /*#__PURE__*/react.createElement("a-light", {
     id: "bulb-1",
     type: "directional",
     color: "#35227A",
@@ -7415,12 +7385,631 @@ const AFrame = props => {
     position: "-0.21291 -0.99888 0.00254",
     light: "type: hemisphere; color: #ffffff; angle: 90",
     rotation: "-0.3 50.509 147.30229250797848"
-  })) : /*#__PURE__*/react.createElement(_404_NotFound, null));
+  }), !loading && /*#__PURE__*/react.createElement(react.Fragment, null, (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie14 = aFrameData.properties_3D) === null || _aFrameData$propertie14 === void 0 ? void 0 : _aFrameData$propertie14.world_model) && /*#__PURE__*/react.createElement("a-entity", {
+    id: "world_model",
+    "gltf-model": "#world_model",
+    position: "4.537 0 3.468"
+  }), (aFrameData === null || aFrameData === void 0 ? void 0 : aFrameData.excerpt) && /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+    id: "Excerpt",
+    value: HtmlToText_HtmlToText(aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$excerpt = aFrameData.excerpt) === null || _aFrameData$excerpt === void 0 ? void 0 : _aFrameData$excerpt.rendered),
+    position: (assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) != "Excerpt")) && "0 1.6 0"
+  }, assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == "Excerpt"))), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie15 = aFrameData.properties_3D) === null || _aFrameData$propertie15 === void 0 ? void 0 : _aFrameData$propertie15.furniture) && (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie16 = aFrameData.properties_3D) === null || _aFrameData$propertie16 === void 0 ? void 0 : (_aFrameData$propertie17 = _aFrameData$propertie16.furniture) === null || _aFrameData$propertie17 === void 0 ? void 0 : _aFrameData$propertie17.map(furniture => {
+    let Obj_id = furniture === null || furniture === void 0 ? void 0 : furniture.slug;
+    let Data_from_Inspector = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
+    if (!Data_from_Inspector) {
+      Data_from_Inspector = {
+        position: "0 1.6 0"
+      };
+    }
+    return /*#__PURE__*/react.createElement("a-entity", extends_extends({
+      key: furniture === null || furniture === void 0 ? void 0 : furniture.id,
+      id: furniture === null || furniture === void 0 ? void 0 : furniture.slug,
+      "gltf-model": "#" + (furniture === null || furniture === void 0 ? void 0 : furniture.slug)
+    }, Data_from_Inspector));
+  })), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi5 = aFrameData.post_media) === null || _aFrameData$post_medi5 === void 0 ? void 0 : _aFrameData$post_medi5.screen_image) && (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi6 = aFrameData.post_media) === null || _aFrameData$post_medi6 === void 0 ? void 0 : (_aFrameData$post_medi7 = _aFrameData$post_medi6.screen_image) === null || _aFrameData$post_medi7 === void 0 ? void 0 : _aFrameData$post_medi7.map(scientist => {
+    var Obj_id = scientist === null || scientist === void 0 ? void 0 : scientist.slug;
+    var Data_from_Inspector = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
+    var desc_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "desc_wrapper");
+    var cap_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "caption_wrapper");
+    var name_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "name_wrapper");
+    var img_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "image_wrapper");
+    if (!Data_from_Inspector) {
+      Data_from_Inspector = {
+        position: "0 1.6 0"
+      };
+    }
+    return /*#__PURE__*/react.createElement("a-entity", extends_extends({
+      key: scientist === null || scientist === void 0 ? void 0 : scientist.id,
+      id: scientist === null || scientist === void 0 ? void 0 : scientist.slug,
+      type: "wrapper"
+    }, Data_from_Inspector, {
+      "show-details-on-click": ""
+    }), /*#__PURE__*/react.createElement("a-image", extends_extends({
+      src: "#" + (scientist === null || scientist === void 0 ? void 0 : scientist.slug),
+      type: "wrapper",
+      class: "image_wrapper"
+    }, img_format)), activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(lang => {
+      var _scientist$trans$lang, _scientist$trans$lang2, _scientist$trans$lang3;
+      var font = AppFonts_AppFonts.NotoSans_Medium;
+      if ((lang === null || lang === void 0 ? void 0 : lang.code) == "zh-hans") {
+        font = AppFonts_AppFonts.NotoSansSC_Medium;
+      }
+      return /*#__PURE__*/react.createElement("a-entity", {
+        key: lang === null || lang === void 0 ? void 0 : lang.code,
+        id: lang === null || lang === void 0 ? void 0 : lang.code,
+        visible: "false"
+      }, /*#__PURE__*/react.createElement("a-entity", {
+        id: "toggle",
+        visible: "false"
+      }, /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+        class: "desc_wrapper",
+        type: "wrapper",
+        value: scientist === null || scientist === void 0 ? void 0 : (_scientist$trans$lang = scientist.trans[lang === null || lang === void 0 ? void 0 : lang.code]) === null || _scientist$trans$lang === void 0 ? void 0 : _scientist$trans$lang.desc,
+        font: font,
+        visible: "true"
+      }, desc_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+        class: "caption_wrapper",
+        type: "wrapper",
+        value: scientist === null || scientist === void 0 ? void 0 : (_scientist$trans$lang2 = scientist.trans[lang === null || lang === void 0 ? void 0 : lang.code]) === null || _scientist$trans$lang2 === void 0 ? void 0 : _scientist$trans$lang2.caption,
+        font: font,
+        visible: "true"
+      }, cap_format)), /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+        class: "name_wrapper",
+        type: "wrapper",
+        value: scientist === null || scientist === void 0 ? void 0 : (_scientist$trans$lang3 = scientist.trans[lang === null || lang === void 0 ? void 0 : lang.code]) === null || _scientist$trans$lang3 === void 0 ? void 0 : _scientist$trans$lang3.title,
+        font: font,
+        visible: "true"
+      }, name_format)), activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(lang => {
+        var key = lang === null || lang === void 0 ? void 0 : lang.code;
+        var classname = "btn-wrapper-" + key;
+        var insData = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == classname);
+        var font = AppFonts_AppFonts.NotoSans_Medium;
+        if ((lang === null || lang === void 0 ? void 0 : lang.code) == "zh-hans") {
+          font = AppFonts_AppFonts.NotoSansSC_Medium;
+        }
+        return /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+          class: classname,
+          type: "wrapper",
+          visible: "true",
+          key: classname,
+          value: lang === null || lang === void 0 ? void 0 : lang.native_name,
+          code: key,
+          font: font
+          // onClick={handleButtonClick}
+        }, insData));
+      })));
+    }));
+  })), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie18 = aFrameData.properties_3D) === null || _aFrameData$propertie18 === void 0 ? void 0 : _aFrameData$propertie18.nav_mesh) && /*#__PURE__*/react.createElement("a-entity", {
+    "nav-mesh": true,
+    id: "nav_mesh",
+    "gltf-model": "#nav_mesh",
+    visible: "false",
+    position: "4.762 0 3.739"
+  }), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie19 = aFrameData.properties_3D) === null || _aFrameData$propertie19 === void 0 ? void 0 : _aFrameData$propertie19.skybox) && /*#__PURE__*/react.createElement("a-sky", {
+    id: "skybox",
+    color: "#6EBAA7",
+    src: "#skybox"
+  }), /*#__PURE__*/react.createElement("a-plane", {
+    id: "ground",
+    "static-body": "shape:  mesh",
+    position: "0 0 -4",
+    visible: "false",
+    rotation: "-90 0 0",
+    width: "4",
+    height: "4",
+    color: "#7BC8A4",
+    scale: "6 2 2"
+  }))));
 };
 /* harmony default export */ const aframe_AFrame = (AFrame);
+;// CONCATENATED MODULE: ./src/js/app/views/aframe/AFrameOld.js
+
+
+
+
+
+
+const AFrameOld = props => {
+  var _aFrameData$propertie, _aFrameData$propertie2, _aFrameData$propertie3, _aFrameData$propertie4, _aFrameData$propertie5, _aFrameData$propertie6, _aFrameData$propertie7, _aFrameData$propertie8, _aFrameData$propertie9, _aFrameData$propertie10, _aFrameData$propertie11, _aFrameData$propertie12, _aFrameData$propertie13, _aFrameData$post_medi, _aFrameData$post_medi2, _aFrameData$post_medi3, _aFrameData$post_medi4, _aFrameData$propertie14, _aFrameData$propertie15, _aFrameData$propertie16, _aFrameData$excerpt, _aFrameData$excerpt$r, _aFrameData$excerpt2, _data$current, _data$current2, _aFrameData$propertie17, _aFrameData$propertie18, _aFrameData$propertie19, _aFrameData$propertie20, _aFrameData$post_medi5, _aFrameData$post_medi6, _aFrameData$post_medi7, _aFrameData$post_medi8;
+  const base_url = AppConfig.SITE_URL;
+  const upload_dir = AppConfig.UPLOAD_DIR_URL["baseurl"];
+  const aFrameData = props === null || props === void 0 ? void 0 : props.aFrameData;
+  const PAGE_SLUG = aFrameData === null || aFrameData === void 0 ? void 0 : aFrameData.slug;
+  const {
+    activeLanguages
+  } = useContext(DataContext); // For all languages supported
+  const [loading, setLoading] = useState(true); // For asset loading
+  const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
+
+  // const [worldData, setWorldData] = useState([]); // World model
+  // const [meshData, setMeshData] = useState([]); // Navmesh
+  // const [excerptData, setExcerptData] = useState(null);
+  // const [skyboxData, setSkyboxData] = useState(null);
+  // const [furnitureData, setFurnitureData] = useState([]); // GLTF models
+  // const [scientistsData, setScientistsData] = useState([]); // For a-images
+
+  const langRef = useRef(null); // Current language state
+  const prev_langRef = useRef(null); // Previous language state
+  const data = useRef([{}]); // Data from inspector
+
+  useEffect(() => {
+    console.log("Aframe props", aFrameData);
+    fetchLatestData();
+  }, []);
+  useEffect(() => {
+    // getFromServer();
+    // AddClickEvent();
+    checkElement();
+
+    // Set up a MutationObserver to monitor changes in the DOM
+    const observer = new MutationObserver(checkElement);
+    observer.observe(document.body, {
+      subtree: true,
+      childList: true
+    });
+
+    // Clean up the observer on component unmount
+    return () => observer.disconnect();
+  }, [elementDetected]);
+  const handleButtonClick = event => {
+    // Usage: Handles language change on button click
+    var buttonText = event.target.getAttribute("code");
+    if (buttonText == "") {
+      buttonText = "en";
+    }
+    prev_langRef.current = langRef.current;
+    langRef.current = buttonText;
+    if (prev_langRef.current !== langRef.current) {
+      event.target.click();
+    }
+  };
+  const checkElement = () => {
+    // Usage: Checks if the inspector has been opened for the first time
+    const ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
+    if (ele !== null && !elementDetected) {
+      console.log("Inspector has been opened for the first time");
+      customManipulation();
+      // Update the state to indicate that the element has been detected
+      setElementDetected(true);
+    }
+  };
+
+  // const getFromServer = () => {
+  //   // Usage: Loads all assets from server
+  //   const url = `/${ApiEndpoint.GET_PAGES}?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
+  //   HttpRequest.httpGet(url)
+  //     .then((result) => {
+  //       var pagecontents = [];
+  //       var furniture = [];
+  //       var world = [];
+  //       var navmesh = [];
+  //       console.log("RESULT!!!!!!!!!!", result);
+  //       result.map((item) => {
+  //         if (item?.slug === PAGE_SLUG) {
+  //           langRef.current = item?.languages?.default;
+  //           prev_langRef.current = item?.languages?.default;
+  //           pagecontents = item?.post_media?.screen_image;
+  //           furniture = item?.properties_3D?.furniture;
+
+  //           world = item?.properties_3D?.world_model;
+
+  //           navmesh = item?.properties_3D?.nav_mesh;
+  //           console.log("Data from server...", result);
+  //           setExcerptData(item?.excerpt?.rendered);
+  //           setSkyboxData(item?.properties_3D?.skybox);
+  //           setFurnitureData(furniture);
+  //           setWorldData(world);
+  //           setMeshData(navmesh);
+  //           setScientistsData(pagecontents);
+  //           setTimeout(() => setLoading(false), 1000);
+  //         }
+  //       });
+  //       AddClickEvent(pagecontents);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error from server...", error);
+  //     });
+  // };
+
+  function ShowDescription(Obj) {
+    // Usage: Handles rendering of language change and toggle
+    var children_lang = Obj.querySelectorAll("a-entity");
+    for (var i = 0; i < children_lang.length; i += 2) {
+      var _children_lang$i;
+      if (((_children_lang$i = children_lang[i]) === null || _children_lang$i === void 0 ? void 0 : _children_lang$i.getAttribute("id")) === langRef.current) {
+        children_lang[i].setAttribute("visible", "true");
+        var state = !children_lang[i + 1].getAttribute("visible");
+        children_lang[i + 1].setAttribute("visible", state);
+      } else {
+        children_lang[i].setAttribute("visible", "false");
+        var state = !children_lang[i + 1].getAttribute("visible");
+        children_lang[i + 1].setAttribute("visible", state);
+      }
+    }
+  }
+  function customManipulation() {
+    setTimeout(function RightPaneOpen() {
+      // Usage: Opens the Right Pane to add custom button
+      var ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
+      ele.click();
+      console.log("Right Pane Opened");
+      addSaveButton();
+    }, 2500); // Adjust the delay as needed
+  }
+
+  function addSaveButton() {
+    setTimeout(function () {
+      // Usage: Create an <a> element that is appended to the specified location in the inspector.
+      // Properties: "copy-entity-to-clipboard" consolidates element attributes into string and copies to clipboard.
+      var link = document.createElement("a");
+      link.href = "#";
+      link.title = "Send Element Data";
+      link.setAttribute("data-action", "copy-entity-to-clipboard");
+      link.classList.add("button", "fa", "fa-floppy-disk");
+      var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
+      parentElement.appendChild(link);
+      console.log("Save Button Added");
+      fetchDataClipboard();
+    }, 1000); // Adjust the delay as needed
+  }
+
+  async function fetchLatestData() {
+    // Usage: Fetches the latest data from the server saved through Inspector
+    const url = `/${ApiEndpoint.GET_ASSETS_DATA}/${PAGE_SLUG}.json`;
+    HttpRequest.httpGet(url).then(result => {
+      data.current = result;
+    }).catch(error => {
+      console.log("Failed to fetch dynamic content", error);
+    });
+  }
+  function fetchDataClipboard() {
+    // Usage: Fetches the data from the clipboard and stores it in a variable
+    var element = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-floppy-disk");
+    element.onclick = function () {
+      // Usage: Access the data from the clipboard and store it in a variable "clipboardData"
+      navigator.clipboard.readText().then(function (clipboardData) {
+        console.log("Clipboard Data as fetched : ", clipboardData);
+        createJsonSting(clipboardData);
+      });
+    };
+  }
+  function createJsonSting(entityString) {
+    // Usage: Creates a JSON string from the data fetched from the clipboard.
+    var tempElement = document.createElement("div"); // Create a temporary element to parse the string
+    tempElement.innerHTML = entityString;
+    var entityAttributes = tempElement.firstChild.attributes;
+    // Convert the attributes into an object
+    var entityObject = {};
+    for (var i = 0; i < entityAttributes.length; i++) {
+      var attr = entityAttributes[i];
+      entityObject[attr.name] = attr.value;
+    }
+
+    // Convert the object to JSON string
+    var jsonString = JSON.stringify(entityObject);
+    console.log("JSON element: ", jsonString);
+    updateApiData(jsonString);
+  }
+  function updateClassData(json) {
+    // Usage: Updates the class data to remove all object specific data
+    const {
+      value,
+      id,
+      visible,
+      src,
+      ...newJson
+    } = json;
+    return newJson;
+  }
+  function updateApiData(jsonString) {
+    // Usage: Updates the API data with the new JSON string
+    // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
+    const newData = JSON.parse(jsonString);
+    delete newData["gltf-model"];
+    delete newData["value"];
+    delete newData["show-details-on-click"];
+    delete newData["troika-text"];
+    if (Array.isArray(data.current) && data.current.length === 1 && Object.keys(data.current[0]).length === 0) {
+      console.log("!!!!!No data found, adding new data");
+      const updatedJsonString = JSON.stringify([newData], null, 2);
+      sendApiRequest(updatedJsonString);
+      return;
+    }
+    var foundData = false;
+    var foundClassData = false;
+    const updatedData = data.current.map(item => {
+      if ((item === null || item === void 0 ? void 0 : item.class) !== undefined && (newData === null || newData === void 0 ? void 0 : newData.class) !== undefined && (newData === null || newData === void 0 ? void 0 : newData.class) === (item === null || item === void 0 ? void 0 : item.class)) {
+        foundClassData = true;
+        var alteredClassData = updateClassData(newData);
+        return alteredClassData;
+      } else if ((newData === null || newData === void 0 ? void 0 : newData.id) !== undefined && (item === null || item === void 0 ? void 0 : item.id) === (newData === null || newData === void 0 ? void 0 : newData.id)) {
+        foundData = true;
+        return newData;
+      } else {
+        return item;
+      }
+    });
+    if (!foundData && (newData === null || newData === void 0 ? void 0 : newData.id) !== undefined && (newData === null || newData === void 0 ? void 0 : newData.class) === undefined) updatedData.push(newData);
+    if ((newData === null || newData === void 0 ? void 0 : newData.class) !== undefined && !foundClassData) {
+      var alteredClassData = updateClassData(newData);
+      updatedData.push(alteredClassData);
+    }
+    const updatedJsonString = JSON.stringify(updatedData, null, 2);
+    console.log("Updated data:", updatedData);
+    sendApiRequest(updatedJsonString);
+  }
+  const sendApiRequest = async data => {
+    // Usage: Sends the updated data to the API
+    const url = `/${ApiEndpoint.UPDATE_INSPECTOR_DATA}`;
+    var formdata = new FormData();
+    formdata.append("file", new Blob([data]));
+    const file_name = PAGE_SLUG + ".json";
+    formdata.append("page", file_name);
+    HttpRequest.httpPost(url, formdata).then(result => {
+      // Result : {success: true/false, message: "..."}
+      console.log("API Response: ", result);
+      const dataResp = JSON.parse(result);
+      alert(dataResp.message);
+    }).catch(error => console.log("Error", error));
+    fetchLatestData();
+  };
+
+  // function AddClickEvent() {
+  //   // Usage: Adds a click event to the entity to show the description
+  //   AFRAME.registerComponent("show-details-on-click", {
+  //     init: function () {
+  //       var el = this.el;
+  //       el.addEventListener("click", function () {
+  //         ShowDescription(el);
+  //       });
+  //     },
+  //   });
+  // }
+
+  // function HtmlToText(htmlContent) {
+  //   // Create a new DOMParser instance
+  //   const parser = new DOMParser();
+  //   // Parse the HTML content
+  //   const document = parser.parseFromString(htmlContent, "text/html");
+  //   // Extract the plain text using textContent
+  //   const textContent = document.body.textContent;
+  //   return textContent;
+  // }
+
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: "100vh",
+      width: "100%"
+    }
+  }, /*#__PURE__*/React.createElement("a-scene", {
+    embedded: true,
+    environment: "preset: forest; groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017;",
+    cursor: "rayOrigin: mouse"
+  }, /*#__PURE__*/React.createElement("a-entity", {
+    id: "rig",
+    "rotation-reader": true,
+    "thumbstick-logging": true,
+    "movement-controls": "constrainToNavMesh: true; speed:1; controls: checkpoint, gamepad, trackpad, keyboard, touch;"
+  }, /*#__PURE__*/React.createElement("a-entity", {
+    camera: "",
+    position: "0 1.6 0",
+    rotation: "-4.469070802020421 -84.91234523838803 0",
+    "look-controls": "fly:true",
+    raycaster: "far: 5; objects: .clickable",
+    "super-hands": "colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
+  }, /*#__PURE__*/React.createElement("a-entity", {
+    "laser-controls": "hand: right",
+    raycaster: "objects: .clickable",
+    cursor: "rayOrigin: mouse"
+  }), /*#__PURE__*/React.createElement("a-entity", {
+    id: "crosshair",
+    cursor: "rayOrigin:mouse",
+    position: "0 0 -0.2",
+    geometry: "primitive: ring; radiusInner: 0.002; radiusOuter: 0.003",
+    material: "shader: flat",
+    raycaster: "far: 5; objects: .clickable",
+    visible: "false"
+  })), /*#__PURE__*/React.createElement("a-entity", {
+    mixin: "hand",
+    "oculus-touch-controls": "hand: left",
+    "hand-controls": "hand: left; handModelStyle: highPoly; color: #0055ff"
+  }), /*#__PURE__*/React.createElement("a-entity", {
+    mixin: "hand",
+    "oculus-touch-controls": "hand: right",
+    "hand-controls": "hand: right; handModelStyle: highPoly; color: #0055ff",
+    "blink-controls": "cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
+  })), /*#__PURE__*/React.createElement("a-assets", {
+    timeout: "10000"
+  }, (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie = aFrameData.properties_3D) === null || _aFrameData$propertie === void 0 ? void 0 : _aFrameData$propertie.world_model) && /*#__PURE__*/React.createElement("a-asset-item", {
+    id: "world_model",
+    src: aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie2 = aFrameData.properties_3D) === null || _aFrameData$propertie2 === void 0 ? void 0 : (_aFrameData$propertie3 = _aFrameData$propertie2.world_model) === null || _aFrameData$propertie3 === void 0 ? void 0 : _aFrameData$propertie3.src,
+    crossOrigin: "anonymous"
+  }), ((_aFrameData$propertie4 = aFrameData.properties_3D) === null || _aFrameData$propertie4 === void 0 ? void 0 : _aFrameData$propertie4.nav_mesh) && /*#__PURE__*/React.createElement("a-asset-item", {
+    id: "nav_mesh",
+    src: (_aFrameData$propertie5 = aFrameData.properties_3D) === null || _aFrameData$propertie5 === void 0 ? void 0 : (_aFrameData$propertie6 = _aFrameData$propertie5.nav_mesh) === null || _aFrameData$propertie6 === void 0 ? void 0 : _aFrameData$propertie6.src,
+    crossOrigin: "anonymous"
+  }), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie7 = aFrameData.properties_3D) === null || _aFrameData$propertie7 === void 0 ? void 0 : _aFrameData$propertie7.skybox) && /*#__PURE__*/React.createElement("a-asset-item", {
+    id: "skybox",
+    src: aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie8 = aFrameData.properties_3D) === null || _aFrameData$propertie8 === void 0 ? void 0 : (_aFrameData$propertie9 = _aFrameData$propertie8.skybox) === null || _aFrameData$propertie9 === void 0 ? void 0 : _aFrameData$propertie9.src,
+    crossOrigin: "anonymous"
+  }), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie10 = aFrameData.properties_3D) === null || _aFrameData$propertie10 === void 0 ? void 0 : (_aFrameData$propertie11 = _aFrameData$propertie10.furniture) === null || _aFrameData$propertie11 === void 0 ? void 0 : _aFrameData$propertie11.length) > 0 && (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie12 = aFrameData.properties_3D) === null || _aFrameData$propertie12 === void 0 ? void 0 : (_aFrameData$propertie13 = _aFrameData$propertie12.furniture) === null || _aFrameData$propertie13 === void 0 ? void 0 : _aFrameData$propertie13.map(furniture => {
+    return /*#__PURE__*/React.createElement("a-asset-item", {
+      key: furniture === null || furniture === void 0 ? void 0 : furniture.id,
+      id: furniture === null || furniture === void 0 ? void 0 : furniture.slug,
+      src: base_url + (furniture === null || furniture === void 0 ? void 0 : furniture.full_path),
+      crossOrigin: "anonymous"
+    });
+  })), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi = aFrameData.post_media) === null || _aFrameData$post_medi === void 0 ? void 0 : (_aFrameData$post_medi2 = _aFrameData$post_medi.screen_image) === null || _aFrameData$post_medi2 === void 0 ? void 0 : _aFrameData$post_medi2.length) > 0 && (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi3 = aFrameData.post_media) === null || _aFrameData$post_medi3 === void 0 ? void 0 : (_aFrameData$post_medi4 = _aFrameData$post_medi3.screen_image) === null || _aFrameData$post_medi4 === void 0 ? void 0 : _aFrameData$post_medi4.map(scientist => {
+    return /*#__PURE__*/React.createElement("img", {
+      key: scientist === null || scientist === void 0 ? void 0 : scientist.id,
+      id: scientist === null || scientist === void 0 ? void 0 : scientist.slug,
+      src: base_url + (scientist === null || scientist === void 0 ? void 0 : scientist.full_path),
+      alt: scientist === null || scientist === void 0 ? void 0 : scientist.alt,
+      crossOrigin: "anonymous"
+    });
+  }))), loading && /*#__PURE__*/React.createElement(React.Fragment, null, (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie14 = aFrameData.properties_3D) === null || _aFrameData$propertie14 === void 0 ? void 0 : _aFrameData$propertie14.world_model) && /*#__PURE__*/React.createElement("a-entity", {
+    id: "world_model",
+    "gltf-model": "#world_model",
+    position: "4.537 0 3.468"
+  }), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie15 = aFrameData.properties_3D) === null || _aFrameData$propertie15 === void 0 ? void 0 : _aFrameData$propertie15.nav_mesh) && /*#__PURE__*/React.createElement("a-entity", {
+    "nav-mesh": true,
+    id: "nav_mesh",
+    "gltf-model": "#nav_mesh",
+    visible: "false",
+    position: "4.762 0 3.739"
+  }), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie16 = aFrameData.properties_3D) === null || _aFrameData$propertie16 === void 0 ? void 0 : _aFrameData$propertie16.skybox) && /*#__PURE__*/React.createElement("a-sky", {
+    id: "skybox",
+    color: "#6EBAA7",
+    src: "#skybox"
+  }), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$excerpt = aFrameData.excerpt) === null || _aFrameData$excerpt === void 0 ? void 0 : (_aFrameData$excerpt$r = _aFrameData$excerpt.rendered) === null || _aFrameData$excerpt$r === void 0 ? void 0 : _aFrameData$excerpt$r.length) > 0 && /*#__PURE__*/React.createElement("a-troika-text", _extends({
+    id: "Excerpt",
+    value: HtmlToText(aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$excerpt2 = aFrameData.excerpt) === null || _aFrameData$excerpt2 === void 0 ? void 0 : _aFrameData$excerpt2.rendered),
+    position: (data === null || data === void 0 ? void 0 : (_data$current = data.current) === null || _data$current === void 0 ? void 0 : _data$current.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) != "Excerpt")) && "0 1.6 0"
+  }, data === null || data === void 0 ? void 0 : (_data$current2 = data.current) === null || _data$current2 === void 0 ? void 0 : _data$current2.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == "Excerpt"))), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie17 = aFrameData.properties_3D) === null || _aFrameData$propertie17 === void 0 ? void 0 : (_aFrameData$propertie18 = _aFrameData$propertie17.furniture) === null || _aFrameData$propertie18 === void 0 ? void 0 : _aFrameData$propertie18.length) > 0 && (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie19 = aFrameData.properties_3D) === null || _aFrameData$propertie19 === void 0 ? void 0 : (_aFrameData$propertie20 = _aFrameData$propertie19.furniture) === null || _aFrameData$propertie20 === void 0 ? void 0 : _aFrameData$propertie20.map(furniture => {
+    var _data$current3;
+    var Obj_id = furniture === null || furniture === void 0 ? void 0 : furniture.slug;
+    var Data_from_Inspector = data === null || data === void 0 ? void 0 : (_data$current3 = data.current) === null || _data$current3 === void 0 ? void 0 : _data$current3.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
+    if (!Data_from_Inspector) {
+      Data_from_Inspector = {
+        position: "0 1.6 0"
+      };
+    }
+    return /*#__PURE__*/React.createElement("a-entity", _extends({
+      key: furniture === null || furniture === void 0 ? void 0 : furniture.id,
+      id: furniture === null || furniture === void 0 ? void 0 : furniture.slug,
+      "gltf-model": "#" + (furniture === null || furniture === void 0 ? void 0 : furniture.slug)
+    }, Data_from_Inspector));
+  })), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi5 = aFrameData.post_media) === null || _aFrameData$post_medi5 === void 0 ? void 0 : (_aFrameData$post_medi6 = _aFrameData$post_medi5.screen_image) === null || _aFrameData$post_medi6 === void 0 ? void 0 : _aFrameData$post_medi6.length) > 0 && (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi7 = aFrameData.post_media) === null || _aFrameData$post_medi7 === void 0 ? void 0 : (_aFrameData$post_medi8 = _aFrameData$post_medi7.screen_image) === null || _aFrameData$post_medi8 === void 0 ? void 0 : _aFrameData$post_medi8.map(scientist => {
+    var _data$current4, _data$current5, _data$current6, _data$current7, _data$current8;
+    var Obj_id = scientist === null || scientist === void 0 ? void 0 : scientist.slug;
+    var Data_from_Inspector = data === null || data === void 0 ? void 0 : (_data$current4 = data.current) === null || _data$current4 === void 0 ? void 0 : _data$current4.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
+    var desc_format = data === null || data === void 0 ? void 0 : (_data$current5 = data.current) === null || _data$current5 === void 0 ? void 0 : _data$current5.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "desc_wrapper");
+    var cap_format = data === null || data === void 0 ? void 0 : (_data$current6 = data.current) === null || _data$current6 === void 0 ? void 0 : _data$current6.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "caption_wrapper");
+    var name_format = data === null || data === void 0 ? void 0 : (_data$current7 = data.current) === null || _data$current7 === void 0 ? void 0 : _data$current7.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "name_wrapper");
+    var img_format = data === null || data === void 0 ? void 0 : (_data$current8 = data.current) === null || _data$current8 === void 0 ? void 0 : _data$current8.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "image_wrapper");
+    if (!Data_from_Inspector) {
+      Data_from_Inspector = {
+        position: "0 1.6 0"
+      };
+    }
+    return /*#__PURE__*/React.createElement("a-entity", _extends({
+      key: scientist === null || scientist === void 0 ? void 0 : scientist.id,
+      id: scientist === null || scientist === void 0 ? void 0 : scientist.slug,
+      type: "wrapper"
+    }, Data_from_Inspector, {
+      "show-details-on-click": ""
+    }), /*#__PURE__*/React.createElement("a-image", _extends({
+      src: "#" + (scientist === null || scientist === void 0 ? void 0 : scientist.id),
+      type: "wrapper",
+      class: "image_wrapper"
+    }, img_format)), activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(lang => {
+      var _scientist$trans$lang, _scientist$trans$lang2, _scientist$trans$lang3;
+      var font = AppFonts.NotoSans_Medium;
+      if ((lang === null || lang === void 0 ? void 0 : lang.code) == "zh-hans") {
+        font = AppFonts.NotoSansSC_Medium;
+      }
+      return /*#__PURE__*/React.createElement("a-entity", {
+        key: lang === null || lang === void 0 ? void 0 : lang.code,
+        id: lang === null || lang === void 0 ? void 0 : lang.code,
+        visible: "false"
+      }, /*#__PURE__*/React.createElement("a-entity", {
+        id: "toggle",
+        visible: "false"
+      }, /*#__PURE__*/React.createElement("a-troika-text", _extends({
+        class: "desc_wrapper",
+        type: "wrapper",
+        value: scientist === null || scientist === void 0 ? void 0 : (_scientist$trans$lang = scientist.trans[lang === null || lang === void 0 ? void 0 : lang.code]) === null || _scientist$trans$lang === void 0 ? void 0 : _scientist$trans$lang.desc,
+        font: font,
+        visible: "true"
+      }, desc_format)), /*#__PURE__*/React.createElement("a-troika-text", _extends({
+        class: "caption_wrapper",
+        type: "wrapper",
+        value: scientist === null || scientist === void 0 ? void 0 : (_scientist$trans$lang2 = scientist.trans[lang === null || lang === void 0 ? void 0 : lang.code]) === null || _scientist$trans$lang2 === void 0 ? void 0 : _scientist$trans$lang2.caption,
+        font: font,
+        visible: "true"
+      }, cap_format)), /*#__PURE__*/React.createElement("a-troika-text", _extends({
+        class: "name_wrapper",
+        type: "wrapper",
+        value: scientist === null || scientist === void 0 ? void 0 : (_scientist$trans$lang3 = scientist.trans[lang === null || lang === void 0 ? void 0 : lang.code]) === null || _scientist$trans$lang3 === void 0 ? void 0 : _scientist$trans$lang3.title,
+        font: font,
+        visible: "true"
+      }, name_format)), activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(lang => {
+        var _data$current9;
+        var key = lang === null || lang === void 0 ? void 0 : lang.code;
+        var classname = "btn-wrapper-" + key;
+        var insData = data === null || data === void 0 ? void 0 : (_data$current9 = data.current) === null || _data$current9 === void 0 ? void 0 : _data$current9.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == classname);
+        var font = AppFonts.NotoSans_Medium;
+        if ((lang === null || lang === void 0 ? void 0 : lang.code) == "zh-hans") {
+          font = AppFonts.NotoSansSC_Medium;
+        }
+        return /*#__PURE__*/React.createElement("a-troika-text", _extends({
+          class: classname,
+          type: "wrapper",
+          visible: "true",
+          key: classname,
+          value: lang === null || lang === void 0 ? void 0 : lang.native_name,
+          code: key,
+          font: font,
+          onClick: handleButtonClick
+        }, insData));
+      })));
+    }));
+  })), /*#__PURE__*/React.createElement("a-light", {
+    type: "directional",
+    color: "#35227A",
+    intensity: "0.60",
+    position: "4.40664 0.98434 0.05053",
+    light: "type: point; angle: 180",
+    rotation: "-0.3 50.509 147.30229250797848",
+    id: "bulb-1"
+  }), /*#__PURE__*/React.createElement("a-light", {
+    type: "directional",
+    color: "#FFFFBC",
+    intensity: "0.50",
+    position: "3.94786 -1.28516 -0.54807",
+    light: "type: hemisphere; angle: 90; color: #8778bf",
+    rotation: "-0.3 50.509 147.30229250797848",
+    id: "bulb-2"
+  }), /*#__PURE__*/React.createElement("a-light", {
+    type: "directional",
+    color: "#FF4400",
+    intensity: "2",
+    position: "20.45283 -2.62394 -5.68868",
+    light: "type: ambient; intensity: 0.3; angle: 180; color: #7156d2",
+    rotation: "-0.3 50.509 147.30229250797848",
+    id: "bulb-3"
+  }), /*#__PURE__*/React.createElement("a-light", {
+    type: "directional",
+    color: "#FFFFBC",
+    intensity: "0.50",
+    position: "-0.21291 -0.99888 0.00254",
+    light: "type: hemisphere; color: #ffffff; angle: 90",
+    rotation: "-0.3 50.509 147.30229250797848",
+    id: "bulb-4"
+  }), /*#__PURE__*/React.createElement("a-plane", {
+    "static-body": "shape:  mesh",
+    position: "0 0 -4",
+    visible: "false",
+    rotation: "-90 0 0",
+    width: "4",
+    height: "4",
+    color: "#7BC8A4",
+    scale: "6 2 2"
+  })))));
+};
+;// CONCATENATED MODULE: ./src/js/app/views/404/NotFound.js
+
+const NotFound = () => {
+  return /*#__PURE__*/react.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/react.createElement("h1", {
+    className: "h1 text-center"
+  }, "Oops!"), /*#__PURE__*/react.createElement("h3", {
+    className: "h3 text-center"
+  }, "Data not Found..."));
+};
+/* harmony default export */ const _404_NotFound = (NotFound);
 ;// CONCATENATED MODULE: ./src/js/app/views/posts/Posts.js
-
-
 
 
 
@@ -7431,15 +8020,14 @@ const AFrame = props => {
 const Posts = () => {
   var _data$post_media, _data$post_media$_thu, _data$post_media2, _data$post_media2$_th, _data$post_media3, _data$post_media3$_th, _data$content;
   const base_url = AppConfig_AppConfig.SITE_URL;
-  const httpRequest = HttpRequest(); // Create an instance of the HttpRequest module
   const {
     slug_name
   } = useParams();
   const {
     lang,
     menuData
-  } = (0,react.useContext)(utils_DataContext);
-  const [loading, setLoading] = (0,react.useState)(true);
+  } = (0,react.useContext)(DataContext_DataContext);
+  const [loading, setLoading] = (0,react.useState)(false);
   const [data, setData] = (0,react.useState)();
   const curl = slug_name !== undefined ? "/" + slug_name + "/" : "";
   (0,react.useEffect)(() => {
@@ -7447,36 +8035,31 @@ const Posts = () => {
     getPostsData();
   }, [lang, menuData, slug_name]);
   const getPostsData = async () => {
-    const url = `/${lang}${ApiEndpoint.GET_POSTS}?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
-    try {
-      setLoading(true);
-      httpRequest.httpGet(url).then(result => {
-        console.log("posts result", result);
-        result.map(postData => {
-          if ((postData === null || postData === void 0 ? void 0 : postData.id) == (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_FRONT_PAGE)) {
+    setLoading(true);
+    const url = `/${lang}${ApiEndpoint_ApiEndpoint.GET_POSTS}?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
+    ApiConfig_HttpRequest.httpGet(url).then(result => {
+      result.map(postData => {
+        if ((postData === null || postData === void 0 ? void 0 : postData.id) == (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_FRONT_PAGE)) {
+          setData(postData);
+        } else {
+          if ((postData === null || postData === void 0 ? void 0 : postData.slug) === slug_name) {
+            console.log("menuItem with page", postData === null || postData === void 0 ? void 0 : postData.slug, slug_name, curl);
             setData(postData);
           } else {
-            if ((postData === null || postData === void 0 ? void 0 : postData.slug) === slug_name) {
-              console.log("menuItem with page", postData === null || postData === void 0 ? void 0 : postData.slug, slug_name, curl);
-              setData(postData);
-            } else {
-              // console.log("menuItem without page", postData, curl);
-            }
+            // console.log("menuItem without page", postData, curl);
           }
-        });
-      }).catch(error => {
-        console.log("Error when getting body data", error);
-      }).finally(result => {
-        console.log("finaly response", result);
-        setLoading(false);
+        }
       });
-    } catch (error) {
-      console.log("Exception comming while getPostsData", error);
-    }
+    }).catch(error => {
+      console.log("Error when getting GET_POSTS data", error);
+    }).finally(() => {
+      console.log("GET_POSTS finaly response");
+      setLoading(false);
+    });
   };
   return /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement("div", {
     className: "container"
-  }, loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement("div", null, data ? /*#__PURE__*/react.createElement("div", {
+  }, loading ? /*#__PURE__*/react.createElement(AppLoader, null) : /*#__PURE__*/react.createElement("div", null, data ? /*#__PURE__*/react.createElement("div", {
     className: "dynamic"
   }, (data === null || data === void 0 ? void 0 : (_data$post_media = data.post_media) === null || _data$post_media === void 0 ? void 0 : (_data$post_media$_thu = _data$post_media._thumbnail_id[0]) === null || _data$post_media$_thu === void 0 ? void 0 : _data$post_media$_thu.full_path) && /*#__PURE__*/react.createElement("img", {
     src: data === null || data === void 0 ? void 0 : (_data$post_media2 = data.post_media) === null || _data$post_media2 === void 0 ? void 0 : (_data$post_media2$_th = _data$post_media2._thumbnail_id[0]) === null || _data$post_media2$_th === void 0 ? void 0 : _data$post_media2$_th.full_path,
@@ -7496,6 +8079,7 @@ const Posts = () => {
 
 
 
+
 ;// CONCATENATED MODULE: ./src/js/app/routes/routes.js
 
 
@@ -7503,7 +8087,7 @@ const Posts = () => {
 
 const routes = createBrowserRouter([{
   path: "/",
-  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(header_Header, null), /*#__PURE__*/react.createElement(sidebar_Sidebar, null), /*#__PURE__*/react.createElement(views_Home, null), /*#__PURE__*/react.createElement(footer_Footer, null)),
+  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Navbar, null), /*#__PURE__*/react.createElement(Sidebar, null), /*#__PURE__*/react.createElement(views_Home, null), /*#__PURE__*/react.createElement(Footer, null)),
   children: [{
     path: "/",
     element: /*#__PURE__*/react.createElement(body_Body, null)
@@ -7521,10 +8105,9 @@ const routes = createBrowserRouter([{
     element: /*#__PURE__*/react.createElement(_404_NotFound, null)
   }]
 }]);
-/* harmony default export */ const routes_routes = (routes);
+;// CONCATENATED MODULE: ./src/js/app/routes/index.js
+
 ;// CONCATENATED MODULE: ./src/js/app/app.js
-
-
 
 
 
@@ -7533,8 +8116,7 @@ const routes = createBrowserRouter([{
 
 const App = () => {
   const base_url = AppConfig_AppConfig.SITE_URL;
-  const httpRequest = HttpRequest(); // Create an instance of the HttpRequest module
-  const [loading, setLoading] = (0,react.useState)(true);
+  const [loading, setLoading] = (0,react.useState)(false);
   const [activeLanguages, setActiveLanguages] = (0,react.useState)([{
     code: "en",
     native_name: "English",
@@ -7547,42 +8129,33 @@ const App = () => {
     getActiveLanguages();
     getMenuData();
   }, [lang]);
-  const getActiveLanguages = async () => {
+  const getActiveLanguages = () => {
     let SITE_ACTIVE_PLUGINS = AppConfig_AppConfig.SITE_ACTIVE_PLUGINS;
     let wpml = "sitepress-multilingual-cms/sitepress.php";
     if (!SITE_ACTIVE_PLUGINS.includes(wpml)) {
       setActiveLanguages();
     } else {
-      const url = `${ApiEndpoint.GET_ACTIVE_LANGUAGES}`;
-      try {
-        httpRequest.httpGet(url).then(result => {
-          console.log("GET_ACTIVE_LANGUAGES Api Result...", result);
-          setActiveLanguages(result);
-        }).catch(error => {
-          console.log("Error when getting ActiveLanguages data", error);
-        });
-      } catch (error) {
-        console.log("Exception comming while making menus http request", error);
-      }
-    }
-  };
-  const getMenuData = async () => {
-    const url = `/${lang}${ApiEndpoint.GET_MENUS}`;
-    try {
-      httpRequest.httpGet(url).then(result => {
-        console.log("GET_MENUS Api Result...", result);
-        setMenuData(result);
+      const url = `${ApiEndpoint_ApiEndpoint.GET_ACTIVE_LANGUAGES}`;
+      ApiConfig_HttpRequest.httpGet(url).then(result => {
+        setActiveLanguages(result);
       }).catch(error => {
-        console.log("Error when getting menu data", error);
-      }).finally(result => {
-        console.log("finaly response", result);
-        setLoading(false);
-      });
-    } catch (error) {
-      console.log("Exception comming while making menus http request", error);
+        console.log("Error when getting ActiveLanguages data", error);
+      }).finally(() => {});
     }
   };
-  return /*#__PURE__*/react.createElement(react.Fragment, null, loading ? /*#__PURE__*/react.createElement(loader_AppLoader, null) : /*#__PURE__*/react.createElement(utils_DataContext.Provider, {
+  const getMenuData = () => {
+    setLoading(true);
+    const url = `/${lang}${ApiEndpoint_ApiEndpoint.GET_MENUS}?menus`;
+    ApiConfig_HttpRequest.httpGet(url).then(result => {
+      setMenuData(result);
+    }).catch(error => {
+      console.log("Error when getting menu data", error);
+    }).finally(() => {
+      console.log("GET_MENUS finaly response");
+      setLoading(false);
+    });
+  };
+  return /*#__PURE__*/react.createElement(react.Fragment, null, loading ? /*#__PURE__*/react.createElement(AppLoader, null) : /*#__PURE__*/react.createElement(DataContext_DataContext.Provider, {
     value: {
       activeLanguages: activeLanguages,
       setActiveLanguages: setActiveLanguages,
@@ -7592,7 +8165,7 @@ const App = () => {
       setLang: setLang
     }
   }, /*#__PURE__*/react.createElement(RouterProvider, {
-    router: routes_routes
+    router: routes
   })));
 };
 /* harmony default export */ const app = (App);
@@ -7604,7 +8177,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(820);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(725);
 
 
 
@@ -8165,7 +8738,7 @@ if (true) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(820);
+/******/ 	__webpack_require__(725);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()

@@ -33,6 +33,8 @@ function theme_scripts() {
         $config_wp = array(
             "SITE_URL" => get_site_url(),
             "HOME_URL" => get_home_url(),
+            "THEME_DIR_URL" => get_stylesheet_directory_uri(),
+            "UPLOAD_DIR_URL" => wp_upload_dir(),
             "SITE_TITLE" => get_bloginfo( 'name' ),
             "SITE_TAGLINE" => get_bloginfo( 'description' ),
             "SITE_CUSTOM_LOGO" => wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' ),

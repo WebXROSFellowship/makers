@@ -14,11 +14,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background:
-    repeating-conic-gradient(from 30deg,#0000 0 120deg,var(--c3) 0 180deg) 
-     calc(.5*var(--s)) calc(.5*var(--s)*0.577),
-    repeating-conic-gradient(from 30deg,var(--c1) 0 60deg,var(--c2) 0 120deg,var(--c3) 0 180deg);
-  background-size: var(--s) calc(var(--s)*0.577);
+  background-color: transparent;
+  // background:
+  //   repeating-conic-gradient(from 30deg,#0000 0 120deg,var(--c3) 0 180deg) 
+  //    calc(.5*var(--s)) calc(.5*var(--s)*0.577),
+  //   repeating-conic-gradient(from 30deg,var(--c1) 0 60deg,var(--c2) 0 120deg,var(--c3) 0 180deg);
+  // background-size: var(--s) calc(var(--s)*0.577);
 
 }
 
@@ -27,7 +28,7 @@
   height: 48px;
   border-radius: 50%;
   display: inline-block;
-  border-top: 4px solid #FFF;
+  border-top: 4px solid lightblue;
   border-right: 4px solid transparent;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;

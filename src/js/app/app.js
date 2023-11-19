@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 
-import routes from "./routes/routes";
+import { routes } from "./routes";
 import { DataContext } from "./utils";
 import { AppLoader } from "./components";
-import { HttpRequest } from "./config/ApiConfig";
-import { ApiEndpoint } from "./config/ApiEndpoint";
-import { AppConfig } from "./config/AppConfig";
+import { ApiEndpoint, AppConfig, HttpRequest } from "./config";
 
 const App = () => {
   const base_url = AppConfig.SITE_URL;
-  const httpRequest = HttpRequest(); // Create an instance of the HttpRequest module
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [activeLanguages, setActiveLanguages] = useState([
     {
       code: "en",
@@ -28,48 +25,39 @@ const App = () => {
     getMenuData();
   }, [lang]);
 
-  const getActiveLanguages = async () => {
+  const getActiveLanguages = () => {
     let SITE_ACTIVE_PLUGINS = AppConfig.SITE_ACTIVE_PLUGINS;
     let wpml = "sitepress-multilingual-cms/sitepress.php";
     if (!SITE_ACTIVE_PLUGINS.includes(wpml)) {
       setActiveLanguages();
     } else {
       const url = `${ApiEndpoint.GET_ACTIVE_LANGUAGES}`;
-      try {
-        httpRequest
-          .httpGet(url)
-          .then((result) => {
-            console.log("GET_ACTIVE_LANGUAGES Api Result...", result);
-            setActiveLanguages(result);
-          })
-          .catch((error) => {
-            console.log("Error when getting ActiveLanguages data", error);
-          });
-      } catch (error) {
-        console.log("Exception comming while making menus http request", error);
-      }
+
+      HttpRequest.httpGet(url)
+        .then((result) => {
+          setActiveLanguages(result);
+        })
+        .catch((error) => {
+          console.log("Error when getting ActiveLanguages data", error);
+        })
+        .finally(() => {});
     }
   };
 
-  const getMenuData = async () => {
-    const url = `/${lang}${ApiEndpoint.GET_MENUS}`;
-    try {
-      httpRequest
-        .httpGet(url)
-        .then((result) => {
-          console.log("GET_MENUS Api Result...", result);
-          setMenuData(result);
-        })
-        .catch((error) => {
-          console.log("Error when getting menu data", error);
-        })
-        .finally((result) => {
-          console.log("finaly response", result);
-          setLoading(false);
-        });
-    } catch (error) {
-      console.log("Exception comming while making menus http request", error);
-    }
+  const getMenuData = () => {
+    setLoading(true);
+    const url = `/${lang}${ApiEndpoint.GET_MENUS}?menus`;
+    HttpRequest.httpGet(url)
+      .then((result) => {
+        setMenuData(result);
+      })
+      .catch((error) => {
+        console.log("Error when getting menu data", error);
+      })
+      .finally(() => {
+        console.log("GET_MENUS finaly response");
+        setLoading(false);
+      });
   };
 
   return (
