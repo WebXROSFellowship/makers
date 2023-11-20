@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 
 import { ApiEndpoint, AppConfig, HttpRequest } from "../../config";
 import { AppLoader } from "../../components";
@@ -12,19 +12,190 @@ const AFrame = (props) => {
   const PAGE_SLUG = aFrameData?.slug;
   const { activeLanguages } = useContext(DataContext); // For all languages supported
   const [loading, setLoading] = useState(false); // For asset loading
-  const [assetsData, setAssetsData] = useState([]);
+  const [elementDetected, setElementDetected] = useState(false); // For inspector loaded
+  // const [assetsData, setAssetsData] = useState([]);
+
+  const langRef = useRef(null); // Current language state
+  const prev_langRef = useRef(null); // Previous language state
+  const data = useRef([{}]); // Data from inspector
+
 
   useEffect(() => {
     console.log("AFrame Data....", aFrameData);
+    langRef.current = aFrameData?.languages?.default;
+    prev_langRef.current = aFrameData?.languages?.default;
     getAssetsData();
-  }, []);
+    checkElement()
+    // Set up a MutationObserver to monitor changes in the DOM
+    const observer = new MutationObserver(checkElement);
+    observer.observe(document.body, {
+      subtree: true,
+      childList: true,
+    });
 
+    // Clean up the observer on component unmount
+    return () => observer.disconnect();
+  }, [elementDetected]);
+
+  const checkElement = () => {
+    // Usage: Checks if the inspector has been opened for the first time
+    const ele = document.querySelector(
+      "#scenegraph > div.outliner > div:nth-child(1)"
+    );
+    if (ele !== null && !elementDetected) {
+      console.log("Inspector has been opened for the first time");
+      customManipulation();
+      // Update the state to indicate that the element has been detected
+      setElementDetected(true);
+    }
+  };
+
+  function customManipulation() {
+    setTimeout(function RightPaneOpen() {
+      // Usage: Opens the Right Pane to add custom button
+      var ele = document.querySelector(
+        "#scenegraph > div.outliner > div:nth-child(1)"
+      );
+      ele.click();
+      console.log("Right Pane Opened");
+      addSaveButton();
+    }, 2500); // Adjust the delay as needed
+  }
+
+  function addSaveButton() {
+    setTimeout(function () {
+      // Usage: Create an <a> element that is appended to the specified location in the inspector.
+      // Properties: "copy-entity-to-clipboard" consolidates element attributes into string and copies to clipboard.
+      var link = document.createElement("a");
+      link.href = "#";
+      link.title = "Send Element Data";
+      link.setAttribute("data-action", "copy-entity-to-clipboard");
+      link.classList.add("button", "fa", "fa-floppy-disk");
+      var parentElement = document.querySelector(
+        "#componentEntityHeader > div.static > div.collapsible-header > div"
+      );
+      parentElement.appendChild(link);
+      console.log("Save Button Added");
+      fetchDataClipboard();
+    }, 1000); // Adjust the delay as needed
+  }
+
+  const fetchDataClipboard = () => {
+    // Usage: Fetches the data from the clipboard and stores it in a variable
+    var element = document.querySelector(
+      "#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-floppy-disk"
+    );
+    element.onclick = function () {
+      // Usage: Access the data from the clipboard and store it in a variable "clipboardData"
+
+      navigator.clipboard
+        .readText()
+        .then((clipboardData) => {
+          console.log("Clipboard Data fetched:", clipboardData);
+          createJsonString(clipboardData);
+        })
+        .catch((err) => {
+          console.error("Failed to get clipboard data: ", err);
+        });
+    };
+  };
+
+  function createJsonString(entityString) {
+    // Usage: Creates a JSON string from the data fetched from the clipboard.
+    var tempElement = document.createElement("div"); // Create a temporary element to parse the string
+    tempElement.innerHTML = entityString;
+    var entityAttributes = tempElement.firstChild.attributes;
+    // Convert the attributes into an object
+    var entityObject = {};
+    for (var i = 0; i < entityAttributes.length; i++) {
+      var attr = entityAttributes[i];
+      entityObject[attr.name] = attr.value;
+    }
+
+    // Convert the object to JSON string
+    var jsonString = JSON.stringify(entityObject);
+    console.log("JSON element: ", jsonString);
+    updateApiData(jsonString);
+  }
+  
+  function updateApiData(jsonString) {
+    // Usage: Updates the API data with the new JSON string
+    // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
+    const newData = JSON.parse(jsonString);
+    delete newData["gltf-model"];
+    delete newData["value"];
+    delete newData["show-details-on-click"];
+    delete newData["troika-text"];
+
+    if (
+      Array.isArray(data.current) &&
+      data.current.length === 1 &&
+      Object.keys(data.current[0]).length === 0
+    ) {
+      console.log("!!!!!No data found, adding new data");
+      const updatedJsonString = JSON.stringify([newData], null, 2);
+      updateInspectorData(updatedJsonString);
+      return;
+    }
+    var foundData = false;
+    var foundClassData = false;
+    const updatedData = data.current.map((item) => {
+      if (
+        item?.class !== undefined &&
+        newData?.class !== undefined &&
+        newData?.class === item?.class
+      ) {
+        foundClassData = true;
+        var alteredClassData = updateClassData(newData);
+        return alteredClassData;
+      } else if (newData?.id !== undefined && item?.id === newData?.id) {
+        foundData = true;
+        return newData;
+      } else {
+        return item;
+      }
+    });
+
+    if (!foundData && newData?.id !== undefined && newData?.class === undefined)
+      updatedData.push(newData);
+
+    if (newData?.class !== undefined && !foundClassData) {
+      var alteredClassData = updateClassData(newData);
+      updatedData.push(alteredClassData);
+    }
+
+    const updatedJsonString = JSON.stringify(updatedData, null, 2);
+    console.log("Updated data:", updatedData);
+    updateInspectorData(updatedJsonString);
+  }
+
+  function updateClassData(json) {
+    // Usage: Updates the class data to remove all object specific data
+    const { value, id, visible, src, ...newJson } = json;
+    return newJson;
+  }
+
+  const handleButtonClick = (event) => {
+    // Usage: Handles language change on button click
+    var buttonText = event.target.getAttribute("code");
+    if (buttonText == "") {
+      buttonText = "en";
+    }
+    prev_langRef.current = langRef.current;
+    langRef.current = buttonText;
+    if (prev_langRef.current !== langRef.current) {
+      event.target.click();
+    }
+  };
+
+  // Usage: GetAssets Data from JsonFile
   const getAssetsData = () => {
     setLoading(true);
     const url = `/${ApiEndpoint.GET_ASSETS_DATA}/${PAGE_SLUG}.json`;
     HttpRequest.httpGet(url)
       .then((result) => {
-        setAssetsData(result);
+        // setAssetsData(result);
+        data.current = result;
       })
       .catch((error) => {
         console.log("Error when getting Assets data", error);
@@ -32,6 +203,26 @@ const AFrame = (props) => {
       .finally(() => {
         console.log("GET_ASSETS_DATA finaly response");
         setLoading(false);
+      });
+  };
+
+  // Usage: updated the inspector data
+  const updateInspectorData = async (data) => {
+    const url = `/${ApiEndpoint.UPDATE_INSPECTOR_DATA}`;
+
+    var formdata = new FormData();
+    formdata.append("file", new Blob([data]));
+    const file_name = PAGE_SLUG + ".json";
+    formdata.append("page", file_name);
+
+    HttpRequest.httpPost(url, formdata)
+      .then((result) => {
+        const dataResp = JSON.parse(result);
+        alert(dataResp.message);
+        getAssetsData();
+      })
+      .catch((error) => {
+        console.log("Error", error);
       });
   };
 
@@ -297,16 +488,16 @@ const AFrame = (props) => {
                 id="Excerpt"
                 value={HtmlToText(aFrameData?.excerpt?.rendered)}
                 position={
-                  assetsData?.find((obj) => obj?.id != "Excerpt") && "0 1.6 0"
+                  data?.current?.find((obj) => obj?.id != "Excerpt") && "0 1.6 0"
                 }
-                {...assetsData?.find((obj) => obj?.id == "Excerpt")}
+                {...data?.current?.find((obj) => obj?.id == "Excerpt")}
               ></a-troika-text>
             )}
 
             {aFrameData?.properties_3D?.furniture &&
               aFrameData?.properties_3D?.furniture?.map((furniture) => {
                 let Obj_id = furniture?.slug;
-                let Data_from_Inspector = assetsData?.find(
+                let Data_from_Inspector = data?.current?.find(
                   (obj) => obj?.id == Obj_id
                 );
                 if (!Data_from_Inspector) {
@@ -326,19 +517,19 @@ const AFrame = (props) => {
             {aFrameData?.post_media?.screen_image &&
               aFrameData?.post_media?.screen_image?.map((scientist) => {
                 var Obj_id = scientist?.slug;
-                var Data_from_Inspector = assetsData?.find(
+                var Data_from_Inspector = data?.current?.find(
                   (obj) => obj?.id == Obj_id
                 );
-                var desc_format = assetsData?.find(
+                var desc_format = data?.current?.find(
                   (obj) => obj?.class == "desc_wrapper"
                 );
-                var cap_format = assetsData?.find(
+                var cap_format = data?.current?.find(
                   (obj) => obj?.class == "caption_wrapper"
                 );
-                var name_format = assetsData?.find(
+                var name_format = data?.current?.find(
                   (obj) => obj?.class == "name_wrapper"
                 );
-                var img_format = assetsData?.find(
+                var img_format = data?.current?.find(
                   (obj) => obj?.class == "image_wrapper"
                 );
 
@@ -401,7 +592,7 @@ const AFrame = (props) => {
                             {activeLanguages?.map((lang) => {
                               var key = lang?.code;
                               var classname = "btn-wrapper-" + key;
-                              var insData = assetsData?.find(
+                              var insData = data?.current?.find(
                                 (obj) => obj?.class == classname
                               );
                               var font = AppFonts.NotoSans_Medium;
@@ -417,7 +608,7 @@ const AFrame = (props) => {
                                   value={lang?.native_name}
                                   code={key}
                                   font={font}
-                                  // onClick={handleButtonClick}
+                                  onClick={handleButtonClick}
                                   {...insData}
                                 ></a-troika-text>
                               );

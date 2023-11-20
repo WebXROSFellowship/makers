@@ -34,7 +34,7 @@ export const AFrameOld = (props) => {
   useEffect(() => {
     // getFromServer();
     // AddClickEvent();
-    checkElement();
+    // checkElement();
 
     // Set up a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(checkElement);
@@ -47,18 +47,6 @@ export const AFrameOld = (props) => {
     return () => observer.disconnect();
   }, [elementDetected]);
 
-  const handleButtonClick = (event) => {
-    // Usage: Handles language change on button click
-    var buttonText = event.target.getAttribute("code");
-    if (buttonText == "") {
-      buttonText = "en";
-    }
-    prev_langRef.current = langRef.current;
-    langRef.current = buttonText;
-    if (prev_langRef.current !== langRef.current) {
-      event.target.click();
-    }
-  };
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
     const ele = document.querySelector(
@@ -71,60 +59,6 @@ export const AFrameOld = (props) => {
       setElementDetected(true);
     }
   };
-
-  // const getFromServer = () => {
-  //   // Usage: Loads all assets from server
-  //   const url = `/${ApiEndpoint.GET_PAGES}?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
-  //   HttpRequest.httpGet(url)
-  //     .then((result) => {
-  //       var pagecontents = [];
-  //       var furniture = [];
-  //       var world = [];
-  //       var navmesh = [];
-  //       console.log("RESULT!!!!!!!!!!", result);
-  //       result.map((item) => {
-  //         if (item?.slug === PAGE_SLUG) {
-  //           langRef.current = item?.languages?.default;
-  //           prev_langRef.current = item?.languages?.default;
-  //           pagecontents = item?.post_media?.screen_image;
-  //           furniture = item?.properties_3D?.furniture;
-
-  //           world = item?.properties_3D?.world_model;
-
-  //           navmesh = item?.properties_3D?.nav_mesh;
-  //           console.log("Data from server...", result);
-  //           setExcerptData(item?.excerpt?.rendered);
-  //           setSkyboxData(item?.properties_3D?.skybox);
-  //           setFurnitureData(furniture);
-  //           setWorldData(world);
-  //           setMeshData(navmesh);
-  //           setScientistsData(pagecontents);
-  //           setTimeout(() => setLoading(false), 1000);
-  //         }
-  //       });
-  //       AddClickEvent(pagecontents);
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error from server...", error);
-  //     });
-  // };
-
-  function ShowDescription(Obj) {
-    // Usage: Handles rendering of language change and toggle
-    var children_lang = Obj.querySelectorAll("a-entity");
-
-    for (var i = 0; i < children_lang.length; i += 2) {
-      if (children_lang[i]?.getAttribute("id") === langRef.current) {
-        children_lang[i].setAttribute("visible", "true");
-        var state = !children_lang[i + 1].getAttribute("visible");
-        children_lang[i + 1].setAttribute("visible", state);
-      } else {
-        children_lang[i].setAttribute("visible", "false");
-        var state = !children_lang[i + 1].getAttribute("visible");
-        children_lang[i + 1].setAttribute("visible", state);
-      }
-    }
-  }
 
   function customManipulation() {
     setTimeout(function RightPaneOpen() {
@@ -156,33 +90,27 @@ export const AFrameOld = (props) => {
     }, 1000); // Adjust the delay as needed
   }
 
-  async function fetchLatestData() {
-    // Usage: Fetches the latest data from the server saved through Inspector
-    const url = `/${ApiEndpoint.GET_ASSETS_DATA}/${PAGE_SLUG}.json`;
-    HttpRequest.httpGet(url)
-      .then((result) => {
-        data.current = result;
-      })
-      .catch((error) => {
-        console.log("Failed to fetch dynamic content", error);
-      });
-  }
-
-  function fetchDataClipboard() {
+  const fetchDataClipboard = () => {
     // Usage: Fetches the data from the clipboard and stores it in a variable
     var element = document.querySelector(
       "#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-floppy-disk"
     );
     element.onclick = function () {
       // Usage: Access the data from the clipboard and store it in a variable "clipboardData"
-      navigator.clipboard.readText().then(function (clipboardData) {
-        console.log("Clipboard Data as fetched : ", clipboardData);
-        createJsonSting(clipboardData);
-      });
-    };
-  }
 
-  function createJsonSting(entityString) {
+      navigator.clipboard
+        .readText()
+        .then((clipboardData) => {
+          console.log("Clipboard Data fetched:", clipboardData);
+          createJsonString(clipboardData);
+        })
+        .catch((err) => {
+          console.error("Failed to get clipboard data: ", err);
+        });
+    };
+  };
+
+  function createJsonString(entityString) {
     // Usage: Creates a JSON string from the data fetched from the clipboard.
     var tempElement = document.createElement("div"); // Create a temporary element to parse the string
     tempElement.innerHTML = entityString;
@@ -199,12 +127,7 @@ export const AFrameOld = (props) => {
     console.log("JSON element: ", jsonString);
     updateApiData(jsonString);
   }
-
-  function updateClassData(json) {
-    // Usage: Updates the class data to remove all object specific data
-    const { value, id, visible, src, ...newJson } = json;
-    return newJson;
-  }
+  
   function updateApiData(jsonString) {
     // Usage: Updates the API data with the new JSON string
     // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
@@ -256,6 +179,39 @@ export const AFrameOld = (props) => {
     sendApiRequest(updatedJsonString);
   }
 
+  function updateClassData(json) {
+    // Usage: Updates the class data to remove all object specific data
+    const { value, id, visible, src, ...newJson } = json;
+    return newJson;
+  }
+
+
+
+  const handleButtonClick = (event) => {
+    // Usage: Handles language change on button click
+    var buttonText = event.target.getAttribute("code");
+    if (buttonText == "") {
+      buttonText = "en";
+    }
+    prev_langRef.current = langRef.current;
+    langRef.current = buttonText;
+    if (prev_langRef.current !== langRef.current) {
+      event.target.click();
+    }
+  };
+  
+
+  async function fetchLatestData() {
+    // Usage: Fetches the latest data from the server saved through Inspector
+    const url = `/${ApiEndpoint.GET_ASSETS_DATA}/${PAGE_SLUG}.json`;
+    HttpRequest.httpGet(url)
+      .then((result) => {
+        data.current = result;
+      })
+      .catch((error) => {
+        console.log("Failed to fetch dynamic content", error);
+      });
+  }
   const sendApiRequest = async (data) => {
     // Usage: Sends the updated data to the API
     const url = `/${ApiEndpoint.UPDATE_INSPECTOR_DATA}`;
@@ -276,6 +232,7 @@ export const AFrameOld = (props) => {
     fetchLatestData();
   };
 
+  
   // function AddClickEvent() {
   //   // Usage: Adds a click event to the entity to show the description
   //   AFRAME.registerComponent("show-details-on-click", {
@@ -288,6 +245,23 @@ export const AFrameOld = (props) => {
   //   });
   // }
 
+  // function ShowDescription(Obj) {
+  //   // Usage: Handles rendering of language change and toggle
+  //   var children_lang = Obj.querySelectorAll("a-entity");
+
+  //   for (var i = 0; i < children_lang.length; i += 2) {
+  //     if (children_lang[i]?.getAttribute("id") === langRef.current) {
+  //       children_lang[i].setAttribute("visible", "true");
+  //       var state = !children_lang[i + 1].getAttribute("visible");
+  //       children_lang[i + 1].setAttribute("visible", state);
+  //     } else {
+  //       children_lang[i].setAttribute("visible", "false");
+  //       var state = !children_lang[i + 1].getAttribute("visible");
+  //       children_lang[i + 1].setAttribute("visible", state);
+  //     }
+  //   }
+  // }
+
   // function HtmlToText(htmlContent) {
   //   // Create a new DOMParser instance
   //   const parser = new DOMParser();
@@ -297,6 +271,43 @@ export const AFrameOld = (props) => {
   //   const textContent = document.body.textContent;
   //   return textContent;
   // }
+
+  // const getFromServer = () => {
+  //   // Usage: Loads all assets from server
+  //   const url = `/${ApiEndpoint.GET_PAGES}?fields=id,type,title,content,slug,excerpt,languages,post_media,featured_media,screen_images,properties_3D,featured_video,cats,tags,type&filter[orderby]=ID&order=asc&per_page=100`;
+  //   HttpRequest.httpGet(url)
+  //     .then((result) => {
+  //       var pagecontents = [];
+  //       var furniture = [];
+  //       var world = [];
+  //       var navmesh = [];
+  //       console.log("RESULT!!!!!!!!!!", result);
+  //       result.map((item) => {
+  //         if (item?.slug === PAGE_SLUG) {
+  //           langRef.current = item?.languages?.default;
+  //           prev_langRef.current = item?.languages?.default;
+  //           pagecontents = item?.post_media?.screen_image;
+  //           furniture = item?.properties_3D?.furniture;
+
+  //           world = item?.properties_3D?.world_model;
+
+  //           navmesh = item?.properties_3D?.nav_mesh;
+  //           console.log("Data from server...", result);
+  //           setExcerptData(item?.excerpt?.rendered);
+  //           setSkyboxData(item?.properties_3D?.skybox);
+  //           setFurnitureData(furniture);
+  //           setWorldData(world);
+  //           setMeshData(navmesh);
+  //           setScientistsData(pagecontents);
+  //           setTimeout(() => setLoading(false), 1000);
+  //         }
+  //       });
+  //       AddClickEvent(pagecontents);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error from server...", error);
+  //     });
+  // };
 
   return (
     <>
