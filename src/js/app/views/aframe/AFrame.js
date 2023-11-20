@@ -238,7 +238,7 @@ const AFrame = (props) => {
         environment="preset: forest; ground: canyon;groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017; grid: cross;"
         loading-screen="enabled: true;dotsColor: #FF3D00; backgroundColor: #252544"
         device-orientation-permission-ui="enabled: false"
-        vr-mode-ui="enabled: false"
+        vr-mode-ui="enabled: true"
         // webxr="requiredFeatures: hit-test,local-floor;
         //         optionalFeatures: dom-overlay,unbounded;
         //         overlayElement: #overlay;"
@@ -301,7 +301,7 @@ const AFrame = (props) => {
           // position="25 10 0"
           rotation-reader
           thumbstick-logging
-          movement-controls="constrainToNavMesh: true; speed:1; controls: checkpoint, gamepad, trackpad, keyboard, touch, nipple;"
+          movement-controls="constrainToNavMesh: true; speed:1; controls: checkpoint, gamepad, trackpad, keyboard, touch;"
           checkpoint-controls="mode: animate"
           nipple-controls="mode: static"
         >
@@ -358,26 +358,7 @@ const AFrame = (props) => {
               cursor="rayOrigin: mouse"
             />
 
-            {/* Gear VR Controls */}
-            <a-entity
-              id="gearvr-controls-left-hand"
-              gearvr-controls="hand: left"
-            />
-            <a-entity
-              id="gearvr-controls-left-hand"
-              gearvr-controls="hand: right"
-            />
-
-            {/* Magic-leap Controls */}
-            <a-entity
-              id="magicleap-controls-left-hand"
-              magicleap-controls="hand: left"
-            />
-            <a-entity
-              id="magicleap-controls-right-hand"
-              magicleap-controls="hand: right"
-            />
-
+           
             {/* Oculus go Controls */}
             <a-entity
               id="oculus-go-controls-left-hand"
@@ -402,23 +383,7 @@ const AFrame = (props) => {
               hand-controls="hand: right; handModelStyle: highPoly; color: #0055ff"
               blink-controls="cameraRig: #cameraRig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
             />
-
-            {/* HTC Vive controllers/wands */}
-            <a-entity id="vive-controls-left-hand" vive-controls="hand: left" />
-            <a-entity
-              id="vive-controls-right-hand"
-              vive-controls="hand: right"
-            />
-
-            {/* HTC Vive focus controllers/wands */}
-            <a-entity
-              id="vive-focus-controls-left-hand"
-              vive-focus-controls="hand: left"
-            />
-            <a-entity
-              id="vive-focus-controls-right-hand"
-              vive-focus-controls="hand: right"
-            />
+            
 
             {/* Windows-Motion-controls */}
             <a-entity
