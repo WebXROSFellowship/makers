@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 
 import "@styles/style.scss";
 import { ApiEndpoint, AppConfig, HttpRequest } from "../../config";
-import { DataContext } from "../../utils";
 import { AppLoader } from "../../components";
 import { NotFound } from "../index";
+import { DataContext } from "../../context";
 
 const Posts = () => {
   const base_url = AppConfig.SITE_URL;
@@ -17,7 +17,6 @@ const Posts = () => {
   const curl = slug_name !== undefined ? "/" + slug_name + "/" : "";
 
   useEffect(() => {
-    // console.log("param", slug_name);
     getPostsData();
   }, [lang, menuData, slug_name]);
 
@@ -31,15 +30,7 @@ const Posts = () => {
             setData(postData);
           } else {
             if (postData?.slug === slug_name) {
-              console.log(
-                "menuItem with page",
-                postData?.slug,
-                slug_name,
-                curl
-              );
               setData(postData);
-            } else {
-              // console.log("menuItem without page", postData, curl);
             }
           }
         });
@@ -48,7 +39,6 @@ const Posts = () => {
         console.log("Error when getting GET_POSTS data", error);
       })
       .finally(() => {
-        console.log("GET_POSTS finaly response");
         setLoading(false);
       });
   };

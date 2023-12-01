@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 
 import { ApiEndpoint, AppConfig, HttpRequest } from "../../config";
 import { AppLoader } from "../../components";
-import { DataContext, HtmlToText } from "../../utils";
+import {  HtmlToText } from "../../utils";
 import { AppFonts } from "../../constants";
+import { DataContext } from "../../context";
 
 export const AFrameOld = (props) => {
   const base_url = AppConfig.SITE_URL;

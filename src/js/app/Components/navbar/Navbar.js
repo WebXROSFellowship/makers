@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
 
 import "@styles/style.scss";
-import { DataContext } from "../../utils";
 import { AppConfig } from "../../config";
+import { DataContext } from "../../context";
 
 export const Navbar = () => {
   const { activeLanguages, menuData, lang, setLang } = useContext(DataContext);
@@ -35,7 +35,7 @@ export const Navbar = () => {
         items = item?.items;
       }
     });
-    console.log("main menus", items);
+    // console.log("main menus", items);
 
     const parents = {};
     const children = [];

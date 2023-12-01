@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 
 import { routes } from "./routes";
-import { DataContext } from "./utils";
 import { AppLoader } from "./components";
 import { ApiEndpoint, AppConfig, HttpRequest } from "./config";
+import { DataContext } from "./context";
 
 const App = () => {
   const base_url = AppConfig.SITE_URL;
@@ -20,7 +20,7 @@ const App = () => {
   const [lang, setLang] = useState([]);
 
   useEffect(() => {
-    console.log("app config", AppConfig);
+    // console.log("app config", AppConfig);
     getActiveLanguages();
     getMenuData();
   }, [lang]);
@@ -55,7 +55,6 @@ const App = () => {
         console.log("Error when getting menu data", error);
       })
       .finally(() => {
-        console.log("GET_MENUS finaly response");
         setLoading(false);
       });
   };

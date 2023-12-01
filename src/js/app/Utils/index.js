@@ -1,3 +1,3 @@
-export * from "./DataContext";
 export * from "./GetDeviceType";
-export * from "./HtmlToText";
+export * from "./ConvertData";
+export * from "./ClipBoard";

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { AppConfig } from "../../config/AppConfig";
 import { AppLoader } from "../../components";
-import { DataContext } from "../../utils";
+import { DataContext } from "../../context";
 
 const AFrame = (props) => {
   const base_url = AppConfig.SITE_URL;

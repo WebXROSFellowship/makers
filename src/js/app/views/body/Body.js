@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 
 import "@styles/style.scss";
 import { ApiEndpoint, AppConfig, HttpRequest } from "../../config";
-import { DataContext } from "../../utils";
 import { AppLoader } from "../../components";
 import { AFrame, AFrameOld, NotFound } from "../index";
+import { DataContext } from "../../context";
 
 const Body = () => {
   const base_url = AppConfig.SITE_URL;
@@ -31,16 +31,8 @@ const Body = () => {
             setData(pageData);
           } else {
             if (pageData?.slug === slug_name) {
-              // console.log(
-              //   "menuItem with page",
-              //   pageData?.slug,
-              //   slug_name,
-              //   curl
-              // );
               setData(pageData);
-            } else {
-              // console.log("menuItem without page", pageData, curl);
-            }
+            } 
           }
         });
       })
@@ -48,7 +40,6 @@ const Body = () => {
         console.log("Error when getting PAGES data", error);
       })
       .finally(() => {
-        console.log("GET_PAGES finaly response");
         setLoading(false);
       });
   };

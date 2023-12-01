@@ -6,7 +6,7 @@ import "@styles/style.scss";
 import { ApiEndpoint, AppConfig, HttpRequest } from "../../config";
 import { AppLoader } from "../../components";
 import { NotFound } from "../index";
-import { DataContext } from "../../utils";
+import { DataContext } from "../../context";
 
 const Profile = () => {
   const base_url = AppConfig.SITE_URL;
@@ -31,15 +31,7 @@ const Profile = () => {
             setData(profileData);
           } else {
             if (profileData?.slug === slug_name) {
-              console.log(
-                "menuItem with page",
-                profileData?.slug,
-                slug_name,
-                curl
-              );
               setData(profileData);
-            } else {
-              // console.log("menuItem without page", profileData, curl);
             }
           }
         });
@@ -48,7 +40,6 @@ const Profile = () => {
         console.log("Error when getting body data", error);
       })
       .finally(() => {
-        console.log("GET_PROFILES finaly response");
         setLoading(false);
       });
   };

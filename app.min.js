@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 725:
+/***/ 343:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 
@@ -5452,7 +5452,7 @@ function getFormSubmissionInfo(target, basename) {
 }
 
 const _excluded = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset"],
-  _excluded2 = ["aria-current", "caseSensitive", "className", "end", "style", "to", "children"],
+  _excluded2 = (/* unused pure expression or super */ null && (["aria-current", "caseSensitive", "className", "end", "style", "to", "children"])),
   _excluded3 = (/* unused pure expression or super */ null && (["reloadDocument", "replace", "method", "action", "onSubmit", "submit", "relative", "preventScrollReset"]));
 function createBrowserRouter(routes, opts) {
   return router_createRouter({
@@ -5724,7 +5724,7 @@ if (false) {}
 /**
  * A <Link> wrapper that knows if it's "active" or not.
  */
-const NavLink = /*#__PURE__*/react.forwardRef(function NavLinkWithRef(_ref5, ref) {
+const dist_NavLink = /*#__PURE__*/(/* unused pure expression or super */ null && (React.forwardRef(function NavLinkWithRef(_ref5, ref) {
   let {
       "aria-current": ariaCurrentProp = "page",
       caseSensitive = false,
@@ -5735,14 +5735,14 @@ const NavLink = /*#__PURE__*/react.forwardRef(function NavLinkWithRef(_ref5, ref
       children
     } = _ref5,
     rest = _objectWithoutPropertiesLoose(_ref5, _excluded2);
-  let path = dist_useResolvedPath(to, {
+  let path = useResolvedPath(to, {
     relative: rest.relative
   });
-  let location = dist_useLocation();
-  let routerState = react.useContext(DataRouterStateContext);
+  let location = useLocation();
+  let routerState = React.useContext(UNSAFE_DataRouterStateContext);
   let {
     navigator
-  } = react.useContext(NavigationContext);
+  } = React.useContext(UNSAFE_NavigationContext);
   let toPathname = navigator.encodeLocation ? navigator.encodeLocation(path).pathname : path.pathname;
   let locationPathname = location.pathname;
   let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
@@ -5772,7 +5772,7 @@ const NavLink = /*#__PURE__*/react.forwardRef(function NavLinkWithRef(_ref5, ref
     isActive,
     isPending
   }) : styleProp;
-  return /*#__PURE__*/react.createElement(dist_Link, react_router_dom_dist_extends({}, rest, {
+  return /*#__PURE__*/React.createElement(dist_Link, react_router_dom_dist_extends({}, rest, {
     "aria-current": ariaCurrent,
     className: className,
     ref: ref,
@@ -5782,7 +5782,7 @@ const NavLink = /*#__PURE__*/react.forwardRef(function NavLinkWithRef(_ref5, ref
     isActive,
     isPending
   }) : children);
-});
+})));
 if (false) {}
 /**
  * A `@remix-run/router`-aware `<form>`. It behaves like a normal form except
@@ -6303,49 +6303,152 @@ const AppLoader = () => {
     className: "loaderText"
   }, "Loading..."));
 };
-;// CONCATENATED MODULE: ./src/js/app/utils/DataContext.js
-
-const DataContext_DataContext = /*#__PURE__*/(0,react.createContext)({
-  data: {}
-});
-DataContext_DataContext.displayName = "DataContext";
+;// CONCATENATED MODULE: ./src/js/app/config/AppConfig.js
+const AppConfig_AppConfig = configData;
 ;// CONCATENATED MODULE: ./src/js/app/utils/GetDeviceType.js
 const getUserAgentDeviceInfo = () => {
   const userAgent = navigator.userAgent;
   let deviceType = "Unknown";
-
   // Check for specific keywords in the user agent string to identify device type
-  if (/Android/i.test(userAgent)) {
-    deviceType = "Android";
-  } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
-    deviceType = "iOS";
-  } else if (/Windows Phone/i.test(userAgent)) {
-    deviceType = "Windows Phone";
-  } else if (/Windows/i.test(userAgent)) {
-    deviceType = "Windows";
-  } else if (/Macintosh/i.test(userAgent)) {
-    deviceType = "Macintosh";
-  } else if (/Linux/i.test(userAgent)) {
-    deviceType = "Linux";
+
+  switch (true) {
+    case /Android/i.test(userAgent):
+      deviceType = "Android";
+      break;
+    case /iPhone|iPad|iPod/i.test(userAgent):
+      deviceType = "iOS";
+      break;
+    case /Windows Phone/i.test(userAgent):
+      deviceType = "Windows Phone";
+      break;
+    case /Windows/i.test(userAgent):
+      deviceType = "Windows";
+      break;
+    case /Macintosh/i.test(userAgent):
+      deviceType = "Macintosh";
+      break;
+    case /Linux/i.test(userAgent):
+      deviceType = "Linux";
+      break;
+    default:
+      break;
   }
   return deviceType;
 };
-;// CONCATENATED MODULE: ./src/js/app/utils/HtmlToText.js
-const HtmlToText_HtmlToText = htmlContent => {
-  // Create a new DOMParser instance
-  const parser = new DOMParser();
-  // Parse the HTML content
-  const document = parser.parseFromString(htmlContent, "text/html");
-  // Extract the plain text using textContent
-  const textContent = document.body.textContent;
-  return textContent;
+;// CONCATENATED MODULE: ./src/js/app/utils/ConvertData.js
+/**
+ * Converts HTML content to plain text.
+ * @param {string} htmlContent - HTML content to be converted to text
+ * @returns {string} - Plain text extracted from HTML content
+ */
+const ConvertData_HtmlToText = htmlContent => {
+  try {
+    console.log("htmlContent", htmlContent);
+    if (!htmlContent || typeof htmlContent !== "string") {
+      throw new Error("Invalid or empty HTML content provided.");
+    }
+
+    // Create a new DOMParser instance
+    const parser = new DOMParser();
+    // Parse the HTML content
+    const parsedDocument = parser.parseFromString(htmlContent, "text/html");
+
+    // Extract the plain text using textContent
+    const textContent = parsedDocument.body.textContent || "";
+    return textContent.trim(); // Trim any leading/trailing whitespace
+  } catch (error) {
+    console.error("Error occurred while converting HTML to text:", error);
+    return ""; // Return empty string or throw the error further
+  }
+};
+
+/**
+ * Creates a JSON string from HTML attributes fetched from a string representation of an HTML element.
+ * @param {string} entityString - String representation of an HTML element
+ * @returns {string} - JSON string representation of HTML attributes
+ */
+const CreateJsonString = entityString => {
+  try {
+    var _tempElement$firstChi;
+    // Create a temporary element to parse the string
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = entityString;
+    const entityAttributes = (_tempElement$firstChi = tempElement.firstChild) === null || _tempElement$firstChi === void 0 ? void 0 : _tempElement$firstChi.attributes;
+    if (!entityAttributes || entityAttributes.length === 0) {
+      throw new Error("No attributes found or invalid entityString provided.");
+    }
+
+    // Convert the attributes into an object
+    const entityObject = {};
+    for (let i = 0; i < entityAttributes.length; i++) {
+      const attr = entityAttributes[i];
+      entityObject[attr.name] = attr.value;
+    }
+
+    // Convert the object to JSON string
+    const jsonString = JSON.stringify(entityObject);
+    return jsonString;
+  } catch (error) {
+    console.error("Error occurred:", error);
+    return null; // or throw the error further
+  }
+};
+;// CONCATENATED MODULE: ./src/js/app/utils/ClipBoard.js
+const Clipboard = {
+  // Function to check clipboard read permission
+  checkClipboardReadPermission: async () => {
+    try {
+      const permissionStatus = await navigator.permissions.query({
+        name: "clipboard-read"
+      });
+      console.log("Clipboard permission status:", permissionStatus.state);
+      permissionStatus.onchange = () => {
+        console.log("Permission status changed to:", permissionStatus.state);
+      };
+      return permissionStatus.state; // Return the permission status
+    } catch (err) {
+      console.error("Error checking clipboard permission:", err);
+      throw new Error(err); // Throw the error
+    }
+  },
+
+  // Function to get data from clipboard
+  getFromClipBoard: async () => {
+    try {
+      const permissionState = await Clipboard.checkClipboardReadPermission();
+      return new Promise(async (resolve, reject) => {
+        if (permissionState === "granted" || permissionState === "prompt") {
+          if (navigator.clipboard) {
+            try {
+              const text = await navigator.clipboard.readText();
+              console.log("Text from clipboard:...", text);
+              resolve(text); // Resolve the promise with the clipboard text
+            } catch (err) {
+              console.error("Failed to read clipboard:", err);
+              alert("Failed to read clipboard data. Check console for error details.");
+              reject(new Error(err)); // Reject the promise with the error
+            }
+          } else {
+            console.error("Clipboard API is not supported in this browser.");
+            alert("Clipboard API is not supported in this browser.");
+            reject(new Error("Clipboard API is not supported"));
+          }
+        } else {
+          console.error("Clipboard permission denied in this browser.");
+          alert("Clipboard permission denied in this browser.");
+          reject(new Error("Clipboard permission denied"));
+        }
+      });
+    } catch (err) {
+      console.error("Error checking clipboard permission:", err);
+      throw err; // Propagate the error
+    }
+  }
 };
 ;// CONCATENATED MODULE: ./src/js/app/utils/index.js
 
 
 
-;// CONCATENATED MODULE: ./src/js/app/config/AppConfig.js
-const AppConfig_AppConfig = configData;
 ;// CONCATENATED MODULE: ./src/js/app/config/ApiConfig.js
 
 
@@ -6444,6 +6547,14 @@ const ApiEndpoint_ApiEndpoint = {
 
 
 
+;// CONCATENATED MODULE: ./src/js/app/context/DataContext.js
+
+const DataContext_DataContext = /*#__PURE__*/(0,react.createContext)({
+  data: {}
+});
+DataContext_DataContext.displayName = "DataContext";
+;// CONCATENATED MODULE: ./src/js/app/context/index.js
+
 ;// CONCATENATED MODULE: ./src/js/app/components/navbar/Navbar.js
 
 
@@ -6456,15 +6567,15 @@ const Navbar = () => {
     menuData,
     lang,
     setLang
-  } = (0,react.useContext)(DataContext_DataContext);
-  const [showMenu, setShowMenu] = (0,react.useState)(false);
-  const [navbarMenus, setNavbarMenus] = (0,react.useState)([]);
-  const [c2IDs, setC2IDs] = (0,react.useState)([]);
-  const [hoveredIndex, setHoveredIndex] = (0,react.useState)(-1);
-  const [navbarData, setNavbarData] = (0,react.useState)([]);
+  } = useContext(DataContext);
+  const [showMenu, setShowMenu] = useState(false);
+  const [navbarMenus, setNavbarMenus] = useState([]);
+  const [c2IDs, setC2IDs] = useState([]);
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
+  const [navbarData, setNavbarData] = useState([]);
 
   // The useEffect hook is used to call the getData function once when the component is mounted.
-  (0,react.useEffect)(() => {
+  useEffect(() => {
     settingMenuData();
   }, [menuData, lang]);
   function formatNames(name) {
@@ -6483,7 +6594,8 @@ const Navbar = () => {
         items = item === null || item === void 0 ? void 0 : item.items;
       }
     });
-    console.log("main menus", items);
+    // console.log("main menus", items);
+
     const parents = {};
     const children = [];
     const grandchildren = [];
@@ -6533,40 +6645,40 @@ const Navbar = () => {
    * This is a functional React component that returns a Navbar.
    */
 
-  return /*#__PURE__*/react.createElement("header", {
+  return /*#__PURE__*/React.createElement("header", {
     className: "App-header"
-  }, /*#__PURE__*/react.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "App-header-left"
-  }, /*#__PURE__*/react.createElement(dist_Link, {
+  }, /*#__PURE__*/React.createElement(Link, {
     className: "",
     to: "/"
-  }, (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/react.createElement("div", {
+  }, (AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/React.createElement("div", {
     className: "App-logo"
-  }, /*#__PURE__*/react.createElement("img", {
-    src: AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_CUSTOM_LOGO[0],
+  }, /*#__PURE__*/React.createElement("img", {
+    src: AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO[0],
     alt: "logo"
-  })), /*#__PURE__*/react.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: "App-title"
-  }, AppConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("h4", {
+  }, AppConfig.SITE_TITLE ? /*#__PURE__*/React.createElement("h4", {
     className: "title-head"
-  }, " ", AppConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("h4", {
+  }, " ", AppConfig.SITE_TITLE) : /*#__PURE__*/React.createElement("h4", {
     className: "title-head"
-  }, " Site Title ")))), /*#__PURE__*/react.createElement("nav", {
+  }, " Site Title ")))), /*#__PURE__*/React.createElement("nav", {
     className: "navbar"
-  }, /*#__PURE__*/react.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "navbar-right"
   }, navbarData && (navbarData === null || navbarData === void 0 ? void 0 : navbarData.map((currNavBarItem, i) => {
     let title = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.title;
     let titleUrl = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.url;
     let childItems = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.childItems;
-    return /*#__PURE__*/react.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "dropdown",
       key: i
-    }, /*#__PURE__*/react.createElement(NavLink, {
+    }, /*#__PURE__*/React.createElement(NavLink, {
       to: titleUrl
-    }, /*#__PURE__*/react.createElement("button", {
+    }, /*#__PURE__*/React.createElement("button", {
       className: "dropbtn"
-    }, title)), /*#__PURE__*/react.createElement("div", {
+    }, title)), /*#__PURE__*/React.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const {
@@ -6574,24 +6686,24 @@ const Navbar = () => {
         url,
         childItems: nestedChildItems
       } = menu;
-      return /*#__PURE__*/react.createElement(NavLink, {
+      return /*#__PURE__*/React.createElement(NavLink, {
         className: "dropdown__items",
         key: i,
         to: url
-      }, formatNames(title), nestedChildItems && nestedChildItems.length > 0 && /*#__PURE__*/react.createElement("div", {
+      }, formatNames(title), nestedChildItems && nestedChildItems.length > 0 && /*#__PURE__*/React.createElement("div", {
         className: "n2"
-      }, nestedChildItems.map((cur, i) => /*#__PURE__*/react.createElement(NavLink, {
+      }, nestedChildItems.map((cur, i) => /*#__PURE__*/React.createElement(NavLink, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
       }, cur === null || cur === void 0 ? void 0 : cur.title))));
     })));
   })), /* The Language Section of Navbar*/
-  (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 && /*#__PURE__*/react.createElement("div", {
+  (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 && /*#__PURE__*/React.createElement("div", {
     className: "dropdown"
-  }, /*#__PURE__*/react.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     className: "dropbtn"
-  }, " Languages "), /*#__PURE__*/react.createElement("div", {
+  }, " Languages "), /*#__PURE__*/React.createElement("div", {
     className: "dropdown__content"
   }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(currLang => {
     let cLang = currLang.native_name;
@@ -6599,81 +6711,81 @@ const Navbar = () => {
     if (code == "en") {
       code = "";
     }
-    return /*#__PURE__*/react.createElement("span", {
+    return /*#__PURE__*/React.createElement("span", {
       onClick: () => setLang(`${code}`),
       key: code,
       className: "dropdown__items"
     }, cLang);
-  }))), /*#__PURE__*/react.createElement("div", {
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "hamburger"
-  }, /*#__PURE__*/react.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: "hamburger__logo",
     onClick: () => {
       setShowMenu(!showMenu);
     }
-  }, /*#__PURE__*/react.createElement("i", {
+  }, /*#__PURE__*/React.createElement("i", {
     className: "fa-solid fa-bars fa-xl"
-  }))), showMenu === true && /*#__PURE__*/react.createElement("div", {
+  }))), showMenu === true && /*#__PURE__*/React.createElement("div", {
     className: "sideMenu"
   }, navbarData ? navbarData === null || navbarData === void 0 ? void 0 : navbarData.map(currNavBarItem => {
     let title = currNavBarItem === null || currNavBarItem === void 0 ? void 0 : currNavBarItem.title;
     let childItems = currNavBarItem.childItems;
-    return /*#__PURE__*/react.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "dropdown2",
       key: currNavBarItem
-    }, /*#__PURE__*/react.createElement("button", {
+    }, /*#__PURE__*/React.createElement("button", {
       className: "dropbtn"
-    }, title), /*#__PURE__*/react.createElement("div", {
+    }, title), /*#__PURE__*/React.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const {
         title,
         url
       } = menu;
-      return /*#__PURE__*/react.createElement(NavLink, {
+      return /*#__PURE__*/React.createElement(NavLink, {
         className: "dropdown__items",
         key: title,
         to: url
       }, formatNames(title));
     })));
-  }) : /*#__PURE__*/react.createElement(react.Fragment, null), navbarData && navbarData.map((currEle, i) => {
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null), navbarData && navbarData.map((currEle, i) => {
     let {
       head,
       childItems,
       nestedItems
     } = currEle;
-    return /*#__PURE__*/react.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: "dropdown2",
       key: i
-    }, /*#__PURE__*/react.createElement("button", {
+    }, /*#__PURE__*/React.createElement("button", {
       className: "dropbtn"
-    }, head === null || head === void 0 ? void 0 : head.title), /*#__PURE__*/react.createElement("div", {
+    }, head === null || head === void 0 ? void 0 : head.title), /*#__PURE__*/React.createElement("div", {
       className: "dropdown__content"
     }, childItems.map((menu, i) => {
       const c = c2IDs.includes(menu.ID);
-      return /*#__PURE__*/react.createElement(NavLink, {
+      return /*#__PURE__*/React.createElement(NavLink, {
         className: "dropdown__items",
         key: i,
         onMouseEnter: () => setHoveredIndex(i),
         onMouseLeave: () => setHoveredIndex(-1),
         to: menu.url
-      }, formatNames(menu === null || menu === void 0 ? void 0 : menu.title), c && /*#__PURE__*/react.createElement("span", {
+      }, formatNames(menu === null || menu === void 0 ? void 0 : menu.title), c && /*#__PURE__*/React.createElement("span", {
         className: "n2-drop"
-      }, /*#__PURE__*/react.createElement("i", {
+      }, /*#__PURE__*/React.createElement("i", {
         className: "fa-solid fa-circle-chevron-down"
-      })), c && hoveredIndex === i && /*#__PURE__*/react.createElement("div", {
+      })), c && hoveredIndex === i && /*#__PURE__*/React.createElement("div", {
         className: "n2"
-      }, nestedItems.map((cur, i) => /*#__PURE__*/react.createElement(NavLink, {
+      }, nestedItems.map((cur, i) => /*#__PURE__*/React.createElement(NavLink, {
         to: cur.url,
         className: "dropdown__items d2",
         key: i
       }, cur === null || cur === void 0 ? void 0 : cur.title))));
     })));
-  }), (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 && /*#__PURE__*/react.createElement("div", {
+  }), (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 && /*#__PURE__*/React.createElement("div", {
     className: "dropdown2"
-  }, /*#__PURE__*/react.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     className: "dropbtn"
-  }, " Languages "), /*#__PURE__*/react.createElement("div", {
+  }, " Languages "), /*#__PURE__*/React.createElement("div", {
     className: "dropdown__content"
   }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(currLang => {
     let cLang = currLang.native_name;
@@ -6681,7 +6793,7 @@ const Navbar = () => {
     if (code == "en") {
       code = "";
     }
-    return /*#__PURE__*/react.createElement("span", {
+    return /*#__PURE__*/React.createElement("span", {
       onClick: () => setLang(`${code}`),
       key: code,
       className: "dropdown__items"
@@ -6858,32 +6970,19 @@ const Footer = () => {
 
 
 const Header = () => {
-  const [mainMenus, setMainMenus] = useState([]);
-  const [parentMenus, setParentMenus] = useState([]);
-  const [childMenus, setChildMenus] = useState([]);
+  const [mainMenus, setMainMenus] = (0,react.useState)([]);
+  const [parentMenus, setParentMenus] = (0,react.useState)([]);
+  const [childMenus, setChildMenus] = (0,react.useState)([]);
   const {
     activeLanguages,
     menuData,
     lang,
     setLang
-  } = useContext(DataContext);
-  useMemo(() => {
+  } = (0,react.useContext)(DataContext_DataContext);
+  (0,react.useMemo)(() => {
     menuData.filter(item => {
       if ((item === null || item === void 0 ? void 0 : item.slug) == "main-menu") {
         setMainMenus(item === null || item === void 0 ? void 0 : item.items);
-        // item?.items?.map((menuItem) => {
-        //   let parent = [];
-        //   let child = [];
-        //   if (menuItem?.menu_item_parent === "0") {
-        //     parent.push(menuItem);
-        //     // console.log("Parent menu", parent);
-        //     setParentMenus(parent);
-        //   } else {
-        //     child.push(menuItem);
-        //     // console.log("child menu", child);
-        //     setChildMenus(child);
-        //   }
-        // });
       }
     });
   }, [menuData, lang]);
@@ -6892,12 +6991,12 @@ const Header = () => {
       items
     } = _ref;
     console.log("SubNested Menus Item", items);
-    return items && items.length > 0 && /*#__PURE__*/React.createElement("ul", {
+    return items.length > 0 && /*#__PURE__*/react.createElement("ul", {
       className: "dropdown-menu dropdown__content subNested-Menus"
-    }, items.map(childItem => /*#__PURE__*/React.createElement("li", {
+    }, items.map(childItem => /*#__PURE__*/react.createElement("li", {
       key: childItem.ID,
       className: "nav-item"
-    }, /*#__PURE__*/React.createElement(Link, {
+    }, /*#__PURE__*/react.createElement(dist_Link, {
       className: "dropdown-item",
       to: childItem.url
     }, childItem.title))));
@@ -6906,44 +7005,42 @@ const Header = () => {
     let {
       items
     } = _ref2;
-    console.log("Nested Item", items);
-    return items && items.length > 0 && /*#__PURE__*/React.createElement("ul", {
+    // console.log("Nested Item", items);
+    return (items === null || items === void 0 ? void 0 : items.length) > 0 && /*#__PURE__*/react.createElement("ul", {
       className: "dropdown-menu dropdown__content"
-    }, items.map(childItem => /*#__PURE__*/React.createElement("li", {
+    }, items.map(childItem => /*#__PURE__*/react.createElement("li", {
       key: childItem === null || childItem === void 0 ? void 0 : childItem.ID,
       className: "nav-item"
-    }, /*#__PURE__*/React.createElement(Link, {
+    }, /*#__PURE__*/react.createElement(dist_Link, {
       className: "dropdown-item",
       to: childItem === null || childItem === void 0 ? void 0 : childItem.url
-    }, childItem === null || childItem === void 0 ? void 0 : childItem.title), /*#__PURE__*/React.createElement(NestedMenu, {
-      items: items.filter(subItem => (subItem === null || subItem === void 0 ? void 0 : subItem.ID) == (childItem === null || childItem === void 0 ? void 0 : childItem.menu_item_parent))
-    }))));
+    }, childItem === null || childItem === void 0 ? void 0 : childItem.title))));
   };
-  return /*#__PURE__*/React.createElement("header", {
+  return /*#__PURE__*/react.createElement("header", {
     className: "App-header"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/react.createElement("div", {
     className: "App-header-left"
-  }, /*#__PURE__*/React.createElement(Link, {
+  }, /*#__PURE__*/react.createElement(dist_Link, {
     className: "",
     to: "/"
-  }, (AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/React.createElement("div", {
+  }, (AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_CUSTOM_LOGO) && /*#__PURE__*/react.createElement("div", {
     className: "App-logo"
-  }, /*#__PURE__*/React.createElement("img", {
-    src: AppConfig === null || AppConfig === void 0 ? void 0 : AppConfig.SITE_CUSTOM_LOGO[0],
+  }, /*#__PURE__*/react.createElement("img", {
+    src: AppConfig_AppConfig === null || AppConfig_AppConfig === void 0 ? void 0 : AppConfig_AppConfig.SITE_CUSTOM_LOGO[0],
     alt: "logo"
-  })), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/react.createElement("div", {
     className: "App-title"
-  }, AppConfig.SITE_TITLE ? /*#__PURE__*/React.createElement("h4", {
+  }, AppConfig_AppConfig.SITE_TITLE ? /*#__PURE__*/react.createElement("h4", {
     className: "title-head"
-  }, " ", AppConfig.SITE_TITLE) : /*#__PURE__*/React.createElement("h4", {
+  }, " ", AppConfig_AppConfig.SITE_TITLE) : /*#__PURE__*/react.createElement("h4", {
     className: "title-head"
-  }, " Site Title ")))), /*#__PURE__*/React.createElement("div", {
+  }, " WebXR By - PowerSimple ")))), /*#__PURE__*/react.createElement("div", {
     className: "App-header-right  d-flex flex-row-reverse "
-  }, /*#__PURE__*/React.createElement("nav", {
+  }, /*#__PURE__*/react.createElement("nav", {
     className: "navbar navbar-expand-lg navbar-dark  "
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/react.createElement("div", {
     className: "container-fluid navbar-container "
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/react.createElement("button", {
     className: "navbar-toggler",
     type: "button",
     "data-bs-toggle": "collapse",
@@ -6951,45 +7048,44 @@ const Header = () => {
     "aria-controls": "navbarToggleBtn",
     "aria-expanded": "false",
     "aria-label": "Toggle navigation"
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/react.createElement("span", {
     className: "navbar-toggler-icon"
-  })), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/react.createElement("div", {
     className: "collapse navbar-collapse",
     id: "navbarToggleBtn"
-  }, /*#__PURE__*/React.createElement("ul", {
+  }, /*#__PURE__*/react.createElement("ul", {
     className: "navbar-nav me-auto mb-2 mb-lg-0 "
   }, /* The main dropdown menu items of the Navbar */
 
-  mainMenus && mainMenus.length > 0 && mainMenus.map(menuItem => {
+  (mainMenus === null || mainMenus === void 0 ? void 0 : mainMenus.length) > 0 && (mainMenus === null || mainMenus === void 0 ? void 0 : mainMenus.map(menuItem => {
     if (menuItem.menu_item_parent === "0") {
-      return /*#__PURE__*/React.createElement("li", {
+      return /*#__PURE__*/react.createElement("li", {
         className: "nav-item dropdown",
         key: menuItem.ID
-      }, /*#__PURE__*/React.createElement(Link, {
+      }, /*#__PURE__*/react.createElement(dist_Link, {
         className: "dropdownbtn nav-link active",
         to: menuItem.url
-      }, menuItem.title), /*#__PURE__*/React.createElement(NestedMenu, {
+      }, menuItem.title), /*#__PURE__*/react.createElement(NestedMenu, {
         items: mainMenus.filter(childItem => childItem.menu_item_parent == menuItem.ID)
       }));
     }
-    return null; // Ignore items that are not top-level
-  }), /* The activeLanguages items of the Navbar */
-  activeLanguages && /*#__PURE__*/React.createElement("li", {
+  })), /* The activeLanguages items of the Navbar */
+  (activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.length) > 0 && /*#__PURE__*/react.createElement("li", {
     className: "nav-item dropdown"
-  }, /*#__PURE__*/React.createElement(Link, {
+  }, /*#__PURE__*/react.createElement(dist_Link, {
     className: "dropdownbtn nav-link active",
     to: "#"
-  }, "Languages"), /*#__PURE__*/React.createElement("ul", {
+  }, "Languages"), /*#__PURE__*/react.createElement("ul", {
     className: "dropdown-menu dropdown__content"
   }, activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map((item, index) => {
     let code = item === null || item === void 0 ? void 0 : item.code;
     if (code == "en") {
       code = "";
     }
-    return /*#__PURE__*/React.createElement("li", {
+    return /*#__PURE__*/react.createElement("li", {
       className: "nav-item",
       key: index
-    }, /*#__PURE__*/React.createElement("span", {
+    }, /*#__PURE__*/react.createElement("span", {
       className: "dropdown-item",
       onClick: () => setLang(`${code}`)
     }, item === null || item === void 0 ? void 0 : item.native_name));
@@ -7041,22 +7137,13 @@ const Body = () => {
           setData(pageData);
         } else {
           if ((pageData === null || pageData === void 0 ? void 0 : pageData.slug) === slug_name) {
-            // console.log(
-            //   "menuItem with page",
-            //   pageData?.slug,
-            //   slug_name,
-            //   curl
-            // );
             setData(pageData);
-          } else {
-            // console.log("menuItem without page", pageData, curl);
           }
         }
       });
     }).catch(error => {
       console.log("Error when getting PAGES data", error);
     }).finally(() => {
-      console.log("GET_PAGES finaly response");
       setLoading(false);
     });
   };
@@ -7113,17 +7200,13 @@ const Profile = () => {
           setData(profileData);
         } else {
           if ((profileData === null || profileData === void 0 ? void 0 : profileData.slug) === slug_name) {
-            console.log("menuItem with page", profileData === null || profileData === void 0 ? void 0 : profileData.slug, slug_name, curl);
             setData(profileData);
-          } else {
-            // console.log("menuItem without page", profileData, curl);
           }
         }
       });
     }).catch(error => {
       console.log("Error when getting body data", error);
     }).finally(() => {
-      console.log("GET_PROFILES finaly response");
       setLoading(false);
     });
   };
@@ -7182,7 +7265,7 @@ const Image = {};
 
 
 const AFrame = props => {
-  var _aFrameData$propertie, _aFrameData$propertie2, _aFrameData$propertie3, _aFrameData$propertie4, _aFrameData$propertie5, _aFrameData$propertie6, _aFrameData$propertie7, _aFrameData$propertie8, _aFrameData$propertie9, _aFrameData$propertie10, _aFrameData$propertie11, _aFrameData$propertie12, _aFrameData$propertie13, _aFrameData$post_medi, _aFrameData$post_medi2, _aFrameData$post_medi3, _aFrameData$post_medi4, _aFrameData$propertie14, _aFrameData$excerpt, _data$current, _data$current2, _aFrameData$propertie15, _aFrameData$propertie16, _aFrameData$propertie17, _aFrameData$post_medi5, _aFrameData$post_medi6, _aFrameData$post_medi7, _aFrameData$propertie18, _aFrameData$propertie19;
+  var _aFrameData$propertie, _aFrameData$propertie2, _aFrameData$propertie3, _aFrameData$propertie4, _aFrameData$propertie5, _aFrameData$propertie6, _aFrameData$propertie7, _aFrameData$propertie8, _aFrameData$propertie9, _aFrameData$propertie10, _aFrameData$propertie11, _aFrameData$propertie12, _aFrameData$propertie13, _aFrameData$post_medi, _aFrameData$post_medi2, _aFrameData$post_medi3, _aFrameData$post_medi4, _aFrameData$propertie14, _aFrameData$excerpt, _aFrameData$excerpt$r, _aFrameData$excerpt2, _aFrameData$propertie15, _aFrameData$propertie16, _aFrameData$propertie17, _aFrameData$post_medi5, _aFrameData$post_medi6, _aFrameData$post_medi7, _aFrameData$propertie18, _aFrameData$propertie19;
   const base_url = AppConfig_AppConfig.SITE_URL;
   const upload_dir = AppConfig_AppConfig.UPLOAD_DIR_URL["baseurl"];
   const aFrameData = props === null || props === void 0 ? void 0 : props.aFrameData;
@@ -7192,24 +7275,28 @@ const AFrame = props => {
   } = (0,react.useContext)(DataContext_DataContext); // For all languages supported
   const [loading, setLoading] = (0,react.useState)(false); // For asset loading
   const [elementDetected, setElementDetected] = (0,react.useState)(false); // For inspector loaded
-  // const [assetsData, setAssetsData] = useState([]);
-
+  const [assetsData, setAssetsData] = (0,react.useState)([]);
   const langRef = (0,react.useRef)(null); // Current language state
   const prev_langRef = (0,react.useRef)(null); // Previous language state
   const data = (0,react.useRef)([{}]); // Data from inspector
 
+  const targetNodeRef = (0,react.useRef)(null);
   (0,react.useEffect)(() => {
     var _aFrameData$languages, _aFrameData$languages2;
     console.log("AFrame Data....", aFrameData);
     langRef.current = aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$languages = aFrameData.languages) === null || _aFrameData$languages === void 0 ? void 0 : _aFrameData$languages.default;
     prev_langRef.current = aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$languages2 = aFrameData.languages) === null || _aFrameData$languages2 === void 0 ? void 0 : _aFrameData$languages2.default;
     getAssetsData();
-    checkElement();
+  }, []);
+  (0,react.useEffect)(() => {
+    // checkElement();
+
     // Set up a MutationObserver to monitor changes in the DOM
     const observer = new MutationObserver(checkElement);
     observer.observe(document.body, {
-      subtree: true,
-      childList: true
+      attributes: true,
+      childList: true,
+      subtree: true
     });
 
     // Clean up the observer on component unmount
@@ -7217,146 +7304,110 @@ const AFrame = props => {
   }, [elementDetected]);
   const checkElement = () => {
     // Usage: Checks if the inspector has been opened for the first time
-    const ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
+    let ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
     if (ele !== null && !elementDetected) {
       console.log("Inspector has been opened for the first time");
-      customManipulation();
+      addSaveButton();
       // Update the state to indicate that the element has been detected
       setElementDetected(true);
     }
   };
-  function customManipulation() {
-    setTimeout(function RightPaneOpen() {
-      // Usage: Opens the Right Pane to add custom button
-      var ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
-      ele.click();
-      console.log("Right Pane Opened");
-      addSaveButton();
-    }, 2500); // Adjust the delay as needed
-  }
-
-  function addSaveButton() {
+  const addSaveButton = () => {
+    // Usage: Opens the Right Pane to add custom button
+    let ele = document.querySelector("#scenegraph > div.outliner > div:nth-child(1)");
+    ele.click();
+    // console.log("Right Pane Opened", ele);
+    // Function to create and append the save button
+    let parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
     setTimeout(function () {
       // Usage: Create an <a> element that is appended to the specified location in the inspector.
       // Properties: "copy-entity-to-clipboard" consolidates element attributes into string and copies to clipboard.
-      var link = document.createElement("a");
-      link.href = "#";
-      link.title = "Send Element Data";
-      link.setAttribute("data-action", "copy-entity-to-clipboard");
-      link.classList.add("button", "fa", "fa-floppy-disk");
-      var parentElement = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div");
-      parentElement.appendChild(link);
-      console.log("Save Button Added");
-      fetchDataClipboard();
-    }, 1000); // Adjust the delay as needed
-  }
-
-  const fetchDataClipboard = () => {
+      if (parentElement) {
+        let updateBtn = document.createElement("a");
+        updateBtn.href = "#";
+        updateBtn.title = "Save Element Data";
+        updateBtn.setAttribute("data-action", "copy-entity-to-clipboard");
+        updateBtn.id = "update-btn";
+        // Add multiple classes to the button
+        updateBtn.className = "button fa fa-floppy-disk";
+        parentElement.appendChild(updateBtn);
+        console.log("Save Button Added");
+        fetchDataClipboard();
+      }
+    }, 500);
+  };
+  const fetchDataClipboard = async () => {
     // Usage: Fetches the data from the clipboard and stores it in a variable
-    var element = document.querySelector("#componentEntityHeader > div.static > div.collapsible-header > div > a.button.fa.fa-floppy-disk");
-    element.onclick = function () {
-      // Usage: Access the data from the clipboard and store it in a variable "clipboardData"
-
-      navigator.clipboard.readText().then(clipboardData => {
-        console.log("Clipboard Data fetched:", clipboardData);
-        createJsonString(clipboardData);
-      }).catch(err => {
-        console.error("Failed to get clipboard data: ", err);
-      });
+    const updateBtn = document.getElementById("#update-btn");
+    let clipboardData = await Clipboard.getFromClipBoard();
+    updateBtn.onClick = function () {
+      console.log("clipboardData", clipboardData);
+      const jsonResult = CreateJsonString(clipboardData);
+      if (jsonResult !== null) {
+        console.log("JSON element:", jsonResult);
+        // updateApiData(jsonResult);
+      } else {
+        console.log("Failed to create JSON string.");
+      }
     };
   };
-  function createJsonString(entityString) {
-    // Usage: Creates a JSON string from the data fetched from the clipboard.
-    var tempElement = document.createElement("div"); // Create a temporary element to parse the string
-    tempElement.innerHTML = entityString;
-    var entityAttributes = tempElement.firstChild.attributes;
-    // Convert the attributes into an object
-    var entityObject = {};
-    for (var i = 0; i < entityAttributes.length; i++) {
-      var attr = entityAttributes[i];
-      entityObject[attr.name] = attr.value;
-    }
 
-    // Convert the object to JSON string
-    var jsonString = JSON.stringify(entityObject);
-    console.log("JSON element: ", jsonString);
-    updateApiData(jsonString);
-  }
-  function updateApiData(jsonString) {
-    // Usage: Updates the API data with the new JSON string
-    // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
-    const newData = JSON.parse(jsonString);
-    delete newData["gltf-model"];
-    delete newData["value"];
-    delete newData["show-details-on-click"];
-    delete newData["troika-text"];
-    if (Array.isArray(data.current) && data.current.length === 1 && Object.keys(data.current[0]).length === 0) {
-      console.log("!!!!!No data found, adding new data");
-      const updatedJsonString = JSON.stringify([newData], null, 2);
-      updateInspectorData(updatedJsonString);
-      return;
-    }
-    var foundData = false;
-    var foundClassData = false;
-    const updatedData = data.current.map(item => {
-      if ((item === null || item === void 0 ? void 0 : item.class) !== undefined && (newData === null || newData === void 0 ? void 0 : newData.class) !== undefined && (newData === null || newData === void 0 ? void 0 : newData.class) === (item === null || item === void 0 ? void 0 : item.class)) {
-        foundClassData = true;
-        var alteredClassData = updateClassData(newData);
-        return alteredClassData;
-      } else if ((newData === null || newData === void 0 ? void 0 : newData.id) !== undefined && (item === null || item === void 0 ? void 0 : item.id) === (newData === null || newData === void 0 ? void 0 : newData.id)) {
-        foundData = true;
-        return newData;
-      } else {
-        return item;
-      }
-    });
-    if (!foundData && (newData === null || newData === void 0 ? void 0 : newData.id) !== undefined && (newData === null || newData === void 0 ? void 0 : newData.class) === undefined) updatedData.push(newData);
-    if ((newData === null || newData === void 0 ? void 0 : newData.class) !== undefined && !foundClassData) {
-      var alteredClassData = updateClassData(newData);
-      updatedData.push(alteredClassData);
-    }
-    const updatedJsonString = JSON.stringify(updatedData, null, 2);
-    console.log("Updated data:", updatedData);
-    updateInspectorData(updatedJsonString);
-  }
-  function updateClassData(json) {
-    // Usage: Updates the class data to remove all object specific data
-    const {
-      value,
-      id,
-      visible,
-      src,
-      ...newJson
-    } = json;
-    return newJson;
-  }
-  const handleButtonClick = event => {
-    // Usage: Handles language change on button click
-    var buttonText = event.target.getAttribute("code");
-    if (buttonText == "") {
-      buttonText = "en";
-    }
-    prev_langRef.current = langRef.current;
-    langRef.current = buttonText;
-    if (prev_langRef.current !== langRef.current) {
-      event.target.click();
-    }
-  };
+  // function updateApiData(jsonString) {
+  //   // Usage: Updates the API data with the new JSON string
+  //   // Functionality: Checks if the data exists in the API, if yes, updates the data, else adds the data to the API. Considers the "id" attribute to check if the data exists.
+  //   const newData = JSON.parse(jsonString);
+  //   delete newData["gltf-model"];
+  //   delete newData["value"];
+  //   delete newData["show-details-on-click"];
+  //   delete newData["troika-text"];
 
-  // Usage: GetAssets Data from JsonFile
-  const getAssetsData = () => {
-    setLoading(true);
-    const url = `/${ApiEndpoint_ApiEndpoint.GET_ASSETS_DATA}/${PAGE_SLUG}.json`;
-    ApiConfig_HttpRequest.httpGet(url).then(result => {
-      // setAssetsData(result);
-      data.current = result;
-    }).catch(error => {
-      console.log("Error when getting Assets data", error);
-    }).finally(() => {
-      console.log("GET_ASSETS_DATA finaly response");
-      setLoading(false);
-    });
-  };
+  //   if (
+  //     Array.isArray(data.current) &&
+  //     data.current.length === 1 &&
+  //     Object.keys(data.current[0]).length === 0
+  //   ) {
+  //     console.log("!!!!!No data found, adding new data");
+  //     const updatedJsonString = JSON.stringify([newData], null, 2);
+  //     updateInspectorData(updatedJsonString);
+  //     return;
+  //   }
+  //   var foundData = false;
+  //   var foundClassData = false;
+  //   const updatedData = data.current.map((item) => {
+  //     if (
+  //       item?.class !== undefined &&
+  //       newData?.class !== undefined &&
+  //       newData?.class === item?.class
+  //     ) {
+  //       foundClassData = true;
+  //       var alteredClassData = updateClassData(newData);
+  //       return alteredClassData;
+  //     } else if (newData?.id !== undefined && item?.id === newData?.id) {
+  //       foundData = true;
+  //       return newData;
+  //     } else {
+  //       return item;
+  //     }
+  //   });
+
+  //   if (!foundData && newData?.id !== undefined && newData?.class === undefined)
+  //     updatedData.push(newData);
+
+  //   if (newData?.class !== undefined && !foundClassData) {
+  //     var alteredClassData = updateClassData(newData);
+  //     updatedData.push(alteredClassData);
+  //   }
+
+  //   const updatedJsonString = JSON.stringify(updatedData, null, 2);
+  //   console.log("Updated data:", updatedData);
+  //   updateInspectorData(updatedJsonString);
+  // }
+
+  // function updateClassData(json) {
+  //   // Usage: Updates the class data to remove all object specific data
+  //   const { value, id, visible, src, ...newJson } = json;
+  //   return newJson;
+  // }
 
   // Usage: updated the inspector data
   const updateInspectorData = async data => {
@@ -7370,10 +7421,83 @@ const AFrame = props => {
       alert(dataResp.message);
       getAssetsData();
     }).catch(error => {
-      console.log("Error", error);
+      console.log("UPDATE_INSPECTOR_DATA Error", error);
     });
   };
+
+  // Usage: GetAssets Data from JsonFile
+  const getAssetsData = () => {
+    setLoading(true);
+    const url = `/${ApiEndpoint_ApiEndpoint.GET_ASSETS_DATA}/${PAGE_SLUG}.json`;
+    ApiConfig_HttpRequest.httpGet(url).then(result => {
+      setAssetsData(result);
+      // data.current = result;
+      // AddClickEvent();
+    }).catch(error => {
+      console.log("Error when getting Assets data", error);
+    }).finally(() => {
+      console.log("GET_ASSETS_DATA finaly response");
+      setLoading(false);
+    });
+  };
+
+  // const handleButtonClick = (event) => {
+  //   // Usage: Handles language change on button click
+  //   var buttonText = event.target.getAttribute("code");
+  //   if (buttonText == "") {
+  //     buttonText = "en";
+  //   }
+  //   prev_langRef.current = langRef.current;
+  //   langRef.current = buttonText;
+  //   if (prev_langRef.current !== langRef.current) {
+  //     event.target.click();
+  //   }
+  // };
+
+  // const AddClickEvent = () => {
+  //   // Usage: Adds a click event to the entity to show the description
+  //   AFRAME.registerComponent("show-details-on-click", {
+  //     init: function () {
+  //       let el = this.el;
+  //       // Handle cursor interactions in VR
+  //       el.addEventListener("raycaster-intersected", (event) => {
+  //         // Your logic to display details or perform actions
+  //         // For example, toggle visibility or trigger some action
+  //         // Access the intersected entity using event.detail.el
+  //         ShowDescription(event, el);
+  //       });
+
+  //       el.addEventListener("raycaster-intersected-cleared", (event) => {
+  //         // Logic when the cursor is not intersecting with an entity
+  //       });
+  //     },
+  //   });
+  // };
+
+  // function ShowDescription(event, Obj) {
+  //   // Usage: Handles rendering of language change and toggle
+  //   var children_lang = Obj.querySelectorAll("a-entity");
+
+  //   for (var i = 0; i < children_lang.length; i += 2) {
+  //     if (children_lang[i]?.getAttribute("id") === langRef.current) {
+  //       children_lang[i].setAttribute("visible", "true");
+  //       var state = !children_lang[i + 1].getAttribute("visible");
+  //       children_lang[i + 1].setAttribute("visible", state);
+  //     } else {
+  //       children_lang[i].setAttribute("visible", "false");
+  //       var state = !children_lang[i + 1].getAttribute("visible");
+  //       children_lang[i + 1].setAttribute("visible", state);
+  //     }
+  //   }
+
+  //   // Prevent event propagation to avoid closing the inspector
+  //   event.stopPropagation();
+  //   event.preventDefault();
+  // }
+
   return /*#__PURE__*/react.createElement("div", {
+    ref: targetNodeRef,
+    id: "aframe-container",
     style: {
       height: "100vh",
       width: "100%"
@@ -7383,13 +7507,14 @@ const AFrame = props => {
     environment: "preset: forest; ground: canyon;groundTexture: walkernoise; groundColor: #2b291c; groundColor2: #312f20; dressingColor: #124017; grid: cross;",
     "loading-screen": "enabled: true;dotsColor: #FF3D00; backgroundColor: #252544",
     "device-orientation-permission-ui": "enabled: false",
-    "vr-mode-ui": "enabled: true"
+    "vr-mode-ui": "enabled: true;"
     // webxr="requiredFeatures: hit-test,local-floor;
     //         optionalFeatures: dom-overlay,unbounded;
     //         overlayElement: #overlay;"
     ,
     cursor: "rayOrigin: mouse; fuse: false",
-    raycaster: "objects: .raycastable"
+    raycaster: "objects: .raycastable",
+    physics: "gravity: -9.8"
   }, /*#__PURE__*/react.createElement("a-assets", {
     timeout: "5000"
   }, (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie = aFrameData.properties_3D) === null || _aFrameData$propertie === void 0 ? void 0 : _aFrameData$propertie.world_model) && /*#__PURE__*/react.createElement("a-asset-item", {
@@ -7426,15 +7551,16 @@ const AFrame = props => {
     "rotation-reader": true,
     "thumbstick-logging": true,
     "movement-controls": "constrainToNavMesh: true; speed:1; controls: checkpoint, gamepad, trackpad, keyboard, touch;",
-    "checkpoint-controls": "mode: animate",
-    "nipple-controls": "mode: static"
+    "checkpoint-controls": "mode: animate"
   }, /*#__PURE__*/react.createElement("a-entity", {
     id: "camera",
     camera: "active: true",
     position: "0 1.6 0",
     rotation: "-4.469070802020421 -84.91234523838803 0",
-    "look-controls": "fly:true"
-    // wasd-controls="acceleration: 100"
+    "look-controls": "hmdEnabled: true; reverseMouseDrag: false; inverted: false; fly: true;",
+    "wasd-controls": "acceleration: 100"
+    // kinematic-body
+    // collision-check
     ,
     raycaster: "far: 5; objects: .clickable",
     "super-hands": "colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
@@ -7443,57 +7569,47 @@ const AFrame = props => {
     animation__click: "property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1",
     animation__fusing: "property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1",
     animation__mouseleave: "property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1",
-    cursor: "rayOrigin:mouse",
+    cursor: "rayOrigin: mouse",
     position: "0 0 -0.2",
     geometry: "primitive: ring; radiusInner: 0.002; radiusOuter: 0.003",
-    material: "color: black; shader: flat",
+    material: "color: #000; shader: flat",
     raycaster: "far: 5; objects: .clickable",
     visible: "false"
   })), /*#__PURE__*/react.createElement("a-entity", {
     id: "controls"
   }, /*#__PURE__*/react.createElement("a-entity", {
-    id: "leftHand",
-    "hand-controls": "hand: left; handModelStyle: highPoly; color: #ffcccc",
-    raycaster: "far: 5; objects: .clickable"
-    // teleport-controls="cameraRig: #cameraRig; teleportOrigin: #camera;"
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    id: "rightHand",
+    id: "lefthand-controls",
+    mixin: "hand",
+    cursor: "rayOrigin: mouse",
     raycaster: "far: 5; objects: .clickable",
-    "hand-controls": "hand: right; handModelStyle: highPoly; color: #ffcccc"
-    // teleport-controls="cameraRig: #cameraRig; teleportOrigin: #camera;"
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    id: "laser-controls-left-hand",
+    "hand-controls": "hand: left; handModelStyle: highPoly; color: #ffcccc",
     "laser-controls": "hand: left",
-    raycaster: "objects: .clickable",
-    cursor: "rayOrigin: mouse"
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    id: "laser-controls-right-hand",
-    "laser-controls": "hand: right",
-    raycaster: "objects: .clickable",
-    cursor: "rayOrigin: mouse"
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    id: "oculus-go-controls-left-hand",
-    "oculus-go-controls": "hand: left"
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    id: "oculus-go-controls-right-hand",
-    "oculus-go-controls": "hand: right"
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    mixin: "hand",
-    id: "oculus-touch-controls-left-hand",
+    "gearvr-controls": "hand: left",
+    "magicleap-controls": "hand: left",
+    "oculus-go-controls": "hand: left",
     "oculus-touch-controls": "hand: left",
-    "hand-controls": "hand: left; handModelStyle: highPoly; color: #0055ff"
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    mixin: "hand",
-    id: "oculus-touch-controls-right-hand",
-    "oculus-touch-controls": "hand: right",
-    "hand-controls": "hand: right; handModelStyle: highPoly; color: #0055ff",
-    "blink-controls": "cameraRig: #cameraRig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
-  }), /*#__PURE__*/react.createElement("a-entity", {
-    id: "windows-motion-controls-left-hand",
+    "vive-controls": "hand: left",
+    "vive-focus-controls": "hand: left",
     "windows-motion-controls": "hand: left"
+    // teleport-controls="cameraRig: #cameraRig; teleportOrigin: #camera; startEvents: teleportstart; endEvents: teleportend"
+    // super-hands="hand: left; colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
   }), /*#__PURE__*/react.createElement("a-entity", {
-    id: "windows-motion-controls-right-hand",
+    id: "righthand-controls",
+    mixin: "hand",
+    cursor: "rayOrigin: mouse",
+    raycaster: "far: 5; objects: .clickable",
+    "hand-controls": "hand: right; handModelStyle: highPoly; color: #ffcccc",
+    "laser-controls": "hand: right",
+    "gearvr-controls": "hand: right",
+    "magicleap-controls": "hand: right",
+    "oculus-go-controls": "hand: right",
+    "oculus-touch-controls": "hand: right",
+    "vive-controls": "hand: right",
+    "vive-focus-controls": "hand: right",
     "windows-motion-controls": "hand: right"
+    // teleport-controls="cameraRig: #cameraRig; teleportOrigin: #camera; startEvents: teleportstart; endEvents: teleportend; type: line"
+    // blink-controls="cameraRig: #cameraRig; teleportOrigin: #camera; collisionEntities: .collision; hitCylinderColor: #FF0; interval: 10; curveHitColor: #e9974c; curveNumberPoints: 40; curveShootingSpeed: 8;landingNormal:0 2 0"
+    // super-hands="hand: right; colliderEvent: raycaster-intersection; colliderEventProperty: els; colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;"
   }))), /*#__PURE__*/react.createElement("a-light", {
     id: "bulb-1",
     type: "directional",
@@ -7530,14 +7646,13 @@ const AFrame = props => {
     id: "world_model",
     "gltf-model": "#world_model",
     position: "4.537 0 3.468"
-  }), (aFrameData === null || aFrameData === void 0 ? void 0 : aFrameData.excerpt) && /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
+  }), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$excerpt = aFrameData.excerpt) === null || _aFrameData$excerpt === void 0 ? void 0 : (_aFrameData$excerpt$r = _aFrameData$excerpt.rendered) === null || _aFrameData$excerpt$r === void 0 ? void 0 : _aFrameData$excerpt$r.length) > 0 && /*#__PURE__*/react.createElement("a-troika-text", extends_extends({
     id: "Excerpt",
-    value: HtmlToText_HtmlToText(aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$excerpt = aFrameData.excerpt) === null || _aFrameData$excerpt === void 0 ? void 0 : _aFrameData$excerpt.rendered),
-    position: (data === null || data === void 0 ? void 0 : (_data$current = data.current) === null || _data$current === void 0 ? void 0 : _data$current.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) != "Excerpt")) && "0 1.6 0"
-  }, data === null || data === void 0 ? void 0 : (_data$current2 = data.current) === null || _data$current2 === void 0 ? void 0 : _data$current2.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == "Excerpt"))), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie15 = aFrameData.properties_3D) === null || _aFrameData$propertie15 === void 0 ? void 0 : _aFrameData$propertie15.furniture) && (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie16 = aFrameData.properties_3D) === null || _aFrameData$propertie16 === void 0 ? void 0 : (_aFrameData$propertie17 = _aFrameData$propertie16.furniture) === null || _aFrameData$propertie17 === void 0 ? void 0 : _aFrameData$propertie17.map(furniture => {
-    var _data$current3;
+    value: ConvertData_HtmlToText(aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$excerpt2 = aFrameData.excerpt) === null || _aFrameData$excerpt2 === void 0 ? void 0 : _aFrameData$excerpt2.rendered),
+    position: (assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) != "Excerpt")) && "0 1.6 0"
+  }, assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == "Excerpt"))), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie15 = aFrameData.properties_3D) === null || _aFrameData$propertie15 === void 0 ? void 0 : _aFrameData$propertie15.furniture) && (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$propertie16 = aFrameData.properties_3D) === null || _aFrameData$propertie16 === void 0 ? void 0 : (_aFrameData$propertie17 = _aFrameData$propertie16.furniture) === null || _aFrameData$propertie17 === void 0 ? void 0 : _aFrameData$propertie17.map(furniture => {
     let Obj_id = furniture === null || furniture === void 0 ? void 0 : furniture.slug;
-    let Data_from_Inspector = data === null || data === void 0 ? void 0 : (_data$current3 = data.current) === null || _data$current3 === void 0 ? void 0 : _data$current3.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
+    let Data_from_Inspector = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
         position: "0 1.6 0"
@@ -7549,13 +7664,12 @@ const AFrame = props => {
       "gltf-model": "#" + (furniture === null || furniture === void 0 ? void 0 : furniture.slug)
     }, Data_from_Inspector));
   })), (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi5 = aFrameData.post_media) === null || _aFrameData$post_medi5 === void 0 ? void 0 : _aFrameData$post_medi5.screen_image) && (aFrameData === null || aFrameData === void 0 ? void 0 : (_aFrameData$post_medi6 = aFrameData.post_media) === null || _aFrameData$post_medi6 === void 0 ? void 0 : (_aFrameData$post_medi7 = _aFrameData$post_medi6.screen_image) === null || _aFrameData$post_medi7 === void 0 ? void 0 : _aFrameData$post_medi7.map(scientist => {
-    var _data$current4, _data$current5, _data$current6, _data$current7, _data$current8;
     var Obj_id = scientist === null || scientist === void 0 ? void 0 : scientist.slug;
-    var Data_from_Inspector = data === null || data === void 0 ? void 0 : (_data$current4 = data.current) === null || _data$current4 === void 0 ? void 0 : _data$current4.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
-    var desc_format = data === null || data === void 0 ? void 0 : (_data$current5 = data.current) === null || _data$current5 === void 0 ? void 0 : _data$current5.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "desc_wrapper");
-    var cap_format = data === null || data === void 0 ? void 0 : (_data$current6 = data.current) === null || _data$current6 === void 0 ? void 0 : _data$current6.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "caption_wrapper");
-    var name_format = data === null || data === void 0 ? void 0 : (_data$current7 = data.current) === null || _data$current7 === void 0 ? void 0 : _data$current7.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "name_wrapper");
-    var img_format = data === null || data === void 0 ? void 0 : (_data$current8 = data.current) === null || _data$current8 === void 0 ? void 0 : _data$current8.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "image_wrapper");
+    var Data_from_Inspector = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.id) == Obj_id);
+    var desc_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "desc_wrapper");
+    var cap_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "caption_wrapper");
+    var name_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "name_wrapper");
+    var img_format = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == "image_wrapper");
     if (!Data_from_Inspector) {
       Data_from_Inspector = {
         position: "0 1.6 0"
@@ -7566,14 +7680,14 @@ const AFrame = props => {
       id: scientist === null || scientist === void 0 ? void 0 : scientist.slug,
       type: "wrapper"
     }, Data_from_Inspector, {
-      "show-details-on-click": ""
+      "show-details-on-click": true
     }), /*#__PURE__*/react.createElement("a-image", extends_extends({
       src: "#" + (scientist === null || scientist === void 0 ? void 0 : scientist.slug),
       type: "wrapper",
       class: "image_wrapper"
     }, img_format)), activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(lang => {
       var _scientist$trans$lang, _scientist$trans$lang2, _scientist$trans$lang3;
-      var font = AppFonts_AppFonts.NotoSans_Medium;
+      let font = AppFonts_AppFonts.NotoSans_Medium;
       if ((lang === null || lang === void 0 ? void 0 : lang.code) == "zh-hans") {
         font = AppFonts_AppFonts.NotoSansSC_Medium;
       }
@@ -7603,10 +7717,9 @@ const AFrame = props => {
         font: font,
         visible: "true"
       }, name_format)), activeLanguages === null || activeLanguages === void 0 ? void 0 : activeLanguages.map(lang => {
-        var _data$current9;
         var key = lang === null || lang === void 0 ? void 0 : lang.code;
         var classname = "btn-wrapper-" + key;
-        var insData = data === null || data === void 0 ? void 0 : (_data$current9 = data.current) === null || _data$current9 === void 0 ? void 0 : _data$current9.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == classname);
+        var insData = assetsData === null || assetsData === void 0 ? void 0 : assetsData.find(obj => (obj === null || obj === void 0 ? void 0 : obj.class) == classname);
         var font = AppFonts_AppFonts.NotoSans_Medium;
         if ((lang === null || lang === void 0 ? void 0 : lang.code) == "zh-hans") {
           font = AppFonts_AppFonts.NotoSansSC_Medium;
@@ -7618,8 +7731,8 @@ const AFrame = props => {
           key: classname,
           value: lang === null || lang === void 0 ? void 0 : lang.native_name,
           code: key,
-          font: font,
-          onClick: handleButtonClick
+          font: font
+          // onClick={handleButtonClick}
         }, insData));
       })));
     }));
@@ -7647,6 +7760,7 @@ const AFrame = props => {
 };
 /* harmony default export */ const aframe_AFrame = (AFrame);
 ;// CONCATENATED MODULE: ./src/js/app/views/aframe/AFrameOld.js
+
 
 
 
@@ -8178,7 +8292,6 @@ const Posts = () => {
   const [data, setData] = (0,react.useState)();
   const curl = slug_name !== undefined ? "/" + slug_name + "/" : "";
   (0,react.useEffect)(() => {
-    // console.log("param", slug_name);
     getPostsData();
   }, [lang, menuData, slug_name]);
   const getPostsData = async () => {
@@ -8190,17 +8303,13 @@ const Posts = () => {
           setData(postData);
         } else {
           if ((postData === null || postData === void 0 ? void 0 : postData.slug) === slug_name) {
-            console.log("menuItem with page", postData === null || postData === void 0 ? void 0 : postData.slug, slug_name, curl);
             setData(postData);
-          } else {
-            // console.log("menuItem without page", postData, curl);
           }
         }
       });
     }).catch(error => {
       console.log("Error when getting GET_POSTS data", error);
     }).finally(() => {
-      console.log("GET_POSTS finaly response");
       setLoading(false);
     });
   };
@@ -8234,7 +8343,7 @@ const Posts = () => {
 
 const routes = createBrowserRouter([{
   path: "/",
-  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Navbar, null), /*#__PURE__*/react.createElement(Sidebar, null), /*#__PURE__*/react.createElement(views_Home, null), /*#__PURE__*/react.createElement(Footer, null)),
+  element: /*#__PURE__*/react.createElement(react.Fragment, null, /*#__PURE__*/react.createElement(Header, null), /*#__PURE__*/react.createElement(Sidebar, null), /*#__PURE__*/react.createElement(views_Home, null), /*#__PURE__*/react.createElement(Footer, null)),
   children: [{
     path: "/",
     element: /*#__PURE__*/react.createElement(body_Body, null)
@@ -8272,7 +8381,7 @@ const App = () => {
   const [menuData, setMenuData] = (0,react.useState)([]);
   const [lang, setLang] = (0,react.useState)([]);
   (0,react.useEffect)(() => {
-    console.log("app config", AppConfig_AppConfig);
+    // console.log("app config", AppConfig);
     getActiveLanguages();
     getMenuData();
   }, [lang]);
@@ -8298,7 +8407,6 @@ const App = () => {
     }).catch(error => {
       console.log("Error when getting menu data", error);
     }).finally(() => {
-      console.log("GET_MENUS finaly response");
       setLoading(false);
     });
   };
@@ -8324,7 +8432,7 @@ const App = () => {
 
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(294);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(745);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(725);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(343);
 
 
 
@@ -8885,7 +8993,7 @@ if (true) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	__webpack_require__(725);
+/******/ 	__webpack_require__(343);
 /******/ 	var __webpack_exports__ = __webpack_require__(46);
 /******/ 	
 /******/ })()

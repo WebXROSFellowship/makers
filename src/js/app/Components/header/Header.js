@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import "@styles/style.scss";
-import { DataContext } from "../../utils";
 import { AppConfig } from "../../config/AppConfig";
+import { DataContext } from "../../context";
 
 export const Header = () => {
   const [mainMenus, setMainMenus] = useState([]);
@@ -15,19 +15,6 @@ export const Header = () => {
     menuData.filter((item) => {
       if (item?.slug == "main-menu") {
         setMainMenus(item?.items);
-        // item?.items?.map((menuItem) => {
-        //   let parent = [];
-        //   let child = [];
-        //   if (menuItem?.menu_item_parent === "0") {
-        //     parent.push(menuItem);
-        //     // console.log("Parent menu", parent);
-        //     setParentMenus(parent);
-        //   } else {
-        //     child.push(menuItem);
-        //     // console.log("child menu", child);
-        //     setChildMenus(child);
-        //   }
-        // });
       }
     });
   }, [menuData, lang]);
@@ -35,7 +22,6 @@ export const Header = () => {
   const SubNestedMenus = ({ items }) => {
     console.log("SubNested Menus Item", items);
     return (
-      items &&
       items.length > 0 && (
         <ul className="dropdown-menu dropdown__content subNested-Menus">
           {items.map((childItem) => (
@@ -56,21 +42,15 @@ export const Header = () => {
   };
 
   const NestedMenu = ({ items }) => {
-    console.log("Nested Item", items);
+    // console.log("Nested Item", items);
     return (
-      items &&
-      items.length > 0 && (
+      items?.length > 0 && (
         <ul className="dropdown-menu dropdown__content">
           {items.map((childItem) => (
             <li key={childItem?.ID} className="nav-item">
               <Link className="dropdown-item" to={childItem?.url}>
                 {childItem?.title}
               </Link>
-              <NestedMenu
-                items={items.filter(
-                  (subItem) => subItem?.ID == childItem?.menu_item_parent
-                )}
-              />
             </li>
           ))}
         </ul>
@@ -91,7 +71,7 @@ export const Header = () => {
             {AppConfig.SITE_TITLE ? (
               <h4 className="title-head"> {AppConfig.SITE_TITLE}</h4>
             ) : (
-              <h4 className="title-head"> Site Title </h4>
+              <h4 className="title-head"> WebXR By - PowerSimple </h4>
             )}
           </div>
         </Link>
@@ -116,9 +96,8 @@ export const Header = () => {
                 {
                   /* The main dropdown menu items of the Navbar */
 
-                  mainMenus &&
-                    mainMenus.length > 0 &&
-                    mainMenus.map((menuItem) => {
+                  mainMenus?.length > 0 &&
+                    mainMenus?.map((menuItem) => {
                       if (menuItem.menu_item_parent === "0") {
                         return (
                           <li className="nav-item dropdown" key={menuItem.ID}>
@@ -137,13 +116,12 @@ export const Header = () => {
                           </li>
                         );
                       }
-                      return null; // Ignore items that are not top-level
                     })
                 }
 
                 {
                   /* The activeLanguages items of the Navbar */
-                  activeLanguages && (
+                  activeLanguages?.length > 0 && (
                     <li className="nav-item dropdown">
                       <Link className="dropdownbtn nav-link active" to="#">
                         Languages
