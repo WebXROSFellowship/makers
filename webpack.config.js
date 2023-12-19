@@ -36,32 +36,6 @@ const common = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
-          options: {
-            presets: [
-              ["@babel/preset-env", { targets: "defaults" }],
-              ["@babel/preset-react"],
-            ],
-            plugins: [
-              "@babel/plugin-transform-runtime",
-              [
-                "module-resolver",
-                {
-                  root: ["./src"],
-                  alias: {
-                    "@assets": "./src/js/app/assets",
-                    "@components": "./src/js/app/components",
-                    "@config": "./src/js/app/config",
-                    "@constants": "./src/js/app/constants",
-                    "@context": "./src/js/app/context",
-                    "@routes": "./src/js/app/routes",
-                    "@utils": "./src/js/app/utils",
-                    "@views": "./src/js/app/views",
-                    "@styles": "./src/scss",
-                  },
-                },
-              ],
-            ],
-          },
         },
       },
       {
