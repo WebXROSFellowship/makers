@@ -1,0 +1,79 @@
+/*
+
+Theme Name: Makers
+Theme URI: https://github.com/WebXROSFellowship/makers
+Author: WebXR Open Source Fellowship
+Author URI: https://powersimple.com/
+Description: The Team of the WebXR Open Source Fellowship Ben Erwin, Aryan Grover, Pratham Gupta, Ananya Jain, Shravani Kaware, Kunaal Mangal, Surbhi Sharma.
+Tags: WebXR-Fellowship, Digital-India, Meta, Meta-Sponsorship, Ficci - Federation of Indian Chambers of Commerce & Industry, NEGD - National E-Governance Division NEGD, Department Of Electronics And Information Technology, AR, VR, MR, XR, WebXR, 3D-Web, AFrame.JS, ReactJS, Three.JS, Open-source, custom-colors, custom-menu, custom-logo, editor-style, featured-images, translation-ready, accessibility-ready, blog, portfolio, teams.
+Version: 1.0.0
+Requires at least: 6.1
+Tested up to: 6.2.2
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Text Domain: makers
+
+DO NOT EDIT IN STYLE.CSS
+*/
+
+
+/*
+    PUT YOUR COLOR PALETTE HERE:
+*/
+@import "./partials/AppLoader.scss";
+@import "./partials/colors.scss";
+// @import "./partials/Navbar.scss";
+@import "./partials/Header.scss";
+@import "./partials/Footer.scss";
+@import "./partials/Sidebar.scss";
+@import "./partials/Profile.scss";
+@import "./partials/AFrame.scss";
+
+*,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root{
+  min-height: 100vh;
+}
+
+main {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.content div{
+  width: 100%;
+  height: 100%;
+  display: block;
+  align-content: center;
+  justify-content: center;
+  p{
+    word-break: break-all;
+  }
+  .featured-image {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+
+.otgs-development-site-front-end {
+  display: none;
+}

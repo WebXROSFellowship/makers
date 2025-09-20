@@ -3,13 +3,14 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "module": "esnext",
-    "target": "es2017",
+    "target": "esnext",
     "allowJs": true,
+    "jsx": "react",
     "lib": ["es6", "dom", "es2015.iterable", "es2017"],
     "moduleResolution": "node",
     "removeComments": false
   },
-  "files": ["src/js/app/index.js"],
-  "include": ["src/js/app/**/*.js"],
+  "files": ["src/app/index.js"],
+  "include": ["src/app/**/*.js", "src/vendor/js/**/*.js"],
   "exclude": ["node_modules"]
 }
