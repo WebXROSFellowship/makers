@@ -2,7 +2,7 @@
   "name": "makers",
   "version": "1.0.0",
   "description": "A wordpress theme that enables WebXR in WordPress.",
-  "main": "src/js/app/index.js",
+  "main": "src/app/index.js",
   "homepage": "https://staging.webxr.link/",
   "repository": "https://github.com/WebXROSFellowship/makers.git",
   "author": "The Team of the WebXR Open Source Fellowship Ben Erwin, Aryan Grover, Pratham Gupta, Ananya Jain, Shravani Kaware, Kunaal Mangal, Surbhi Sharma.",
@@ -44,13 +44,11 @@
     "Surbhi Sharma"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --watch",
-    "build": "webpack --mode=production --node-env=production",
-    "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
-    "watch": "nodemon --watch src/js/app --watch src/js/vendor --watch src/scss -e js,scss --exec 'webpack --watch'",
-    "clean": "rm -rf node_modules/ package-lock.json yarn.lock"
+    "build": "webpack --mode=production",
+    "watch": "nodemon --watch src/app --watch src/vendor -e js,css,scss --exec \"webpack --watch\"",
+    "clean": "rimraf node_modules package-lock.json yarn.lock",
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
     "@babel/runtime": "^7.21.5",
@@ -72,6 +70,7 @@
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.0",
     "dotenv-webpack": "^8.1.0",
+    "glob": "^11.0.3",
     "html-webpack-plugin": "^5.6.3",
     "ignore-emit-webpack-plugin": "^2.0.6",
     "mini-css-extract-plugin": "^2.9.2",

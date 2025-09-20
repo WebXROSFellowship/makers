@@ -138,9 +138,9 @@ const developmentConfig = {
   devtool: "eval-cheap-source-map",
   entry: () => {
     return {
-      ...getEntries("src/js/app/*.js", "app"),
-      ...getEntries("src/js/vendor/*.js", "vendor"),
-      style: "./src/scss/style.scss",
+      ...getEntries("src/app/*.js", "app"),
+      ...getEntries("src/vendor/js*.js", "vendor"),
+      style: "./src/app/styles/style.scss",
     };
   },
   plugins: [
@@ -189,9 +189,9 @@ const productionConfig = {
   devtool: false,
   entry: () => {
     return {
-      ...getEntries("src/js/app/*.js", "app.min"),
-      ...getEntries("src/js/vendor/*.js", "vendor.min"),
-      "style.min": "./src/scss/style.scss",
+      ...getEntries("src/app/*.js", "app.min"),
+      ...getEntries("src/vendor/js/*.js", "vendor.min"),
+      "style.min": "./src/app/styles/style.scss",
     };
   },
   optimization: {

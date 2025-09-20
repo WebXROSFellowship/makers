@@ -7,15 +7,15 @@
       {
         "root": ["./src"],
         "alias": {
-          "@assets": "./src/js/app/assets",
-          "@components": "./src/js/app/components",
-          "@config": "./src/js/app/config",
-          "@constants": "./src/js/app/constants",
-          "@context": "./src/js/app/context",
-          "@routes": "./src/js/app/routes",
-          "@utils": "./src/js/app/utils",
-          "@views": "./src/js/app/views",
-          "@styles": "./src/scss"
+          "@assets": "./src/app/assets",
+          "@components": "./src/app/components",
+          "@config": "./src/app/config",
+          "@constants": "./src/app/constants",
+          "@context": "./src/app/context",
+          "@routes": "./src/app/routes",
+          "@utils": "./src/app/utils",
+          "@views": "./src/app/views",
+          "@styles": "./src/app/styles"
         }
       }
     ]
